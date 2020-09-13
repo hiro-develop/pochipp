@@ -23,7 +23,7 @@ function search_from_rakuten_api() {
 	$api_datas = \POCHIPP\generate_rakuten_datas( $keywords, $page, $sort, false );
 
 	wp_die( json_encode( [
-		'old_datas' => $datas,
+		'old_datas' => $old_datas,
 		'api_datas' => $api_datas,
 	] ) );
 }

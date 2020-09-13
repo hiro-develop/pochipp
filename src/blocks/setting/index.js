@@ -132,8 +132,8 @@ registerBlockType('pochipp/setting', {
 
 		return (
 			<>
-				<div>attr:{attributes.metadata || 'none'}</div>
-				<div>theMetaData:{meta.pochipp_data || 'none'}</div>
+				{/* <div>attr:{attributes.metadata || 'none'}</div> */}
+				<div>meta data:{meta.pochipp_data || 'empty'}</div>
 				<Button
 					className='thickbox'
 					isPrimary={true}

@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * カスタムフィールドの登録
+ * pochi: あとでファイル切り分ける
  */
 add_action( 'init', '\POCHIPP\register_metas' );
 function register_metas() {
@@ -42,12 +43,12 @@ function register_pt_pochipp() {
 			'exclude_from_search'   => true,
 			'menu_position'         => 21,
 			'menu_icon'             => 'dashicons-media-default',
-			'show_in_rest'          => true,  // ブロックエディターに対応させる
-			'supports'              => [ 'title', 'editor', 'custom-fields' ], // 'editor'
-			// 'template'              => [
-			// 	[ 'pochipp/setting' ],
-			// ],
-			// 'template_lock'         => 'insert',
+			'show_in_rest'          => true,
+			'supports'              => [ 'title', 'editor', 'custom-fields' ],
+			'template'              => [
+				[ 'pochipp/setting' ],
+			],
+			'template_lock'         => 'insert',
 		]
 	);
 }

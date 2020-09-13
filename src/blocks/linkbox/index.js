@@ -33,11 +33,6 @@ import { RawHTML } from '@wordpress/element';
  */
 import classnames from 'classnames';
 
-
-// window.set_block_data = (data) => {
-// 	console.log( data );
-// }
-
 /**
  * Pochipp
  */
@@ -55,51 +50,16 @@ registerBlockType('pochipp/linkbox', {
 		html: false,
 	},
 	attributes: {
-		amazonUrl: {
+		metadata: {
 			type: 'string',
 			default: '',
 		},
+		// 編集可能箇所ごとに attributes 持たせる
 	},
 	edit: (props) => {
-
 		const { attributes, clientId } = props;
 
-		// 投稿タイプを取得
-		const postType = useSelect(
-			( select ) => select( 'core/editor' ).getCurrentPostType(),
-			[]
-		);
-		console.log('postType:' + postType);
-
-		// クリックデータを取得
-		const [ meta, setMeta ] = useEntityProp( 'postType', postType, 'meta' );
-		console.log('test:', meta);
-		if ( meta ) {
-			const metaPochippData = meta.pochipp_data;
-			let theMetaData = metaPochippData || '{}';
-			theMetaData = JSON.parse( theMetaData );
-
-			console.log('meta:', theMetaData);
-		}
-
-
-
-		return (
-			<>
-				{/* <InspectorControls></InspectorControls> */}
-				<Button
-					className="thickbox"
-					isPrimary={ true }
-					onClick={ () => {
-
-						var url = 'media-upload.php?type=pochipp&tab=pochipp_search_amazon&cid=' + clientId + '&TB_iframe=true';
-						tb_show('商品リンク変更', url);
-					} }
-				>
-					商品検索
-				</Button>
-			</>
-		);
+		return <>フロント用ブロック</>;
 	},
 
 	save: (props) => {
