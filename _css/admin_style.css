@@ -1,0 +1,404 @@
+div.yyi_rinker_info_dashboard p.alert{
+    color: #ff4136;
+    font-weight: bold;
+}
+
+.yyi-rinker-small {
+    font-size: 75%;
+}
+
+.yyi-relink-message {
+    color: #dc3232;
+    line-height: 2em;
+}
+
+#yyi_rinker .wp-media-buttons {
+    float: none;
+}
+
+body.post-type-yyi_rinker .yyi-link-custom-field-item a {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+body.post-type-yyi_rinker .yyi-link-custom-field-item textarea {
+    width: 100%;
+}
+
+
+body.post-type-yyi_rinker a.yyi-rinker-confirm-link:before{
+    position: relative;
+    top: 4px;
+    font: 400 20px/1 dashicons;
+    color: #82878c;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    content: "\f177";
+    width: 18px;
+    cursor: pointer;
+}
+
+body.post-type-yyi_rinker a.yyi-rinker-relink {
+    cursor: pointer;
+}
+
+body.post-type-yyi_rinker a.yyi-rinker-relink:before{
+    position: relative;
+    top: 2px;
+    font: 400 14px/1 dashicons;
+    color: #82878c;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    content: "\f531";
+    width: 18px;
+    cursor: pointer;
+}
+
+
+#adminmenu .menu-icon-yyi_rinker div.wp-menu-image:before {
+    content: "\f242";
+}
+
+.wp-media-buttons span.yyirinker-buttons-icon:before {
+    font: 400 18px/1 dashicons;
+    color: #82878c;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    content: "\f242";
+}
+
+div#yyi_rinker div#yyi-loading img,
+body.settings_page_yyi-rinker-yyi-rinker div#yyi-loading img{
+    margin: -68px 0 0 -68px;
+    padding: 20px;
+    opacity: 0.7;
+    border: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    display: none;
+}
+body.post-type-yyi_rinker div#yyi_afilinks_middle_link input.yyi-rinker-img-size[type=text] {
+    width: 25%;
+}
+
+div#yyi_rinker input[type=radio] {
+    margin: 0 4px 0 0;
+}
+
+div#yyi_rinker label {
+    margin: 0 8px 0 0;
+}
+
+textarea.yyi-rinker-list-shortcode {
+    width: 200px;
+}
+/*
+後で削除
+*/
+span.yyi-rinker-list-shortcode:after {
+    font: 400 22px/1 dashicons;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    content: "\f105";
+    cursor: pointer;
+}
+
+.wp-media-buttons span.yyirinker-buttons-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    vertical-align: text-top;
+    margin: 0 3px 0 1px;
+}
+
+div#yyirinker-media-button {
+    display: block;
+}
+
+
+body.settings_page_yyi-rinker-yyi-rinker input[type=text] {
+    width: 400px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker div.radio-box {
+    margin-bottom: 20px;
+}
+
+
+body.settings_page_yyi-rinker-yyi-rinker table {
+    margin-left: 50px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker th{
+    padding-left: 10px;
+    width: 170px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker h2 {
+    display: inline-block;
+    font-size: 1.5em;
+    padding: 0.25em 5em 0.5em 0.5em;
+    margin: 20px 10px;
+    background: transparent;
+    border-left: solid 5px #5B6FB0;
+    border-bottom: solid 1px #5B6FB0;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker h3 {
+    font-size: 1.4em;
+    padding: 0.25em 0.5em;
+    margin: 20px 25px;
+    background: transparent;
+    border-left: solid 5px #7dccf7;
+}
+
+
+body.settings_page_yyi-rinker-yyi-rinker h4 {
+    font-size: 1.3em;
+    margin-left: 42px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    max-width: 300px;
+    border-bottom: 1px solid #333;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker #delete-cachemessage {
+    margin-left: 15px;
+    font-weight: bold;
+    color: #ff0033;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker dl{
+    margin-left: 30px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker p {
+    margin: 10px 45px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker textarea,
+body. post-type-yyi_rinker textarea{
+    margin: 10px 0;
+    display: block;
+}
+
+
+div.tag_insert_box {
+    display: block;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker textarea {
+    width: 400px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker .setting-form-box {
+    margin-bottom: 20px;
+}
+
+div#yyi_rinker .required {
+    color: #d50000;
+}
+
+body.post-type-yyi_rinker div#yyi-link-add-media-button {
+    margin: 15px 5px;
+}
+
+body.post-type-yyi_rinker  div.yyi-link-custom-field-item {
+    padding: 10px ;
+    border-top: dashed 1px #ddd;
+}
+
+body.post-type-yyi_rinker  div.yyi-link-custom-field-item.relink {
+    border-top: none;
+}
+
+body.post-type-yyi_rinker div#yyi_afilinks_middle_link input[type=text] {
+    width: 50%;
+}
+
+body.post-type-yyi_rinker div#yyi_afilinks_middle_link input.rekeywords {
+    width: 40%;
+}
+
+body.post-type-yyi_rinker  div.yyi-link-custom-field-relink {
+    padding: 0 10px 10px 155px;
+}
+
+div#yyi-link-custom-fields div.yyi-link-custom-field-item{
+    display: flex;
+}
+
+div#yyi-link-custom-fields label.linklabel {
+    flex-basis: 145px;
+}
+
+/**
+ media-upload
+**/
+
+div#yyi_rinker .search-box input[name=keywords]{
+    width: 50%;
+}
+
+div#yyi_rinker ul#amazon-search-result {
+    margin: 10px;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result div.button-box{
+    margin: 0 0 0 10px;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result div.detail .button{
+    margin: 5px 1px;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result div.price,
+div#yyi_rinker ul#yyi-rinker-search-result div.group{
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result li.items {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: -webkit-flex;
+    border-bottom: solid 1px #fff;
+    padding: 10px;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result li.items img{
+    width: 75px;
+    padding: 8px;
+    display: flex;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result li.items.old_datas {
+    background-color: #ddd;
+    margin-bottom: 0;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result li.no-item {
+    text-align: center;
+    margin: 20px;
+}
+div#yyi_rinker ul#yyi-rinker-search-result li.error-item {
+    margin: 20px;
+    color: #ff4136;
+}
+
+div#yyi_rinker ul#yyi-rinker-search-result span.error-code {
+    font-weight: bold;
+}
+
+div#yyi_rinker #yyi-rinker-search-result .title {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+div#yyi_rinker #yyi-rinker-search-result .links {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+
+
+@media screen and (max-width: 782px) {
+    div#yyi_rinker ul.attachments {
+        height: 350px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+    }
+
+    div#yyi-link-custom-fields div.yyi-link-custom-field-item {
+        display: block;
+    }
+
+    div#yyi-link-custom-fields label.linklabel {
+        display: block;
+    }
+
+    body.post-type-yyi_rinker div#yyi_afilinks_middle_link input[type=text] {
+        width: 80%;
+    }
+
+    body.post-type-yyi_rinker div#yyi_afilinks_middle_link input.rekeywords {
+        width: 60%;
+    }
+
+    body.post-type-yyi_rinker  div.yyi-link-custom-field-relink {
+        padding: 0 10px 10px 10px;
+    }
+}
+
+/*
+ * 利用中の記事
+ */
+.column-used_post_id a {
+    position: relative ;
+}
+
+.column-used_post_id a:before {
+    opacity: 0;
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    border: 15px solid transparent;
+    border-top: 15px solid #fff;
+    pointer-events: none;
+    transition: .15s;
+    z-index: 2;
+}
+
+.column-used_post_id a:after {
+    opacity: 0;
+    display: block;
+    content: attr(data-title);
+    position: absolute;
+    background-color: #fff;
+    width: max-content;
+    max-width: 270px;
+    min-height: 16px;
+    bottom: 28px;
+    left: -18px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    box-shadow: 3px 6px 12px #ddd;
+    pointer-events: none;
+    transition: .15s;
+    z-index: 1;
+}
+.column-used_post_id a:hover:before,
+.column-used_post_id a:hover:after {
+    opacity: 1;
+}
+
+.micro-disp-type li{
+    display: block;
+}
+
+input.micro_disp_type_weeks_check {
+    margin: 0 2px 0 5px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker input[type=text].micro_disp_days{
+    width: 100px;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker input::placeholder{
+    color: #ccc;
+}
+
+body.settings_page_yyi-rinker-yyi-rinker input::-webkit-input-placeholder {
+    color:#ccc;
+}
+body.settings_page_yyi-rinker-yyi-rinker input:-ms-input-placeholder {
+    color:#ccc;
+}
+
