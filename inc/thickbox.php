@@ -1,26 +1,16 @@
 <?php
 namespace POCHIPP;
-if ( ! defined( 'ABSPATH' ) ) exit;
 
-/**
- * add_thickbox
- */
-add_action( 'init', function() {
-	global $hook_suffix;
-	$is_pochipp_menu = false !== strpos( $hook_suffix, 'pochipp' );
-	$is_editor_page  = 'post.php' === $hook_suffix || 'post-new.php' === $hook_suffix;
-	if ( $is_pochipp_menu || $is_editor_page ) {
-		add_thickbox();
-	}
-} );
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /**
  * media_upload_{$action} フックで iframe 読み込み
  */
 add_action( 'media_upload_pochipp', function() {
-	wp_enqueue_style( 'pochipp-media-upload',  POCHIPP_URL . 'css/admin_style.css', [], POCHIPP_VERSION );
-	wp_iframe( 'POCHIPP\load_search_fom_iframe' );
+	wp_enqueue_style( 'pochipp-iframe', POCHIPP_URL . 'dist/css/iframe.css', [], POCHIPP_VERSION );
+	wp_enqueue_script( 'pochipp-iframe', POCHIPP_URL . 'dist/js/search.js', [], POCHIPP_VERSION, true );
+	wp_iframe( '\POCHIPP\load_search_fom_iframe' );
 } );
 
 
@@ -30,7 +20,7 @@ add_action( 'media_upload_pochipp', function() {
 function load_search_fom_iframe() {
 
 	// タブはフックで定義
-	add_filter( 'media_upload_tabs', 'POCHIPP\media_upload_tabs', 999 );
+	add_filter( 'media_upload_tabs', '\POCHIPP\media_upload_tabs', 999 );
 
 	// body
 	include POCHIPP_PATH . 'inc/thickbox/serach_items.php';
@@ -40,7 +30,7 @@ function load_search_fom_iframe() {
 /**
  * 商品リンク追加画面のタブ設定
  */
-function media_upload_tabs(){
+function media_upload_tabs() {
 
 	$tabs = [
 		\POCHIPP::TABKEY_AMAZON  => 'Amazonから商品検索',
@@ -49,7 +39,7 @@ function media_upload_tabs(){
 
 	// エディターからモーダルが開かれた時、タブを追加
 	$from = \POCHIPP\array_get( $_GET, 'from', '' );
-	if ( $from === 'editor' ) {
+	if ( 'editor' === $from ) {
 		$tabs[ \POCHIPP::TABKEY_REGISTERD ] = '登録済み商品リンクから検索';
 	}
 

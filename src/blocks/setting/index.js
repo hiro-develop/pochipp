@@ -140,12 +140,17 @@ registerBlockType('pochipp/setting', {
 					onClick={() => {
 						let url = 'media-upload.php?type=pochipp';
 						url += `&at=setting`;
-						// url += `&tab=pochipp_search_amazon`;
+						url += `&tab=pochipp_search_amazon`;
 						url += `&blockid=${clientId}`;
 						url += `&postid=${postId}`;
 						url += '&TB_iframe=true';
 
 						window.tb_show('商品検索', url);
+
+						const tbWindow = document.querySelector('#TB_window');
+						if (tbWindow) {
+							tbWindow.classList.add('by-pochipp');
+						}
 					}}
 				>
 					商品検索

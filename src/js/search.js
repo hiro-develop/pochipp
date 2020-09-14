@@ -40,13 +40,22 @@ const getResultHtml = (itemDatas, type) => {
 
 (function ($) {
 	// キーワード入力欄へフォーカスさせる
-	$('#keywords').focus();
+	const $keywords = $('#keywords');
+	$keywords.focus();
 
 	const form = $('#search_form');
 
 	// フォームの送信イベント
 	form.submit(function (e) {
 		e.preventDefault();
+
+		if ($keywords.val() === '') {
+			$('#result_area').html('<p>キーワードを入力して下さい。</p>');
+			return;
+		}
+
+		// 検索エリアの描画をリセット
+		$('#result_area').html('');
 
 		console.log('search start!');
 

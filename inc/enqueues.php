@@ -42,18 +42,18 @@ function admin_scripts( $hook_suffix ) {
 	// 編集画面 or 設定ページでのみ読み込む
 	if ( $is_editor_page || $is_pochipp_menu ) {
 
-		wp_enqueue_media();
+		// メディアアップローダー
 		wp_enqueue_script( 'media-editor' );
 		wp_enqueue_script( 'media-upload' );
+		wp_enqueue_media();
 
 		// wp_enqueue_script( 'pochipp-media', POCHIPP_URL . '/dist/js/media.js', ['jquery'], POCHIPP_VERSION, true );
 
-		wp_enqueue_style(
-			'pochipp-admin',
-			POCHIPP_URL . 'dist/css/admin.css',
-			[],
-			POCHIPP_VERSION
-		);
+		// TthickBox
+		add_thickbox();
+
+		// 管理画面用CSS
+		wp_enqueue_style( 'pochipp-admin', POCHIPP_URL . 'dist/css/admin.css', [], POCHIPP_VERSION );
 	}
 
 	// 設定ページにだけ読み込むファイル
@@ -66,12 +66,7 @@ function admin_scripts( $hook_suffix ) {
 		// メディアアップローダー
 
 		// CSS
-		// wp_enqueue_style(
-		// 	'pochipp-menu',
-		// 	POCHIPP_URL . 'dist/css/my_menu.css',
-		// 	[],
-		// 	POCHIPP_VERSION
-		// );
+		// wp_enqueue_style( 'pochipp-menu', POCHIPP_URL . 'dist/css/my_menu.css', [], POCHIPP_VERSION );
 
 		// JS
 		// wp_enqueue_script(
@@ -134,7 +129,7 @@ function block_assets() {
 		wp_enqueue_script(
 			'pochipp-setting-block',
 			POCHIPP_URL . 'dist/blocks/setting/index.js',
-			$asset['dependencies'],
+			array_merge( ['jquery' ], $asset['dependencies'] ),
 			$asset['version'],
 			true
 		);
