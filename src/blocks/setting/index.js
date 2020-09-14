@@ -21,6 +21,11 @@ import { Button } from '@wordpress/components';
  */
 // import classnames from 'classnames';
 
+/**
+ * My compornent
+ */
+import ItemPreview from './ItemPreview';
+
 //
 /**
  * iframe 側から呼び出すメソッド
@@ -49,6 +54,7 @@ window.set_block_data = (itemTitle, itemData, clientId) => {
 	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
 
 	updateBlockAttributes(clientId, {
+		title: itemTitle,
 		metadata: JSON.stringify(itemData), // jsonにして保存
 	});
 };
@@ -85,6 +91,10 @@ registerBlockType('pochipp/setting', {
 		html: false,
 	},
 	attributes: {
+		title: {
+			type: 'string',
+			default: '',
+		},
 		metadata: {
 			type: 'string',
 			default: '',
@@ -148,7 +158,7 @@ registerBlockType('pochipp/setting', {
 		return (
 			<>
 				{/* <div>attr:{attributes.metadata || 'none'}</div> */}
-				<div>meta data:{meta.pochipp_data || 'empty'}</div>
+				{/* <div>meta data:{meta.pochipp_data || 'empty'}</div> */}
 				<Button
 					className='thickbox'
 					isPrimary={true}
@@ -170,6 +180,7 @@ registerBlockType('pochipp/setting', {
 				>
 					商品検索
 				</Button>
+				<ItemPreview {...props} parsedMeta={parsedMeta} />
 			</>
 		);
 	},

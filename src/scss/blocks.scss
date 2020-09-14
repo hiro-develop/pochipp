@@ -1,1 +1,41 @@
 // ブロック用CSS
+
+.pochipp-block-preview {
+	margin: 24px 0;
+}
+
+// memo: フロントでも読み込ませる
+.pochipp-box {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 2em 0;
+	padding: 16px;
+	background: #fff;
+	border: solid 1px #ededed;
+}
+
+.pochipp-box__image {
+	width: 80px;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border: 1px solid #ededed;
+	}
+}
+
+.pochipp-box__body {
+	width: calc(100% - 80px);
+	padding-left: 16px;
+}
+
+.pochipp-box__title {
+	margin-bottom: 8px;
+	font-weight: bold;
+}
+
+.pochipp-box__btns {
+	width: 100%;
+	margin-top: 16px;
+}

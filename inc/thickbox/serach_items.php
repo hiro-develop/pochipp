@@ -81,7 +81,7 @@ $terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 		<div id="result_area" class="pcpp-tb__result">
 			<!-- 検索結果がここに描画される -->
 		</div>
-		<div id="loading_image" style="display:none">
+		<div id="loading_image">
 			<img src="<?=POCHIPP_URL?>assets/img/loading.gif" alt="">
 		</div>
 	</div>

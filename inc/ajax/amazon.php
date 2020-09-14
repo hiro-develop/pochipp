@@ -30,8 +30,7 @@ function search_from_amazon_api() {
 	] );
 
 	// 検索結果
-	// $searched_items = \POCHIPP\generate_amazon_datas_from_json( $keywords, $search_index );
-	$searched_items = [];
+	$searched_items = \POCHIPP\generate_amazon_datas_from_json( $keywords, $search_index );
 
 	wp_die( json_encode( [
 		'registerd_items' => $registerd_items ?: [],

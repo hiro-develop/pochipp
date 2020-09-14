@@ -36,6 +36,12 @@ body {
 	}
 }
 
+#loading_image {
+	display: none;
+	padding: 20px;
+	text-align: center;
+}
+
 .pcpp-tb__area-title {
 	margin: 24px 0 16px;
 	font-weight: bold;
@@ -45,6 +51,8 @@ body {
 
 .pochipp-items {
 	border-top: solid 1px #ededed;
+
+
 }
 
 .pochipp-item {
@@ -52,6 +60,12 @@ body {
 	flex-wrap: wrap;
 	padding: 12px;
 	border-bottom: solid 1px #ededed;
+
+	&[data-type="registerd"] {
+		margin-bottom: 16px;
+		background: #f3f3f3;
+		border: solid 1px #d7dde0;
+	}
 }
 
 .pochipp-item__img {

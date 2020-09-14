@@ -111,7 +111,7 @@ function generate_rakuten_datas( $keywords, $page, $sort, $is_itemcode = false )
 	}
 }
 
-function set_data_for_rakuten( $datas = [], $keyword = '', $is_itemcode ) {
+function set_data_for_rakuten( $datas = [], $keywords = '', $is_itemcode ) {
 
 	$items = [];
 
