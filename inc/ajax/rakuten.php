@@ -19,12 +19,15 @@ function search_from_rakuten_api() {
 	$page     = \POCHIPP\array_get( $_GET, 'page', 1 );
 	$sort     = \POCHIPP\array_get( $_GET, 'sort', 1 );
 
-	$old_datas = \POCHIPP\get_search_itemlist( null, $keywords, 2 );
-	$api_datas = \POCHIPP\generate_rakuten_datas( $keywords, $page, $sort, false );
+	$registerd_items = \POCHIPP\get_registerd_items( [
+		'keywords' => $keywords,
+		'count'    => 2,
+	] );
+	$searched_items  = \POCHIPP\generate_rakuten_datas( $keywords, $page, $sort, false );
 
 	wp_die( json_encode( [
-		'old_datas' => $old_datas,
-		'api_datas' => $api_datas,
+		'registerd_items' => $registerd_items,
+		'searched_items'  => $searched_items,
 	] ) );
 }
 
@@ -47,16 +50,17 @@ function generate_rakuten_datas( $keywords, $page, $sort, $is_itemcode = false )
 		];
 	}
 
-	// pochi: hits は検索数
+	// memo: hits は検索数
 	$request_url = 'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?hits=10';
 
 	// アプリID
 	$request_url .= '&applicationId=' . \POCHIPP::RAKUTEN_APP_ID;
 
-	// 楽天アフィID   pochi: あとで取得できるように
+	// 楽天アフィID   memo: あとで取得できるように
 	$rakuten_affi_id = get_option( 'pochipp_rakuten_affiliate_id' ) ?: '1cf1501e.27808d00.1cf1501f.2f6529aa';
 
-	// アフィID ( これ検索の時にいる...？ -> pochi: あとで検証 )
+	// アフィID ( memo: これ検索の時にいる...？ ->  affiliateUrl が取れる & itemUrl = affiliateUrl になる。 )
+	// アフィID投げなければ、 itemUrl で普通のURL取れる
 	if ( $rakuten_affi_id ) {
 		$request_url .= '&affiliateId=' . $rakuten_affi_id;
 	}
@@ -93,76 +97,82 @@ function generate_rakuten_datas( $keywords, $page, $sort, $is_itemcode = false )
 
 	$datas = json_decode( $response['body'], true );
 
-	return $datas;
+	if ( is_array( $datas ) && isset( $datas['error'] ) ) {
+		$errors          = [];
+		$errors['error'] = [
+			'code'      => $datas['error'],
+			'message'   => $datas['error_description'],
+		];
 
-	if ( $datas ) {
-		if ( isset( $datas['error'] ) ) {
-			$errors                        = [];
-			$errors['error']               = [
-				'code'      => $datas['error'],
-				'message'   => $datas['error_description'],
-			];
-			$errors['error']['message_jp'] = \POCHIPP\rakuten_api_errors( $datas['error'], $datas['error_description'] );
-			return $errors;
-		}
-		$items = [];
+		$errors['error']['message_jp'] = \POCHIPP\rakuten_api_errors( $datas['error'], $datas['error_description'] );
+		return $errors;
+	} else {
+		return \POCHIPP\set_data_for_rakuten( $datas, $keywords, $is_itemcode );
+	}
+}
 
-		if ( $is_itemcode && isset( $datas['hits'] ) && intval( $datas['hits'] ) === 0 ) {
-			$errors          = [];
-			$errors['error'] = [
-				'code'          => 'rakuten_noitem',
-				'message'       => '指定の商品コードの商品がありません',
-				'message_jp'    => '指定の商品コードの商品がありません',
-			];
-			return $errors;
-		}
-		if ( isset( $datas['Items'] ) ) {
-			$item = [];
-			foreach ( $datas['Items'] as $data ) {
-				if ( $is_itemcode ) {
+function set_data_for_rakuten( $datas = [], $keyword = '', $is_itemcode ) {
 
-					$item['price']             = $data['Item']['itemPrice'];
-					$item['price_at']          = date_i18n( 'Y/m/d H:i:s' );
-					$item['rakuten_title_url'] = $data['Item']['affiliateUrl'];
-					$items[]                   = $item;
-					break;
-				}
-				$item['title']             = $data['Item']['itemName'];
-				$item['rakuten_itemcode']  = $data['Item']['itemCode'];
-				$item['rakuten_title_url'] = $data['Item']['affiliateUrl'];
-				if ( isset( $data['Item']['smallImageUrls'][0]['imageUrl'] ) ) {
-					$item['s_image_url'] = $data['Item']['smallImageUrls'][0]['imageUrl'];
-				} else {
-					$item['s_image_url'] = '';
-				}
+	$items = [];
 
-				if ( isset( $data['Item']['mediumImageUrls'][0]['imageUrl'] ) ) {
-					$item['m_image_url'] = $data['Item']['mediumImageUrls'][0]['imageUrl'];
-				} else {
-					$item['m_image_url'] = '';
-				}
-				$item['l_image_url'] = '';
-				$item['brand']       = '';
-				$item['price']       = $data['Item']['itemPrice'];
-				$item['amazon_url']  = \POCHIPP\generate_amazon_original_link( $keywords );
-				$item['rakuten_url'] = \POCHIPP\generate_rakuten_original_link( $keywords );
-				$item['yahoo_url']   = \POCHIPP\generate_yahoo_original_link( $keywords );
+	if ( $is_itemcode && isset( $datas['hits'] ) && intval( $datas['hits'] ) === 0 ) {
+		$errors          = [];
+		$errors['error'] = [
+			'code'          => 'rakuten_noitem',
+			'message'       => '指定の商品コードの商品がありません',
+			'message_jp'    => '指定の商品コードの商品がありません',
+		];
+		return $errors;
+	}
+	if ( isset( $datas['Items'] ) ) {
+		$item = [];
+		foreach ( $datas['Items'] as $data ) {
 
-				// $item[ self::IMAGE_S_SIZE_W_COLUMN ]	= 64;
-				// $item[ self::IMAGE_S_SIZE_H_COLUMN ]	= 64;
-				// $item[ self::IMAGE_M_SIZE_W_COLUMN ]	= 128;
-				// $item[ self::IMAGE_M_SIZE_H_COLUMN ]	= 128;
-				// $item[ self::IMAGE_L_SIZE_W_COLUMN ]	= '';
-				// $item[ self::IMAGE_L_SIZE_H_COLUMN ]	= '';
+			if ( $is_itemcode ) {
 
-				// 楽天市場のみ
-				$item['affiliateRate'] = $data['Item']['affiliateRate'];
-				$item['reviewAverage'] = $data['Item']['reviewAverage'];
-
-				$items[] = $item;
+				$item['price']             = $data['Item']['itemPrice'];
+				$item['price_at']          = date_i18n( 'Y/m/d H:i:s' );
+				$item['rakuten_title_url'] = $data['Item']['itemUrl'];
+				$items[]                   = $item;
+				break;
 			}
+
+			$item['title']             = $data['Item']['itemName'];
+			$item['rakuten_itemcode']  = $data['Item']['itemCode'];
+			$item['rakuten_title_url'] = $data['Item']['itemUrl'];
+			if ( isset( $data['Item']['smallImageUrls'][0]['imageUrl'] ) ) {
+				$item['s_image_url'] = $data['Item']['smallImageUrls'][0]['imageUrl'];
+			} else {
+				$item['s_image_url'] = '';
+			}
+
+			if ( isset( $data['Item']['mediumImageUrls'][0]['imageUrl'] ) ) {
+				$item['m_image_url'] = $data['Item']['mediumImageUrls'][0]['imageUrl'];
+			} else {
+				$item['m_image_url'] = '';
+			}
+			$item['l_image_url'] = '';
+			$item['brand']       = '';
+			$item['price']       = $data['Item']['itemPrice'];
+			$item['amazon_url']  = \POCHIPP\generate_amazon_original_link( $keywords );
+			$item['rakuten_url'] = \POCHIPP\generate_rakuten_original_link( $keywords );
+			$item['yahoo_url']   = \POCHIPP\generate_yahoo_original_link( $keywords );
+
+			// $item[ self::IMAGE_S_SIZE_W_COLUMN ]	= 64;
+			// $item[ self::IMAGE_S_SIZE_H_COLUMN ]	= 64;
+			// $item[ self::IMAGE_M_SIZE_W_COLUMN ]	= 128;
+			// $item[ self::IMAGE_M_SIZE_H_COLUMN ]	= 128;
+			// $item[ self::IMAGE_L_SIZE_W_COLUMN ]	= '';
+			// $item[ self::IMAGE_L_SIZE_H_COLUMN ]	= '';
+
+			// 楽天市場のみ
+			$item['affiliateRate'] = $data['Item']['affiliateRate'];
+			$item['reviewAverage'] = $data['Item']['reviewAverage'];
+
+			$items[] = $item;
 		}
 	}
+
 	return $items;
 }
 

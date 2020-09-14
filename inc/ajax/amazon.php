@@ -11,11 +11,9 @@ add_action( 'wp_ajax_pochipp_search_amazon', '\POCHIPP\search_from_amazon_api' )
 
 
 /**
- * AmazonAPIから商品データを取得する　for ajax
- *
- * yyi: $asin 使われてない？
+ * AmazonAPIから商品データを取得する
  */
-function search_from_amazon_api( $asin = '' ) {
+function search_from_amazon_api() {
 
 	$keywords     = \POCHIPP\array_get( $_GET, 'keywords', '' );
 	$search_index = \POCHIPP\array_get( $_GET, 'search_index', '' );
@@ -25,15 +23,19 @@ function search_from_amazon_api( $asin = '' ) {
 		$search_index = 'All';
 	}
 
-	// 取得済みデータ ?
-	$datas = \POCHIPP\get_search_itemlist( null, $keywords, 2 );
+	// 登録済み商品
+	$registerd_items = \POCHIPP\get_registerd_items( [
+		'keywords' => $keywords,
+		'count'    => 2, // memo: ２個まで取得。<- 増やしてもいい
+	] );
 
-	// 検索データ
-	$api_datas = \POCHIPP\generate_amazon_datas_from_json( $keywords, $search_index );
+	// 検索結果
+	// $searched_items = \POCHIPP\generate_amazon_datas_from_json( $keywords, $search_index );
+	$searched_items = [];
 
 	wp_die( json_encode( [
-		'old_datas' => $datas,
-		'api_datas' => $api_datas,
+		'registerd_items' => $registerd_items ?: [],
+		'searched_items'  => $searched_items ?: [],
 	] ) );
 }
 
@@ -265,30 +267,35 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 	foreach ( $json_datas->SearchResult->Items as $item ) {
 		$data = [];
 
-		// 新規の時だけ登録する部分
+		// 新規の時だけ登録する部分 memo: 「新規の時」とは？
 		if ( $is_new ) {
-			$data['asin']        = (string) $item->ASIN;
+			$asin         = $item->ASIN ?? '';
+			$data['asin'] = (string) $asin;
+
+			// 商品名
+			$item_title    = $item->ItemInfo->Title->DisplayValue ?? '';
+			$data['title'] = (string) $item_title;
+
+			// ブランド名
+			$brand         = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
+			$data['brand'] = (string) $brand;
+
+			// 検索結果URL
 			$data['amazon_url']  = \POCHIPP\generate_amazon_original_link( $keyword );
 			$data['rakuten_url'] = \POCHIPP\generate_rakuten_original_link( $keyword );
 			$data['yahoo_url']   = \POCHIPP\generate_yahoo_original_link( $keyword );
 
-			if ( isset( $item->ItemInfo->Title->DisplayValue ) ) {
-				$data['title'] = (string) $item->ItemInfo->Title->DisplayValue;
-			} else {
-				$data['title'] = '';
-			}
+			// 商品詳細URL
+			$data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
 
-			if ( isset( $item->ItemInfo->ByLineInfo->Brand->DisplayValue ) ) {
-				$data['brand'] = (string) $item->ItemInfo->ByLineInfo->Brand->DisplayValue;
-			} else {
-				$data['brand'] = '';
-			}
 		}
 
 		if ( isset( $item->ItemInfo->Classifications->ProductGroup->DisplayValue ) ) {
 			$group                 = (string) $item->ItemInfo->Classifications->ProductGroup->DisplayValue;
 			$data['product_group'] = $group;
-			if ( $group === 'Digital Ebook Purchas' ) {
+
+			// Kindle
+			if ( 'Digital Ebook Purchas' === $group ) {
 				$data['amazon_kindle_url'] = (string) $item->DetailPageURL;
 			}
 		}

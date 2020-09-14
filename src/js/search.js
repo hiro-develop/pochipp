@@ -1,7 +1,8 @@
 /**
  * thickboxで呼び出される iframe の中で読み込むスクリプト
  */
-console.log('search.js!');
+// console.log('search.js!');
+// console.log(window.pochippIframeVars);
 
 /**
  * 検索結果のデータをHTMLに変換
@@ -14,28 +15,47 @@ const getResultHtml = (itemDatas, type) => {
 
 	Object.keys(itemDatas).forEach((index) => {
 		const item = itemDatas[index];
-		result += `<div class="pochipp-items" data-index="${index}" data-type="${type}">`;
+		const price = Number(item.price);
+
+		// 商品詳細ページがあればそっち、なければキーワード検索画面
+		const amazonLink = item.amazon_url || item.amazon_url;
+		const rakutenLink = item.rakuten_title_url || item.rakuten_url;
+
+		result += `<div class="pochipp-item" data-index="${index}" data-type="${type}">`;
 		result += `
-                <div class="pochipp-items__img">
-                    <img src="${item.s_image_url}" alt="" />
-                </div>
-                <div class="pochipp-items__title">${item.title}</div>
-            `;
+			<div class="pochipp-item__img">
+				<img src="${item.s_image_url}" alt="" />
+			</div>
+			<div class="pochipp-item__body">
+				<div class="pochipp-item__title">${item.title}</div>
+				<div class="pochipp-item__brand">ブランド：${item.brand}</div>
+				<div class="pochipp-item__price">価格：¥${price.toLocaleString()}</div>
+				<div class="pochipp-item__links">
+					商品ページ：
+					<a href="${amazonLink}" rel="nofollow noreferrer" target="_blank">Amazonで確認</a>
+					<a href="${rakutenLink}" rel="nofollow noreferrer" target="_blank">楽天で確認</a>
+				</div>
+		`;
+
+		// ボタン
 		if ('registerd' === type) {
-			result += `<div class="pochipp-items__btns">
-                <button classs="button" data-pochipp="select">この商品を選択</button>
-                <button classs="button" data-pochipp="edit">この商品を編集</button>
-            </div>`;
+			const adminUrl = window.pochippIframeVars.admin_url;
+			const editUrl = `${adminUrl}post.php?post=${item.post_id}&action=edit`;
+
+			result += `<div class="pochipp-item__btns">
+				<button class="button button-primary" data-pochipp="select">この商品を選択</button>
+				<a class="button" data-pochipp="edit" href="${editUrl}" rel="nofollow noreferrer" target="_blank">この商品を編集</a>
+			</div>`;
 		} else {
-			result += `<div class="pochipp-items__btns">
-                <button classs="button" data-pochipp="select">この商品を選択</button>
-            </div>`;
+			result += `<div class="pochipp-item__btns">
+				<button class="button button-primary" data-pochipp="select">この商品を選択</button>
+			</div>`;
 		}
 
-		result += `</div>`;
+		result += `</div></div>`;
 	});
 
-	return result;
+	return `<div class="pochipp-items">${result}</div>`;
 };
 
 (function ($) {
@@ -88,24 +108,25 @@ const getResultHtml = (itemDatas, type) => {
 				// $('#yyi-rinker-search-result').empty();
 
 				// 検索結果
-				const searchedItems = datas.api_datas;
+				const searchedItems = datas.searched_items;
 
 				// 取得済みデータ
-				const registerdItems = datas.old_datas;
+				const registerdItems = datas.registerd_items;
 
 				console.log('searchedItems', searchedItems);
 				console.log('registerdItems', registerdItems);
 
-				let resultHtml = '<div>登録済み</div>';
+				let resultHtml =
+					'<div class="pcpp-tb__area-title">登録済み</div>';
 				resultHtml += getResultHtml(registerdItems, 'registerd');
-				resultHtml += '<br><br><div>検索結果</div>';
+				resultHtml += '<div class="pcpp-tb__area-title">検索結果</div>';
 				resultHtml += getResultHtml(searchedItems, 'searched');
 
 				$('#result_area').html(resultHtml);
 
-				// 商品選択時のイベントを登録
+				// 「商品選択ボタン」のクリックイベントを登録
 				$('[data-pochipp="select"]').click(function (e) {
-					const $thisItem = $(this).parents('.pochipp-items');
+					const $thisItem = $(this).parents('.pochipp-item');
 					const itemIndex = $thisItem.attr('data-index');
 					const itemtype = $thisItem.attr('data-type');
 					const itemData =
@@ -113,9 +134,11 @@ const getResultHtml = (itemDatas, type) => {
 							? registerdItems[itemIndex]
 							: searchedItems[itemIndex];
 
-					console.log('return:', itemData);
+					// タイトル情報だけ別枠で渡す
+					const itemTitle = itemData.title || 'No Title';
+					delete itemData.title;
 
-					window.top.set_block_data(itemData, blockid);
+					window.top.set_block_data(itemTitle, itemData, blockid);
 					window.parent.tb_remove();
 				});
 			})

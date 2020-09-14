@@ -3,25 +3,6 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-
-/**
- * カスタムフィールドの登録
- * pochi: あとでファイル切り分ける
- */
-add_action( 'init', '\POCHIPP\register_metas' );
-function register_metas() {
-	register_meta(
-		'post',
-		'pochipp_data',
-		[
-			'show_in_rest'   => true,
-			'single'         => true,
-			'type'           => 'string',
-			'object_subtype' => 'pochipps',
-		]
-	);
-}
-
 /**
  * Register post type
  */

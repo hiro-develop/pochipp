@@ -17,6 +17,9 @@ class Data {
 	// taxonomy slug
 	const TAXONOMY_SLUG = 'pochipp_cat';
 
+	// metadata slug
+	const META_SLUG = 'pochipp_data';
+
 	// タブ -> ajax の アクション名と同じ
 	// pochipp: TABKEY 配列とかでよかったか
 	const TABKEY_AMAZON    = 'pochipp_search_amazon';

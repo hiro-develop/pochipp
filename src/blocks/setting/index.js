@@ -25,16 +25,31 @@ import { Button } from '@wordpress/components';
 /**
  * iframe 側から呼び出すメソッド
  *
- * @param {*} data 商品データ
- * @param {*} clientId ブロックID
+ * @param {string} itemTitle 商品タイトル
+ * @param {Object} itemData 商品データ
+ * @param {string} clientId ブロックID
  */
-window.set_block_data = (data, clientId) => {
-	// console.log('data:', data);
+window.set_block_data = (itemTitle, itemData, clientId) => {
+	// console.log('itemData:', itemData);
 
-	// ブロックのattributes更新
+	// タイトルの更新
+	// itemTitle
+	// const postTitle = document.querySelector(
+	// 	'textarea.editor-post-title__input'
+	// );
+	// console.log(postTitle);
+
+	// if (postTitle) {
+	// 	postTitle.textContent = itemTitle;
+	// }
+	const { editPost } = wp.data.dispatch('core/editor');
+	editPost({ title: itemTitle });
+
+	// ブロックのattributesを更新する
 	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
+
 	updateBlockAttributes(clientId, {
-		metadata: JSON.stringify(data),
+		metadata: JSON.stringify(itemData), // jsonにして保存
 	});
 };
 

@@ -6,11 +6,15 @@ body {
 }
 
 .pcpp-tb {
+	box-sizing: border-box;
 
+	* {
+		box-sizing: border-box;
+	}
 }
 
 .pcpp-tb__body {
-	padding: 24px 16px;
+	padding: 24px;
 }
 
 #search_form {
@@ -30,6 +34,50 @@ body {
 		width: 20px;
 		height: 20px;
 	}
+}
+
+.pcpp-tb__area-title {
+	margin: 24px 0 16px;
+	font-weight: bold;
+	font-weight: 700;
+	font-size: 16px;
+}
+
+.pochipp-items {
+	border-top: solid 1px #ededed;
+}
+
+.pochipp-item {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 12px;
+	border-bottom: solid 1px #ededed;
+}
+
+.pochipp-item__img {
+	width: 80px;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border: 1px solid #ededed;
+	}
+}
+
+.pochipp-item__body {
+	width: calc(100% - 80px);
+	padding-left: 16px;
+}
+
+.pochipp-item__title {
+	margin-bottom: 8px;
+	font-weight: bold;
+}
+
+.pochipp-item__btns {
+	width: 100%;
+	margin-top: 16px;
 }
 
 // *

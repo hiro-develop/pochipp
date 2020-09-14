@@ -13,7 +13,12 @@ $at     = \POCHIPP\array_get( $_GET, 'at' ) ?: '';
 
 $terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 ?>
-<div id="pochipp_tb_content" class="pcpp-tb">
+<script type="text/javascript">
+	window.pochippIframeVars = {
+		admin_url: "<?=admin_url()?>"
+	};
+</script>
+<div id="pochipp_tb_content" class="pcpp-tb wp-core-ui">
 	<?php media_upload_header(); // タブ呼び出し ?>
 	<div class="pcpp-tb__body">
 		<div id="search_area" class="pcpp-tb__search">
@@ -28,8 +33,11 @@ $terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 				<!-- どこから呼び出されたか -->
 				<input type="hidden" nama="at" value="<?=esc_attr( $at )?>">
 
+				<!-- admin_url() を渡す -->
+				<input type="hidden" nama="admin_url" value="<?=admin_url()?>"> 
+
 				<!-- テスト用 -->
-				<input type="hidden" nama="date" value="<?=date( 'gis' );?>"> 
+				<input type="hidden" nama="date" value="<?=date( 'gis' )?>"> 
 
 				<!-- Amazonタブ -->
 				<?php if ( \POCHIPP::TABKEY_AMAZON === $tab ) : ?>
