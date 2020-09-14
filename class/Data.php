@@ -21,12 +21,11 @@ class Data {
 	const META_SLUG = 'pochipp_data';
 
 	// タブ -> ajax の アクション名と同じ
-	// pochipp: TABKEY 配列とかでよかったか
 	const TABKEY_AMAZON    = 'pochipp_search_amazon';
 	const TABKEY_RAKUTEN   = 'pochipp_search_rakuten';
 	const TABKEY_REGISTERD = 'pochipp_search_registerd';
 
-	// 国際化を考え、定数ではなく変数で。
+	// 国際化を考え、定数ではなく変数で ?
 	// あとで amazon_indexs とかに改名する
 	public static $search_indexes = [
 		'All'                       => 'すべて',
@@ -71,6 +70,7 @@ class Data {
 		'Watches'                   => '腕時計',
 	];
 
+	// memo: 数字なに？
 	public static $rakuten_sorts = [
 		5 => [
 			'label' => '楽天標準ソート順',
