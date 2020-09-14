@@ -4,6 +4,7 @@
 export default function (props) {
 	const { attributes, parsedMeta } = props;
 
+	const { brand, price } = parsedMeta;
 	return (
 		<>
 			<div className='pochipp-block-preview'>
@@ -15,19 +16,29 @@ export default function (props) {
 						<div className='pochipp-box__title'>
 							{attributes.title}
 						</div>
-						<div className='pochipp-box__brand'>
-							{parsedMeta.brand}
-						</div>
-						<div className='pochipp-box__price'>
-							{parsedMeta.price}
+						{brand && (
+							<div className='pochipp-box__brand'>{brand}</div>
+						)}
+						{price && (
+							<div className='pochipp-box__price'>
+								¥{price.toLocaleString()}
+							</div>
+						)}
+
+						<div className='pochipp-box__btns'>
+							<a href='###' className='pochipp-box__btn -amazon'>
+								Amazon
+							</a>
+
+							<a href='###' className='pochipp-box__btn -rakuten'>
+								楽天市場
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
-			<code
-				className='u-mt-20'
-				style={{ whiteSpace: 'normal', width: '100%' }}
-			>
+			<div className='u-mt-20'>データ確認用</div>
+			<code style={{ whiteSpace: 'normal', width: '100%' }}>
 				{JSON.stringify(parsedMeta)};
 			</code>
 		</>

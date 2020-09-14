@@ -36,6 +36,31 @@
 }
 
 .pochipp-box__btns {
-	width: 100%;
+	position: relative;
+	left: -4px;
+	display: flex;
+	flex-wrap: wrap;
+	width: calc(100% + 8px);
 	margin-top: 16px;
 }
+
+.pochipp-box__btn {
+	display: block !important;
+	margin: 4px !important;
+	padding: 8px 12px !important;
+	line-height: 1 !important;
+	text-decoration: none !important;
+	background-color: #ccc;
+	border-radius: 2px !important;
+
+	&.-amazon {
+		color: #fff;
+		background: #f6a306;
+	}
+
+	&.-rakuten {
+		color: #fff;
+		background: #cf4944;
+	}
+}
+
