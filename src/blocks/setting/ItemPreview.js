@@ -4,6 +4,14 @@
 export default function (props) {
 	const { attributes, parsedMeta } = props;
 
+	if (1 > parsedMeta.length) {
+		return (
+			<div className='pochipp-block-preview'>
+				<p>商品を選択してください</p>
+			</div>
+		);
+	}
+
 	const { brand, price } = parsedMeta;
 	return (
 		<>
