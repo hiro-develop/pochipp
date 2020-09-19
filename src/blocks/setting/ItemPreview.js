@@ -46,9 +46,16 @@ export default function (props) {
 				</div>
 			</div>
 			<div className='u-mt-20'>データ確認用</div>
-			<code style={{ whiteSpace: 'normal', width: '100%' }}>
-				{JSON.stringify(parsedMeta)};
-			</code>
+			<div className='pochipp-block-dump'>
+				{/* {JSON.stringify(parsedMeta)}; */}
+				{Object.keys(parsedMeta).map((metakey) => {
+					return (
+						<div key={metakey}>
+							<code>{metakey}</code> : {parsedMeta[metakey]}
+						</div>
+					);
+				})}
+			</div>
 		</>
 	);
 }

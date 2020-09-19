@@ -19,10 +19,13 @@ function search_from_rakuten_api() {
 	$page     = \POCHIPP\array_get( $_GET, 'page', 1 );
 	$sort     = \POCHIPP\array_get( $_GET, 'sort', 1 );
 
+	// 登録済み商品
 	$registerd_items = \POCHIPP\get_registerd_items( [
 		'keywords' => $keywords,
-		'count'    => 2,
+		'count'    => 2, // memo: ２個まで取得。<- 少ない？
 	] );
+
+	// 検索結果
 	$searched_items  = \POCHIPP\generate_rakuten_datas( $keywords, $page, $sort, false );
 
 	wp_die( json_encode( [
@@ -154,6 +157,7 @@ function set_data_for_rakuten( $datas = [], $keywords = '', $is_itemcode ) {
 			$item['l_image_url'] = '';
 			$item['brand']       = '';
 			$item['price']       = $data['Item']['itemPrice'];
+			$item['price_at']    = date_i18n( 'Y/m/d H:i:s' );
 			$item['amazon_url']  = \POCHIPP\generate_amazon_original_link( $keywords );
 			$item['rakuten_url'] = \POCHIPP\generate_rakuten_original_link( $keywords );
 			$item['yahoo_url']   = \POCHIPP\generate_yahoo_original_link( $keywords );

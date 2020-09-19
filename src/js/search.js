@@ -1,8 +1,6 @@
 /**
  * thickboxで呼び出される iframe の中で読み込むスクリプト
  */
-// console.log('search.js!');
-// console.log(window.pochippIframeVars);
 
 /**
  * 検索結果のデータをHTMLに変換
@@ -39,7 +37,7 @@ const getResultHtml = (itemDatas, type) => {
 
 		// ボタン
 		if ('registerd' === type) {
-			const adminUrl = window.pochippIframeVars.admin_url;
+			const adminUrl = window.pochippIframeVars.adminUrl;
 			const editUrl = `${adminUrl}post.php?post=${item.post_id}&action=edit`;
 
 			result += `<div class="pochipp-item__btns">
@@ -59,15 +57,19 @@ const getResultHtml = (itemDatas, type) => {
 };
 
 (function ($) {
+	// console.log(window.pochippIframeVars);
+
+	// 情報を取得
+	const { ajaxUrl, tabKey, blockId, calledAt } = window.pochippIframeVars;
+
 	// キーワード入力欄へフォーカスさせる
 	const $keywords = $('#keywords');
 	$keywords.focus();
 
-	const form = $('#search_form');
-
 	// フォームの送信イベント
-	form.submit(function (e) {
+	$('#search_form').submit(function (e) {
 		e.preventDefault();
+		// console.log('search start!');
 
 		if ($keywords.val() === '') {
 			$('#result_area').html('<p>キーワードを入力して下さい。</p>');
@@ -77,32 +79,23 @@ const getResultHtml = (itemDatas, type) => {
 		// 検索エリアの描画をリセット
 		$('#result_area').html('');
 
-		console.log('search start!');
-
-		// 情報を取得
-		const blockid = $('[nama="blockid"]').val();
-		const date = $('[nama="date"]').val();
-
-		// タブを取得
-		const nowTabKey = $('[nama="tab"]').val();
-
-		// タブの状況から ajax アクション名を取得
-		const actionName = nowTabKey || 'pochipp_search_amazon';
-
+		// ajaxに投げるデータ
 		const params = {};
-		params.action = actionName;
+		params.action = tabKey || 'pochipp_search_amazon'; // タブキーがそのままアクション名
 		params.keywords = $('#keywords').val();
-		params.search_index = $('#search_index').val();
+		params.search_index = $('#search_index').val(); // Amazonのカテゴリー
+		params.sort = $('#sort_select').val(); // 並び順
 		params.page = 1;
-		params.sort = $('#sort_select').val();
 
-		// ローディング画像の表示開始
-		$('#loading_image').show();
-
+		// ajax実行
 		$.ajax({
-			url: form.attr('action'),
+			url: ajaxUrl,
 			dataType: 'json',
 			data: params,
+			beforeSend: () => {
+				// ローディング画像の表示開始
+				$('#loading_image').show();
+			},
 		})
 			.done(function (datas, textStatus, jqXHR) {
 				// $('#yyi-rinker-search-result').empty();
@@ -113,14 +106,20 @@ const getResultHtml = (itemDatas, type) => {
 				// 取得済みデータ
 				const registerdItems = datas.registerd_items;
 
-				console.log('searchedItems', searchedItems);
-				console.log('registerdItems', registerdItems);
+				let resultHtml = '';
+				if ('editor' === calledAt) {
+					// 投稿編集画面での呼び出し時のみ、登録済み商品を表示。
+					resultHtml +=
+						'<div class="pcpp-tb__area-title">登録済み</div>';
+					resultHtml += getResultHtml(registerdItems, 'registerd');
+				}
 
-				let resultHtml =
-					'<div class="pcpp-tb__area-title">登録済み</div>';
-				resultHtml += getResultHtml(registerdItems, 'registerd');
+				// 普通の検索結果データを表示
 				resultHtml += '<div class="pcpp-tb__area-title">検索結果</div>';
 				resultHtml += getResultHtml(searchedItems, 'searched');
+
+				// console.log('searchedItems', searchedItems);
+				// console.log('registerdItems', registerdItems);
 
 				$('#result_area').html(resultHtml);
 
@@ -138,7 +137,7 @@ const getResultHtml = (itemDatas, type) => {
 					const itemTitle = itemData.title || 'No Title';
 					delete itemData.title;
 
-					window.top.set_block_data(itemTitle, itemData, blockid);
+					window.top.set_block_data(itemTitle, itemData, blockId);
 					window.parent.tb_remove();
 				});
 			})
@@ -149,12 +148,4 @@ const getResultHtml = (itemDatas, type) => {
 
 		return false;
 	});
-
-	// タブを取得
-	// const blockid = $('[nama="blockid"]').val();
-	// const date = $('[nama="date"]').val();
-	// window.top.set_block_data(date, blockid);
-	// window.parent.tb_remove();
-
-	//
 })(window.jQuery);

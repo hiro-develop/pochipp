@@ -81,7 +81,7 @@ function generate_amazon_datas_from_json( $keywords = '', $search_index = 'All' 
  */
 function get_json_from_amazon_api( $operation, $request ) {
 
-	// pochi: 設定はあとで追加。とりあえず動くように自分の キー を直代入
+	// 「memo: 設定はあとで追加。とりあえず動くように自分の キー を直代入
 	$access_key   = get_option( 'pochipp_amazon_access_key' ) ?: 'AKIAIZYWJ6R7RSE2VAEA';
 	$secret_key   = get_option( 'pochipp_amazon_secret_key' ) ?: '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';
 	$traccking_id = get_option( 'pochipp_amazon_traccking_id' ) ?: 'irepos-22';
@@ -266,7 +266,8 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 	foreach ( $json_datas->SearchResult->Items as $item ) {
 		$data = [];
 
-		// 新規の時だけ登録する部分 memo: 「新規の時」とは？
+		// 新規の時だけ登録する部分
+		// memo: ↑ 「新規の時」、とは...？
 		if ( $is_new ) {
 			$asin         = $item->ASIN ?? '';
 			$data['asin'] = (string) $asin;
@@ -284,21 +285,25 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 			$data['rakuten_url'] = \POCHIPP\generate_rakuten_original_link( $keyword );
 			$data['yahoo_url']   = \POCHIPP\generate_yahoo_original_link( $keyword );
 
-			// 商品詳細URL
+			// 商品詳細URL memo: アフィ用のクエリが付いていないURL
 			$data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
 
 		}
 
+		// memo: たぶん商品カテゴリーの取得 & Kindleの場合は専用のkeyでデータ保存。
+		//       現状だとKindleじゃない時 amazon_kindle_url は存在しないが、とりあえず空で持たせておいてもいい？
 		if ( isset( $item->ItemInfo->Classifications->ProductGroup->DisplayValue ) ) {
 			$group                 = (string) $item->ItemInfo->Classifications->ProductGroup->DisplayValue;
 			$data['product_group'] = $group;
 
-			// Kindle
+			// Kindle商品のURL（アフィ用のクエリ付き）
 			if ( 'Digital Ebook Purchas' === $group ) {
 				$data['amazon_kindle_url'] = (string) $item->DetailPageURL;
 			}
 		}
 
+		// 商品詳細URL
+		// memo: アフィ用のクエリが付いたURL
 		$data['amazon_title_url'] = (string) $item->DetailPageURL;
 
 		if ( isset( $item->Offers->Listings[0]->Price->Amount ) ) {

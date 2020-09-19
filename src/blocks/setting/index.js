@@ -151,9 +151,8 @@ registerBlockType('pochipp/setting', {
 		// console.log('custom field: ' + meta.pochipp_data);
 
 		// メタデータ(JSON)を配列に変換
-		// pochi: パースするのは meta でも attributes でもどっちでも。 フロントのブロックは、マージさせたものをパースする？
+		// 「memo: パースするのは meta でも attributes でもどっちでも。 フロントのブロックは、マージさせたものをパースする？
 		const parsedMeta = getParsedMeta(meta.pochipp_data);
-		// console.log('parsedMeta', parsedMeta);
 
 		return (
 			<>

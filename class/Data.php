@@ -20,7 +20,7 @@ class Data {
 	// metadata slug
 	const META_SLUG = 'pochipp_data';
 
-	// タブ -> ajax の アクション名と同じ
+	// タブ名 -> ajax の アクション名と同じ
 	const TABKEY_AMAZON    = 'pochipp_search_amazon';
 	const TABKEY_RAKUTEN   = 'pochipp_search_rakuten';
 	const TABKEY_REGISTERD = 'pochipp_search_registerd';

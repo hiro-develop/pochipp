@@ -3,8 +3,6 @@
  * 商品検索部分の中身
  */
 
-
-
 // iframeのURLから受け取るパラメータ
 $tab    = \POCHIPP\array_get( $_GET, 'tab' ) ?: \POCHIPP::TABKEY_AMAZON;
 $cid    = \POCHIPP\array_get( $_GET, 'blockid' ) ?: 0;
@@ -15,7 +13,11 @@ $terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 ?>
 <script type="text/javascript">
 	window.pochippIframeVars = {
-		admin_url: "<?=admin_url()?>"
+		adminUrl: "<?=esc_js( admin_url() )?>", // 管理画面URL
+		ajaxUrl: "<?=esc_js( admin_url( 'admin-ajax.php' ) )?>", // Ajax用URL
+		tabKey: "<?=esc_js( $tab )?>", // 現在のタブ種別
+		blockId: "<?=esc_js( $cid )?>", // ブロックID
+		calledAt: "<?=esc_js( $at )?>", // どこから呼び出されたか
 	};
 </script>
 <div id="pochipp_tb_content" class="pcpp-tb wp-core-ui">
@@ -23,21 +25,6 @@ $terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 	<div class="pcpp-tb__body">
 		<div id="search_area" class="pcpp-tb__search">
 			<form id="search_form" method="GET" action="<?=admin_url( 'admin-ajax.php' )?>">
-				<input type="hidden" nama="tab" value="<?=esc_attr( $tab )?>"/>
-
-				<input type="hidden" nama="action" value="search_amazon"> <!-- yyi: 使われてない？ -->
-
-				<!-- ブロックエディターから呼び出された時用 -->
-				<input type="hidden" nama="blockid" value="<?=esc_attr( $cid )?>">
-
-				<!-- どこから呼び出されたか -->
-				<input type="hidden" nama="at" value="<?=esc_attr( $at )?>">
-
-				<!-- admin_url() を渡す -->
-				<input type="hidden" nama="admin_url" value="<?=admin_url()?>"> 
-
-				<!-- テスト用 -->
-				<input type="hidden" nama="date" value="<?=date( 'gis' )?>"> 
 
 				<!-- Amazonタブ -->
 				<?php if ( \POCHIPP::TABKEY_AMAZON === $tab ) : ?>
@@ -47,7 +34,6 @@ $terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 						<?php endforeach; ?>
 					</select>
 				<?php endif; ?>
-
 
 				<!-- 楽天タブ -->
 				<?php if ( \POCHIPP::TABKEY_RAKUTEN === $tab ) : ?>
