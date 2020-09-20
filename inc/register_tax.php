@@ -1,11 +1,12 @@
-<?php 
+<?php
 namespace POCHIPP;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Register taxnomy
  */
-add_action( 'init', 'POCHIPP\register_tax_pochipp');
+add_action( 'init', 'POCHIPP\register_tax_pochipp' );
 function register_tax_pochipp() {
 	$tax_name = '商品カテゴリー';
 	register_taxonomy(

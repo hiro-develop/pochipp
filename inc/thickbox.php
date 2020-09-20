@@ -38,7 +38,7 @@ function media_upload_tabs() {
 	];
 
 	// エディターからモーダルが開かれた時、タブを追加
-	$from = \POCHIPP\array_get( $_GET, 'from', '' );
+	$from = \POCHIPP::array_get( $_GET, 'from', '' );
 	if ( 'editor' === $from ) {
 		$tabs[ \POCHIPP::TABKEY_REGISTERD ] = '登録済み商品リンクから検索';
 	}

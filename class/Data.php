@@ -8,6 +8,27 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class Data {
 
+	// 設定データを保持する変数
+	public static $setting_data = [];
+
+	// 設定のデフォルト値
+	public static $default_data = [
+		'amazon_btn_target'  => 'detail',
+		'rakuten_btn_target' => 'detail',
+	];
+
+	// DB名
+	const DB_NAME = 'pochipp_settings';
+
+	// 設定グループ名
+	const SETTING_GROUP = 'pochipp_settings';
+
+	// 設定ページ名
+	const MENU_PAGE = [
+		'basic'  => 'pochipp_menu_basic',
+		'design' => 'pochipp_menu_design',
+	];
+
 	// 楽天商品検索API の ID
 	const RAKUTEN_APP_ID = '1098412079780620197';
 
@@ -24,6 +45,7 @@ class Data {
 	const TABKEY_AMAZON    = 'pochipp_search_amazon';
 	const TABKEY_RAKUTEN   = 'pochipp_search_rakuten';
 	const TABKEY_REGISTERD = 'pochipp_search_registerd';
+
 
 	// 国際化を考え、定数ではなく変数で ?
 	// あとで amazon_indexs とかに改名する

@@ -47,6 +47,8 @@ spl_autoload_register(
  * POCHIPP main
  */
 class POCHIPP extends \POCHIPP\Data {
+	use \POCHIPP\Form_Output, \POCHIPP\Utility;
+
 	public function __construct() {
 
 		// Amazon API v5
@@ -54,15 +56,45 @@ class POCHIPP extends \POCHIPP\Data {
 			require_once POCHIPP_PATH . 'inc/api/paapiv5.php';
 		}
 
-		require_once POCHIPP_PATH . 'inc/utility.php';
+		add_action( 'init', [ $this, 'set_setting_data' ], 1 );
+
 		require_once POCHIPP_PATH . 'inc/enqueues.php';
 		require_once POCHIPP_PATH . 'inc/register_pt.php';
 		require_once POCHIPP_PATH . 'inc/register_tax.php';
-		require_once POCHIPP_PATH . 'inc/register_meta.php';
-		// require_once POCHIPP_PATH . 'inc/add_metabox.php';
-		require_once POCHIPP_PATH . 'inc/thickbox.php';
 		require_once POCHIPP_PATH . 'inc/ajax.php';
 
+		if ( is_admin() ) {
+			// require_once POCHIPP_PATH . 'inc/add_metabox.php';
+			require_once POCHIPP_PATH . 'inc/register_meta.php';
+			require_once POCHIPP_PATH . 'inc/thickbox.php';
+			require_once POCHIPP_PATH . 'inc/menu.php';
+		}
+
+	}
+
+	/**
+	 * set_setting_data
+	 */
+	public function set_setting_data() {
+
+		// 設定されたデータを取得
+		$setting_data = get_option( self::DB_NAME ) ?: [];
+
+		// デフォルト値があるものはそれとマージしてセット
+		self::$setting_data = array_merge( self::$default_data, $setting_data );
+	}
+
+
+	/**
+	 * get_setting
+	 */
+	public static function get_setting( $key = null ) {
+
+		if ( null !== $key ) {
+			// if ( ! isset( self::$setting_data[ $key ] ) ) return '';
+			return self::$setting_data[ $key ] ?? '';
+		}
+		return self::$setting_data;
 	}
 }
 

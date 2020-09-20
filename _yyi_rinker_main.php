@@ -1409,9 +1409,9 @@ ORDER BY {$wpdb->posts}.ID ASC", $values));
 					//新規の時だけ登録する部分
 					if ( $is_new ) {
 						$data[ 'asin' ]				= ( string ) $item->ASIN;
-						$data[ 'amazon_url' ]		= \POCHIPP\generate_amazon_original_link( $infos['Keywords'] );
-						$data[ 'rakuten_url' ]		= \POCHIPP\generate_rakuten_original_link( $infos['Keywords'] );
-						$data[ 'yahoo_url' ]			= \POCHIPP\generate_yahoo_original_link( $infos['Keywords'] );
+						$data[ 'amazon_url' ]		= \POCHIPP::generate_amazon_original_link( $infos['Keywords'] );
+						$data[ 'rakuten_url' ]		= \POCHIPP::generate_rakuten_original_link( $infos['Keywords'] );
+						$data[ 'yahoo_url' ]			= \POCHIPP::generate_yahoo_original_link( $infos['Keywords'] );
 
 						if ( isset( $item->ItemAttributes ) ) {
 							$data[ 'title' ] = (string)$item->ItemAttributes->Title;
@@ -1766,9 +1766,9 @@ ORDER BY {$wpdb->posts}.ID ASC", $values));
 	public function relink_from_api() {
 		$keywords = $this->array_get( $_GET, 'keywords', '' );
 		$sites = [
-			'amazon_url'  => \POCHIPP\generate_amazon_original_link( $keywords ),
-			'rakuten_url' => \POCHIPP\generate_rakuten_original_link( $keywords ),
-			'yahoo_url'   => \POCHIPP\generate_yahoo_original_link( $keywords ),
+			'amazon_url'  => \POCHIPP::generate_amazon_original_link( $keywords ),
+			'rakuten_url' => \POCHIPP::generate_rakuten_original_link( $keywords ),
+			'yahoo_url'   => \POCHIPP::generate_yahoo_original_link( $keywords ),
 		];
 		wp_send_json( $sites );
 	}

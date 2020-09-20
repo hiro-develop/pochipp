@@ -4,10 +4,10 @@
  */
 
 // iframeのURLから受け取るパラメータ
-$tab    = \POCHIPP\array_get( $_GET, 'tab' ) ?: \POCHIPP::TABKEY_AMAZON;
-$cid    = \POCHIPP\array_get( $_GET, 'blockid' ) ?: 0;
-$postid = \POCHIPP\array_get( $_GET, 'postid' ) ?: 0;
-$at     = \POCHIPP\array_get( $_GET, 'at' ) ?: '';
+$tab    = \POCHIPP::array_get( $_GET, 'tab' ) ?: \POCHIPP::TABKEY_AMAZON;
+$cid    = \POCHIPP::array_get( $_GET, 'blockid' ) ?: 0;
+$postid = \POCHIPP::array_get( $_GET, 'postid' ) ?: 0;
+$at     = \POCHIPP::array_get( $_GET, 'at' ) ?: '';
 
 $terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 ?>

@@ -15,12 +15,12 @@ add_action( 'wp_ajax_pochipp_search_rakuten', '\POCHIPP\search_from_rakuten_api'
  */
 function search_from_rakuten_api() {
 
-	$keywords = \POCHIPP\array_get( $_GET, 'keywords', '' );
-	$page     = \POCHIPP\array_get( $_GET, 'page', 1 );
-	$sort     = \POCHIPP\array_get( $_GET, 'sort', 1 );
+	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
+	$page     = \POCHIPP::array_get( $_GET, 'page', 1 );
+	$sort     = \POCHIPP::array_get( $_GET, 'sort', 1 );
 
 	// 登録済み商品
-	$registerd_items = \POCHIPP\get_registerd_items( [
+	$registerd_items = \POCHIPP::get_registerd_items( [
 		'keywords' => $keywords,
 		'count'    => 2, // memo: ２個まで取得。<- 少ない？
 	] );
@@ -60,7 +60,7 @@ function generate_rakuten_datas( $keywords, $page, $sort, $is_itemcode = false )
 	$request_url .= '&applicationId=' . \POCHIPP::RAKUTEN_APP_ID;
 
 	// 楽天アフィID   memo: あとで取得できるように
-	$rakuten_affi_id = get_option( 'pochipp_rakuten_affiliate_id' ) ?: '1cf1501e.27808d00.1cf1501f.2f6529aa';
+	$rakuten_affi_id   = \POCHIPP::get_setting( 'rakuten_affiliate_id' );
 
 	// アフィID ( memo: これ検索の時にいる...？ ->  affiliateUrl が取れる & itemUrl = affiliateUrl になる。 )
 	// アフィID投げなければ、 itemUrl で普通のURL取れる
@@ -158,9 +158,9 @@ function set_data_for_rakuten( $datas = [], $keywords = '', $is_itemcode ) {
 			$item['brand']       = '';
 			$item['price']       = $data['Item']['itemPrice'];
 			$item['price_at']    = date_i18n( 'Y/m/d H:i:s' );
-			$item['amazon_url']  = \POCHIPP\generate_amazon_original_link( $keywords );
-			$item['rakuten_url'] = \POCHIPP\generate_rakuten_original_link( $keywords );
-			$item['yahoo_url']   = \POCHIPP\generate_yahoo_original_link( $keywords );
+			$item['amazon_url']  = \POCHIPP::generate_amazon_original_link( $keywords );
+			$item['rakuten_url'] = \POCHIPP::generate_rakuten_original_link( $keywords );
+			$item['yahoo_url']   = \POCHIPP::generate_yahoo_original_link( $keywords );
 
 			// $item[ self::IMAGE_S_SIZE_W_COLUMN ]	= 64;
 			// $item[ self::IMAGE_S_SIZE_H_COLUMN ]	= 64;
@@ -187,7 +187,7 @@ function set_data_for_rakuten( $datas = [], $keywords = '', $is_itemcode ) {
  * @return mixed
  */
 function rakuten_sort( $sort ) {
-	$sort_info = \POCHIPP\array_get( \POCHIPP::$rakuten_sorts, intval( $sort ), false );
+	$sort_info = \POCHIPP::array_get( \POCHIPP::$rakuten_sorts, intval( $sort ), false );
 	if ( ! $sort_info ) {
 		$sort_info = \POCHIPP::$rakuten_sorts[5];
 	}

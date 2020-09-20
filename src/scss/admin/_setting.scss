@@ -1,0 +1,88 @@
+.pochipps_page_pochipp_settings {
+
+	#wpcontent {
+		padding: 40px;
+	}
+}
+
+.pcpp-setting {
+
+	h1.pcpp-setting__title {
+		font-size: 2em;
+	}
+
+	h2 {
+		margin: 2em 0 1em;
+		padding: 8px 4px;
+		font-size: 1.75em;
+		border-bottom: 1px solid #000;
+	}
+
+	h3 {
+		margin: 2em 0 1em;
+		padding: 4px 12px;
+		font-size: 1.25em;
+		border-left: 4px solid #000;
+	}
+
+	td > :first-child {
+		margin-top: 0 !important;
+	}
+
+	.form-table {
+		display: block;
+
+		th {
+			display: none;
+		}
+
+		tbody,
+		tr,
+		td {
+			display: block;
+		}
+	}
+
+	.tab-contents:not(.is-active) {
+		display: none;
+	}
+
+	.nav-tab.is-active {
+		background: #fff;
+	}
+
+
+}
+
+
+.pcpp-setting__field {
+
+	margin-top: 16px;
+
+	&.-text {
+		display: flex;
+
+		.pcpp-setting__label {
+			display: block;
+			min-width: 12em;
+		}
+	}
+
+
+	&.-radio {
+
+		.pcpp-setting__label {
+			display: block;
+			padding: 8px 0;
+		}
+	}
+
+	&.-checkbox {
+
+		.pcpp-setting__label {
+			display: block;
+			padding: 4px 0;
+		}
+	}
+
+}

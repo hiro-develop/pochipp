@@ -15,8 +15,8 @@ add_action( 'wp_ajax_pochipp_search_amazon', '\POCHIPP\search_from_amazon_api' )
  */
 function search_from_amazon_api() {
 
-	$keywords     = \POCHIPP\array_get( $_GET, 'keywords', '' );
-	$search_index = \POCHIPP\array_get( $_GET, 'search_index', '' );
+	$keywords     = \POCHIPP::array_get( $_GET, 'keywords', '' );
+	$search_index = \POCHIPP::array_get( $_GET, 'search_index', '' );
 
 	// 使用可能な インデックスカテゴリーかどうか
 	if ( ! isset( \POCHIPP::$search_indexes[ $search_index ] ) ) {
@@ -24,9 +24,9 @@ function search_from_amazon_api() {
 	}
 
 	// 登録済み商品
-	$registerd_items = \POCHIPP\get_registerd_items( [
+	$registerd_items = \POCHIPP::get_registerd_items( [
 		'keywords' => $keywords,
-		'count'    => 2, // memo: ２個まで取得。<- 増やしてもいい
+		'count'    => 2, // memo: ２個まで取得。<- 少ない？
 	] );
 
 	// 検索結果
@@ -82,9 +82,11 @@ function generate_amazon_datas_from_json( $keywords = '', $search_index = 'All' 
 function get_json_from_amazon_api( $operation, $request ) {
 
 	// 「memo: 設定はあとで追加。とりあえず動くように自分の キー を直代入
-	$access_key   = get_option( 'pochipp_amazon_access_key' ) ?: 'AKIAIZYWJ6R7RSE2VAEA';
-	$secret_key   = get_option( 'pochipp_amazon_secret_key' ) ?: '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';
-	$traccking_id = get_option( 'pochipp_amazon_traccking_id' ) ?: 'irepos-22';
+	$access_key   = \POCHIPP::get_setting( 'amazon_access_key' );
+	$secret_key   = \POCHIPP::get_setting( 'amazon_secret_key' );
+	$traccking_id = \POCHIPP::get_setting( 'amazon_traccking_id' );
+	// amazon_traccking_id
+	// $traccking_id = get_option( 'pochipp_amazon_traccking_id' ) ?: 'irepos-22';
 
 	$request->PartnerType = 'Associates';
 	$request->PartnerTag  = $traccking_id;
@@ -281,9 +283,9 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 			$data['brand'] = (string) $brand;
 
 			// 検索結果URL
-			$data['amazon_url']  = \POCHIPP\generate_amazon_original_link( $keyword );
-			$data['rakuten_url'] = \POCHIPP\generate_rakuten_original_link( $keyword );
-			$data['yahoo_url']   = \POCHIPP\generate_yahoo_original_link( $keyword );
+			$data['amazon_url']  = \POCHIPP::generate_amazon_original_link( $keyword );
+			$data['rakuten_url'] = \POCHIPP::generate_rakuten_original_link( $keyword );
+			$data['yahoo_url']   = \POCHIPP::generate_yahoo_original_link( $keyword );
 
 			// 商品詳細URL memo: アフィ用のクエリが付いていないURL
 			$data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
