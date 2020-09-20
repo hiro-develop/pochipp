@@ -1,12 +1,12 @@
 {
-    "name": "WP Arkhe",
+    "name": "Pochipp",
     "description": "",
     "type": "wordpress-theme",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "Ryo Yamasaki",
-            "homepage": "https://swell-theme.com/"
+            "name": "Pochipp",
+            "homepage": "https://pochipp.com/"
         }
     ],
     "require-dev": {
