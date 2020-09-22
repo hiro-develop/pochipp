@@ -47,7 +47,7 @@ spl_autoload_register(
  * POCHIPP main
  */
 class POCHIPP extends \POCHIPP\Data {
-	use \POCHIPP\Form_Output, \POCHIPP\Utility;
+	use \POCHIPP\Form_Output, \POCHIPP\Utility, \POCHIPP\Licence;
 
 	public function __construct() {
 

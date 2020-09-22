@@ -20,6 +20,7 @@ function add_admin_menu() {
 	);
 }
 
+
 /**
  * 設定ページの内容
  */
@@ -38,7 +39,7 @@ function add_menu_init() {
 	register_setting( \POCHIPP::SETTING_GROUP, \POCHIPP::DB_NAME );
 
 	/**
-	 * 基本設定タブの設定
+	 * 「基本設定」タブ
 	 */
 	\POCHIPP\add_settings( [
 		'section_title' => 'Amazon',
@@ -56,6 +57,14 @@ function add_menu_init() {
 		'page_name'     => \POCHIPP::MENU_PAGE['basic'],
 	] );
 
+	/**
+	 * 「ライセンス」タブ
+	 */
+	\POCHIPP\add_settings( [
+		'section_title' => 'ライセンス認証',
+		'section_key'   => 'licence',
+		'page_name'     => \POCHIPP::MENU_PAGE['licence'],
+	] );
 }
 
 

@@ -15,8 +15,9 @@ if ( $green_message ) {
 
 // タブ情報
 $setting_tabs = [
-	'basic'  => '基本設定',
-	'design' => 'デザイン',
+	'basic'   => '基本設定',
+	'design'  => 'デザイン',
+	'licence' => 'ライセンス',
 ];
 
 // 現在のタブ
@@ -32,11 +33,11 @@ $now_tab = $_GET['tab'] ?? 'basic';
 				// タブ出力
 				foreach ( $setting_tabs as $key => $val ) :
 
-					$setting_url = admin_url( 'edit.php?post_type=pochipps&page=pochipp_settings' );
-					$tab_url     = $setting_url . '&tab=' . $key;
-					$nav_class   = ( $now_tab === $key ) ? 'nav-tab is-active' : 'nav-tab';
+				$setting_url = admin_url( 'edit.php?post_type=pochipps&page=pochipp_settings' );
+				$tab_url     = $setting_url . '&tab=' . $key;
+				$nav_class   = ( $now_tab === $key ) ? 'nav-tab is-active' : 'nav-tab';
 
-					echo '<a href="' . esc_url( $tab_url ) . '" class="' . esc_attr( $nav_class ) . '">' . esc_html( $val ) . '</a>';
+				echo '<a href="' . esc_url( $tab_url ) . '" class="' . esc_attr( $nav_class ) . '">' . esc_html( $val ) . '</a>';
 				endforeach
 			?>
 		</div>
