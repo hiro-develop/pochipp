@@ -46,6 +46,8 @@ class Data {
 	const TABKEY_RAKUTEN   = 'pochipp_search_rakuten';
 	const TABKEY_REGISTERD = 'pochipp_search_registerd';
 
+	// ライセンス関連で使用するURL
+	const IS_VALID_LICENSE_URL = 'https://asia-northeast1-pochipp-84843.cloudfunctions.net/isValidLicense';
 
 	// 国際化を考え、定数ではなく変数で ?
 	// あとで amazon_indexs とかに改名する
