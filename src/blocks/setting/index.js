@@ -1,7 +1,7 @@
 /**
  * @WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+// import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import { registerBlockType } from '@wordpress/blocks';
@@ -82,7 +82,6 @@ registerBlockType('pochipp/setting', {
 	icon: 'external',
 	category: 'design',
 	keywords: ['pochipp', 'linkbox'],
-	// parent: ['arkhe-block/header-bar'],
 	supports: {
 		className: false,
 		customClassName: false,

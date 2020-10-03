@@ -25,6 +25,7 @@ function register_pt_pochipp() {
 			'menu_position'         => 21,
 			'menu_icon'             => 'dashicons-media-default',
 			'show_in_rest'          => true,
+			'rest_base'             => 'pochipps',
 			'supports'              => [ 'title', 'editor', 'custom-fields' ],
 			'template'              => [
 				[ 'pochipp/setting' ],
