@@ -151,10 +151,17 @@
 		<exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
 		<exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments" />
 		<exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />
-		
-		
-		
 
+		<!-- file_get_contents に警告出さない -->
+		<exclude name="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents" />
+
+		<!-- json_encode に警告出さない -->
+		<exclude name="WordPress.WP.AlternativeFunctions.json_encode_json_encode" />
+
+		<!-- curlに警告出さない -->
+		<exclude name="WordPress.WP.AlternativeFunctions.curl_curl_init" />
+		<exclude name="WordPress.WP.AlternativeFunctions.curl_curl_setopt" />
+		<exclude name="WordPress.WP.AlternativeFunctions.curl_curl_exec" />
 	</rule>
 
 	<!-- array()禁止して []を使う こと -->
