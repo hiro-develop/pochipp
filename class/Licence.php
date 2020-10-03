@@ -52,7 +52,7 @@ trait Licence {
 			];
 		}
 
-		if ( !$response ) {
+		if ( ! $response ) {
 			return [
 				'valid' => false,
 				'error' => true,
@@ -61,7 +61,7 @@ trait Licence {
 		}
 		
 		$json = json_decode( $response, true );
-		if ( ! $json && is_array( $json ) ) {
+		if ( ! $json && ! is_array($json) ) {
 			return [
 				'valid' => false,
 				'error' => true,
