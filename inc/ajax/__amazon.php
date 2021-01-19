@@ -76,17 +76,14 @@ function generate_amazon_datas_from_json( $keywords = '', $search_index = 'All' 
  * for PA-APIv5
  * jsonからapiのデータを取得する
  *
- * @param $operation 'SearchItems' or 'GetItems' を受け取る
- * @throws Exception
+ * @param string $operation 'SearchItems' or 'GetItems' を受け取る
  */
 function get_json_from_amazon_api( $operation, $request ) {
 
-	// 「memo: 設定はあとで追加。とりあえず動くように自分の キー を直代入
+	// 設定取得
 	$access_key   = \POCHIPP::get_setting( 'amazon_access_key' );
 	$secret_key   = \POCHIPP::get_setting( 'amazon_secret_key' );
 	$traccking_id = \POCHIPP::get_setting( 'amazon_traccking_id' );
-	// amazon_traccking_id
-	// $traccking_id = get_option( 'pochipp_amazon_traccking_id' ) ?: 'irepos-22';
 
 	$request->PartnerType = 'Associates';
 	$request->PartnerTag  = $traccking_id;
@@ -212,7 +209,7 @@ function get_json_from_amazon_api( $operation, $request ) {
 	$json_datas = json_decode( $res );
 
 	// データの形式がおかしい場合
-	if ( ! $json_datas && is_array( $json_datas ) ) {
+	if ( ! $json_datas ) {
 		return [
 			'error' => [
 				'code'       => 'データ取得不可',
@@ -238,7 +235,7 @@ function get_json_from_amazon_api( $operation, $request ) {
 
 	// AmazonAPI ステータスが 200 以外の場合（何か問題が発生している時）
 	$status_code = intval( $status_code );
-	if ( $status_code !== 200 ) {
+	if ( 200 !== $status_code ) {
 		return [
 			'error' => [
 				'code'       => 'AmazonAPIのステータスエラー',
@@ -266,7 +263,10 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 
 	$items = [];
 	foreach ( $json_datas->SearchResult->Items as $item ) {
-		$data = [];
+		$data = [
+			'searched_keyword' => $keyword,
+			'searched_at'      => 'amazon',
+		];
 
 		// 新規の時だけ登録する部分
 		// memo: ↑ 「新規の時」、とは...？
@@ -282,10 +282,16 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 			$brand         = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
 			$data['brand'] = (string) $brand;
 
-			// 検索結果URL
-			$data['amazon_url']  = \POCHIPP::generate_amazon_original_link( $keyword );
-			$data['rakuten_url'] = \POCHIPP::generate_rakuten_original_link( $keyword );
-			$data['yahoo_url']   = \POCHIPP::generate_yahoo_original_link( $keyword );
+			// 著者名などの情報
+			$contributors_data = $item->ItemInfo->ByLineInfo->Contributors ?? [];
+			$contributors      = '';
+			foreach ( $contributors_data as $obj ) {
+				if ( '' !== $contributors ) {
+					$contributors .= ', ';
+				}
+				$contributors .= $obj->Role . ':' . $obj->Name;
+			}
+			$data['contributors'] = $contributors;
 
 			// 商品詳細URL memo: アフィ用のクエリが付いていないURL
 			$data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
@@ -294,24 +300,24 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 
 		// memo: たぶん商品カテゴリーの取得 & Kindleの場合は専用のkeyでデータ保存。
 		//       現状だとKindleじゃない時 amazon_kindle_url は存在しないが、とりあえず空で持たせておいてもいい？
-		if ( isset( $item->ItemInfo->Classifications->ProductGroup->DisplayValue ) ) {
-			$group                 = (string) $item->ItemInfo->Classifications->ProductGroup->DisplayValue;
-			$data['product_group'] = $group;
+		// if ( isset( $item->ItemInfo->Classifications->ProductGroup->DisplayValue ) ) {
+		// 	$group                 = (string) $item->ItemInfo->Classifications->ProductGroup->DisplayValue;
+		// 	$data['product_group'] = $group;
 
-			// Kindle商品のURL（アフィ用のクエリ付き）
-			if ( 'Digital Ebook Purchas' === $group ) {
-				$data['amazon_kindle_url'] = (string) $item->DetailPageURL;
-			}
-		}
+		// 	// Kindle商品のURL（アフィ用のクエリ付き）
+		// 	if ( 'Digital Ebook Purchas' === $group ) {
+		// 		$data['amazon_kindle_url'] = (string) $item->DetailPageURL;
+		// 	}
+		// }
 
 		// 商品詳細URL
 		// memo: アフィ用のクエリが付いたURL
-		$data['amazon_title_url'] = (string) $item->DetailPageURL;
+		// $data['amazon_aff_url'] = (string) $item->DetailPageURL;
 
 		if ( isset( $item->Offers->Listings[0]->Price->Amount ) ) {
 			$price            = $item->Offers->Listings[0]->Price->Amount;
 			$data['price']    = (string) $price;
-			$data['price_at'] = date_i18n( 'Y/m/d H:i:s' );
+			$data['price_at'] = date_i18n( 'Y/m/d H:i' );
 		} else {
 			$data['price']    = '';
 			$data['price_at'] = '';
@@ -322,25 +328,12 @@ function set_data_for_amazon( $json_datas, $keyword, $is_new = true ) {
 			$data['m_image_url'] = (string) $item->Images->Primary->Medium->URL;
 			$data['l_image_url'] = (string) $item->Images->Primary->Large->URL;
 
-			// $data[self::IMAGE_S_SIZE_W_COLUMN] = (string) $item->Images->Primary->Small->Width;
-			// $data[self::IMAGE_S_SIZE_H_COLUMN] = (string) $item->Images->Primary->Small->Height;
-			// $data[self::IMAGE_M_SIZE_W_COLUMN] = (string) $item->Images->Primary->Medium->Width;
-			// $data[self::IMAGE_M_SIZE_H_COLUMN] = (string) $item->Images->Primary->Medium->Height;
-			// $data[self::IMAGE_L_SIZE_W_COLUMN] = (string) $item->Images->Primary->Large->Width;
-			// $data[self::IMAGE_L_SIZE_H_COLUMN] = (string) $item->Images->Primary->Large->Height;
-
 		} else {
 
 			$data['s_image_url'] = '';
 			$data['m_image_url'] = '';
 			$data['l_image_url'] = '';
 
-			// $data[self::IMAGE_S_SIZE_W_COLUMN] = '';
-			// $data[self::IMAGE_S_SIZE_H_COLUMN] = '';
-			// $data[self::IMAGE_M_SIZE_W_COLUMN] = '';
-			// $data[self::IMAGE_M_SIZE_H_COLUMN] = '';
-			// $data[self::IMAGE_L_SIZE_W_COLUMN] = '';
-			// $data[self::IMAGE_L_SIZE_H_COLUMN] = '';
 		}
 
 		$items[] = $data;

@@ -25,8 +25,9 @@ class Data {
 
 	// 設定ページ名
 	const MENU_PAGE = [
-		'basic'  => 'pochipp_menu_basic',
-		'design' => 'pochipp_menu_design',
+		'basic'   => 'pochipp_menu_basic',
+		'design'  => 'pochipp_menu_design',
+		'licence' => 'pochipp_menu_licence',
 	];
 
 	// 楽天商品検索API の ID

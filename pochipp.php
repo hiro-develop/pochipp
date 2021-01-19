@@ -62,11 +62,11 @@ class POCHIPP extends \POCHIPP\Data {
 		require_once POCHIPP_PATH . 'inc/enqueues.php';
 		require_once POCHIPP_PATH . 'inc/register_pt.php';
 		require_once POCHIPP_PATH . 'inc/register_tax.php';
+		require_once POCHIPP_PATH . 'inc/register_meta.php';
+		require_once POCHIPP_PATH . 'inc/register_blocks.php';
 		require_once POCHIPP_PATH . 'inc/ajax.php';
 
 		if ( is_admin() ) {
-			// require_once POCHIPP_PATH . 'inc/add_metabox.php';
-			require_once POCHIPP_PATH . 'inc/register_meta.php';
 			require_once POCHIPP_PATH . 'inc/thickbox.php';
 			require_once POCHIPP_PATH . 'inc/menu.php';
 		}

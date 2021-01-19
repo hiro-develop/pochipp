@@ -51,8 +51,6 @@ body {
 
 .pochipp-items {
 	border-top: solid 1px #ededed;
-
-
 }
 
 .pochipp-item {
@@ -87,6 +85,11 @@ body {
 .pochipp-item__title {
 	margin-bottom: 8px;
 	font-weight: bold;
+}
+
+.pochipp-item__meta,
+.pochipp-item__price {
+	font-size: 11px;
 }
 
 .pochipp-item__btns {

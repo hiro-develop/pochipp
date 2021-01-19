@@ -13,16 +13,17 @@ function register_tax_pochipp() {
 		\POCHIPP::TAXONOMY_SLUG,
 		[ \POCHIPP::POST_TYPE_SLUG ],
 		[
-			'label' => $tax_name,
-			'labels' => [
+			'label'        => $tax_name,
+			'labels'       => [
 				'popular_items' => $tax_name,
-				'edit_item' => $tax_name . 'を編集',
-				'add_new_item' => '新規' . $tax_name . 'を追加',
-				'search_items' => $tax_name . 'を検索',
+				'edit_item'     => $tax_name . 'を編集',
+				'add_new_item'  => '新規' . $tax_name . 'を追加',
+				'search_items'  => $tax_name . 'を検索',
 			],
-			'public' => false,
-			'show_ui' => true,
+			'public'       => false,
+			'show_ui'      => true,
 			'hierarchical' => true, // ??? true ? false ?
+			'show_in_rest' => true,
 		]
 	);
 }

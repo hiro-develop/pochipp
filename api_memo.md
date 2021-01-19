@@ -1,17 +1,29 @@
-# 取得データについて
+# API取得データについて
+
+
+## エラーを返す時
+ajaxでAPIから商品検索時、エラーがあれば以下の形式でデータを返す。
+（'searched_items' にエラーデータがそのまま格納されるので、出力時にそれを判別する。)
+
+```
+array(
+    'error' => [
+        'code' => 'エラーコード',
+        'message' => 'エラーの詳細メッセージ'
+    ]
+)
+```
 
 
 ## Amazonから取得時
 
+- keywords: 検索ワード
+- searched_at: "amazon"
 - asin : Amazon用商品ID
 - brand : ブランド名（メーカー名？）
-- amazon_url : Amazon商品検索結果ページのURL
-- rakuten_url : 楽天商品検索結果ページのURL
-- yahoo_url : Yahoo商品検索結果ページのURL
+- contributors : 著者情報など。（brandなければこっち出力する）
 - amazon_detail_url : Amazon商品詳細ページのURL（アフィリンクじゃない）
 - product_group : Amazonの商品カテゴリー名 ?
-- amazon_kindle_url : Kindle商品の場合の商品詳細ページのURL (下の amazon_title_url と同じ値になる)
-- amazon_title_url : Amazonの商品詳細ページのURL（アフィリンク）
 - price : 値段
 - price_at : 値段取得日時
 - s_image_url : 画像 src (Sサイズ)
@@ -20,19 +32,26 @@
 
 
 ## 楽天
-- rakuten_itemcode : 楽天用商品ID
-- rakuten_title_url : 楽天商品詳細ページのURL（アフィリンク）
-- brand : ブランド名
+
+- keywords: 検索ワード
+- searched_at: "rakuten"
+- itemcode : 楽天用商品ID
+- rakuten_detail_url : 楽天商品詳細ページのURL（アフィリンクじゃない）
+- brand : （とれない）
+- shop_name : ショップ名
 - price : 価格
 - price_at : 値段取得日時
-- amazon_url : Amazon商品検索結果ページのURL
-- rakuten_url : 楽天商品検索結果ページのURL
-- yahoo_url : Yahoo商品検索結果ページのURL
-- affiliateRate : アフィリエイトレート？
-- reviewAverage : レビューの平均点
 - s_image_url : 画像 src (Sサイズ)
 - m_image_url : 画像 src (Mサイズ)
-- l_image_url : 画像 src (Lサイズ)
+- l_image_url : 画像 src (Lサイズ) （とれない）
+
+- affiliateRate : アフィリエイトレート いる？
+- reviewAverage : レビューの平均点 いる？ -> Amazon APIでは取れない
+
+
+商品検索API の後に、さらに 製品詳細API で情報とるとブランド名とかもとれるっぽい。
+
+https://webservice.rakuten.co.jp/api/productdetail/
 
 
 

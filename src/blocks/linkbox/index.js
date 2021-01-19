@@ -5,60 +5,52 @@
 import { useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import { registerBlockType } from '@wordpress/blocks';
-// import {
-// 	RichText,
-// 	InnerBlocks,
-// 	InspectorControls,
-// 	BlockControls,
-// 	BlockIcon,
-// } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
+import { useMemo } from '@wordpress/element';
+import ServerSideRender from '@wordpress/server-side-render';
 import {
-	useMemo,
-	//RawHTML
-} from '@wordpress/element';
+	// BlockControls,
+	// RichText,
+	// AlignmentToolbar,
+	// InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
 
 /**
- * External dependencies
+ * @External dependencies
  */
 // import classnames from 'classnames';
 
 /**
- * My compornent
+ * @Internal dependencies
  */
 import ItemPreview from './ItemPreview';
+import metadata from './block.json';
+
+/**
+ * metadata
+ */
+const blockName = 'pochipp-block';
+const { apiVersion, name, category, keywords, supports } = metadata;
 
 //
 /**
- * iframe 側から呼び出すメソッド
+ * iframe 側から呼び出すメソッド。商品選択時の処理。
  *
  * @param {string} itemTitle 商品タイトル
  * @param {Object} itemData 商品データ
  * @param {string} clientId ブロックID
  */
 window.set_block_data = (itemTitle, itemData, clientId) => {
-	// console.log('itemData:', itemData);
-
-	// タイトルの更新
-	// itemTitle
-	// const postTitle = document.querySelector(
-	// 	'textarea.editor-post-title__input'
-	// );
-	// console.log(postTitle);
-
-	// if (postTitle) {
-	// 	postTitle.textContent = itemTitle;
-	// }
-	const { editPost } = wp.data.dispatch('core/editor');
-	editPost({ title: itemTitle });
+	console.log('itemData:', itemData);
 
 	// ブロックのattributesを更新する
 	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
-
 	updateBlockAttributes(clientId, {
 		title: itemTitle,
-		metadata: JSON.stringify(itemData), // jsonにして保存
+		pid: itemData.post_id || undefined,
+		// metadata: JSON.stringify(itemData), // jsonにして保存
 	});
 };
 
@@ -80,55 +72,15 @@ const getParsedMeta = (data) => {
 /**
  * ポチップ登録用のブロック
  */
-registerBlockType('pochipp/linkbox', {
+registerBlockType(name, {
+	apiVersion,
 	title: 'ポチップ',
 	icon: 'buddicons-activity',
-	category: 'design',
-	keywords: ['pochipp', 'linkbox'],
-	supports: {
-		className: false,
-		customClassName: false,
-		multiple: false,
-		reusable: false,
-		html: false,
-	},
-	attributes: {
-		pid: {
-			type: 'string',
-			default: '',
-		},
-		title: {
-			type: 'string',
-			default: '',
-		},
-		amazonBtn: {
-			type: 'string',
-			default: '',
-		},
-		rakutenBtn: {
-			type: 'string',
-			default: '',
-		},
-		customBtn: {
-			type: 'string',
-			default: '',
-		},
-		hidePrice: {
-			type: 'boolean',
-			default: false,
-		},
-		otherData: {
-			type: 'string',
-			default: '',
-		},
-		// metadata: {
-		// 	type: 'string',
-		// 	default: '',
-		// },
-	},
-	edit: (props) => {
-		const { attributes, clientId } = props;
-
+	category,
+	keywords,
+	supports,
+	attributes: metadata.attributes,
+	edit: ({ attributes, clientId }) => {
 		const { pid } = attributes;
 
 		// const metadata = useMemo(() => {
@@ -191,37 +143,51 @@ registerBlockType('pochipp/linkbox', {
 		// 	[]
 		// );
 
+		// ブロックprops
+		const blockProps = useBlockProps({
+			className: blockName,
+		});
+
 		return (
 			<>
 				{/* <div>attr:{attributes.metadata || 'none'}</div> */}
 				{/* <div>meta data:{meta.pochipp_data || 'empty'}</div> */}
-				<Button
-					className='thickbox'
-					isPrimary={true}
-					onClick={() => {
-						let url = 'media-upload.php?type=pochipp';
-						url += `&at=setting`;
-						url += `&tab=pochipp_search_amazon`;
-						url += `&blockid=${clientId}`;
-						url += `&postid=${postId}`;
-						url += '&TB_iframe=true';
+				<div {...blockProps}>
+					<Button
+						className='thickbox'
+						isPrimary={true}
+						onClick={() => {
+							let url = 'media-upload.php?type=pochipp';
+							url += `&at=editor`;
+							url += `&tab=pochipp_search_amazon`;
+							url += `&blockid=${clientId}`;
+							url += `&postid=${postId}`;
+							url += '&TB_iframe=true';
 
-						window.tb_show('商品検索', url);
+							window.tb_show('商品検索', url);
 
-						const tbWindow = document.querySelector('#TB_window');
-						if (tbWindow) {
-							tbWindow.classList.add('by-pochipp');
-						}
-					}}
-				>
-					商品検索
-				</Button>
-				{/* <ItemPreview {...props} /> */}
+							const tbWindow = document.querySelector(
+								'#TB_window'
+							);
+							if (tbWindow) {
+								tbWindow.classList.add('by-pochipp');
+							}
+						}}
+					>
+						商品検索
+					</Button>
+					{/* <ItemPreview {...props} /> */}
+					<ServerSideRender
+						block={name}
+						attributes={attributes}
+						className={`${blockName}__preview`}
+					/>
+				</div>
 			</>
 		);
 	},
 
-	save: (props) => {
-		null;
+	save: () => {
+		return null;
 	},
 });

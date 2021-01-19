@@ -162,6 +162,13 @@
 		<exclude name="WordPress.WP.AlternativeFunctions.curl_curl_init" />
 		<exclude name="WordPress.WP.AlternativeFunctions.curl_curl_setopt" />
 		<exclude name="WordPress.WP.AlternativeFunctions.curl_curl_exec" />
+
+		<!-- $_POSTとかへの警告停止 -->
+		<exclude name="WordPress.Security.NonceVerification.Missing" />
+		<exclude name="WordPress.Security.NonceVerification.Recommended" />
+		<exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash" />
+		<exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized" />
+		
 	</rule>
 
 	<!-- array()禁止して []を使う こと -->

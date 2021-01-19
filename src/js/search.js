@@ -11,13 +11,43 @@
 const getResultHtml = (itemDatas, type) => {
 	let result = '';
 
+	// console.log('itemDatas', itemDatas);
+
+	// エラーが返ってきている場合
+	if (itemDatas.error) {
+		return `<div class="pochipp-items--errot">${itemDatas.error.code} : ${itemDatas.error.message}</div>`;
+	}
+
 	Object.keys(itemDatas).forEach((index) => {
 		const item = itemDatas[index];
+		// console.log(item);
+
 		const price = Number(item.price);
 
 		// 商品詳細ページがあればそっち、なければキーワード検索画面
-		const amazonLink = item.amazon_url || item.amazon_url;
-		const rakutenLink = item.rakuten_title_url || item.rakuten_url;
+		const amazonLink = item.amazon_detail_url || '';
+		const rakutenLink = item.rakuten_detail_url || '';
+
+		let amazonBtn = '';
+		if (amazonLink) {
+			amazonBtn = `<a href="${amazonLink}" class="button" rel="nofollow noreferrer" target="_blank">Amazon商品ページを確認</a>`;
+			// 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' + encodeURIComponent(item.keywords);
+		}
+
+		let rakutenBtn = '';
+		if (rakutenLink) {
+			rakutenBtn = `<a href="${rakutenLink}" class="button" rel="nofollow noreferrer" target="_blank">楽天商品ページを確認</a>`;
+		}
+
+		let brand = '';
+		if (item.brand) {
+			brand = `<div className='pochipp-item__meta'>ブランド：${item.brand}</div>`;
+		}
+
+		let contributors = '';
+		if (item.contributors) {
+			contributors = `<div className='pochipp-item__meta'>${item.contributors}</div>`;
+		}
 
 		result += `<div class="pochipp-item" data-index="${index}" data-type="${type}">`;
 		result += `
@@ -26,13 +56,10 @@ const getResultHtml = (itemDatas, type) => {
 			</div>
 			<div class="pochipp-item__body">
 				<div class="pochipp-item__title">${item.title}</div>
-				<div class="pochipp-item__brand">ブランド：${item.brand}</div>
+				${brand}
+				${contributors}
 				<div class="pochipp-item__price">価格：¥${price.toLocaleString()}</div>
-				<div class="pochipp-item__links">
-					商品ページ：
-					<a href="${amazonLink}" rel="nofollow noreferrer" target="_blank">Amazonで確認</a>
-					<a href="${rakutenLink}" rel="nofollow noreferrer" target="_blank">楽天で確認</a>
-				</div>
+				<div class="pochipp-item__links"></div>
 		`;
 
 		// ボタン
@@ -42,11 +69,13 @@ const getResultHtml = (itemDatas, type) => {
 
 			result += `<div class="pochipp-item__btns">
 				<button class="button button-primary" data-pochipp="select">この商品を選択</button>
+				${amazonBtn}${rakutenBtn}
 				<a class="button" data-pochipp="edit" href="${editUrl}" rel="nofollow noreferrer" target="_blank">この商品を編集</a>
 			</div>`;
 		} else {
 			result += `<div class="pochipp-item__btns">
 				<button class="button button-primary" data-pochipp="select">この商品を選択</button>
+				${amazonBtn}${rakutenBtn}
 			</div>`;
 		}
 
@@ -57,7 +86,7 @@ const getResultHtml = (itemDatas, type) => {
 };
 
 (function ($) {
-	// console.log(window.pochippIframeVars);
+	console.log('pochippIframeVars', window.pochippIframeVars);
 
 	// 情報を取得
 	const { ajaxUrl, tabKey, blockId, calledAt } = window.pochippIframeVars;
@@ -69,9 +98,9 @@ const getResultHtml = (itemDatas, type) => {
 	// フォームの送信イベント
 	$('#search_form').submit(function (e) {
 		e.preventDefault();
-		// console.log('search start!');
 
-		if ($keywords.val() === '') {
+		// API検索の時はキーワード必須
+		if ('pochipp_search_registerd' !== tabKey && $keywords.val() === '') {
 			$('#result_area').html('<p>キーワードを入力して下さい。</p>');
 			return;
 		}
@@ -84,7 +113,8 @@ const getResultHtml = (itemDatas, type) => {
 		params.action = tabKey || 'pochipp_search_amazon'; // タブキーがそのままアクション名
 		params.keywords = $('#keywords').val();
 		params.search_index = $('#search_index').val(); // Amazonのカテゴリー
-		params.sort = $('#sort_select').val(); // 並び順
+		params.sort = $('#sort_select').val(); // 楽天 並び順
+		params.term_id = $('#term_select').val(); // 商品カテゴリー
 		params.page = 1;
 
 		// ajax実行
@@ -98,7 +128,8 @@ const getResultHtml = (itemDatas, type) => {
 			},
 		})
 			.done(function (datas, textStatus, jqXHR) {
-				// $('#yyi-rinker-search-result').empty();
+				// 描画するHTML
+				let resultHtml = '';
 
 				// 検索結果
 				const searchedItems = datas.searched_items;
@@ -106,25 +137,34 @@ const getResultHtml = (itemDatas, type) => {
 				// 取得済みデータ
 				const registerdItems = datas.registerd_items;
 
-				let resultHtml = '';
 				if ('editor' === calledAt) {
-					// 投稿編集画面での呼び出し時のみ、登録済み商品を表示。
-					resultHtml +=
-						'<div class="pcpp-tb__area-title">登録済み</div>';
-					resultHtml += getResultHtml(registerdItems, 'registerd');
+					// 投稿編集画面での呼び出し時のみ、「登録済み商品」を表示。
+					const registerdHtml = getResultHtml(
+						registerdItems,
+						'registerd'
+					);
+					if (registerdHtml) {
+						resultHtml +=
+							'<div class="pcpp-tb__area-title">登録済み</div>';
+						resultHtml += registerdHtml;
+					}
 				}
 
 				// 普通の検索結果データを表示
-				resultHtml += '<div class="pcpp-tb__area-title">検索結果</div>';
-				resultHtml += getResultHtml(searchedItems, 'searched');
+				const searchedHtml = getResultHtml(searchedItems, 'searched');
+				if (searchedHtml) {
+					resultHtml +=
+						'<div class="pcpp-tb__area-title">検索結果</div>';
+					resultHtml += searchedHtml;
+				}
 
-				// console.log('searchedItems', searchedItems);
-				// console.log('registerdItems', registerdItems);
+				// console.log(searchedItems);
+				// console.log(registerdItems);
 
 				$('#result_area').html(resultHtml);
 
 				// 「商品選択ボタン」のクリックイベントを登録
-				$('[data-pochipp="select"]').click(function (e) {
+				$('[data-pochipp="select"]').click(function () {
 					const $thisItem = $(this).parents('.pochipp-item');
 					const itemIndex = $thisItem.attr('data-index');
 					const itemtype = $thisItem.attr('data-type');

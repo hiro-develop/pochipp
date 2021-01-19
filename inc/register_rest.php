@@ -13,11 +13,12 @@ add_action( 'rest_api_init', function() {
 		'methods'             => 'POST',
 		'callback'            => function( $req ) {
 
-			return ['req' => $req['pid'] ];
+			if ( ! isset( $req['pid'] ) ) return '';
 
-			// if ( ! isset( $request['pid'] ) ) return '';
-			// $pid = $request['pid'];
-			// return get_post_meta( $pid, 'pochipp_data', true ) ?: '';
+			$pid = $req['pid'];
+			// return ['req' => $req['pid'] ];
+
+			return get_post_meta( $pid, 'pochipp_data', true ) ?: '';
 		},
 		'permission_callback' => function () {
 			return true;

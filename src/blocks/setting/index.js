@@ -5,15 +5,15 @@
 import { useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import { registerBlockType } from '@wordpress/blocks';
-// import {
-// 	RichText,
-// 	InnerBlocks,
-// 	InspectorControls,
-// 	BlockControls,
-// 	BlockIcon,
-// } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
+import {
+	// BlockControls,
+	// RichText,
+	// AlignmentToolbar,
+	// InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
 
+import { Button } from '@wordpress/components';
 // import { RawHTML } from '@wordpress/element';
 
 /**
@@ -22,9 +22,16 @@ import { Button } from '@wordpress/components';
 // import classnames from 'classnames';
 
 /**
- * My compornent
+ * @Internal dependencies
  */
 import ItemPreview from './ItemPreview';
+import metadata from './block.json';
+
+/**
+ * metadata
+ */
+const blockName = 'pochipp-block';
+const { apiVersion, name, category, keywords, supports } = metadata;
 
 //
 /**
@@ -38,15 +45,6 @@ window.set_block_data = (itemTitle, itemData, clientId) => {
 	// console.log('itemData:', itemData);
 
 	// タイトルの更新
-	// itemTitle
-	// const postTitle = document.querySelector(
-	// 	'textarea.editor-post-title__input'
-	// );
-	// console.log(postTitle);
-
-	// if (postTitle) {
-	// 	postTitle.textContent = itemTitle;
-	// }
 	const { editPost } = wp.data.dispatch('core/editor');
 	editPost({ title: itemTitle });
 
@@ -75,65 +73,47 @@ const getParsedMeta = (data) => {
 };
 
 /**
+ * エディター下の「カスタムフィールド」の値を強制的にセットする処理
+ */
+const setCustomFieldArea = (metaKey, metaVal) => {
+	const customField = document.querySelector('#postcustomstuff');
+	if (null === customField) return;
+
+	const keyInput = customField.querySelector(`input[value="${metaKey}"]`);
+	if (null === keyInput) return;
+
+	const nextTd = keyInput.parentNode.nextElementSibling;
+	if (null === nextTd) return;
+
+	const textarea = nextTd.querySelector('textarea');
+	if (null === textarea) return;
+
+	textarea.value = metaVal;
+};
+
+/**
  * ポチップ登録用のブロック
  */
-registerBlockType('pochipp/setting', {
-	title: 'ポチップ登録',
-	icon: 'external',
-	category: 'design',
-	keywords: ['pochipp', 'linkbox'],
-	supports: {
-		className: false,
-		customClassName: false,
-		multiple: false,
-		reusable: false,
-		html: false,
-	},
-	attributes: {
-		title: {
-			type: 'string',
-			default: '',
-		},
-		metadata: {
-			type: 'string',
-			default: '',
-		},
-	},
+registerBlockType(name, {
+	apiVersion,
+	title: '商品データ',
+	icon: 'clipboard',
+	category,
+	keywords,
+	supports,
+	attributes: metadata.attributes,
 	edit: (props) => {
 		const { attributes, clientId } = props;
 
-		// 投稿IDを取得
-		const postId = useSelect(
-			(select) => select('core/editor').getCurrentPostId(),
-			[]
-		);
+		// 投稿ID・投稿タイプを取得
+		const { postId, postType } = useSelect((select) => {
+			return {
+				postId: select('core/editor').getCurrentPostId(),
+				postType: select('core/editor').getCurrentPostType(),
+			};
+		}, []);
 
-		// 投稿タイプを取得
-		const postType = useSelect(
-			(select) => select('core/editor').getCurrentPostType(),
-			[]
-		);
-
-		// 「カスタムフィールド」の値をセットする処理
-		const setCustomFieldArea = (metaKey, metaVal) => {
-			const customField = document.querySelector('#postcustomstuff');
-			if (null === customField) return;
-
-			const keyInput = customField.querySelector(
-				`input[value="${metaKey}"]`
-			);
-			if (null === keyInput) return;
-
-			const nextTd = keyInput.parentNode.nextElementSibling;
-			if (null === nextTd) return;
-
-			const textarea = nextTd.querySelector('textarea');
-			if (null === textarea) return;
-
-			textarea.value = metaVal;
-		};
-
-		// クリックデータを取得
+		// メタデータを取得
 		const [meta, setMeta] = useEntityProp('postType', postType, 'meta');
 
 		if (!meta) {
@@ -146,44 +126,53 @@ registerBlockType('pochipp/setting', {
 			setCustomFieldArea('pochipp_data', attributes.metadata); // gutenberのバグに対応
 		}
 
-		// console.log('attr: ' + attributes.metadata);
-		// console.log('custom field: ' + meta.pochipp_data);
+		// console.log('attributes の metadata: ' + attributes.metadata);
+		// console.log('カスタムフィールドに保存中のデータ ' + meta.pochipp_data);
 
 		// メタデータ(JSON)を配列に変換
-		// 「memo: パースするのは meta でも attributes でもどっちでも。 フロントのブロックは、マージさせたものをパースする？
+		// memo: パースするのは meta でも attributes でもどっちでも。 フロントのブロックは、マージさせたものをパースする？
 		const parsedMeta = getParsedMeta(meta.pochipp_data);
+
+		// ブロックprops
+		const blockProps = useBlockProps({
+			className: `${blockName}--setting`,
+		});
 
 		return (
 			<>
-				{/* <div>attr:{attributes.metadata || 'none'}</div> */}
-				{/* <div>meta data:{meta.pochipp_data || 'empty'}</div> */}
-				<Button
-					className='thickbox'
-					isPrimary={true}
-					onClick={() => {
-						let url = 'media-upload.php?type=pochipp';
-						url += `&at=setting`;
-						url += `&tab=pochipp_search_amazon`;
-						url += `&blockid=${clientId}`;
-						url += `&postid=${postId}`;
-						url += '&TB_iframe=true';
+				<div {...blockProps}>
+					{/* <div>attr:{attributes.metadata || 'none'}</div> */}
+					{/* <div>meta data:{meta.pochipp_data || 'empty'}</div> */}
+					<Button
+						className='thickbox'
+						isPrimary={true}
+						onClick={() => {
+							let url = 'media-upload.php?type=pochipp';
+							url += `&at=setting`;
+							url += `&tab=pochipp_search_amazon`;
+							url += `&blockid=${clientId}`;
+							url += `&postid=${postId}`;
+							url += '&TB_iframe=true';
 
-						window.tb_show('商品検索', url);
+							window.tb_show('商品検索', url);
 
-						const tbWindow = document.querySelector('#TB_window');
-						if (tbWindow) {
-							tbWindow.classList.add('by-pochipp');
-						}
-					}}
-				>
-					商品検索
-				</Button>
-				<ItemPreview {...props} parsedMeta={parsedMeta} />
+							const tbWindow = document.querySelector(
+								'#TB_window'
+							);
+							if (tbWindow) {
+								tbWindow.classList.add('by-pochipp');
+							}
+						}}
+					>
+						商品検索
+					</Button>
+					<ItemPreview {...props} parsedMeta={parsedMeta} />
+				</div>
 			</>
 		);
 	},
 
-	save: (props) => {
-		null;
+	save: () => {
+		return null;
 	},
 });

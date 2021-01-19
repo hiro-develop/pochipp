@@ -94,22 +94,11 @@ add_action( 'enqueue_block_editor_assets', 'POCHIPP\block_assets' );
 function block_assets() {
 
 	// ブロック関係のCSS
-	wp_enqueue_style(
-		'pochipp-blocks',
-		POCHIPP_URL . 'dist/css/blocks.css',
-		[],
-		POCHIPP_VERSION
-	);
+	wp_enqueue_style( 'pochipp-blocks', POCHIPP_URL . 'dist/css/blocks.css', [], POCHIPP_VERSION );
 
 	// Pochippブロック
-	$asset = include POCHIPP_PATH . 'dist/blocks/linkbox/index.asset.php';
-	wp_enqueue_script(
-		'pochipp-block',
-		POCHIPP_URL . 'dist/blocks/linkbox/index.js',
-		$asset['dependencies'],
-		$asset['version'],
-		true
-	);
+	// $asset = include POCHIPP_PATH . 'dist/blocks/linkbox/index.asset.php';
+	// wp_enqueue_script( 'pochipp-block', POCHIPP_URL . 'dist/blocks/linkbox/index.js', $asset['dependencies'], $asset['version'], true );
 
 	// Translations for JS
 	// if ( function_exists( 'wp_set_script_translations' ) ) {

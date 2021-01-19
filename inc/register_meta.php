@@ -19,3 +19,20 @@ function register_metas() {
 		]
 	);
 }
+
+// 保存処理
+add_action( 'save_post', function ( $the_id ) {
+
+	// $_POST なければ return
+	if ( empty( $_POST ) ) return;
+
+	$meta_key = \POCHIPP::META_SLUG;
+
+	// メタデータなければ return
+	if ( ! isset( $_POST[ $meta_key ] ) ) return;
+
+	$meta_val = $_POST[ $meta_key ];
+
+	update_post_meta( $the_id, $meta_key, $meta_val );
+
+});

@@ -1,0 +1,93 @@
+
+// memo: フロントでも読み込ませる
+.pochipp-box {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 2em 0;
+	padding: 16px;
+	background: #fff;
+	border: solid 1px #ededed;
+}
+
+.pochipp-box__image {
+	width: 80px;
+
+	a {
+		display: block;
+		width: 100%;
+		text-decoration: none !important;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border: 1px solid #ededed;
+	}
+}
+
+.pochipp-box__body {
+	width: calc(100% - 80px);
+	padding-left: 16px;
+}
+
+.pochipp-box__title {
+	margin-bottom: 8px;
+	font-weight: bold;
+
+	a {
+		display: block;
+		width: 100%;
+		color: inherit;
+		text-decoration: none !important;
+	}
+}
+
+.pochipp-box__meta {
+	font-size: 12px;
+	opacity: 0.8;
+}
+
+.pochipp-box__price {
+	font-size: 14px;
+
+	span {
+		font-size: 10px;
+		opacity: 0.8;
+	}
+}
+
+.pochipp-box__btns {
+	position: relative;
+	left: -4px;
+	display: flex;
+	flex-wrap: wrap;
+	width: calc(100% + 8px);
+	margin-top: 16px;
+}
+
+.pochipp-box__btn {
+	display: block !important;
+	margin: 4px !important;
+	padding: 8px 12px !important;
+	color: #fff;
+	line-height: 1 !important;
+	text-decoration: none !important;
+	background-color: #3c3c3c;
+	border-radius: 2px !important;
+
+	&.-amazon {
+		color: #fff;
+		background: #f6a306;
+	}
+
+	&.-rakuten {
+		color: #fff;
+		background: #cf4944;
+	}
+
+	&.-yahoo {
+		color: #fff;
+		background: #5579db;
+	}
+}

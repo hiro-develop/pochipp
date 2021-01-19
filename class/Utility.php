@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 trait Utility {
 
 	/**
-	 * Amazon オリジナルリンクを取得
+	 * Amazon 検索結果リンクを取得
 	 */
-	public static function generate_amazon_original_link( $keywords = '' ) {
+	public static function get_amazon_searched_link( $keywords = '' ) {
 		$url = 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' . rawurlencode( $keywords );
 		return $url;
 	}
@@ -17,9 +17,9 @@ trait Utility {
 	/**
 	 * 楽天の検索ページを返す （アフィリエイトIDなし
 	 */
-	public static function generate_rakuten_original_link( $keywords = '' ) {
+	public static function get_rakuten_searched_link( $keywords = '' ) {
 		$url  = 'https://search.rakuten.co.jp/search/mall/';
-		$url .= rawurlencode( $keywords ) . '/?f=1&grp=product';
+		$url .= rawurlencode( $keywords ) . '/?f=1&grp=product'; // ?f=1&grp=product は必要？
 		return $url;
 	}
 
@@ -27,7 +27,7 @@ trait Utility {
 	/**
 	 * yahooショッピング用のリンクを作成 (アフィリエイトIDなし
 	 */
-	public static function generate_yahoo_original_link( $keywords = '' ) {
+	public static function get_yahoo_searched_link( $keywords = '' ) {
 		$url = 'https://shopping.yahoo.co.jp/search?p=' . rawurlencode( $keywords );
 		return $url;
 	}
@@ -66,8 +66,12 @@ trait Utility {
 			'post_type'         => \POCHIPP::POST_TYPE_SLUG,
 			'posts_per_page'    => $count,
 			'post_status'       => [ 'publish' ],
-			's'                 => $keywords,
 		];
+
+		if ( $keywords ) {
+			$query_args['s'] = $keywords;
+		}
+
 		if ( 0 < intval( $term_id ) ) {
 			$query_args['tax_query'] = [
 				[
@@ -89,7 +93,7 @@ trait Utility {
 			$metadata = get_post_meta( get_the_ID(), \POCHIPP::META_SLUG, true );
 			$metadata = json_decode( $metadata, true );
 
-			// まーじ
+			// マージ
 			$metadata['post_id'] = get_the_ID();
 			$metadata['title']   = get_the_title();
 

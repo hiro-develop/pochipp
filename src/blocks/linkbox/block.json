@@ -1,0 +1,43 @@
+{
+    "apiVersion": 2,
+    "name": "pochipp/linkbox",
+    "title": "Pochipp",
+    "category": "design",
+    "keywords": [
+        "linkbox"
+    ],
+    "supports": {
+        "className": false,
+        "html": false
+    },
+    "attributes": {
+        "pid": {
+            "type": "number"
+        },
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "amazonBtn": {
+            "type": "string",
+            "default": ""
+        },
+        "rakutenBtn": {
+            "type": "string",
+            "default": ""
+        },
+        "customBtn": {
+            "type": "string",
+            "default": ""
+        },
+        "hidePrice": {
+            "type": "boolean",
+            "default": false
+        },
+        "otherData": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "editorScript": "file:../../../dist/blocks/linkbox/index.js"
+}
