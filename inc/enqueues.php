@@ -16,7 +16,7 @@ function front_scripts() {
 		POCHIPP_VERSION
 	);
 
-	// yyi: イベントトラッキング
+	// memo: イベントトラッキング ?
 	// $is_tracking = !!get_option( $this->option_column_name( 'is_tracking' ) , false );
 	// if ( $is_tracking ) {
 	// wp_enqueue_script(
