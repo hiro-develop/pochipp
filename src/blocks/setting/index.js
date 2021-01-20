@@ -33,16 +33,16 @@ import metadata from './block.json';
 const blockName = 'pochipp-block';
 const { apiVersion, name, category, keywords, supports } = metadata;
 
-//
 /**
  * iframe 側から呼び出すメソッド
  *
- * @param {string} itemTitle 商品タイトル
  * @param {Object} itemData 商品データ
  * @param {string} clientId ブロックID
  */
-window.set_block_data = (itemTitle, itemData, clientId) => {
+window.set_block_data = (itemData, clientId) => {
 	// console.log('itemData:', itemData);
+
+	const itemTitle = itemData.title || '';
 
 	// タイトルの更新
 	const { editPost } = wp.data.dispatch('core/editor');
@@ -50,9 +50,7 @@ window.set_block_data = (itemTitle, itemData, clientId) => {
 
 	// ブロックのattributesを更新する
 	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
-
 	updateBlockAttributes(clientId, {
-		title: itemTitle,
 		metadata: JSON.stringify(itemData), // jsonにして保存
 	});
 };
@@ -102,9 +100,7 @@ registerBlockType(name, {
 	keywords,
 	supports,
 	attributes: metadata.attributes,
-	edit: (props) => {
-		const { attributes, clientId } = props;
-
+	edit: ({ attributes, setAttributes, clientId }) => {
 		// 投稿ID・投稿タイプを取得
 		const { postId, postType } = useSelect((select) => {
 			return {
@@ -132,6 +128,9 @@ registerBlockType(name, {
 		// メタデータ(JSON)を配列に変換
 		// memo: パースするのは meta でも attributes でもどっちでも。 フロントのブロックは、マージさせたものをパースする？
 		const parsedMeta = getParsedMeta(meta.pochipp_data);
+
+		// タイトル更新用関数
+		const { editPost } = wp.data.dispatch('core/editor');
 
 		// ブロックprops
 		const blockProps = useBlockProps({
@@ -166,7 +165,9 @@ registerBlockType(name, {
 					>
 						商品検索
 					</Button>
-					<ItemPreview {...props} parsedMeta={parsedMeta} />
+					<ItemPreview
+						{...{ attributes, setAttributes, parsedMeta, editPost }}
+					/>
 				</div>
 			</>
 		);

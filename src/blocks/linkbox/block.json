@@ -15,28 +15,68 @@
             "type": "number"
         },
         "title": {
-            "type": "string",
-            "default": ""
+            "type": "string"
+        },
+        "keywords": {
+            "type": "string"
+        },
+        "searched_at": {
+            "type": "string"
+        },
+        "asin": {
+            "type": "string"
+        },
+        "itemcode": {
+            "type": "string"
+        },
+        "brand": {
+            "type": "string"
+        },
+        "contributors": {
+            "type": "string"
+        },
+        "shop_name": {
+            "type": "string"
+        },
+        "amazon_detail_url": {
+            "type": "string"
+        },
+        "rakuten_detail_url": {
+            "type": "string"
+        },
+        "l_image_url": {
+            "type": "string"
+        },
+        "m_image_url": {
+            "type": "string"
+        },
+        "s_image_url": {
+            "type": "string"
+        },
+        "price": {
+            "type": "string"
+        },
+        "price_at": {
+            "type": "string"
+        },
+        "affiliateRate": {
+            "type": "string"
+        },
+        "reviewAverage": {
+            "type": "string"
         },
         "amazonBtn": {
-            "type": "string",
-            "default": ""
+            "type": "string"
         },
         "rakutenBtn": {
-            "type": "string",
-            "default": ""
+            "type": "string"
         },
         "customBtn": {
-            "type": "string",
-            "default": ""
+            "type": "string"
         },
         "hidePrice": {
             "type": "boolean",
             "default": false
-        },
-        "otherData": {
-            "type": "string",
-            "default": ""
         }
     },
     "editorScript": "file:../../../dist/blocks/linkbox/index.js"

@@ -7,28 +7,93 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 trait Utility {
 
 	/**
-	 * Amazon 検索結果リンクを取得
+	 * Amazon 検索結果アフィリンクを取得
 	 */
-	public static function get_amazon_searched_link( $keywords = '' ) {
-		$url = 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' . rawurlencode( $keywords );
-		return $url;
+	public static function get_amazon_searched_affi_link( $keywords = '' ) {
+		if ( ! $keywords ) return '';
+		$affi_link = 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' . rawurlencode( $keywords );
+		$affi_link = $affi_link . '&tag=' . \POCHIPP::get_setting( 'amazon_traccking_id' );
+
+		return apply_filters( 'pochipp_amazon_searched_affi_link', $affi_link, $keywords );
 	}
 
 	/**
-	 * 楽天の検索ページを返す （アフィリエイトIDなし
+	 * Amazon 商品詳細アフィリンクを取得
 	 */
-	public static function get_rakuten_searched_link( $keywords = '' ) {
-		$url  = 'https://search.rakuten.co.jp/search/mall/';
-		$url .= rawurlencode( $keywords ) . '/?f=1&grp=product'; // ?f=1&grp=product は必要？
-		return $url;
+	public static function get_amazon_detail_affi_link( $detail_url = '' ) {
+		if ( ! $detail_url ) return '';
+
+		// もしものリンクにするかどうか
+		if ( 0 ) { // phpcs:ignore
+			// $url = $this->generate_moshimo_link( self::SHOP_TYPE_AMAZON, $original_url );
+		} else {
+			if ( false !== strpos( $detail_url, 'tag=' ) ) {
+				$affi_link = $detail_url; // すでにtag付いていればそのまま
+			} else {
+				$affi_link = $detail_url . '?tag=' . \POCHIPP::get_setting( 'amazon_traccking_id' );
+			}
+		}
+
+		return apply_filters( 'pochipp_amazon_detail_affi_link', $affi_link, $detail_url );
 	}
 
 
 	/**
-	 * yahooショッピング用のリンクを作成 (アフィリエイトIDなし
+	 * 楽天の検索結果アフィリンクを取得
 	 */
-	public static function get_yahoo_searched_link( $keywords = '' ) {
+	public static function get_rakuten_searched_affi_link( $keywords = '' ) {
+		if ( ! $keywords ) return '';
+		$url = 'https://search.rakuten.co.jp/search/mall/' . $keywords;
+		// $url .= '/?f=1&grp=product'; // ?f=1&grp=product は必要？
+
+		$encoded_url = rawurlencode( $url );
+
+		$affi_link  = 'https://hb.afl.rakuten.co.jp/hgc/' . \POCHIPP::get_setting( 'rakuten_affiliate_id' );
+		$affi_link .= '/?pc=' . $encoded_url . '&m=' . $encoded_url;
+
+		return apply_filters( 'pochipp_rakuten_searched_affi_link', $affi_link, $keywords );
+	}
+
+
+	/**
+	 * 楽天の商品詳細アフィリンクを取得
+	 */
+	public static function get_rakuten_detail_affi_link( $detail_url = '' ) {
+		if ( ! $detail_url ) return '';
+
+		// もしものリンクにするかどうか
+		if ( 0 ) { // phpcs:ignore
+			// $url = $this->generate_moshimo_link( self::SHOP_TYPE_AMAZON, $original_url );
+		} else {
+			if ( false !== strpos( $detail_url, 'hb.afl.rakuten.co.jp' ) ) {
+				$affi_link = $detail_url; // すでにアフィリンク化されていればそのまま
+			} else {
+				$encoded_url = rawurlencode( $detail_url );
+				$affi_link   = 'https://hb.afl.rakuten.co.jp/hgc/' . \POCHIPP::get_setting( 'rakuten_affiliate_id' );
+				$affi_link  .= '/?pc=' . $encoded_url . '&m=' . $encoded_url;
+			}
+		}
+
+		return apply_filters( 'pochipp_rakuten_detail_affi_link', $affi_link, $detail_url );
+	}
+
+
+	/**
+	 * yahooショッピング用の検索結果アフィリンクを作成
+	 */
+	public static function get_yahoo_searched_affi_link( $keywords = '' ) {
+		if ( ! $keywords ) return '';
 		$url = 'https://shopping.yahoo.co.jp/search?p=' . rawurlencode( $keywords );
+		return $url;
+
+		// LinkSwitch使うかどうか
+		if ( \POCHIPP::get_setting( 'LinkSwitch使うかどうか' ) ) {
+			$url = 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=' . $this->yahoo_sid . '&pid=' . $this->yahoo_pid . '&vc_url=' . urlencode( $original_url );
+		} else {
+			// LinkSwitch使用時はURLそのまま
+			$url = $original_url;
+		}
+
 		return $url;
 	}
 

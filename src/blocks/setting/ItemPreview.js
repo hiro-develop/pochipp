@@ -1,9 +1,9 @@
+import { TextControl } from '@wordpress/components';
+
 /**
  * ItemPreview
  */
-export default function (props) {
-	const { attributes, parsedMeta } = props;
-
+export default ({ attributes, setAttributes, parsedMeta, editPost }) => {
 	if (1 > parsedMeta.length) {
 		return (
 			<div className='pochipp-block-preview'>
@@ -22,7 +22,7 @@ export default function (props) {
 					</div>
 					<div className='pochipp-box__body'>
 						<div className='pochipp-box__title'>
-							{attributes.title}
+							{parsedMeta.title}
 						</div>
 						{brand && (
 							<div className='pochipp-box__brand'>{brand}</div>
@@ -45,6 +45,19 @@ export default function (props) {
 					</div>
 				</div>
 			</div>
+			<TextControl
+				// className='__idInput'
+				// placeholder={__('Post ID', 'arkhe-blocks')}
+				value={parsedMeta.title}
+				onChange={(newTitle) => {
+					parsedMeta.title = newTitle;
+					editPost({ title: newTitle });
+					setAttributes({
+						metadata: JSON.stringify(parsedMeta),
+					});
+				}}
+			/>
+
 			<div className='u-mt-20'>データ確認用</div>
 			<div className='pochipp-block-dump'>
 				{/* {JSON.stringify(parsedMeta)}; */}
@@ -58,4 +71,4 @@ export default function (props) {
 			</div>
 		</>
 	);
-}
+};

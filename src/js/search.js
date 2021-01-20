@@ -86,7 +86,7 @@ const getResultHtml = (itemDatas, type) => {
 };
 
 (function ($) {
-	console.log('pochippIframeVars', window.pochippIframeVars);
+	// console.log('pochippIframeVars', window.pochippIframeVars);
 
 	// 情報を取得
 	const { ajaxUrl, tabKey, blockId, calledAt } = window.pochippIframeVars;
@@ -173,11 +173,14 @@ const getResultHtml = (itemDatas, type) => {
 							? registerdItems[itemIndex]
 							: searchedItems[itemIndex];
 
-					// タイトル情報だけ別枠で渡す
-					const itemTitle = itemData.title || 'No Title';
-					delete itemData.title;
+					// タイトル情報だけ別枠で渡す ?
+					// const itemTitle = itemData.title || 'No Title';
 
-					window.top.set_block_data(itemTitle, itemData, blockId);
+					if ('editor' === calledAt) {
+						window.top.set_block_data_at_editor(itemData, blockId);
+					} else {
+						window.top.set_block_data(itemData, blockId);
+					}
 					window.parent.tb_remove();
 				});
 			})

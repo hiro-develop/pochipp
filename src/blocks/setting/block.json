@@ -12,10 +12,6 @@
         "html": false
     },
     "attributes": {
-        "title": {
-            "type": "string",
-            "default": ""
-        },
         "metadata": {
             "type": "string",
             "default": ""

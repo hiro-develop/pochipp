@@ -53,8 +53,10 @@ function admin_scripts( $hook_suffix ) {
 		add_thickbox();
 
 		// 管理画面用CSS
-		wp_enqueue_style( 'pochipp-admin', POCHIPP_URL . 'dist/css/admin.css', [], POCHIPP_VERSION );
-	}
+		if ( $is_pochipp_menu ) {
+			wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
+		}
+}
 
 	// 設定ページにだけ読み込むファイル
 	if ( $is_pochipp_menu ) {
@@ -112,6 +114,8 @@ function block_assets() {
 	global $post_type;
 	// 商品登録ページでのみ読み込む
 	if ( \POCHIPP::POST_TYPE_SLUG === $post_type ) {
+
+		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
 
 		// Pochipp登録ブロック
 		$asset = include POCHIPP_PATH . 'dist/blocks/setting/index.asset.php';

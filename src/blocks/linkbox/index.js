@@ -42,16 +42,38 @@ const { apiVersion, name, category, keywords, supports } = metadata;
  * @param {Object} itemData 商品データ
  * @param {string} clientId ブロックID
  */
-window.set_block_data = (itemTitle, itemData, clientId) => {
+window.set_block_data_at_editor = (itemData, clientId) => {
 	console.log('itemData:', itemData);
 
 	// ブロックのattributesを更新する
 	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
-	updateBlockAttributes(clientId, {
-		title: itemTitle,
-		pid: itemData.post_id || undefined,
-		// metadata: JSON.stringify(itemData), // jsonにして保存
-	});
+	if (itemData.post_id) {
+		updateBlockAttributes(clientId, {
+			pid: itemData.post_id,
+			// metadata: JSON.stringify(itemData), // jsonにして保存
+		});
+	} else {
+		updateBlockAttributes(clientId, {
+			title: itemData.title || '',
+			keywords: itemData.keywords || '',
+			searched_at: itemData.searched_at || '',
+			asin: itemData.asin || '',
+			itemcode: itemData.itemcode || '',
+			brand: itemData.brand || '',
+			contributors: itemData.contributors || '',
+			amazon_detail_url: itemData.amazon_detail_url || '',
+			rakuten_detail_url: itemData.rakuten_detail_url || '',
+			l_image_url: itemData.l_image_url || '',
+			m_image_url: itemData.m_image_url || '',
+			s_image_url: itemData.s_image_url || '',
+			price: itemData.price || '',
+			price_at: itemData.price_at || '',
+			affiliateRate: itemData.affiliateRate || '',
+			reviewAverage: itemData.reviewAverage || '',
+			pid: undefined,
+			// metadata: JSON.stringify(itemData), // jsonにして保存
+		});
+	}
 };
 
 /**

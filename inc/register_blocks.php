@@ -17,40 +17,71 @@ register_block_type_from_metadata(
 
 function cb_blog_card( $attrs, $content ) {
 
-	$pid    = $attrs['pid'];
-	$ptitle = $attrs['title'];
-
-	ob_start();
+	$pid    = $attrs['pid'] ?? 0;
+	$ptitle = $attrs['title'] ?? '';
+	$pmeta  = [];
 
 	// メタデータ取得
-	$pmeta = get_post_meta( $pid, \POCHIPP::META_SLUG, true );
-	$pmeta = json_decode( $pmeta, true );
-
-	// foreach ( $pmeta as $key => $value ) {
-	// 	echo $key . ' : ' . $value . '<br>'; //phpcs:ignore
-	// }
-
-	$keywords    = $pmeta['keywords'];
-	$searched_at = $pmeta['searched_at'];
-
-	$amazon_link  = \POCHIPP::get_amazon_searched_link( $keywords );
-	$rakuten_link = \POCHIPP::get_rakuten_searched_link( $keywords );
-	$yahoo_link   = \POCHIPP::get_yahoo_searched_link( $keywords );
-
-	// 詳細ページを優先する場合
-	if ( 1 && $pmeta['amazon_detail_url'] ) {
-		$amazon_link = $pmeta['amazon_detail_url'];
+	if ( $pid ) {
+		$ptitle = $ptitle ?: get_the_title( $pid );
+		$pmeta  = get_post_meta( $pid, \POCHIPP::META_SLUG, true );
+		$pmeta  = json_decode( $pmeta, true ) ?: [];
 	}
 
+	// 商品未選択時
+	if ( ! $ptitle ) {
+		if ( defined( 'REST_REQUEST' ) ) {
+			return '<p>商品がまだ選択されていません</p>';
+		} else {
+			return '';
+		}
+	}
+
+	// 以下、 $attr > $pmeta の優先度で各情報を取得していく
+	$keywords           = $attrs['keywords'] ?? $pmeta['keywords'] ?? '';
+	$searched_at        = $attrs['searched_at'] ?? $pmeta['searched_at'] ?? '';
+	$amazon_detail_url  = $attrs['amazon_detail_url'] ?? $pmeta['amazon_detail_url'] ?? '';
+	$rakuten_detail_url = $attrs['rakuten_detail_url'] ?? $pmeta['rakuten_detail_url'] ?? '';
+	$brand              = $attrs['brand'] ?? $pmeta['brand'] ?? '';
+	$contributors       = $attrs['contributors'] ?? $pmeta['contributors'] ?? '';
+	$shop_name          = $attrs['shop_name'] ?? $pmeta['shop_name'] ?? '';
+	$price              = $attrs['price'] ?? $pmeta['price'] ?? 0;
+	$price_at           = $attrs['price_at'] ?? $pmeta['price_at'] ?? '';
+	$l_image_url        = $attrs['l_image_url'] ?? $pmeta['l_image_url'] ?? '';
+	$m_image_url        = $attrs['m_image_url'] ?? $pmeta['m_image_url'] ?? '';
+	$s_image_url        = $attrs['s_image_url'] ?? $pmeta['s_image_url'] ?? '';
+
+	$amazon_link  = \POCHIPP::get_amazon_searched_affi_link( $keywords );
+	$rakuten_link = \POCHIPP::get_rakuten_searched_affi_link( $keywords );
+	$yahoo_link   = \POCHIPP::get_yahoo_searched_affi_link( $keywords );
+
+	// Amazon詳細ページを優先する場合
+	if ( 1 && $amazon_detail_url ) {
+		$amazon_link = \POCHIPP::get_amazon_detail_affi_link( $amazon_detail_url );
+	}
+
+	// 楽天詳細ページを優先する場合
+	if ( 1 && $rakuten_detail_url ) {
+		$rakuten_link = \POCHIPP::get_rakuten_detail_affi_link( $rakuten_detail_url );
+	}
+
+	// 画像とかタイトル部分のリンク先
 	$main_link = ( 'rakuten' === $searched_at ) ? $rakuten_link : $amazon_link;
 
-	$brand        = $pmeta['brand'] ?? '';
-	$contributors = $pmeta['contributors'] ?? '';
-	$price        = $pmeta['price'] ?? 0;
-	$price_at     = $pmeta['price_at'] ?? 0;
-
 	// どのサイズの画像使うかは設定で？
-	$image_src = $pmeta['l_image_url'] ?? $pmeta['m_image_url'] ?? '';
+	$image_src = $l_image_url ?: $m_image_url ?: $s_image_url ?: '';
+
+	// 商品メタ情報
+	$meta_info = '';
+	if ( 'rakuten' === $searched_at && $shop_name ) {
+		$meta_info = $shop_name;
+	} elseif ( $brand ) {
+		$meta_info = $brand;
+	} elseif ( $contributors ) {
+		$meta_info = $contributors;
+	}
+
+	ob_start();
 
 	?>
 		<div class="pochipp-box">
@@ -66,15 +97,13 @@ function cb_blog_card( $attrs, $content ) {
 					</a>
 				</div>
 
-				<?php if ( $brand ) : ?>
-					<div class="pochipp-box__meta"><?=esc_html( $brand )?></div>
-				<?php elseif ( $contributors ) : ?>
-					<div class="pochipp-box__meta"><?=esc_html( $contributors )?></div>
+				<?php if ( $meta_info ) : ?>
+					<div class="pochipp-box__meta"><?=esc_html( $meta_info )?></div>
 				<?php endif; ?>
 
 				<?php if ( $price ) : ?>
 					<div class="pochipp-box__price">
-						¥<?=esc_html( number_format( $price ) )?>
+						¥<?=esc_html( number_format( (int) $price ) )?>
 						<span>（<?=esc_html( $price_at )?>時点）</span>
 					</div>
 				<?php endif; ?>
