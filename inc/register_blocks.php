@@ -6,80 +6,100 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Pochippブロック
  */
+add_action( 'init', function() {
 
-register_block_type_from_metadata(
-	POCHIPP_PATH . 'src/blocks/linkbox',
-	[
-		'render_callback'  => '\POCHIPP\cb_blog_card',
-	]
-);
+	register_block_type_from_metadata(
+		POCHIPP_PATH . 'src/blocks/linkbox',
+		[
+			'render_callback'  => '\POCHIPP\cb_pochipp_block',
+		]
+	);
+
+	// 設定用ブロック
+	// $metadata = json_decode( file_get_contents( POCHIPP_PATH . 'src/blocks/setting/block.json' ), true );
+	// register_block_type( $metadata['name'], [
+	// 	'attributes'      => $metadata['attributes'],
+	// 	'editor_script'   => 'pochipp-setting-block',
+	// 	'render_callback' => '\POCHIPP\cb_pochipp_setting',
+	// ] );
+} );
 
 
-function cb_blog_card( $attrs, $content ) {
+// function cb_pochipp_setting( $attrs, $content ) {
+// 	$title       = $attrs['title'] ?? '';
+// 	$render_args = json_decode( $attrs['meta'], true ) ?: [];
+// 	return \POCHIPP\render_pochipp_block( $title, $render_args );
+// }
 
-	$pid    = $attrs['pid'] ?? 0;
-	$ptitle = $attrs['title'] ?? '';
-	$pmeta  = [];
+function cb_pochipp_block( $attrs, $content ) {
+
+	$pid      = $attrs['pid'] ?? 0;
+	$title    = $attrs['title'] ?? '';
+	$metadata = [];
 
 	// メタデータ取得
 	if ( $pid ) {
-		$ptitle = $ptitle ?: get_the_title( $pid );
-		$pmeta  = get_post_meta( $pid, \POCHIPP::META_SLUG, true );
-		$pmeta  = json_decode( $pmeta, true ) ?: [];
+		$title    = $title ?: get_the_title( $pid );
+		$metadata = get_post_meta( $pid, \POCHIPP::META_SLUG, true );
+		$metadata = json_decode( $metadata, true ) ?: [];
 	}
 
 	// 商品未選択時
-	if ( ! $ptitle ) {
+	if ( ! $title ) {
 		if ( defined( 'REST_REQUEST' ) ) {
-			return '<p>商品がまだ選択されていません</p>';
+			return '<p class="__nullText"></p>';
 		} else {
 			return '';
 		}
 	}
 
-	// 以下、 $attr > $pmeta の優先度で各情報を取得していく
-	$keywords           = $attrs['keywords'] ?? $pmeta['keywords'] ?? '';
-	$searched_at        = $attrs['searched_at'] ?? $pmeta['searched_at'] ?? '';
-	$amazon_detail_url  = $attrs['amazon_detail_url'] ?? $pmeta['amazon_detail_url'] ?? '';
-	$rakuten_detail_url = $attrs['rakuten_detail_url'] ?? $pmeta['rakuten_detail_url'] ?? '';
-	$brand              = $attrs['brand'] ?? $pmeta['brand'] ?? '';
-	$contributors       = $attrs['contributors'] ?? $pmeta['contributors'] ?? '';
-	$shop_name          = $attrs['shop_name'] ?? $pmeta['shop_name'] ?? '';
-	$price              = $attrs['price'] ?? $pmeta['price'] ?? 0;
-	$price_at           = $attrs['price_at'] ?? $pmeta['price_at'] ?? '';
-	$l_image_url        = $attrs['l_image_url'] ?? $pmeta['l_image_url'] ?? '';
-	$m_image_url        = $attrs['m_image_url'] ?? $pmeta['m_image_url'] ?? '';
-	$s_image_url        = $attrs['s_image_url'] ?? $pmeta['s_image_url'] ?? '';
+	// $attr > $metadata の優先度
+	$render_args = array_merge( $metadata, $attrs );
 
-	$amazon_link  = \POCHIPP::get_amazon_searched_affi_link( $keywords );
-	$rakuten_link = \POCHIPP::get_rakuten_searched_affi_link( $keywords );
-	$yahoo_link   = \POCHIPP::get_yahoo_searched_affi_link( $keywords );
+	return \POCHIPP\render_pochipp_block( $title, $render_args );
+
+}
+
+function render_pochipp_block( $title = '', $pdata = [] ) {
+
+	$pdata = array_merge([
+		'keywords'           => '',
+		'searched_at'        => '',
+		'amazon_detail_url'  => '',
+		'rakuten_detail_url' => '',
+		'info'               => '',
+		// 'brand'              => '',
+		// 'contributors'       => '',
+		// 'shop_name'          => '',
+		'price'              => 0,
+		'price_at'           => '',
+		'l_image_url'        => '',
+		'm_image_url'        => '',
+		's_image_url'        => '',
+	], $pdata );
+
+	$amazon_link  = \POCHIPP::get_amazon_searched_affi_link( $pdata['keywords'] );
+	$rakuten_link = \POCHIPP::get_rakuten_searched_affi_link( $pdata['keywords'] );
+	$yahoo_link   = \POCHIPP::get_yahoo_searched_affi_link( $pdata['keywords'] );
 
 	// Amazon詳細ページを優先する場合
-	if ( 1 && $amazon_detail_url ) {
-		$amazon_link = \POCHIPP::get_amazon_detail_affi_link( $amazon_detail_url );
+	if ( 1 && $pdata['amazon_detail_url'] ) {
+		$amazon_link = \POCHIPP::get_amazon_detail_affi_link( $pdata['amazon_detail_url'] );
 	}
 
 	// 楽天詳細ページを優先する場合
-	if ( 1 && $rakuten_detail_url ) {
-		$rakuten_link = \POCHIPP::get_rakuten_detail_affi_link( $rakuten_detail_url );
+	if ( 1 && $pdata['rakuten_detail_url'] ) {
+		$rakuten_link = \POCHIPP::get_rakuten_detail_affi_link( $pdata['rakuten_detail_url'] );
 	}
 
 	// 画像とかタイトル部分のリンク先
-	$main_link = ( 'rakuten' === $searched_at ) ? $rakuten_link : $amazon_link;
+	$main_link = ( 'rakuten' === $pdata['searched_at'] ) ? $rakuten_link : $amazon_link;
 
 	// どのサイズの画像使うかは設定で？
-	$image_src = $l_image_url ?: $m_image_url ?: $s_image_url ?: '';
+	$image_src = $pdata['l_image_url'] ?: $pdata['m_image_url'] ?: $pdata['s_image_url'] ?: '';
 
 	// 商品メタ情報
-	$meta_info = '';
-	if ( 'rakuten' === $searched_at && $shop_name ) {
-		$meta_info = $shop_name;
-	} elseif ( $brand ) {
-		$meta_info = $brand;
-	} elseif ( $contributors ) {
-		$meta_info = $contributors;
-	}
+	$info = $pdata['info'];
 
 	ob_start();
 
@@ -93,36 +113,42 @@ function cb_blog_card( $attrs, $content ) {
 			<div class="pochipp-box__body">
 				<div class="pochipp-box__title">
 					<a href="<?=esc_url( $main_link )?>" rel="nofollow" target="_blank">
-						<?=esc_html( $ptitle )?>
+						<?=esc_html( $title )?>
 					</a>
 				</div>
 
-				<?php if ( $meta_info ) : ?>
-					<div class="pochipp-box__meta"><?=esc_html( $meta_info )?></div>
+				<?php if ( $info ) : ?>
+					<div class="pochipp-box__info"><?=esc_html( $info )?></div>
 				<?php endif; ?>
 
-				<?php if ( $price ) : ?>
+				<?php if ( $pdata['price'] ) : ?>
 					<div class="pochipp-box__price">
-						¥<?=esc_html( number_format( (int) $price ) )?>
-						<span>（<?=esc_html( $price_at )?>時点）</span>
+						¥<?=esc_html( number_format( (int) $pdata['price'] ) )?>
+						<span>（<?=esc_html( $pdata['price_at'] )?>時点）</span>
 					</div>
 				<?php endif; ?>
 
 				<div class="pochipp-box__btns">
 					<?php if ( $amazon_link ) : ?>
-						<a href="<?=esc_url( $amazon_link )?>" class="pochipp-box__btn -amazon" rel="nofollow" target="_blank">
-							Amazon
-						</a>
+						<div class="pochipp-box__btnwrap">
+							<a href="<?=esc_url( $amazon_link )?>" class="pochipp-box__btn -amazon" rel="nofollow" target="_blank">
+								Amazon
+							</a>
+						</div>
 					<?php endif; ?>
 					<?php if ( $rakuten_link ) : ?>
-						<a href="<?=esc_url( $rakuten_link )?>" class="pochipp-box__btn -rakuten" rel="nofollow" target="_blank">
-							楽天市場
-						</a>
+						<div class="pochipp-box__btnwrap">
+							<a href="<?=esc_url( $rakuten_link )?>" class="pochipp-box__btn -rakuten" rel="nofollow" target="_blank">
+								楽天市場
+							</a>
+						</div>
 					<?php endif; ?>
 					<?php if ( $yahoo_link ) : ?>
-						<a href="<?=esc_url( $yahoo_link )?>" class="pochipp-box__btn -yahoo" rel="nofollow" target="_blank">
-							Yahooショッピング
-						</a>
+						<div class="pochipp-box__btnwrap">
+							<a href="<?=esc_url( $yahoo_link )?>" class="pochipp-box__btn -yahoo" rel="nofollow" target="_blank">
+								Yahooショッピング
+							</a>
+						</div>
 					<?php endif; ?>
 				</div>
 			</div>

@@ -29,13 +29,7 @@
         "itemcode": {
             "type": "string"
         },
-        "brand": {
-            "type": "string"
-        },
-        "contributors": {
-            "type": "string"
-        },
-        "shop_name": {
+        "info": {
             "type": "string"
         },
         "amazon_detail_url": {
@@ -59,10 +53,10 @@
         "price_at": {
             "type": "string"
         },
-        "affiliateRate": {
+        "affi_rate": {
             "type": "string"
         },
-        "reviewAverage": {
+        "review_score": {
             "type": "string"
         },
         "amazonBtn": {
@@ -74,7 +68,7 @@
         "customBtn": {
             "type": "string"
         },
-        "hidePrice": {
+        "hide_price": {
             "type": "boolean",
             "default": false
         }

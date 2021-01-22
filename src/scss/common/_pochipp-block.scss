@@ -43,7 +43,7 @@
 	}
 }
 
-.pochipp-box__meta {
+.pochipp-box__info {
 	font-size: 12px;
 	opacity: 0.8;
 }
@@ -64,11 +64,16 @@
 	flex-wrap: wrap;
 	width: calc(100% + 8px);
 	margin-top: 16px;
+
+	.pochipp-box__btnwrap {
+		padding: 4px;
+	}
+
 }
 
 .pochipp-box__btn {
 	display: block !important;
-	margin: 4px !important;
+	margin: 0 !important;
 	padding: 8px 12px !important;
 	color: #fff;
 	line-height: 1 !important;

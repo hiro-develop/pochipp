@@ -1,19 +1,44 @@
 @import "./common/**";
 @import "./tb";
 
-// ブロック用CSS
 
-.pochipp-block-preview {
-	margin: 24px 0;
-}
-// 確認用 dump データ
-.pochipp-block-dump {
-	padding: 20px;
-	font-size: 13px;
-	background: #f7f7f7;
-}
+.pochipp-block {
 
-// フロント用ブロック
-.pochipp-block__preview pre {
-	white-space: pre-wrap;
+	// ブロック用CSS
+	.pochipp-block__searchBtn {
+		display: flex;
+		justify-content: center !important;
+		width: 90%;
+		margin-right: auto;
+		margin-left: auto;
+		padding: 8px 16px 8px 8px !important;
+	}
+
+	.pochipp-block__preview {
+
+		.pochipp-box {
+			margin: 0 auto !important;
+		}
+
+		.__nullText {
+			display: none;
+			margin: 0 !important;
+		}
+
+		pre {
+			white-space: pre-wrap;
+		}
+	}
+
+	&:not([data-has-item]) {
+		padding: 8px;
+	}
+
+	&[data-has-item]:not(.is-selected) {
+
+		.pochipp-block__searchBtn {
+			display: none;
+		}
+	}
+
 }

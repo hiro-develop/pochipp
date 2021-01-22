@@ -69,6 +69,7 @@ class POCHIPP extends \POCHIPP\Data {
 		if ( is_admin() ) {
 			require_once POCHIPP_PATH . 'inc/thickbox.php';
 			require_once POCHIPP_PATH . 'inc/menu.php';
+			require_once POCHIPP_PATH . 'inc/manage_columns.php';
 		}
 
 	}

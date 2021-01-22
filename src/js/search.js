@@ -39,14 +39,9 @@ const getResultHtml = (itemDatas, type) => {
 			rakutenBtn = `<a href="${rakutenLink}" class="button" rel="nofollow noreferrer" target="_blank">楽天商品ページを確認</a>`;
 		}
 
-		let brand = '';
-		if (item.brand) {
-			brand = `<div className='pochipp-item__meta'>ブランド：${item.brand}</div>`;
-		}
-
-		let contributors = '';
-		if (item.contributors) {
-			contributors = `<div className='pochipp-item__meta'>${item.contributors}</div>`;
+		let info = '';
+		if (item.info) {
+			info = `<div className='pochipp-item__info'>ブランド：${item.info}</div>`;
 		}
 
 		result += `<div class="pochipp-item" data-index="${index}" data-type="${type}">`;
@@ -56,8 +51,7 @@ const getResultHtml = (itemDatas, type) => {
 			</div>
 			<div class="pochipp-item__body">
 				<div class="pochipp-item__title">${item.title}</div>
-				${brand}
-				${contributors}
+				${info}
 				<div class="pochipp-item__price">価格：¥${price.toLocaleString()}</div>
 				<div class="pochipp-item__links"></div>
 		`;
@@ -86,7 +80,7 @@ const getResultHtml = (itemDatas, type) => {
 };
 
 (function ($) {
-	// console.log('pochippIframeVars', window.pochippIframeVars);
+	console.log('pochippIframeVars', window.pochippIframeVars);
 
 	// 情報を取得
 	const { ajaxUrl, tabKey, blockId, calledAt } = window.pochippIframeVars;
@@ -173,13 +167,10 @@ const getResultHtml = (itemDatas, type) => {
 							? registerdItems[itemIndex]
 							: searchedItems[itemIndex];
 
-					// タイトル情報だけ別枠で渡す ?
-					// const itemTitle = itemData.title || 'No Title';
-
 					if ('editor' === calledAt) {
 						window.top.set_block_data_at_editor(itemData, blockId);
 					} else {
-						window.top.set_block_data(itemData, blockId);
+						window.top.setItemMetaData(itemData, false);
 					}
 					window.parent.tb_remove();
 				});

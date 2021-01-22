@@ -2,19 +2,14 @@
  * @WordPress dependencies
  */
 // import { __ } from '@wordpress/i18n';
+// import { useEntityProp } from '@wordpress/core-data';
+// import ServerSideRender from '@wordpress/server-side-render';
 import { useSelect } from '@wordpress/data';
-import { useEntityProp } from '@wordpress/core-data';
+import { useCallback, useMemo } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
-import {
-	// BlockControls,
-	// RichText,
-	// AlignmentToolbar,
-	// InspectorControls,
-	useBlockProps,
-} from '@wordpress/block-editor';
-
+import { useBlockProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
-// import { RawHTML } from '@wordpress/element';
+import { Icon, search, rotateLeft } from '@wordpress/icons';
 
 /**
  * External dependencies
@@ -24,8 +19,14 @@ import { Button } from '@wordpress/components';
 /**
  * @Internal dependencies
  */
-import ItemPreview from './ItemPreview';
 import metadata from './block.json';
+import ItemPreview from './ItemPreview';
+import ItemSetting from './ItemSetting';
+import {
+	getParsedMeta,
+	setCustomFieldArea,
+	sendUpdateAjax,
+} from '@blocks/helper';
 
 /**
  * metadata
@@ -33,60 +34,55 @@ import metadata from './block.json';
 const blockName = 'pochipp-block';
 const { apiVersion, name, category, keywords, supports } = metadata;
 
+/* eslint no-alert: 0 */
+/* eslint no-console: 0 */
+
 /**
- * iframe 側から呼び出すメソッド
+ * メタデータ更新処理
+ * iframe 側からも呼び出せるようにグローバル化
  *
  * @param {Object} itemData 商品データ
- * @param {string} clientId ブロックID
+ * @param {boolean} isMerge データをマージして更新するかどうか
  */
-window.set_block_data = (itemData, clientId) => {
-	// console.log('itemData:', itemData);
+window.setItemMetaData = (itemData, isMerge) => {
+	// console.log(itemData);
 
+	// タイトル情報抜き出す
 	const itemTitle = itemData.title || '';
+	delete itemData.title;
+
+	// 使用するメソッドの準備
+	const { editPost } = wp.data.dispatch('core/editor');
+	const { getEditedPostAttribute } = wp.data.select('core/editor');
 
 	// タイトルの更新
-	const { editPost } = wp.data.dispatch('core/editor');
 	editPost({ title: itemTitle });
 
-	// ブロックのattributesを更新する
-	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
-	updateBlockAttributes(clientId, {
-		metadata: JSON.stringify(itemData), // jsonにして保存
-	});
-};
+	// metaの取得
+	const oldMeta = getEditedPostAttribute('meta');
 
-/**
- * JSONのパース
- *
- * @param {string} data メタデータ(JSON形式)
- * @return {Array} parsed 配列に変換したメタデータ
- */
-const getParsedMeta = (data) => {
-	try {
-		const parsed = JSON.parse(data);
-		return parsed;
-	} catch (ex) {
-		return [];
+	let newItemData = {};
+	if (isMerge) {
+		const oldItemData = getParsedMeta(oldMeta.pochipp_data);
+		newItemData = { ...oldItemData, ...itemData };
+	} else {
+		newItemData = itemData;
 	}
-};
 
-/**
- * エディター下の「カスタムフィールド」の値を強制的にセットする処理
- */
-const setCustomFieldArea = (metaKey, metaVal) => {
-	const customField = document.querySelector('#postcustomstuff');
-	if (null === customField) return;
+	// 新しいデータをjson文字列化
+	const newItemJson = JSON.stringify(newItemData);
 
-	const keyInput = customField.querySelector(`input[value="${metaKey}"]`);
-	if (null === keyInput) return;
+	// metaの更新 （他のmetaデータを持つ場合を考慮し、'pochipp_data' だけ対象に上書き）
+	editPost({ meta: { ...oldMeta, pochipp_data: newItemJson } });
 
-	const nextTd = keyInput.parentNode.nextElementSibling;
-	if (null === nextTd) return;
+	// metaの更新 : gutenberのバグ対処用
+	setCustomFieldArea('pochipp_data', newItemJson);
 
-	const textarea = nextTd.querySelector('textarea');
-	if (null === textarea) return;
-
-	textarea.value = metaVal;
+	// ブロックのattributesを更新する
+	// const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
+	// updateBlockAttributes(clientId, {
+	// 	metadata: JSON.stringify(itemData),
+	// });
 };
 
 /**
@@ -101,73 +97,143 @@ registerBlockType(name, {
 	supports,
 	attributes: metadata.attributes,
 	edit: ({ attributes, setAttributes, clientId }) => {
+		const { meta } = attributes;
+
 		// 投稿ID・投稿タイプを取得
-		const { postId, postType } = useSelect((select) => {
+		const { postId } = useSelect((select) => {
 			return {
 				postId: select('core/editor').getCurrentPostId(),
-				postType: select('core/editor').getCurrentPostType(),
+				// postType: select('core/editor').getCurrentPostType(),
 			};
 		}, []);
 
+		// 投稿タイトルを取得
+		// memo: getCurrentPostAttribute は編集時のデータは取得できない。 getEditedPostAttribute だとOK。
+		const postTitle = useSelect(
+			(select) => select('core/editor').getEditedPostAttribute('title'),
+			[]
+		);
+
 		// メタデータを取得
-		const [meta, setMeta] = useEntityProp('postType', postType, 'meta');
+		// const [meta, setMeta] = useEntityProp('postType', postType, 'meta');
+		const parsedMeta = useMemo(() => getParsedMeta(meta), [meta]);
 
-		if (!meta) {
-			return <p>WordPressのバージョンを確認してください。</p>;
-		}
+		const updateMetadata = useCallback(
+			(key, newVal) => {
+				parsedMeta[key] = newVal;
+				const newPochippMeta = JSON.stringify(parsedMeta);
 
-		// attributesが更新されていればカスタムフィールドを更新
-		if (meta.pochipp_data !== attributes.metadata) {
-			setMeta({ ...meta, pochipp_data: attributes.metadata });
-			setCustomFieldArea('pochipp_data', attributes.metadata); // gutenberのバグに対応
-		}
+				// meta更新
+				// setMeta({ ...meta, pochipp_data: newPochippMeta });
+				setAttributes({ meta: newPochippMeta });
+				setCustomFieldArea('pochipp_data', newPochippMeta); // gutenberのバグにも対応
+			},
+			[parsedMeta]
+		);
 
-		// console.log('attributes の metadata: ' + attributes.metadata);
-		// console.log('カスタムフィールドに保存中のデータ ' + meta.pochipp_data);
+		const hasItem = !!parsedMeta.searched_at;
+		// console.log(hasItem, parsedMeta);
 
-		// メタデータ(JSON)を配列に変換
-		// memo: パースするのは meta でも attributes でもどっちでも。 フロントのブロックは、マージさせたものをパースする？
-		const parsedMeta = getParsedMeta(meta.pochipp_data);
+		// 商品検索
+		const openThickbox = useCallback(() => {
+			let url = 'media-upload.php?type=pochipp';
+			url += `&at=setting`;
+			url += `&tab=pochipp_search_amazon`;
+			url += `&blockid=${clientId}`;
+			url += `&postid=${postId}`;
+			url += '&TB_iframe=true';
 
-		// タイトル更新用関数
-		const { editPost } = wp.data.dispatch('core/editor');
+			// #TB_window を開く
+			window.tb_show('商品検索', url);
 
-		// ブロックprops
-		const blockProps = useBlockProps({
-			className: `${blockName}--setting`,
-		});
+			// 開いた #TB_window を取得してクラス追加
+			const tbWindow = document.querySelector('#TB_window');
+
+			if (tbWindow) {
+				tbWindow.classList.add('by-pochipp');
+			}
+		}, [postId, clientId]);
+
+		// 商品データ更新処理
+		const updateItemData = useCallback(() => {
+			const params = new URLSearchParams(); // WPのajax通す時は URLSearchParams 使う
+			params.append('action', 'pochipp_update_data');
+			params.append('itemcode', parsedMeta.asin || parsedMeta.itemcode);
+			params.append('keywords', parsedMeta.keywords);
+			params.append('searched_at', parsedMeta.searched_at);
+
+			const btns = document.querySelector(
+				'.pochipp-block--setting .__btns'
+			);
+			btns.classList.add('-updating');
+
+			const doneFunc = (response) => {
+				const resData = response.datas;
+				if (resData.error) {
+					alert(resData.error.message);
+					console.error(resData.error.code, resData.error.message);
+				} else {
+					const itemData = resData[0];
+					window.setItemMetaData(itemData, true);
+					alert('更新が完了しました！');
+				}
+				btns.classList.remove('-updating');
+			};
+			const failFunc = (err) => {
+				alert('更新に失敗しました。');
+				console.error(err);
+				btns.classList.remove('-updating');
+			};
+
+			// ajax処理
+			sendUpdateAjax(params, doneFunc, failFunc);
+		}, [parsedMeta]);
 
 		return (
 			<>
-				<div {...blockProps}>
-					{/* <div>attr:{attributes.metadata || 'none'}</div> */}
-					{/* <div>meta data:{meta.pochipp_data || 'empty'}</div> */}
-					<Button
-						className='thickbox'
-						isPrimary={true}
-						onClick={() => {
-							let url = 'media-upload.php?type=pochipp';
-							url += `&at=setting`;
-							url += `&tab=pochipp_search_amazon`;
-							url += `&blockid=${clientId}`;
-							url += `&postid=${postId}`;
-							url += '&TB_iframe=true';
-
-							window.tb_show('商品検索', url);
-
-							const tbWindow = document.querySelector(
-								'#TB_window'
+				<div
+					{...useBlockProps({
+						className: `${blockName}--setting`,
+					})}
+				>
+					<ItemPreview {...{ postTitle, parsedMeta }} />
+					<div className='__btns'>
+						<Button
+							icon={<Icon icon={search} />}
+							className='__searchBtn thickbox'
+							isPrimary={true}
+							onClick={openThickbox}
+						>
+							{hasItem ? '商品を再検索' : '商品を検索'}
+						</Button>
+						{hasItem && (
+							<Button
+								icon={<Icon icon={rotateLeft} />}
+								className='__updateBtn'
+								isSecondary={true}
+								onClick={updateItemData}
+							>
+								最新情報に更新
+							</Button>
+						)}
+					</div>
+					{hasItem && (
+						<ItemSetting
+							{...{ postTitle, parsedMeta, updateMetadata }}
+						/>
+					)}
+					<div className='u-mt-20'>【開発用】データ確認</div>
+					<div className='pochipp-block-dump'>
+						{/* {JSON.stringify(parsedMeta)}; */}
+						{Object.keys(parsedMeta).map((metakey) => {
+							return (
+								<div key={metakey}>
+									<code>{metakey}</code> :{' '}
+									{String(parsedMeta[metakey])}
+								</div>
 							);
-							if (tbWindow) {
-								tbWindow.classList.add('by-pochipp');
-							}
-						}}
-					>
-						商品検索
-					</Button>
-					<ItemPreview
-						{...{ attributes, setAttributes, parsedMeta, editPost }}
-					/>
+						})}
+					</div>
 				</div>
 			</>
 		);

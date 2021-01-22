@@ -45,7 +45,7 @@ function search_from_amazon_api() {
 function get_item_data_from_amazon_api( $keywords = '', $search_index = 'All' ) {
 
 	// 空白の場合
-	if ( 0 === strlen( trim( $keywords ) ) ) {
+	if ( ! trim( $keywords ) ) {
 		return [
 			'error' => [
 				'code'    => 'null',
@@ -54,7 +54,10 @@ function get_item_data_from_amazon_api( $keywords = '', $search_index = 'All' ) 
 		];
 	}
 
-	return \POCHIPP\get_json_from_amazon_api( 'SearchItems', $keywords, $search_index );
+	$request              = new \SearchItemsRequest();
+	$request->SearchIndex = $search_index;
+	$request->Keywords    = $keywords;
+	return \POCHIPP\get_json_from_amazon_api( 'SearchItems', $request, $keywords );
 }
 
 
@@ -64,16 +67,7 @@ function get_item_data_from_amazon_api( $keywords = '', $search_index = 'All' ) 
  *
  * @param string $operation 'SearchItems' or 'GetItems' を受け取る
  */
-function get_json_from_amazon_api( $operation, $keywords, $search_index ) {
-
-	// memo: 今のところ SearchItems でしか使っていない
-	if ( 'SearchItems' === $operation ) {
-		$request              = new \SearchItemsRequest();
-		$request->Keywords    = $keywords;
-		$request->SearchIndex = $search_index;
-	} elseif ( 'GetItems' === $operation ) {
-		return [];
-	}
+function get_json_from_amazon_api( $operation, $request, $keywords ) {
 
 	// 設定取得
 	$access_key   = \POCHIPP::get_setting( 'amazon_access_key' );
@@ -164,8 +158,18 @@ function get_json_from_amazon_api( $operation, $keywords, $search_index ) {
 		];
 	}
 
+	$resultData = 'SearchItems' === $operation ? $response_obj->SearchResult : $response_obj->ItemsResult;
+	if ( empty( $resultData ) ) {
+		return [
+			'error' => [
+				'code'       => 'no result',
+				'message'    => '商品データが見つかりませんでした。',
+			],
+		];
+	}
+
 	// エラーがなければ、必要な商品データを取得
-	return \POCHIPP\set_item_data_by_amazon_api( $response_obj, $keywords );
+	return \POCHIPP\set_item_data_by_amazon_api( $resultData, $keywords );
 }
 
 
@@ -173,10 +177,10 @@ function get_json_from_amazon_api( $operation, $keywords, $search_index ) {
 /**
  * 商品データを整形
  */
-function set_item_data_by_amazon_api( $response_obj, $keywords, $is_new = true ) {
+function set_item_data_by_amazon_api( $resultData, $keywords, $is_new = true ) {
 
 	$items = [];
-	foreach ( $response_obj->SearchResult->Items as $item ) {
+	foreach ( $resultData->Items as $item ) {
 		$data = [
 			'keywords'    => $keywords,
 			'searched_at' => 'amazon',
@@ -193,19 +197,21 @@ function set_item_data_by_amazon_api( $response_obj, $keywords, $is_new = true )
 			$data['title'] = (string) $item_title;
 
 			// ブランド名
-			$brand         = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
-			$data['brand'] = (string) $brand;
+			$brand        = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
+			$data['info'] = $brand;
 
-			// 著者名などの情報
-			$contributors      = '';
-			$contributors_data = $item->ItemInfo->ByLineInfo->Contributors ?? [];
-			foreach ( $contributors_data as $obj ) {
-				if ( '' !== $contributors ) {
-					$contributors .= ', ';
+			// ブランド名なければ、著者名などの情報
+			if ( ! $brand ) {
+				$contributors      = '';
+				$contributors_data = $item->ItemInfo->ByLineInfo->Contributors ?? [];
+				foreach ( $contributors_data as $obj ) {
+					if ( '' !== $contributors ) {
+						$contributors .= ', ';
+					}
+					$contributors .= $obj->Role . ':' . $obj->Name;
 				}
-				$contributors .= $obj->Role . ':' . $obj->Name;
+				$data['info'] = $contributors;
 			}
-			$data['contributors'] = $contributors;
 
 			// 商品詳細URL memo: アフィ用のクエリが付いていないURL
 			$data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;

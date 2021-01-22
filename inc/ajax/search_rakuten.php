@@ -11,7 +11,19 @@ add_action( 'wp_ajax_pochipp_search_rakuten', '\POCHIPP\search_from_rakuten_api'
 
 
 /**
- *  楽天APIから商品データを取得する　for ajax
+ * 楽天APIの並び順設定
+ */
+function rakuten_sort( $sort ) {
+	$sort_info = \POCHIPP::array_get( \POCHIPP::$rakuten_sorts, intval( $sort ), false );
+	if ( ! $sort_info ) {
+		$sort_info = \POCHIPP::$rakuten_sorts[5];
+	}
+	return $sort_info['value'];
+}
+
+
+/**
+ *  楽天APIから商品データを取得する for ajax
  */
 function search_from_rakuten_api() {
 
@@ -19,14 +31,23 @@ function search_from_rakuten_api() {
 	$page     = \POCHIPP::array_get( $_GET, 'page', 1 );
 	$sort     = \POCHIPP::array_get( $_GET, 'sort', 1 );
 
+	// 整理
+	$page = intval( $page ) > 1 ? $page : '1';
+	$sort = \POCHIPP\rakuten_sort( $sort );
+
 	// 登録済み商品
 	$registerd_items = \POCHIPP::get_registerd_items( [
 		'keywords' => $keywords,
 		'count'    => 2, // memo: ２個まで取得。<- 少ない？
 	] );
 
-	// 検索結果
-	$searched_items = \POCHIPP\get_item_data_from_rakuten_api( $keywords, $page, $sort, false );
+	// 検索API用のurlに付与するクエリ情報を生成
+	$api_query  = '&hits=10'; // 検索数
+	$api_query .= '&page=' . $page . '&sort=' . rawurlencode( $sort );
+	$api_query .= '&availability=1&keyword=' . rawurlencode( $keywords );
+
+	// 検索結果を取得
+	$searched_items = \POCHIPP\get_item_data_from_rakuten_api( $api_query, $keywords );
 
 	wp_die( json_encode( [
 		'registerd_items' => $registerd_items,
@@ -37,10 +58,10 @@ function search_from_rakuten_api() {
 /**
  * 楽天APIから商品データを取得
  */
-function get_item_data_from_rakuten_api( $keywords, $page, $sort, $is_itemcode = false ) {
+function get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode = '' ) {
 
 	// 空白の場合
-	if ( 0 === strlen( trim( $keywords ) ) ) {
+	if ( ! trim( $keywords ) && ! $itemcode ) {
 		return [
 			'error' => [
 				'code'    => 'null',
@@ -49,40 +70,28 @@ function get_item_data_from_rakuten_api( $keywords, $page, $sort, $is_itemcode =
 		];
 	}
 
-	// memo: hits は検索数
-	$request_url = 'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?hits=10';
-
-	// アプリID
-	$request_url .= '&applicationId=' . \POCHIPP::RAKUTEN_APP_ID;
-
-	// 楽天アフィID
-	// $rakuten_affi_id = \POCHIPP::get_setting( 'rakuten_affiliate_id' );
-
-	// memo: アフィID投げなけない。（ itemUrl で普通のURL取れる ）
-	// if ( $rakuten_affi_id ) { $request_url .= '&affiliateId=' . $rakuten_affi_id; }
-
-	$page        = intval( $page );
-	$page        = $page > 1 ? $page : 1;
-	$request_url = $request_url . '&page=' . $page;
-
-	// 並び順を変更
-	$sort = \POCHIPP\rakuten_sort( $sort );
-
-	$request_url = $request_url . '&sort=' . urlencode( $sort );
-
-	if ( $is_itemcode ) {
-		$request_url .= '&availability=0&itemCode=' . rawurlencode( $keywords );
-	} else {
-		$request_url .= '&availability=1&keyword=' . rawurlencode( $keywords );
+	// クエリが不正な場合
+	if ( ! $api_query ) {
+		return [
+			'error' => [
+				'code'    => 'no query',
+				'message' => '検索条件が不明です。',
+			],
+		];
 	}
 
-	$response = wp_remote_get(
-		$request_url,
-		[
-			// 'method'      => 'GET',
-			'timeout' => 30,
-		]
-	);
+	$request_url  = 'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706';
+	$request_url .= '?applicationId=' . \POCHIPP::RAKUTEN_APP_ID; // アプリID情報を付与
+	$request_url .= $api_query; // その他の条件
+
+	// 楽天アフィID // memo: itemUrl もアフィURLになってしまう。
+	// $rakuten_affi_id = \POCHIPP::get_setting( 'rakuten_affiliate_id' );
+	// if ( $rakuten_affi_id ) { $api_query .= '&affiliateId=' . $rakuten_affi_id; }
+
+	$response = wp_remote_get( $request_url, [
+		// 'method'      => 'GET',
+		'timeout' => 30,
+	] );
 
 	// エラーがあれば
 	if ( is_wp_error( $response ) ) {
@@ -109,38 +118,15 @@ function get_item_data_from_rakuten_api( $keywords, $page, $sort, $is_itemcode =
 
 	// APIからエラーが返ってきた場合
 	if ( isset( $response_arr['error'] ) ) {
-
 		return [
 			'error' => [
 				'code'      => $response_arr['error'],
 				'message'   => \POCHIPP\get_rakuten_api_error_text( $response_arr['error'], $response_arr['error_description'] ),
 			],
 		];
-
 	}
 
-	// OK
-	return \POCHIPP\set_item_data_by_rakuten_api( $response_arr, $keywords, $is_itemcode );
-}
-
-
-/**
- * 商品データを整形
- */
-function set_item_data_by_rakuten_api( $response_data = [], $keywords = '', $is_itemcode ) {
-
-	$items = [];
-
-	if ( $is_itemcode && isset( $response_data['hits'] ) && intval( $response_data['hits'] ) === 0 ) {
-		return [
-			'error' => [
-				'code'    => 'no item',
-				'message' => '指定の商品コードの商品がありません',
-			],
-		];
-	}
-
-	if ( ! isset( $response_data['Items'] ) ) {
+	if ( ! isset( $response_arr['Items'] ) ) {
 		return [
 			'error' => [
 				'code'    => 'no item',
@@ -149,22 +135,39 @@ function set_item_data_by_rakuten_api( $response_data = [], $keywords = '', $is_
 		];
 	}
 
-	foreach ( $response_data['Items'] as $data ) {
+	// if ( $itemcode && isset( $response_arr['hits'] ) && intval( $response_arr['hits'] ) === 0 ) {
+	// 	return [
+	// 		'error' => [
+	// 			'code'    => 'no item',
+	// 			'message' => '指定の商品コードの商品がありません',
+	// 		],
+	// 	];
+	// }
+
+	// OK
+	return \POCHIPP\set_item_data_by_rakuten_api( $response_arr['Items'], $keywords, $itemcode );
+}
+
+
+/**
+ * 商品データを整形
+ */
+function set_item_data_by_rakuten_api( $items_data, $keywords = '', $itemcode ) {
+
+	$items = [];
+
+	foreach ( $items_data as $data ) {
 
 		$item = [
 			'keywords'    => $keywords,
 			'searched_at' => 'rakuten',
 		];
 
-		// itemcode で商品取得するとき
-		if ( $is_itemcode ) {
-			$item['price']              = $data['Item']['itemPrice'] ?? '';
-			$item['price_at']           = date_i18n( 'Y/m/d H:i' );
-			$item['rakuten_detail_url'] = $data['Item']['itemUrl'] ?? '';
-
-			$items[] = $item;
-			break;
-		}
+		// itemcode で商品取得するときは必要な部分だけ取得
+		// if ( $itemcode ) {
+		// 	$items[] = $item;
+		// 	break;
+		// }
 
 		$item['title']              = $data['Item']['itemName'] ?? '';
 		$item['itemcode']           = $data['Item']['itemCode'] ?? '';
@@ -175,29 +178,19 @@ function set_item_data_by_rakuten_api( $response_data = [], $keywords = '', $is_
 		$item['m_image_url'] = $data['Item']['mediumImageUrls'][0]['imageUrl'] ?? '';
 		$item['l_image_url'] = '';
 
-		$item['shop_name'] = $data['Item']['shopName'] ?? '';
-		$item['price']     = $data['Item']['itemPrice'] ?? '';
-		$item['price_at']  = date_i18n( 'Y/m/d H:i' );
+		// 商品情報
+		$item['info']     = $data['Item']['shopName'] ?? '';
+		$item['price']    = $data['Item']['itemPrice'] ?? '';
+		$item['price_at'] = date_i18n( 'Y/m/d H:i' );
 
-		// 楽天市場のみ
-		$item['affiliateRate'] = $data['Item']['affiliateRate'] ?? '';
-		$item['reviewAverage'] = $data['Item']['reviewAverage'] ?? '';
+		// 楽天市場のみ memo: いる？
+		$item['affi_rate']    = $data['Item']['affiliateRate'] ?? '';
+		$item['review_score'] = $data['Item']['reviewAverage'] ?? '';
 
 		$items[] = $item;
 	}
 
 	return $items;
-}
-
-/**
- * 楽天APIの並び順設定
- */
-function rakuten_sort( $sort ) {
-	$sort_info = \POCHIPP::array_get( \POCHIPP::$rakuten_sorts, intval( $sort ), false );
-	if ( ! $sort_info ) {
-		$sort_info = \POCHIPP::$rakuten_sorts[5];
-	}
-	return $sort_info['value'];
 }
 
 

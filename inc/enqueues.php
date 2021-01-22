@@ -5,16 +5,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /**
+ * ajaxに必要なグローバル変数を定義
+ */
+add_action( 'admin_head', function() {
+	$script  = 'window.pchppVars = {};';
+	$script .= 'window.pchppVars.ajaxUrl = "' . esc_js( admin_url( 'admin-ajax.php' ) ) . '";';
+	$script .= 'window.pchppVars.ajaxNonce = "' . esc_js( wp_create_nonce( \POCHIPP::NONCE_KEY ) ) . '";';
+
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo '<script id="pchpp_admin_vars">' . $script . '</script>' . PHP_EOL;
+} );
+
+
+/**
  * for Front
  */
 add_action( 'wp_enqueue_scripts', 'POCHIPP\front_scripts', 12 );
 function front_scripts() {
-	wp_enqueue_style(
-		'pochipp-front',
-		POCHIPP_URL . 'dist/css/style.css',
-		[],
-		POCHIPP_VERSION
-	);
+	wp_enqueue_style( 'pochipp-front', POCHIPP_URL . 'dist/css/style.css', [], POCHIPP_VERSION );
 
 	// memo: イベントトラッキング ?
 	// $is_tracking = !!get_option( $this->option_column_name( 'is_tracking' ) , false );
@@ -36,8 +44,11 @@ function front_scripts() {
 add_action( 'admin_enqueue_scripts', 'POCHIPP\admin_scripts' );
 function admin_scripts( $hook_suffix ) {
 
+	global $post_type;
+
 	$is_pochipp_menu = false !== strpos( $hook_suffix, 'pochipp' );
 	$is_editor_page  = 'post.php' === $hook_suffix || 'post-new.php' === $hook_suffix;
+	$is_columns_page = 'edit.php' === $hook_suffix && \POCHIPP::POST_TYPE_SLUG === $post_type;
 
 	// 編集画面 or 設定ページでのみ読み込む
 	if ( $is_editor_page || $is_pochipp_menu ) {
@@ -51,12 +62,12 @@ function admin_scripts( $hook_suffix ) {
 
 		// TthickBox
 		add_thickbox();
+	}
 
-		// 管理画面用CSS
-		if ( $is_pochipp_menu ) {
-			wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
-		}
-}
+	// 管理画面用CSS
+	if ( $is_pochipp_menu || $is_columns_page ) {
+		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
+	}
 
 	// 設定ページにだけ読み込むファイル
 	if ( $is_pochipp_menu ) {
@@ -78,12 +89,6 @@ function admin_scripts( $hook_suffix ) {
 		// 	POCHIPP_VERSION,
 		// 	true
 		// );
-
-		// インラインで出力するグローバル変数
-		// wp_localize_script( 'pochipp-menu', 'pbVars', [
-		// 	'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-		// 	'ajaxNonce' => wp_create_nonce( 'pb-ajax-nonce' ),
-		// ] );
 
 	}
 }
@@ -117,12 +122,12 @@ function block_assets() {
 
 		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
 
-		// Pochipp登録ブロック
+		// ブロック
 		$asset = include POCHIPP_PATH . 'dist/blocks/setting/index.asset.php';
 		wp_enqueue_script(
 			'pochipp-setting-block',
 			POCHIPP_URL . 'dist/blocks/setting/index.js',
-			array_merge( ['jquery' ], $asset['dependencies'] ),
+			$asset['dependencies'], // // array_merge( ['jquery' ], $asset['dependencies'] )
 			$asset['version'],
 			true
 		);

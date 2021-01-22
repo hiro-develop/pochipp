@@ -12,8 +12,14 @@
         "html": false
     },
     "attributes": {
-        "metadata": {
+        "title": {
             "type": "string",
+            "default": ""
+        },
+        "meta": {
+            "type": "string",
+            "source": "meta",
+            "meta": "pochipp_data",
             "default": ""
         }
     },

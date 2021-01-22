@@ -1,3 +1,19 @@
+# APIドキュメント
+
+楽天 : https://webservice.rakuten.co.jp/api/ichibaitemsearch/
+
+# 作業メモ
+
+- 出力リンクをアフィリンク化
+- 設定画面作り込み
+- Yahoo・もしもの機能も作成
+- フロント側、その場検索したやつも表示できるように。
+- 設定側、各項目を上書きもできるように。
+- 情報再取得・リンク切れなどの処理
+- 有料化機能は分離
+- 更新などを連続でされないように、数分間のキャッシュを行う？
+
+
 # コード中のメモ書き
 
 「yyi: 」 -> 元のソースに対するメモ
@@ -44,3 +60,6 @@
 - 楽天リンクで付与される Rinker_i_, Rinker_t_, Rinker_o_ が謎。
   - タイムスタンプ付きなので、何かの計測用か。
 
+
+
+https://hb.afl.rakuten.co.jp/hgc/g00r2ri8.13lem44c.g00r2ri8.13lene57/Rinker_t_20200912021732?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fking-depart%2F2set-tan3tan4%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fking-depart%2Fi%2F10002869%2F
