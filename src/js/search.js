@@ -44,17 +44,31 @@ const getResultHtml = (itemDatas, type) => {
 			info = `<div className='pochipp-item__info'>ブランド：${item.info}</div>`;
 		}
 
+		let imageUrl = item.image_url;
+		imageUrl = item.image_url;
+
+		const searchedAt = item.searched_at;
+
+		// 商品画像
+		if (imageUrl) {
+			if ('rakuten' === searchedAt) {
+				imageUrl += '?_ex=100x100';
+			}
+			if ('amazon' === searchedAt) {
+				imageUrl = imageUrl.replace('.jpg', '._SL100_.jpg');
+			}
+		}
+
 		result += `<div class="pochipp-item" data-index="${index}" data-type="${type}">`;
 		result += `
 			<div class="pochipp-item__img">
-				<img src="${item.s_image_url}" alt="" />
+				<img src="${imageUrl}" alt="" />
 			</div>
 			<div class="pochipp-item__body">
 				<div class="pochipp-item__title">${item.title}</div>
 				${info}
 				<div class="pochipp-item__price">価格：¥${price.toLocaleString()}</div>
-				<div class="pochipp-item__links"></div>
-		`;
+				<div class="pochipp-item__links"></div>`;
 
 		// ボタン
 		if ('registerd' === type) {
@@ -80,7 +94,7 @@ const getResultHtml = (itemDatas, type) => {
 };
 
 (function ($) {
-	console.log('pochippIframeVars', window.pochippIframeVars);
+	// console.log('pochippIframeVars', window.pochippIframeVars);
 
 	// 情報を取得
 	const { ajaxUrl, tabKey, blockId, calledAt } = window.pochippIframeVars;
@@ -139,7 +153,7 @@ const getResultHtml = (itemDatas, type) => {
 					);
 					if (registerdHtml) {
 						resultHtml +=
-							'<div class="pcpp-tb__area-title">登録済み</div>';
+							'<div class="pchpp-tb__area-title">登録済み</div>';
 						resultHtml += registerdHtml;
 					}
 				}
@@ -148,7 +162,7 @@ const getResultHtml = (itemDatas, type) => {
 				const searchedHtml = getResultHtml(searchedItems, 'searched');
 				if (searchedHtml) {
 					resultHtml +=
-						'<div class="pcpp-tb__area-title">検索結果</div>';
+						'<div class="pchpp-tb__area-title">検索結果</div>';
 					resultHtml += searchedHtml;
 				}
 

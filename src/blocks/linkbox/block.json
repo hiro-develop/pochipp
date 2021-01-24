@@ -15,7 +15,8 @@
             "type": "number"
         },
         "title": {
-            "type": "string"
+            "type": "string",
+            "default": ""
         },
         "keywords": {
             "type": "string"
@@ -32,20 +33,15 @@
         "info": {
             "type": "string"
         },
-        "amazon_detail_url": {
+        "amazon_affi_url": {
             "type": "string"
         },
         "rakuten_detail_url": {
             "type": "string"
         },
-        "l_image_url": {
-            "type": "string"
-        },
-        "m_image_url": {
-            "type": "string"
-        },
-        "s_image_url": {
-            "type": "string"
+        "image_url": {
+            "type": "string",
+            "default": ""
         },
         "price": {
             "type": "string"
@@ -53,22 +49,43 @@
         "price_at": {
             "type": "string"
         },
-        "affi_rate": {
-            "type": "string"
+        "amazon_custom_url": {
+            "type": "string",
+            "default": ""
         },
-        "review_score": {
-            "type": "string"
+        "rakuten_custom_url": {
+            "type": "string",
+            "default": ""
         },
-        "amazonBtn": {
-            "type": "string"
+        "yahoo_custom_url": {
+            "type": "string",
+            "default": ""
         },
-        "rakutenBtn": {
-            "type": "string"
+        "custom_btn_url": {
+            "type": "string",
+            "default": ""
         },
-        "customBtn": {
-            "type": "string"
+        "custom_btn_text": {
+            "type": "string",
+            "default": ""
         },
-        "hide_price": {
+        "hideInfo": {
+            "type": "boolean",
+            "default": false
+        },
+        "hidePrice": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideAmazon": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideRakuten": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideYahoo": {
             "type": "boolean",
             "default": false
         }

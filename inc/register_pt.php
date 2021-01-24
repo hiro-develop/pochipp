@@ -12,7 +12,7 @@ function register_pt_pochipp() {
 		\POCHIPP::POST_TYPE_SLUG,
 		[
 			'labels'                => [
-				'name'          => '商品リンクP',
+				'name'          => 'ポチップ',
 				'singular_name' => \POCHIPP::POST_TYPE_SLUG,
 			],
 			'public'                => false,
@@ -23,7 +23,7 @@ function register_pt_pochipp() {
 			'show_in_menu'          => true,
 			'exclude_from_search'   => true,
 			'menu_position'         => 21,
-			'menu_icon'             => 'dashicons-media-default',
+			'menu_icon'             => 'dashicons-pets', // products
 			'show_in_rest'          => true,
 			'rest_base'             => 'pochipps',
 			'supports'              => [ 'title', 'editor', 'custom-fields' ],

@@ -1,13 +1,17 @@
 .pochipps_page_pochipp_settings {
 
 	#wpcontent {
-		padding: 40px;
+		padding: 0 20px;
 	}
 }
 
-.pcpp-setting {
+.pchpp-setting {
 
-	h1.pcpp-setting__title {
+	.pchpp-setting__body {
+		padding: 0 8px;
+	}
+
+	h1.pchpp-setting__title {
 		font-size: 2em;
 	}
 
@@ -15,14 +19,14 @@
 		margin: 2em 0 1em;
 		padding: 8px 4px;
 		font-size: 1.75em;
-		border-bottom: 1px solid #000;
+		border-bottom: 2px solid #333;
 	}
 
-	h3 {
+	.pchpp-setting__h3 {
 		margin: 2em 0 1em;
-		padding: 4px 12px;
+		padding: 8px 16px;
 		font-size: 1.25em;
-		border-left: 4px solid #000;
+		border-left: 3px solid #333;
 	}
 
 	td > :first-child {
@@ -51,38 +55,74 @@
 		background: #fff;
 	}
 
+}
 
+.pchpp-setting__div {
+	padding-left: 16px;
+}
+
+.pchpp-setting__p {
+	line-height: 1.6;
 }
 
 
-.pcpp-setting__field {
+.pchpp-setting__dl {
+	margin-top: 24px;
 
-	margin-top: 16px;
+	dt {
+		margin: 0 0 1em;
+		font-weight: 700;
+	}
 
-	&.-text {
+	dd {
+		margin: 0;
+	}
+
+	@media only screen and (min-width: 1000px) {
 		display: flex;
 
-		.pcpp-setting__label {
-			display: block;
-			min-width: 12em;
+		dt {
+			flex-basis: 13em;
+			flex-shrink: 0;
+			margin: 0 1em 0 0;
+			padding-top: 4px;
+		}
+
+		dd {
+			flex: 1 1 auto;
+			margin: 0;
 		}
 	}
 
+}
+
+.pchpp-setting__field {
+
+	textarea {
+		width: 100%;
+		max-width: 600px;
+	}
 
 	&.-radio {
 
-		.pcpp-setting__label {
-			display: block;
-			padding: 8px 0;
+		label {
+			padding: 0 8px;
 		}
 	}
 
 	&.-checkbox {
 
-		.pcpp-setting__label {
-			display: block;
-			padding: 4px 0;
+		[type="checkbox"] {
+			margin: 0 !important;
+		}
+
+		label {
+			margin-left: 4px;
 		}
 	}
+}
 
+p.pchpp-setting__desc {
+	margin-top: 0.5em !important;
+	font-size: 0.9em !important;
 }

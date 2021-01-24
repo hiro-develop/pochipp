@@ -23,7 +23,7 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					}}
 				/>
 				<TextControl
-					label='キーワード'
+					label='検索キーワード'
 					value={parsedMeta.keywords}
 					onChange={(val) => {
 						updateMetadata('keywords', val);
@@ -36,22 +36,33 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 						updateMetadata('info', val);
 					}}
 				/>
+
+				<TextControl
+					label='カスタムボタン用URL'
+					value={parsedMeta.custom_btn_url}
+					onChange={(val) => {
+						updateMetadata('custom_btn_url', val);
+					}}
+				/>
+				<TextControl
+					label='カスタムボタン用テキスト'
+					value={parsedMeta.custom_btn_text}
+					onChange={(val) => {
+						updateMetadata('custom_btn_text', val);
+					}}
+				/>
+
 				{/* <TextControl label='ASIN' value={parsedMeta.asin} disabled /> */}
 
 				{/* -- 各ボタンの設定 -- */}
-				<TextControl
+				{/* <TextControl
 					label='Amazon商品詳細ページのURL'
-					value={parsedMeta.amazon_detail_url}
+					value={parsedMeta.amazon_affi_url}
 					onChange={(val) => {
-						updateMetadata('amazon_detail_url', val);
+						updateMetadata('amazon_affi_url', val);
 					}}
-				/>
-				<div className='__note'>
-					{/* <code>https://www.amazon.co.jp/dp/商品のasin</code>
-					の形式で入力してください。 */}
-					アフィリエイトリンクではなく、通常の商品ページのURLを入力してください。
-				</div>
-				<TextControl
+				/> */}
+				{/* <TextControl
 					label='楽天商品詳細ページのURL'
 					value={parsedMeta.rakuten_detail_url}
 					onChange={(val) => {
@@ -60,27 +71,12 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 				/>
 				<div className='__note'>
 					アフィリエイトリンクではなく、通常の商品ページのURLを入力してください。
-				</div>
-
+				</div> */}
 				<TextControl
-					label='商品画像 ( Lサイズ )'
-					value={parsedMeta.l_image_url}
+					label='商品画像 '
+					value={parsedMeta.image_url}
 					onChange={(val) => {
-						updateMetadata('l_image_url', val);
-					}}
-				/>
-				<TextControl
-					label='商品画像 ( Mサイズ )'
-					value={parsedMeta.m_image_url}
-					onChange={(val) => {
-						updateMetadata('m_image_url', val);
-					}}
-				/>
-				<TextControl
-					label='商品画像 ( Sサイズ )'
-					value={parsedMeta.s_image_url}
-					onChange={(val) => {
-						updateMetadata('s_image_url', val);
+						updateMetadata('image_url', val);
 					}}
 				/>
 			</div>

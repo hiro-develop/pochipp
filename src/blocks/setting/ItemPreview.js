@@ -7,7 +7,8 @@ import { memo } from '@wordpress/element';
  * ItemPreview
  */
 export default memo(({ postTitle, parsedMeta }) => {
-	if (!parsedMeta.searched_at) {
+	// 投稿タイトルもmeta情報も持たないとき。
+	if (!postTitle && 0 === Object.keys(parsedMeta).length) {
 		return (
 			<div className='__preview -null'>
 				<p>商品を選択してください</p>
@@ -15,12 +16,15 @@ export default memo(({ postTitle, parsedMeta }) => {
 		);
 	}
 
-	const { info, price } = parsedMeta;
+	const { info, price, keywords } = parsedMeta;
+
+	// Amazonボタンを表示するか
+	const showAmazon = !!(keywords || parsedMeta.amazon_detail_url);
 	return (
 		<div className='__preview components-disabled'>
 			<div className='pochipp-box'>
 				<div className='pochipp-box__image'>
-					<img src={parsedMeta.m_image_url} alt='' />
+					<img src={parsedMeta.image_url} alt='' />
 				</div>
 				<div className='pochipp-box__body'>
 					<div className='pochipp-box__title'>{postTitle}</div>
@@ -33,25 +37,38 @@ export default memo(({ postTitle, parsedMeta }) => {
 					)}
 
 					<div className='pochipp-box__btns'>
-						{1 && (
+						{showAmazon && (
 							<div className='pochipp-box__btnwrap'>
 								<div className='pochipp-box__btn -amazon'>
-									Amazon
+									{window.pchppVars.amazonBtnText || 'Amazon'}
 								</div>
 							</div>
 						)}
 
 						<div className='pochipp-box__btnwrap'>
 							<a href='###' className='pochipp-box__btn -rakuten'>
-								楽天市場
+								{window.pchppVars.rakutenBtnText || '楽天市場'}
 							</a>
 						</div>
 
 						<div className='pochipp-box__btnwrap'>
 							<a href='###' className='pochipp-box__btn -yahoo'>
-								Yahooショッピング
+								{window.pchppVars.yahooBtnText ||
+									'Yahooショッピング'}
 							</a>
 						</div>
+
+						{parsedMeta.custom_btn_url &&
+							parsedMeta.custom_btn_text && (
+								<div className='pochipp-box__btnwrap'>
+									<a
+										href='###'
+										className='pochipp-box__btn -custom'
+									>
+										{parsedMeta.custom_btn_text}
+									</a>
+								</div>
+							)}
 					</div>
 				</div>
 			</div>

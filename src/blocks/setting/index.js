@@ -91,7 +91,7 @@ window.setItemMetaData = (itemData, isMerge) => {
 registerBlockType(name, {
 	apiVersion,
 	title: '商品データ',
-	icon: 'clipboard',
+	icon: 'pets',
 	category,
 	keywords,
 	supports,
@@ -117,6 +117,7 @@ registerBlockType(name, {
 		// メタデータを取得
 		// const [meta, setMeta] = useEntityProp('postType', postType, 'meta');
 		const parsedMeta = useMemo(() => getParsedMeta(meta), [meta]);
+		console.log(meta, parsedMeta);
 
 		const updateMetadata = useCallback(
 			(key, newVal) => {
@@ -131,8 +132,7 @@ registerBlockType(name, {
 			[parsedMeta]
 		);
 
-		const hasItem = !!parsedMeta.searched_at;
-		// console.log(hasItem, parsedMeta);
+		const hasSearchedItem = !!parsedMeta.searched_at;
 
 		// 商品検索
 		const openThickbox = useCallback(() => {
@@ -155,10 +155,11 @@ registerBlockType(name, {
 		}, [postId, clientId]);
 
 		// 商品データ更新処理
+		const itemCode = parsedMeta.asin || parsedMeta.itemcode;
 		const updateItemData = useCallback(() => {
 			const params = new URLSearchParams(); // WPのajax通す時は URLSearchParams 使う
 			params.append('action', 'pochipp_update_data');
-			params.append('itemcode', parsedMeta.asin || parsedMeta.itemcode);
+			params.append('itemcode', itemCode);
 			params.append('keywords', parsedMeta.keywords);
 			params.append('searched_at', parsedMeta.searched_at);
 
@@ -204,9 +205,9 @@ registerBlockType(name, {
 							isPrimary={true}
 							onClick={openThickbox}
 						>
-							{hasItem ? '商品を再検索' : '商品を検索'}
+							{hasSearchedItem ? '商品を再検索' : '商品を検索'}
 						</Button>
-						{hasItem && (
+						{hasSearchedItem && itemCode && (
 							<Button
 								icon={<Icon icon={rotateLeft} />}
 								className='__updateBtn'
@@ -217,14 +218,14 @@ registerBlockType(name, {
 							</Button>
 						)}
 					</div>
-					{hasItem && (
+					{hasSearchedItem && (
 						<ItemSetting
 							{...{ postTitle, parsedMeta, updateMetadata }}
 						/>
 					)}
+
 					<div className='u-mt-20'>【開発用】データ確認</div>
 					<div className='pochipp-block-dump'>
-						{/* {JSON.stringify(parsedMeta)}; */}
 						{Object.keys(parsedMeta).map((metakey) => {
 							return (
 								<div key={metakey}>

@@ -13,8 +13,12 @@ class Data {
 
 	// 設定のデフォルト値
 	public static $default_data = [
-		'amazon_btn_target'  => 'detail',
-		'rakuten_btn_target' => 'detail',
+		'amazon_btn_text'  => 'Amazon',
+		'rakuten_btn_text' => '楽天市場',
+		'yahoo_btn_text'   => 'Yahooショッピング',
+		'custom_btn_color' => '#639c5a',
+		// 'amazon_btn_target'  => 'detail',
+		// 'rakuten_btn_target' => 'detail',
 	];
 
 	// DB名
@@ -23,15 +27,8 @@ class Data {
 	// 設定グループ名
 	const SETTING_GROUP = 'pochipp_settings';
 
-	// 設定ページ名
-	const MENU_PAGE = [
-		'basic'   => 'pochipp_menu_basic',
-		'design'  => 'pochipp_menu_design',
-		'licence' => 'pochipp_menu_licence',
-	];
-
-	// 楽天商品検索API の ID
-	const RAKUTEN_APP_ID = '1098412079780620197';
+	// 設定ページ名用のプレフィックス
+	const MENU_PAGE_PREFIX = 'pochipp_menu';
 
 	// post type slug
 	const POST_TYPE_SLUG = 'pochipps';

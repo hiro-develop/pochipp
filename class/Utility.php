@@ -7,95 +7,199 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 trait Utility {
 
 	/**
-	 * Amazon 検索結果アフィリンクを取得
+	 * Amazon 検索結果ページを取得
 	 */
-	public static function get_amazon_searched_affi_link( $keywords = '' ) {
+	public static function get_amazon_searched_url( $keywords = '' ) {
 		if ( ! $keywords ) return '';
-		$affi_link = 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' . rawurlencode( $keywords );
-		$affi_link = $affi_link . '&tag=' . \POCHIPP::get_setting( 'amazon_traccking_id' );
+		$url = 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' . rawurlencode( $keywords );
 
-		return apply_filters( 'pochipp_amazon_searched_affi_link', $affi_link, $keywords );
-	}
-
-	/**
-	 * Amazon 商品詳細アフィリンクを取得
-	 */
-	public static function get_amazon_detail_affi_link( $detail_url = '' ) {
-		if ( ! $detail_url ) return '';
-
-		// もしものリンクにするかどうか
-		if ( 0 ) { // phpcs:ignore
-			// $url = $this->generate_moshimo_link( self::SHOP_TYPE_AMAZON, $original_url );
-		} else {
-			if ( false !== strpos( $detail_url, 'tag=' ) ) {
-				$affi_link = $detail_url; // すでにtag付いていればそのまま
-			} else {
-				$affi_link = $detail_url . '?tag=' . \POCHIPP::get_setting( 'amazon_traccking_id' );
-			}
-		}
-
-		return apply_filters( 'pochipp_amazon_detail_affi_link', $affi_link, $detail_url );
+		// $url = apply_filters( 'pochipp_amazon_searched_url', $url, $keywords );
+		return $url;
 	}
 
 
 	/**
-	 * 楽天の検索結果アフィリンクを取得
+	 * 楽天 検索結果ページを取得
 	 */
-	public static function get_rakuten_searched_affi_link( $keywords = '' ) {
+	public static function get_rakuten_searched_url( $keywords = '' ) {
 		if ( ! $keywords ) return '';
-		$url = 'https://search.rakuten.co.jp/search/mall/' . $keywords;
+		$url = 'https://search.rakuten.co.jp/search/mall/' . rawurlencode( $keywords );
 		// $url .= '/?f=1&grp=product'; // ?f=1&grp=product は必要？
 
-		$encoded_url = rawurlencode( $url );
-
-		$affi_link  = 'https://hb.afl.rakuten.co.jp/hgc/' . \POCHIPP::get_setting( 'rakuten_affiliate_id' );
-		$affi_link .= '/?pc=' . $encoded_url . '&m=' . $encoded_url;
-
-		return apply_filters( 'pochipp_rakuten_searched_affi_link', $affi_link, $keywords );
+		// $url = apply_filters( 'pochipp_rakuten_searched_url', $url, $keywords );
+		return $url;
 	}
 
 
 	/**
-	 * 楽天の商品詳細アフィリンクを取得
+	 * yahooショッピング 検索結果ページを取得
 	 */
-	public static function get_rakuten_detail_affi_link( $detail_url = '' ) {
-		if ( ! $detail_url ) return '';
+	public static function get_yahoo_searched_url( $keywords = '' ) {
+		if ( ! $keywords ) return '';
+		$url = 'https://shopping.yahoo.co.jp/search?p=' . rawurlencode( $keywords );
 
-		// もしものリンクにするかどうか
-		if ( 0 ) { // phpcs:ignore
-			// $url = $this->generate_moshimo_link( self::SHOP_TYPE_AMAZON, $original_url );
-		} else {
-			if ( false !== strpos( $detail_url, 'hb.afl.rakuten.co.jp' ) ) {
-				$affi_link = $detail_url; // すでにアフィリンク化されていればそのまま
-			} else {
-				$encoded_url = rawurlencode( $detail_url );
-				$affi_link   = 'https://hb.afl.rakuten.co.jp/hgc/' . \POCHIPP::get_setting( 'rakuten_affiliate_id' );
-				$affi_link  .= '/?pc=' . $encoded_url . '&m=' . $encoded_url;
+		// return apply_filters( 'pochipp_yahoo_searched_url', $url, $keywords );
+		return $url;
+	}
+
+
+	/**
+	 * Amazon アフィリンクを生成
+	 *
+	 * @param string $affi_url 商品検索時に保存されたアフィリンク。
+	 * @param string $url 非アフィリンク。商品詳細ページ or 検索結果ページが渡ってくる。
+	 * @param string $a_id もしも用a_id
+	 */
+	public static function get_amazon_affi_url( $affi_url = '', $url = '', $a_id = '' ) {
+
+		// もしもリンクにする場合
+		if ( $a_id ) {
+			return \POCHIPP::get_moshimo_url( 'amazon', $url, $a_id );
+		}
+
+		// amazonはアフィリンクをデータとして保存しているので、それがあればそのまま返す
+		// memo: -> APIからの返答 : &linkCode=ogi&th=1&psc=1 をつけるだけでいいのか？
+		if ( ! $affi_url ) {
+			$traccking_id = \POCHIPP::get_setting( 'amazon_traccking_id' );
+
+			if ( ! $traccking_id ) {
+				$affi_url = '';
+			} elseif ( $url ) {
+				$connecter = false === strpos( $url, '?' ) ? '?' : '&';
+				$affi_url  = $url . $connecter . 'tag=' . $traccking_id;
 			}
 		}
 
-		return apply_filters( 'pochipp_rakuten_detail_affi_link', $affi_link, $detail_url );
+		return apply_filters( 'pochipp_amazon_affi_url', $affi_url, $url );
 	}
 
 
 	/**
-	 * yahooショッピング用の検索結果アフィリンクを作成
+	 * 楽天 アフィリンクを生成
 	 */
-	public static function get_yahoo_searched_affi_link( $keywords = '' ) {
-		if ( ! $keywords ) return '';
-		$url = 'https://shopping.yahoo.co.jp/search?p=' . rawurlencode( $keywords );
-		return $url;
+	public static function get_rakuten_affi_url( $url = '', $a_id = '' ) {
 
-		// LinkSwitch使うかどうか
-		if ( \POCHIPP::get_setting( 'LinkSwitch使うかどうか' ) ) {
-			$url = 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=' . $this->yahoo_sid . '&pid=' . $this->yahoo_pid . '&vc_url=' . urlencode( $original_url );
-		} else {
-			// LinkSwitch使用時はURLそのまま
-			$url = $original_url;
+		if ( ! $url ) return '';
+
+		// もしものリンクにする場合
+		if ( $a_id ) {
+			return \POCHIPP::get_moshimo_url( 'rakuten', $url, $a_id );
 		}
 
-		return $url;
+		$affi_url = '';
+		$affi_id  = \POCHIPP::get_setting( 'rakuten_affiliate_id' );
+
+		if ( false !== strpos( $url, 'hb.afl.rakuten.co.jp' ) ) {
+			// すでにアフィリンク化されていればそのまま -> 仕様上あり得ないけど一応
+			$affi_url = $url;
+
+		} elseif ( ! $affi_id ) {
+			// アフィリエイトDがないとき
+			$affi_url = '';
+
+		} else {
+			// 通常時
+			$encoded_url = rawurlencode( $url );
+			$affi_url    = 'https://hb.afl.rakuten.co.jp/hgc/' . $affi_id . '/?pc=' . $encoded_url . '&m=' . $encoded_url;
+		}
+
+		return apply_filters( 'pochipp_rakuten_affi_url', $affi_url, $url );
 	}
+
+
+	/**
+	 * yahooショッピング アフィリンクを生成
+	 */
+	public static function get_yahoo_affi_url( $url = '', $a_id = '' ) {
+		if ( ! $url ) return '';
+
+		// もしものリンクにする場合
+		if ( $a_id ) {
+			return \POCHIPP::get_moshimo_url( 'yahoo', $url, $a_id );
+		}
+
+		// idあれば
+		// if ( \POCHIPP::get_setting( 'id' ) ) {
+		// 	$url = 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=' . $sid . '&pid=' . $pid . '&vc_url=' . rawurlencode( $url );
+		// }
+
+		if ( empty( \POCHIPP::get_setting( 'yahoo_linkswitch' ) ) ) {
+			// LinkSwitch の設定がない場合
+			$affi_url = '';
+		} else {
+			// LinkSwitch の設定があればそのままURL返す
+			$affi_url = $url;
+		}
+
+		return apply_filters( 'pochipp_yahoo_affi_url', $affi_url, $url );
+	}
+
+
+	/**
+	 * もしもリンクを作成する
+	 */
+	public function get_moshimo_url( $shop_type, $url, $a_id = '' ) {
+
+		if ( ! $url ) return '';
+
+		$query = '';
+		if ( 'amazon' === $shop_type ) {
+			$a_id  = $a_id ?: \POCHIPP::get_setting( 'moshimo_amazon_aid' );
+			$query = '?a_id=' . $a_id . '&p_id=170&pc_id=185&pl_id=4062';
+		} elseif ( 'rakuten' === $shop_type ) {
+			$a_id  = $a_id ?: \POCHIPP::get_setting( 'moshimo_rakuten_aid' );
+			$query = '?a_id=' . $a_id . '&p_id=54&pc_id=54&pl_id=616';
+		} elseif ( 'yahoo' === $shop_type ) {
+			$a_id  = $a_id ?: \POCHIPP::get_setting( 'moshimo_yahoo_aid' );
+			$query = '?a_id=' . $a_id . '&p_id=1225&pc_id=1925&pl_id=18502';
+		} else {
+			return $url;
+		}
+
+		$moshimo_url = 'https://af.moshimo.com/af/c/click' . $query . '&url=' . rawurlencode( $url );
+		return apply_filters( 'pochipp_moshimo_url', $moshimo_url, $shop_type, $url );
+
+	}
+
+
+	/**
+	 * Amazonボタン用のインプレッション計測タグ
+	 */
+	public function get_amazon_imptag( $amazon_aid = '' ) {
+		if ( $amazon_aid ) {
+			return '<img src="https://i.moshimo.com/af/i/impression?a_id=' . $amazon_aid . '&p_id=170&pc_id=185&pl_id=4062" width="1" height="1" style="border:none;">';
+		}
+
+		return '';
+	}
+
+
+	/**
+	 * 楽天ボタン用のインプレッション計測タグ
+	 */
+	public function get_rakuten_imptag( $rakuten_aid = '' ) {
+		if ( $rakuten_aid ) {
+			return '<img src="https://i.moshimo.com/af/i/impression?a_id=' . $rakuten_aid . '&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;">';
+		}
+
+		return '';
+	}
+
+
+	/**
+	 * Yahooボタン用のインプレッション計測タグ
+	 */
+	public function get_yahoo_imptag( $yahoo_aid = '' ) {
+
+		if ( $yahoo_aid ) {
+			return '<img src="https://i.moshimo.com/af/i/impression?a_id=' . $yahoo_aid . '&p_id=1225&pc_id=1925&pl_id=18502" width="1" height="1" style="border:none;">';
+		}
+
+		// '<img src="https://ad.jp.ap.valuecommerce.com/servlet/gifbanner?sid='.$sid.'&pid='.$pid.'" width="1" height="1" border="0">';
+		return '';
+
+	}
+
 
 
 	/**

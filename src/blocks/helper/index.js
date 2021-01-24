@@ -13,7 +13,7 @@ export const getParsedMeta = (data) => {
 		const parsed = JSON.parse(data);
 		return parsed;
 	} catch (ex) {
-		return [];
+		return {};
 	}
 };
 

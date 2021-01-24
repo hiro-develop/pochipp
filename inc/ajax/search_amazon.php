@@ -78,11 +78,11 @@ function get_json_from_amazon_api( $operation, $request, $keywords ) {
 	$request->PartnerTag  = $traccking_id;
 	$request->Resources   = [
 		'Images.Primary.Small',
-		'Images.Primary.Medium',
+		// 'Images.Primary.Medium',
 		'Images.Primary.Large',
-		'Images.Variants.Small',
-		'Images.Variants.Medium',
-		'Images.Variants.Large',
+		// 'Images.Variants.Small',
+		// 'Images.Variants.Medium',
+		// 'Images.Variants.Large',
 		'ItemInfo.ByLineInfo',
 		'ItemInfo.Title',
 		'ItemInfo.ByLineInfo',
@@ -213,9 +213,11 @@ function set_item_data_by_amazon_api( $resultData, $keywords, $is_new = true ) {
 				$data['info'] = $contributors;
 			}
 
-			// 商品詳細URL memo: アフィ用のクエリが付いていないURL
-			$data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
+			// 商品詳細 アフィURL
+			$data['amazon_affi_url'] = $item->DetailPageURL;
 
+			// 商品詳細URL memo: アフィ用のクエリが付いていないURL
+			// $data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
 		}
 
 		// 価格
@@ -224,9 +226,9 @@ function set_item_data_by_amazon_api( $resultData, $keywords, $is_new = true ) {
 		$data['price_at'] = date_i18n( 'Y/m/d H:i' );
 
 		// 画像URL
-		$data['s_image_url'] = $item->Images->Primary->Small->URL ?? '';
-		$data['m_image_url'] = $item->Images->Primary->Medium->URL ?? '';
-		$data['l_image_url'] = $item->Images->Primary->Large->URL ?? '';
+		$data['image_url'] = $item->Images->Primary->Large->URL ?? '';
+		// $data['image_url_s'] = $item->Images->Primary->Small->URL ?? '';
+		// $data['m_image_url'] = $item->Images->Primary->Medium->URL ?? '';
 
 		$items[] = $data;
 	}
@@ -250,13 +252,13 @@ function get_amazon_api_error_text( $code, $description ) {
 			$message = '要求の署名には、必要なコンポーネントのすべてが含まれていませんでした。';
 			break;
 		case 'InvalidPartnerTag':
-			$message = '認証情報が合いません。[Pochipp設定]-[Amazon]-[アソシエイツのトラッキングID]を正しいものに設定してください。';
+			$message = '認証情報が合いません。ポチップ設定 > Amazon > 「トラッキングID」を正しいものに設定してください。';
 			break;
 		case 'InvalidSignature"':
-			$message = 'アクセスキーIDが存在しません。[Pochipp設定]-[Amazon]-[APIの設定]-[シークレットキー]を正しいものに設定してください。';
+			$message = 'アクセスキーIDが存在しません。ポチップ設定 > Amazon > PA-APIの設定 > 「シークレットキー」を正しいものに設定してください。';
 			break;
 		case 'UnrecognizedClient':
-			$message = 'アクセスキーIDが合いません。[Pochipp設定]-[Amazon]-[APIの設定]-[アクセスキーID]を正しいものに設定してください。';
+			$message = 'アクセスキーIDが合いません。ポチップ設定 > Amazon > PA-APIの設定 > 「アクセスキー」を正しいものに設定してください。';
 			break;
 		case 'TooManyRequests':
 			$message = 'リクエスト回数が多すぎます。';

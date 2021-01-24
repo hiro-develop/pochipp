@@ -81,7 +81,7 @@ function get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode = '' )
 	}
 
 	$request_url  = 'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706';
-	$request_url .= '?applicationId=' . \POCHIPP::RAKUTEN_APP_ID; // アプリID情報を付与
+	$request_url .= '?applicationId=' . \POCHIPP::get_setting( 'rakuten_app_id' ); // アプリID情報
 	$request_url .= $api_query; // その他の条件
 
 	// 楽天アフィID // memo: itemUrl もアフィURLになってしまう。
@@ -174,9 +174,15 @@ function set_item_data_by_rakuten_api( $items_data, $keywords = '', $itemcode ) 
 		$item['rakuten_detail_url'] = $data['Item']['itemUrl'] ?? '';
 
 		// 商品画像
-		$item['s_image_url'] = $data['Item']['smallImageUrls'][0]['imageUrl'] ?? '';
-		$item['m_image_url'] = $data['Item']['mediumImageUrls'][0]['imageUrl'] ?? '';
-		$item['l_image_url'] = '';
+		$imageFlag = (string) $data['Item']['imageFlag'];
+		if ( '1' === $imageFlag ) {
+			$image_url_s = $data['Item']['smallImageUrls'][0]['imageUrl'] ?? '';
+			// $image_url_m = $data['Item']['mediumImageUrls'][0]['imageUrl'] ?? '';
+			$image_url         = substr( $image_url_s, 0, strcspn( $image_url_s, '?' ) );
+			$item['image_url'] = $image_url;
+		} else {
+			$item['image_url'] = '';
+		}
 
 		// 商品情報
 		$item['info']     = $data['Item']['shopName'] ?? '';
@@ -184,8 +190,8 @@ function set_item_data_by_rakuten_api( $items_data, $keywords = '', $itemcode ) 
 		$item['price_at'] = date_i18n( 'Y/m/d H:i' );
 
 		// 楽天市場のみ memo: いる？
-		$item['affi_rate']    = $data['Item']['affiliateRate'] ?? '';
-		$item['review_score'] = $data['Item']['reviewAverage'] ?? '';
+		// $item['affi_rate']    = $data['Item']['affiliateRate'] ?? '';
+		// $item['review_score'] = $data['Item']['reviewAverage'] ?? '';
 
 		$items[] = $item;
 	}

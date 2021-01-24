@@ -60,6 +60,7 @@ class POCHIPP extends \POCHIPP\Data {
 		add_action( 'init', [ $this, 'set_setting_data' ], 1 );
 
 		require_once POCHIPP_PATH . 'inc/enqueues.php';
+		require_once POCHIPP_PATH . 'inc/output.php';
 		require_once POCHIPP_PATH . 'inc/register_pt.php';
 		require_once POCHIPP_PATH . 'inc/register_tax.php';
 		require_once POCHIPP_PATH . 'inc/register_meta.php';

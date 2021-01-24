@@ -21,28 +21,15 @@ function check_ajax_nonce( $request_key = 'nonce', $nonce_key = '' ) {
 }
 
 
-
 require_once POCHIPP_PATH . 'inc/ajax/search_amazon.php';
 require_once POCHIPP_PATH . 'inc/ajax/search_rakuten.php';
 require_once POCHIPP_PATH . 'inc/ajax/search_registerd.php';
 
-// add_action( 'wp_ajax_yyi_rinker_relink', '\POCHIPP\relink_from_api' );
-// add_action( 'wp_ajax_yyi_rinker_add_item', '\POCHIPP\add_item' );
-
-// add_action( 'wp_ajax_yyi_rinker_search_itemlist', '\POCHIPP\search_itemlist' );
-
-// add_action( 'wp_ajax_yyi_rinker_delete_all_cache', '\POCHIPP\delete_all_cache' );
 
 /**
- * Amazon APIから検索
+ * 商品データを更新する
  */
-// \POCHIPP::ACTION_NAME['amazon'] とかでアクション名 とれるようにする
 add_action( 'wp_ajax_pochipp_update_data', '\POCHIPP\update_data' );
-
-
-/**
- * AmazonAPIから商品データを取得する
- */
 function update_data() {
 
 	// if ( ! \POCHIPP\check_ajax_nonce() ) {

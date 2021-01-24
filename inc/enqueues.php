@@ -3,38 +3,12 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-
-/**
- * ajaxに必要なグローバル変数を定義
- */
-add_action( 'admin_head', function() {
-	$script  = 'window.pchppVars = {};';
-	$script .= 'window.pchppVars.ajaxUrl = "' . esc_js( admin_url( 'admin-ajax.php' ) ) . '";';
-	$script .= 'window.pchppVars.ajaxNonce = "' . esc_js( wp_create_nonce( \POCHIPP::NONCE_KEY ) ) . '";';
-
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo '<script id="pchpp_admin_vars">' . $script . '</script>' . PHP_EOL;
-} );
-
-
 /**
  * for Front
  */
 add_action( 'wp_enqueue_scripts', 'POCHIPP\front_scripts', 12 );
 function front_scripts() {
 	wp_enqueue_style( 'pochipp-front', POCHIPP_URL . 'dist/css/style.css', [], POCHIPP_VERSION );
-
-	// memo: イベントトラッキング ?
-	// $is_tracking = !!get_option( $this->option_column_name( 'is_tracking' ) , false );
-	// if ( $is_tracking ) {
-	// wp_enqueue_script(
-	// 	'pochipp-block',
-	// 	POCHIPP_URL .'js/event-tracking.js',
-	// 	['jquery],
-	// 	POCHIPP_VERSION,
-	// 	true
-	// );
-	// }
 }
 
 

@@ -12,8 +12,8 @@ function add_admin_menu() {
 	// トップメニュー複製
 	add_submenu_page(
 		'edit.php?post_type=pochipps',
-		'Pochipp設定',
-		'Pochipp設定',
+		'ポチップ設定',
+		'ポチップ設定',
 		'manage_options',
 		'pochipp_settings',
 		'\POCHIPP\setting_page'
@@ -25,7 +25,17 @@ function add_admin_menu() {
  * 設定ページの内容
  */
 function setting_page() {
-	require_once POCHIPP_PATH . 'inc/menu/setting_page.php';
+	// タブ情報
+	$SETTING_TABS = [
+		'basic'     => '基本設定',
+		'amazon'    => 'Amazon',
+		'rakuten'   => '楽天市場',
+		'yahoo'     => 'Yahooショッピング',
+		'moshimo'   => 'もしも',
+		// 'licence'   => 'ライセンス',
+	];
+
+	include POCHIPP_PATH . 'inc/menu/setting_page.php';
 }
 
 
@@ -42,29 +52,39 @@ function add_menu_init() {
 	 * 「基本設定」タブ
 	 */
 	\POCHIPP\add_settings( [
-		'section_title' => 'Amazon',
+		'section_title' => '基本設定',
+		'section_key'   => 'basic',
+		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_basic',
+	] );
+	\POCHIPP\add_settings( [
+		'section_title' => 'Amazon設定',
 		'section_key'   => 'amazon',
-		'page_name'     => \POCHIPP::MENU_PAGE['basic'],
+		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_amazon',
 	] );
 	\POCHIPP\add_settings( [
-		'section_title' => '楽天',
+		'section_title' => '楽天設定',
 		'section_key'   => 'rakuten',
-		'page_name'     => \POCHIPP::MENU_PAGE['basic'],
+		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_rakuten',
 	] );
 	\POCHIPP\add_settings( [
-		'section_title' => 'もしも',
+		'section_title' => 'Yahoo（バリューコマース）設定',
+		'section_key'   => 'yahoo',
+		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_yahoo',
+	] );
+	\POCHIPP\add_settings( [
+		'section_title' => 'もしもアフィリエイト設定',
 		'section_key'   => 'moshimo',
-		'page_name'     => \POCHIPP::MENU_PAGE['basic'],
+		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_moshimo',
 	] );
 
 	/**
 	 * 「ライセンス」タブ
 	 */
-	\POCHIPP\add_settings( [
-		'section_title' => 'ライセンス認証',
-		'section_key'   => 'licence',
-		'page_name'     => \POCHIPP::MENU_PAGE['licence'],
-	] );
+	// \POCHIPP\add_settings( [
+	// 	'section_title' => 'ライセンス認証',
+	// 	'section_key'   => 'licence',
+	// 	'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_licence',
+	// ] );
 }
 
 

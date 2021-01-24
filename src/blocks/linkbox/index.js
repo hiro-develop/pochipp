@@ -18,7 +18,7 @@ import {
 	ToolbarGroup,
 	ToolbarButton,
 	TextControl,
-	// CheckboxControl,
+	CheckboxControl,
 	PanelBody,
 } from '@wordpress/components';
 import { Icon, search, rotateLeft } from '@wordpress/icons';
@@ -31,7 +31,6 @@ import { Icon, search, rotateLeft } from '@wordpress/icons';
 /**
  * @Internal dependencies
  */
-// import ItemPreview from './ItemPreview';
 import metadata from './block.json';
 
 /**
@@ -64,17 +63,15 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 			asin: itemData.asin || '',
 			itemcode: itemData.itemcode || '',
 			info: itemData.info || '',
-			amazon_detail_url: itemData.amazon_detail_url || '',
+			amazon_affi_url: itemData.amazon_affi_url || '',
 			rakuten_detail_url: itemData.rakuten_detail_url || '',
-			l_image_url: itemData.l_image_url || '',
-			m_image_url: itemData.m_image_url || '',
-			s_image_url: itemData.s_image_url || '',
+			image_url: itemData.image_url || '',
+			// image_url_s: itemData.image_url_s || '',
 			price: itemData.price || '',
 			price_at: itemData.price_at || '',
-			affi_rate: itemData.affi_rate || '',
-			review_score: itemData.review_score || '',
+			// affi_rate: itemData.affi_rate || '',
+			// review_score: itemData.review_score || '',
 			pid: undefined,
-			// metadata: JSON.stringify(itemData), // jsonにして保存
 		});
 	}
 };
@@ -85,7 +82,7 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 registerBlockType(name, {
 	apiVersion,
 	title: 'ポチップ',
-	icon: 'buddicons-activity',
+	icon: 'pets',
 	category,
 	keywords,
 	supports,
@@ -123,7 +120,7 @@ registerBlockType(name, {
 		const openThickbox = useCallback(() => {
 			let url = 'media-upload.php?type=pochipp';
 			url += `&at=editor`;
-			url += `&tab=pochipp_search_amazon`;
+			url += `&tab=pochipp_search_registerd`;
 			url += `&blockid=${clientId}`;
 			url += `&postid=${postId}`;
 			url += '&TB_iframe=true';
@@ -144,7 +141,7 @@ registerBlockType(name, {
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton
-								className='thickbox _components-toolbar__control'
+								className='thickbox'
 								label='商品を再検索'
 								icon={<Icon icon={rotateLeft} />}
 								onClick={openThickbox}
@@ -154,27 +151,115 @@ registerBlockType(name, {
 				)}
 				{hasItem && (
 					<InspectorControls>
-						<PanelBody title='設定'>
+						<PanelBody title='情報の表示設定'>
 							<TextControl
-								label='商品名'
+								label='商品名を上書き'
 								value={title}
 								onChange={(newText) => {
 									setAttributes({ title: newText });
 								}}
 							/>
 							<TextControl
-								label='補足情報'
+								label='補足情報を上書き'
 								value={info}
 								onChange={(newText) => {
 									setAttributes({ info: newText });
 								}}
 							/>
-							<TextControl
-								label='Amazonリンク先URL'
-								value={attributes.amazon_detail_url}
+							<CheckboxControl
+								label='補足情報を非表示'
+								className='pchpp-hideCheck'
+								checked={attributes.hideInfo}
+								onChange={(checked) => {
+									setAttributes({
+										hideInfo: checked,
+									});
+								}}
+							/>
+							<CheckboxControl
+								label='価格を非表示'
+								className='pchpp-hideCheck'
+								checked={attributes.hidePrice}
+								onChange={(checked) => {
+									setAttributes({
+										hidePrice: checked,
+									});
+								}}
+							/>
+							<CheckboxControl
+								label='Amazonボタンを非表示'
+								className='pchpp-hideCheck'
+								checked={attributes.hideAmazon}
+								onChange={(checked) => {
+									setAttributes({
+										hideAmazon: checked,
+									});
+								}}
+							/>
+							<CheckboxControl
+								label='楽天ボタンを非表示'
+								className='pchpp-hideCheck'
+								checked={attributes.hideRakuten}
+								onChange={(checked) => {
+									setAttributes({
+										hideRakuten: checked,
+									});
+								}}
+							/>
+							<CheckboxControl
+								label='Yahooボタンを非表示'
+								className='pchpp-hideCheck'
+								checked={attributes.hideYahoo}
+								onChange={(checked) => {
+									setAttributes({
+										hideYahoo: checked,
+									});
+								}}
+							/>
+							{/* <TextControl
+								label='AmazonボタンURL'
+								value={attributes.amazon_custom_url}
 								onChange={(newText) => {
 									setAttributes({
-										amazon_detail_url: newText,
+										amazon_custom_url: newText,
+									});
+								}}
+							/>
+							<TextControl
+								label='楽天ボタンURL'
+								value={attributes.rakuten_custom_url}
+								onChange={(newText) => {
+									setAttributes({
+										rakuten_custom_url: newText,
+									});
+								}}
+							/>
+							<TextControl
+								label='YahooボタンURL'
+								value={attributes.yahoo_custom_url}
+								onChange={(newText) => {
+									setAttributes({
+										yahoo_custom_url: newText,
+									});
+								}}
+							/> */}
+						</PanelBody>
+						<PanelBody title='カスタムボタン設定'>
+							<TextControl
+								label='カスタムボタンのURL'
+								value={attributes.custom_btn_url}
+								onChange={(newText) => {
+									setAttributes({
+										custom_btn_url: newText,
+									});
+								}}
+							/>
+							<TextControl
+								label='カスタムボタンのテキスト'
+								value={attributes.custom_btn_text}
+								onChange={(newText) => {
+									setAttributes({
+										custom_btn_text: newText,
 									});
 								}}
 							/>

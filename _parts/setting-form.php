@@ -10,17 +10,29 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 		<tbody>
 		<tr>
 			<th>
-				<label for="<?php echo 'is_no_reapi' ?>_form">商品情報の再取得</label></th>
+				<label for="<?php echo 'is_no_reapi'; ?>_form">商品情報の再取得</label></th>
 			<td>
-				<?php $is_noapi_checked = !!get_option( $this->option_column_name( 'is_no_reapi' ), false );?>
+				<?php $is_noapi_checked = ! ! get_option( $this->option_column_name( 'is_no_reapi' ), false ); ?>
 				<div class="radio-box">
-					<input id="<?php echo 'is_no_reapi' ?>_0_form" type="radio" value="0" name="<?php echo 'is_no_reapi'; ?>" <?php if ( !$is_noapi_checked )  { ?>checked="checked" <?php } ?>><label for="<?php echo 'is_no_reapi' ?>_0_form">再取得をする</label>
-					<?php $is_checked = !!get_option( $this->option_column_name( 'is_no_price_disp_column' ), false ); ?>
-					<input id="<?php echo 'is_no_price_disp_column' ?>_form" type="checkbox" value="1" name="<?php echo 'is_no_price_disp_column'; ?>" <?php if ( $is_checked )  { ?>checked="checked" <?php } ?>>
-					<label for="<?php echo 'is_no_price_disp_column' ?>_form">価格を非表示にする</label>
+					<input id="<?php echo 'is_no_reapi'; ?>_0_form" type="radio" value="0" name="<?php echo 'is_no_reapi'; ?>" 
+										  <?php
+					if ( ! $is_noapi_checked ) {
+												?>
+checked="checked" <?php } ?>><label for="<?php echo 'is_no_reapi'; ?>_0_form">再取得をする</label>
+					<?php $is_checked = ! ! get_option( $this->option_column_name( 'is_no_price_disp_column' ), false ); ?>
+					<input id="<?php echo 'is_no_price_disp_column'; ?>_form" type="checkbox" value="1" name="<?php echo 'is_no_price_disp_column'; ?>" 
+										  <?php
+					if ( $is_checked ) {
+												?>
+checked="checked" <?php } ?>>
+					<label for="<?php echo 'is_no_price_disp_column'; ?>_form">価格を非表示にする</label>
 				</div>
 				<div class="radio-box">
-					<input id="<?php echo 'is_no_reapi' ?>_1_form" type="radio" value="1" name="<?php echo 'is_no_reapi'; ?>" <?php if ( $is_noapi_checked )  { ?>checked="checked" <?php } ?>><label for="<?php echo 'is_no_reapi' ?>_1_form">再取得をしない</label>
+					<input id="<?php echo 'is_no_reapi'; ?>_1_form" type="radio" value="1" name="<?php echo 'is_no_reapi'; ?>" 
+										  <?php
+					if ( $is_noapi_checked ) {
+												?>
+checked="checked" <?php } ?>><label for="<?php echo 'is_no_reapi'; ?>_1_form">再取得をしない</label>
 				</div>
 				<div><span class="yyi-relink-message">※再取得しないを選択した場合[価格は非表示][リンク切れチェックは無し]になります。PA-APIの利用が停止された場合チェックをつけてください。</span></div>
 			</td>
@@ -79,9 +91,17 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 			</th>
 			<td>
 				<?php $is_amazon_detail_checked = $this->is_amazon_detail_url(); ?>
-				<input id="is_detail_amazon_url_0" type="radio"  name="<?php echo 'is_detail_amazon_url'; ?>" <?php if ( !$is_amazon_detail_checked )  { ?>checked="checked" <?php } ?> value="0">
+				<input id="is_detail_amazon_url_0" type="radio"  name="<?php echo 'is_detail_amazon_url'; ?>" 
+																				  <?php
+				if ( ! $is_amazon_detail_checked ) {
+																																		?>
+checked="checked" <?php } ?> value="0">
 				<label  for="is_detail_amazon_url_0">リンク先を検索画面にする</label>
-				<input id="is_detail_amazon_url_1" type="radio" name="<?php echo 'is_detail_amazon_url'; ?>" <?php if ( $is_amazon_detail_checked )  { ?>checked="checked" <?php } ?> value="1">
+				<input id="is_detail_amazon_url_1" type="radio" name="<?php echo 'is_detail_amazon_url'; ?>" 
+																				 <?php
+				if ( $is_amazon_detail_checked ) {
+																																		?>
+checked="checked" <?php } ?> value="1">
 				<label  for="is_detail_amazon_url_1">リンク先を商品の詳細画面にする</label>
 			</td>
 		</tr>
@@ -104,7 +124,7 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 					<input class="tag_insert_button" type="button" value="{{@asin}}" id="insert_asin">
 					<span class="yyi-rinker-small">はASINに変換されます。</span>
 				</div>
-				<textarea rows="3" id="amazon_free_comment" type="text" name="<?php echo 'amazon_free_comment'; ?>"><?php echo esc_textarea( stripslashes( $this->array_get($params, 'amazon_free_comment', '' ) ) ); ?></textarea>
+				<textarea rows="3" id="amazon_free_comment" type="text" name="<?php echo 'amazon_free_comment'; ?>"><?php echo esc_textarea( stripslashes( $this->array_get( $params, 'amazon_free_comment', '' ) ) ); ?></textarea>
 			</td>
 		</tr>
 		</tbody>
@@ -122,31 +142,39 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 				<label for="rakuten_affiliateid_form">アフィリエイトID</label>
 			</th>
 			<td>
-				<input id="rakuten_affiliateid_form" type="text" name="rakuten_affiliate_id" value="<?php echo esc_attr($this->array_get($params, 'rakuten_affiliate_id', '')); ?>" />
+				<input id="rakuten_affiliateid_form" type="text" name="rakuten_affiliate_id" value="<?php echo esc_attr( $this->array_get( $params, 'rakuten_affiliate_id', '' ) ); ?>" />
 			</td>
 		</tr>
 
 		</tbody>
 	</table>
 
-    <h4>リンク先</h4>
+	<h4>リンク先</h4>
 
-    <table class="form-table">
-        <tbody>
-        <tr>
-            <th>
-                <label for="is_detail_rakuten_url_0">楽天市場ボタン</label>
-            </th>
-            <td>
+	<table class="form-table">
+		<tbody>
+		<tr>
+			<th>
+				<label for="is_detail_rakuten_url_0">楽天市場ボタン</label>
+			</th>
+			<td>
 				<?php $is_rakuten_detail_checked = $this->is_rakuten_detail_url(); ?>
-                <input id="is_detail_rakuten_url_0" type="radio"  name="<?php echo 'is_detail_rakuten_url'; ?>" <?php if ( !$is_rakuten_detail_checked )  { ?>checked="checked" <?php } ?> value="0">
-                <label  for="is_detail_rakuten_url_0">リンク先を検索画面にする</label>
-                <input id="is_detail_rakuten_url_1" type="radio" name="<?php echo 'is_detail_rakuten_url'; ?>" <?php if ( $is_rakuten_detail_checked )  { ?>checked="checked" <?php } ?> value="1">
-                <label  for="is_detail_rakuten_url_1">リンク先を商品の詳細画面にする</label>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+				<input id="is_detail_rakuten_url_0" type="radio"  name="<?php echo 'is_detail_rakuten_url'; ?>" 
+																				   <?php
+				if ( ! $is_rakuten_detail_checked ) {
+																																		?>
+checked="checked" <?php } ?> value="0">
+				<label  for="is_detail_rakuten_url_0">リンク先を検索画面にする</label>
+				<input id="is_detail_rakuten_url_1" type="radio" name="<?php echo 'is_detail_rakuten_url'; ?>" 
+																				  <?php
+				if ( $is_rakuten_detail_checked ) {
+																																		?>
+checked="checked" <?php } ?> value="1">
+				<label  for="is_detail_rakuten_url_1">リンク先を商品の詳細画面にする</label>
+			</td>
+		</tr>
+		</tbody>
+	</table>
 
 	<h4>共通設定</h4>
 	<p>[楽天市場から検索]で作成した商品リンクに表示されます。商品リンクの[フリーHTML]を設定している場合は商品リンクの[フリーHTML]が優先されます。</p>
@@ -165,7 +193,7 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 					<input class="tag_insert_button" type="button" value="{{@rarakuten_code}}" id="insert_rakuten_code">
 					<span class="yyi-rinker-small">は楽天市場商品コードに変換されます。</span>
 				</div>
-				<textarea rows="3" id="rakuten_free_comment" type="text" name="<?php echo 'rakuten_free_comment'; ?>"><?php echo esc_textarea( stripslashes( $this->array_get($params, 'rakuten_free_comment', '' ) ) ); ?></textarea>
+				<textarea rows="3" id="rakuten_free_comment" type="text" name="<?php echo 'rakuten_free_comment'; ?>"><?php echo esc_textarea( stripslashes( $this->array_get( $params, 'rakuten_free_comment', '' ) ) ); ?></textarea>
 			</td>
 		</tr>
 		</tbody>
@@ -182,7 +210,7 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 				<label for="valuecommerce_linkswitch_tag_form">LinkSwitch</label>
 			</th>
 			<td>
-				<textarea rows="3" id="valuecommerce_linkswitch_tag_form" type="text" name="<?php echo 'valuecommerce_linkswitch_tag'; ?>"><?php echo esc_textarea( stripslashes( $this->array_get($params, 'valuecommerce_linkswitch_tag', '' ) ) ); ?></textarea>
+				<textarea rows="3" id="valuecommerce_linkswitch_tag_form" type="text" name="<?php echo 'valuecommerce_linkswitch_tag'; ?>"><?php echo esc_textarea( stripslashes( $this->array_get( $params, 'valuecommerce_linkswitch_tag', '' ) ) ); ?></textarea>
 			</td>
 		</tr>
 		</tbody>
@@ -220,7 +248,7 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 				<label for="moshimo_amazon_id_form">AmazonID</label>
 			</th>
 			<td>
-				<input id="moshimo_amazon_id_form" type="text" name="<?php echo 'moshimo_amazon_id'; ?>" value="<?php echo esc_attr($this->array_get($params, 'moshimo_amazon_id', '')); ?>" />
+				<input id="moshimo_amazon_id_form" type="text" name="<?php echo 'moshimo_amazon_id'; ?>" value="<?php echo esc_attr( $this->array_get( $params, 'moshimo_amazon_id', '' ) ); ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -228,7 +256,7 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 				<label for="moshimo_rakuten_id_form">楽天ID</label>
 			</th>
 			<td>
-				<input id="moshimo_rakuten_id_form" type="text" name="<?php echo 'moshimo_rakuten_id'; ?>" value="<?php echo esc_attr($this->array_get($params, 'moshimo_rakuten_id', '')); ?>" />
+				<input id="moshimo_rakuten_id_form" type="text" name="<?php echo 'moshimo_rakuten_id'; ?>" value="<?php echo esc_attr( $this->array_get( $params, 'moshimo_rakuten_id', '' ) ); ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -236,7 +264,7 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 				<label for="moshimo_yahoo_id_form">YahooショッピングID</label>
 			</th>
 			<td>
-				<input id="moshimo_yahoo_id_form" type="text" name="<?php echo 'moshimo_yahoo_id'; ?>" value="<?php echo esc_attr($this->array_get($params, 'moshimo_yahoo_id', '')); ?>" />
+				<input id="moshimo_yahoo_id_form" type="text" name="<?php echo 'moshimo_yahoo_id'; ?>" value="<?php echo esc_attr( $this->array_get( $params, 'moshimo_yahoo_id', '' ) ); ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -245,10 +273,10 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 			</th>
 			<td>
 				<?php $digit = $this->array_get( $params, 'moshimo_shops_check', 0 ); ?>
-				<?php foreach( $this->shop_types AS $shop_type => $values ) {?>
+				<?php foreach ( $this->shop_types as $shop_type => $values ) { ?>
 					<?php $is_checked = $digit & $values['val'] ? ' checked="checked"' : ''; ?>
-					<input id="moshimo_shops_check_<?php echo esc_attr( $values[ 'val' ] )?>" type="checkbox" name="<?php echo 'moshimo_shops_check' ?>[]" value="<?php echo esc_attr( $values[ 'val' ] )?>" <?php echo $is_checked ?> />
-					<label for="moshimo_shops_check_<?php echo esc_attr( $values[ 'val' ] )?>"><?php echo esc_html( $values[ 'label' ] )?></label>
+					<input id="moshimo_shops_check_<?php echo esc_attr( $values['val'] ); ?>" type="checkbox" name="<?php echo 'moshimo_shops_check'; ?>[]" value="<?php echo esc_attr( $values['val'] ); ?>" <?php echo $is_checked; ?> />
+					<label for="moshimo_shops_check_<?php echo esc_attr( $values['val'] ); ?>"><?php echo esc_html( $values['label'] ); ?></label>
 				<?php } ?>
 			</td>
 		</tr>
@@ -263,40 +291,45 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 				<label for="valuecommerce_linkswitch_tag_form">Google Analytics</label>
 			</th>
 			<td>
-				<?php $is_checked = !!get_option( $this->option_column_name( 'is_tracking' ), false ); ?>
-				<input id="is_tracking" type="checkbox" value="1" name="<?php echo 'is_tracking'; ?>" <?php if ( $is_checked )  { ?>checked="checked" <?php } ?>>
+				<?php $is_checked = ! ! get_option( $this->option_column_name( 'is_tracking' ), false ); ?>
+				<input id="is_tracking" type="checkbox" value="1" name="<?php echo 'is_tracking'; ?>" 
+																				   <?php
+				if ( $is_checked ) {
+																																		?>
+checked="checked" <?php } ?>>
 				<label  for="is_tracking">商品リンクのクリックをトラッキング</label>
 			</td>
 		</tr>
 		</tbody>
 	</table>
 
-    <h3>デザイン設定</h3>
-    <table class="form-table">
-        <tbody>
-        <tr>
-            <th>
-                <label for="valuecommerce_linkswitch_tag_form">デザイン</label>
-            </th>
-            <td>
-				<?php $design_type_val = intval(get_option( $this->option_column_name( 'design_type' ), self::DESIGN_TYPE_NORMAL ));?>
-                <select name="<?php echo 'design_type'; ?>">
-                    <?php foreach($this->design_types AS $i => $val) { ?>
-                        <?php $is_checked = $design_type_val === $i ? ' selected="selected"' : ''; ?>
-                    <option value="<?php echo esc_attr( $i ); ?>" <?php echo $is_checked; ?>>
-                        <?php echo esc_html($val['label']) ?>
-                    </option>
-                    <?php } ?>
-                </select>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+	<h3>デザイン設定</h3>
+	<table class="form-table">
+		<tbody>
+		<tr>
+			<th>
+				<label for="valuecommerce_linkswitch_tag_form">デザイン</label>
+			</th>
+			<td>
+				<?php $design_type_val = intval( get_option( $this->option_column_name( 'design_type' ), self::DESIGN_TYPE_NORMAL ) ); ?>
+				<select name="<?php echo 'design_type'; ?>">
+					<?php foreach ( $this->design_types as $i => $val ) { ?>
+						<?php $is_checked = $design_type_val === $i ? ' selected="selected"' : ''; ?>
+					<option value="<?php echo esc_attr( $i ); ?>" <?php echo $is_checked; ?>>
+						<?php echo esc_html( $val['label'] ); ?>
+					</option>
+					<?php } ?>
+				</select>
+			</td>
+		</tr>
+		</tbody>
+	</table>
 
 	<?php
 	do_action( $this->add_prefix( 'insert_html_last_form' ), $params );
 
-	wp_nonce_field( $this->_admin_referer_column ); ?>
+	wp_nonce_field( $this->_admin_referer_column );
+	?>
 	<p class="submit">
 		<input type="submit" name="submit" id="submit" class="button button-primary" value="変更を保存">
 	</p>
@@ -323,48 +356,46 @@ do_action( $this->add_prefix( 'insert_html_first_form' ), $params );
 
 <script type="text/javascript">
 
-    (function ($) {
-        $(document).on('click', '#delete-cache', function (event) {
-            $('div#yyi-loading img').show();
-            var params = {
-                action: 'yyi_rinker_delete_all_cache',
-            };
-            params['_wpnonce'] = '<?php echo wp_create_nonce( $this->add_prefix( 'delete_all_cache' ) )?>';
-            $.ajax({
-                url: '<?php bloginfo( 'wpurl' ); ?>/wp-admin/admin-ajax.php',
-                method: 'POST',
-                data: params,
-            }).done(function (data, textStatus, jqXHR) {
-                if (isFinite(data)) {
-                    $('#delete-cachemessage').text('キャッシュを削除しました');
+	(function ($) {
+		$(document).on('click', '#delete-cache', function (event) {
+			$('div#yyi-loading img').show();
+			var params = {
+				action: 'yyi_rinker_delete_all_cache',
+			};
+			params['_wpnonce'] = '<?php echo wp_create_nonce( $this->add_prefix( 'delete_all_cache' ) ); ?>';
+			$.ajax({
+				url: '<?php bloginfo( 'wpurl' ); ?>/wp-admin/admin-ajax.php',
+				method: 'POST',
+				data: params,
+			}).done(function (data, textStatus, jqXHR) {
+				if (isFinite(data)) {
+					$('#delete-cachemessage').text('キャッシュを削除しました');
 				} else {
-                    console.log(data);
-                    $('#delete-cachemessage').text('キャッシュの削除に失敗しました');
+					console.log(data);
+					$('#delete-cachemessage').text('キャッシュの削除に失敗しました');
 				}
 
-            }).always(function(jqXHR, textStatus){
-                $('div#yyi-loading img').hide();
-            });
+			}).always(function(jqXHR, textStatus){
+				$('div#yyi-loading img').hide();
+			});
 
-        });
+		});
 
-        $('#insert_amazon_id').click(function() {
-            yyi_rinker_insert_tag($('#amazon_free_comment'), '<?php echo esc_js( self::AMAZON_ID_INSERT_TAG ) ?>');
-        });
-        $('#insert_asin').click(function() {
-            yyi_rinker_insert_tag($('#amazon_free_comment'), '<?php echo esc_js( self::ASIN_INSERT_TAG ) ?>');
-        });
+		$('#insert_amazon_id').click(function() {
+			yyi_rinker_insert_tag($('#amazon_free_comment'), '<?php echo esc_js( self::AMAZON_ID_INSERT_TAG ); ?>');
+		});
+		$('#insert_asin').click(function() {
+			yyi_rinker_insert_tag($('#amazon_free_comment'), '<?php echo esc_js( self::ASIN_INSERT_TAG ); ?>');
+		});
 
-        $('#insert_rakuten_id').click(function() {
-            yyi_rinker_insert_tag($('#rakuten_free_comment'), '<?php echo esc_js( self::RAKUTEN_ID_INSERT_TAG ) ?>');
-        });
+		$('#insert_rakuten_id').click(function() {
+			yyi_rinker_insert_tag($('#rakuten_free_comment'), '<?php echo esc_js( self::RAKUTEN_ID_INSERT_TAG ); ?>');
+		});
 
-        $('#insert_rakuten_code').click(function() {
-            yyi_rinker_insert_tag($('#rakuten_free_comment'), '<?php echo esc_js( self::RAKUTEN_CODE_INSERT_TAG ) ?>');
-        });
+		$('#insert_rakuten_code').click(function() {
+			yyi_rinker_insert_tag($('#rakuten_free_comment'), '<?php echo esc_js( self::RAKUTEN_CODE_INSERT_TAG ); ?>');
+		});
 
-    })(jQuery);
+	})(jQuery);
 
 </script>
-
-

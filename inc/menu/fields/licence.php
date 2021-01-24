@@ -4,14 +4,14 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
-<h3 class="pcpp-setting__h3">有料版ライセンス</h3>
+<h3 class="pchpp-setting__h3">有料版ライセンス</h3>
 <?php
 	\POCHIPP::output_text_field([
 		'key'   => 'pochipp_licence_key',
 		'label' => 'ライセンスキー',
 	]);
 ?>
-<div class="pcpp-licence-status">
+<div class="pchpp-licence-status">
 	<?php if ( \POCHIPP::check_licence() ) : ?>
 		<p>ライセンスを確認できました。</P>
 	<?php else : ?>

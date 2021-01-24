@@ -32,16 +32,17 @@ function load_search_fom_iframe() {
  */
 function media_upload_tabs() {
 
-	$tabs = [
-		\POCHIPP::TABKEY_AMAZON  => 'Amazonから商品検索',
-		\POCHIPP::TABKEY_RAKUTEN => '楽天市場から商品検索',
-	];
+	$tabs = [];
 
 	// エディターからモーダルが開かれた時、タブを追加
 	$at = \POCHIPP::array_get( $_GET, 'at', '' );
 	if ( 'editor' === $at ) {
 		$tabs[ \POCHIPP::TABKEY_REGISTERD ] = '登録済み商品リンクから検索';
 	}
+
+	// 共通
+	$tabs[ \POCHIPP::TABKEY_AMAZON ]  = 'Amazonから商品検索';
+	$tabs[ \POCHIPP::TABKEY_RAKUTEN ] = '楽天市場から商品検索';
 
 	return $tabs;
 }

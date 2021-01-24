@@ -1,6 +1,7 @@
 @import "./common/**";
 @import "./tb";
 
+// ブロックエディターで読み込まれる
 
 .pochipp-block {
 
@@ -40,5 +41,8 @@
 			display: none;
 		}
 	}
+}
 
+.components-base-control.pchpp-hideCheck {
+	margin-bottom: 0 !important;
 }
