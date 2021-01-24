@@ -133,7 +133,8 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		if ( 'amazon' === $searched_at ) $image_url   = str_replace( '.jpg', '._SL400_.jpg', $image_url );
 	}
 
-	$is_blank = 0;
+	$is_blank = \POCHIPP::get_setting( 'show_amazon_normal_link' );
+
 	if ( $is_blank ) {
 		$rel_target = 'rel="nofollow noopener" target="_blank"';
 	} else {
