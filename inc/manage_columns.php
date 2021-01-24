@@ -37,7 +37,43 @@ function output_custom_post_columns( $column_name, $post_id ) {
 		echo esc_html( $pchpp_metas['searched_at'] ?? '-' );
 
 	} elseif ( 'used_at' === $column_name ) {
-		echo '使用中のページをここに表示';
+		$post_id;
+		$args = [
+			'post_type'      => ['post', 'page' ],
+			'no_found_rows'  => true,
+			'posts_per_page' => -1,
+			's'              => 'wp:pochipp/linkbox "pid":' . $post_id,
+		];
+
+		$count     = 0;
+		$the_query = new \WP_Query( $args );
+		if ( $the_query->have_posts() ) :
+			while ( $the_query->have_posts() ) :
+				$the_query->the_post();
+
+				$the_id = get_the_ID();
+
+				$title     = get_the_title();
+				$ttl_width = mb_strwidth( $title, 'UTF-8' );
+				if ( 30 < $ttl_width ) {
+					$title = mb_strimwidth( $title, 0, 30 ) . '...';
+				} elseif ( 0 === $ttl_width ) {
+					$title = '(タイトルなし)';
+				}
+
+				$edit_link = 'http://shop.wp/wp-admin/post.php?post=' . $the_id . '&action=edit';
+				echo '<a href="' . esc_url( $edit_link ) . '" class="pchpp-usepage" data-title="' . esc_attr( $title ) . '">' .
+					esc_html( $the_id )
+				. '</a>';
+
+				$count++;
+			endwhile;
+		endif;
+		wp_reset_postdata();
+
+		update_post_meta( $post_id, 'used_count', $count );
+		// echo get_post_meta( $post_id, 'used_count', true );
+
 	}
 
 }

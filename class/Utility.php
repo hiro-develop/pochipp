@@ -230,6 +230,7 @@ trait Utility {
 		$term_id  = $args['term_id'] ?? 0;
 		$keywords = $args['keywords'] ?? '';
 		$count    = $args['count'] ?? 20;
+		$sort     = $args['sort'] ?? 'new';
 
 		$query_args = [
 			'post_type'         => \POCHIPP::POST_TYPE_SLUG,
@@ -241,6 +242,7 @@ trait Utility {
 			$query_args['s'] = $keywords;
 		}
 
+		// 商品カテゴリ
 		if ( 0 < intval( $term_id ) ) {
 			$query_args['tax_query'] = [
 				[
@@ -248,6 +250,17 @@ trait Utility {
 					'terms'     => $term_id,
 				],
 			];
+		}
+
+		// 並び順
+		if ( 'old' === $sort ) {
+			$query_args['order']   = 'ASC';
+			$query_args['orderby'] = 'date';
+		} elseif ( 'count' === $sort ) {
+
+			$query_args['order']    = 'DESC';
+			$query_args['orderby']  = 'meta_value_num';
+			$query_args['meta_key'] = 'used_count';
 		}
 
 		// 最終的に返すデータ

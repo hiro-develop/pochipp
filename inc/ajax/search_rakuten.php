@@ -28,12 +28,12 @@ function rakuten_sort( $sort ) {
 function search_from_rakuten_api() {
 
 	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$page     = \POCHIPP::array_get( $_GET, 'page', 1 );
 	$sort     = \POCHIPP::array_get( $_GET, 'sort', 1 );
+	$sort     = \POCHIPP\rakuten_sort( $sort );
 
-	// 整理
-	$page = intval( $page ) > 1 ? $page : '1';
-	$sort = \POCHIPP\rakuten_sort( $sort );
+	// ページ
+	// $page     = \POCHIPP::array_get( $_GET, 'page', 1 );
+	// $page = intval( $page ) > 1 ? $page : '1';
 
 	// 登録済み商品
 	$registerd_items = \POCHIPP::get_registerd_items( [
@@ -43,7 +43,7 @@ function search_from_rakuten_api() {
 
 	// 検索API用のurlに付与するクエリ情報を生成
 	$api_query  = '&hits=10'; // 検索数
-	$api_query .= '&page=' . $page . '&sort=' . rawurlencode( $sort );
+	$api_query .= '&page=1&sort=' . rawurlencode( $sort );
 	$api_query .= '&availability=1&keyword=' . rawurlencode( $keywords );
 
 	// 検索結果を取得

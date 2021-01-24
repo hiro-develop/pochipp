@@ -9,10 +9,12 @@ if ( ! \POCHIPP::get_setting( 'rakuten_app_id' ) ) {
 	return;
 }
 ?>
-<select id="sort_select" name="sort">
-	<option value="0">--並び順--</option>
-	<?php foreach ( \POCHIPP::$rakuten_sorts as $sort_id => $values ) : ?>
-		<option value="<?=esc_attr( $sort_id )?>"><?=esc_html( $values['label'] )?></option>
-	<?php endforeach; ?>
-</select>
+<div class="pchpp-tb__selectbox">
+	<select id="sort_select" name="sort">
+		<option value="0">並び順</option>
+		<?php foreach ( \POCHIPP::$rakuten_sorts as $sort_id => $values ) : ?>
+			<option value="<?=esc_attr( $sort_id )?>"><?=esc_html( $values['label'] )?></option>
+		<?php endforeach; ?>
+	</select>
+</div>
 <?php echo $common_parts; // phpcs:ignore ?>

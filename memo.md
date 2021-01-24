@@ -6,6 +6,7 @@
 - URLの上書き設定いる？？ Rinkerはない。
   - imp計測imgタグの設定をどうするかとかも考えないといけなくなる。
 
+- 「使用中のページ」を検出して表示する > カウントして多い順に並べる
 - wp-scripts バージョンアップ
 - 各ボタンの標準テキスト設定 / カスタムボタンの色設定 / デザイン設定
 - 手動入力は、画面切り替える？ -> 「検索 or 手動」で、 手動を選択すると searched_at を manual に更新する。
@@ -23,8 +24,6 @@
 
 
 # コード中のメモ書き
-
-「yyi: 」 -> 元のソースに対するメモ
 「memo: 」
 
 
@@ -67,7 +66,3 @@
 
 - 楽天リンクで付与される Rinker_i_, Rinker_t_, Rinker_o_ が謎。
   - タイムスタンプ付きなので、何かの計測用か。
-
-
-
-https://hb.afl.rakuten.co.jp/hgc/g00r2ri8.13lem44c.g00r2ri8.13lene57/Rinker_t_20200912021732?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fking-depart%2F2set-tan3tan4%2F&m=http%3A%2F%2Fm.rakuten.co.jp%2Fking-depart%2Fi%2F10002869%2F

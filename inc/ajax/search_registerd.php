@@ -16,12 +16,15 @@ function search_registerd_items() {
 
 	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
 	$term_id  = \POCHIPP::array_get( $_GET, 'term_id', 0 );
+	$count    = \POCHIPP::array_get( $_GET, 'count', 10 );
+	$sort     = \POCHIPP::array_get( $_GET, 'sort', 'new' );
 
 	// 登録済み商品
 	$registerd_items = \POCHIPP::get_registerd_items( [
 		'keywords' => $keywords,
 		'term_id'  => $term_id,
-		'count'    => 10,
+		'count'    => $count,
+		'sort'     => $sort,
 	] );
 
 	// 検索結果

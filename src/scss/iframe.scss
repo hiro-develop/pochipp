@@ -11,30 +11,129 @@ body {
 	* {
 		box-sizing: border-box;
 	}
-}
 
-.pchpp-tb__body {
-	padding: 24px;
-}
+	.pchpp-tb__body {
+		padding: 24px;
+	}
 
-#search_form {
-	display: flex;
-}
+	// .pchpp-tb__search {}
 
-#keywords {
-	flex: 1;
-	margin: 0 8px;
-}
+	#search_form {
+		display: flex;
+		flex-wrap: wrap;
+	}
 
-#submit {
-	padding: 8px;
+	.pchpp-tb__keywords {
+		display: flex;
+		flex: 1;
+		padding: 4px;
 
-	img {
-		display: block;
-		width: 20px;
-		height: 20px;
+		#keywords {
+			flex: 1;
+			min-height: 32px;
+			margin: 0 8px 0 0;
+		}
+
+		#submit {
+			box-sizing: border-box;
+			width: 32px;
+			height: 32px;
+			padding: 8px;
+
+			img {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+	.pchpp-tb__selectbox {
+		display: flex;
+		align-items: center;
+		padding: 4px;
+
+		& + .pchpp-tb__selectbox {
+			margin-left: 8px;
+		}
+
+		label {
+			margin-right: 8px;
+		}
+
+		select {
+			min-height: 32px;
+		}
+	}
+
+	&.-pochipp_search_registerd {
+
+		.pchpp-tb__keywords {
+			flex-basis: 100%;
+			padding-top: 8px;
+		}
+
+		// .pchpp-tb__selectbox {
+		// }
+	}
+
+	.pchpp-tb__area-title {
+		margin: 24px 0 16px;
+		font-weight: bold;
+		font-weight: 700;
+		font-size: 16px;
+	}
+
+	.pochipp-items {
+		border-top: solid 1px #ededed;
+	}
+
+	.pochipp-item {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 12px;
+		border-bottom: solid 1px #ededed;
+
+		&[data-type="registerd"] {
+			margin-bottom: 16px;
+			background: #f3f3f3;
+			border: solid 1px #d7dde0;
+		}
+	}
+
+	.pochipp-item__img {
+		width: 80px;
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			border: 1px solid #ededed;
+		}
+	}
+
+	.pochipp-item__body {
+		width: calc(100% - 80px);
+		padding-left: 16px;
+	}
+
+	.pochipp-item__title {
+		margin-bottom: 8px;
+		font-weight: bold;
+	}
+
+	.pochipp-item__info,
+	.pochipp-item__price {
+		font-size: 11px;
+	}
+
+	.pochipp-item__btns {
+		width: 100%;
+		margin-top: 16px;
 	}
 }
+
+
 
 #loading_image {
 	display: none;
@@ -42,60 +141,6 @@ body {
 	text-align: center;
 }
 
-.pchpp-tb__area-title {
-	margin: 24px 0 16px;
-	font-weight: bold;
-	font-weight: 700;
-	font-size: 16px;
-}
-
-.pochipp-items {
-	border-top: solid 1px #ededed;
-}
-
-.pochipp-item {
-	display: flex;
-	flex-wrap: wrap;
-	padding: 12px;
-	border-bottom: solid 1px #ededed;
-
-	&[data-type="registerd"] {
-		margin-bottom: 16px;
-		background: #f3f3f3;
-		border: solid 1px #d7dde0;
-	}
-}
-
-.pochipp-item__img {
-	width: 80px;
-
-	img {
-		display: block;
-		width: 100%;
-		height: auto;
-		border: 1px solid #ededed;
-	}
-}
-
-.pochipp-item__body {
-	width: calc(100% - 80px);
-	padding-left: 16px;
-}
-
-.pochipp-item__title {
-	margin-bottom: 8px;
-	font-weight: bold;
-}
-
-.pochipp-item__info,
-.pochipp-item__price {
-	font-size: 11px;
-}
-
-.pochipp-item__btns {
-	width: 100%;
-	margin-top: 16px;
-}
 
 // *
 // loda-stylesで読み込まれるはずの css
@@ -105,25 +150,28 @@ div#media-upload-header {
 	margin: 0;
 	padding: 5px 5px 0;
 	font-weight: 600;
-	background: #f9f9f9;
+	background: #efefef;
 	border-bottom: 1px solid #ddd;
 }
 
+
+// タブ部分
 #sidemenu {
 	position: relative;
 	bottom: -1px;
 	left: 0;
+	display: flex;
 	float: none;
 	margin: 0;
 	padding-left: 8px;
 	overflow: hidden;
 	font-weight: 400;
-	font-size: 13px;
+	font-size: 14px;
 	list-style: none;
 
 	li {
-		display: inline;
-		margin: 0;
+		display: block;
+		margin: 0 2px;
 		padding: 0;
 		line-height: 1.5;
 		white-space: nowrap;
@@ -134,22 +182,28 @@ div#media-upload-header {
 	a {
 		display: block;
 		float: left;
-		padding: 8px 12px;
+		padding: 10px 12px;
 		line-height: inherit;
 		letter-spacing: 0.5px;
 		text-decoration: none;
-		background-color: #f9f9f9;
-		border-top: 1px solid #f9f9f9;
+		background-color: #efefef;
+		border-top: 1px solid #efefef;
 		border-bottom: 1px solid #ddd;
-		border-radius: 4px 4px 0 0;
+		border-radius: 6px 6px 0 0;
 		transition: none;
 
-		&.current {
-			// padding-right: 6px;
-			// padding-left: 6px;
+		&.current,
+		&:hover,
+		&:focus {
 			color: #000;
 			font-weight: 400;
 			background-color: #fdfdfd;
+			border-bottom-color: #fdfdfd;
+			outline: none;
+			box-shadow: none;
+		}
+
+		&.current {
 			border: 1px solid #ddd;
 			border-bottom-color: #fdfdfd;
 		}

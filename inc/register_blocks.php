@@ -25,12 +25,6 @@ add_action( 'init', function() {
 } );
 
 
-// function cb_pochipp_setting( $attrs, $content ) {
-// 	$title       = $attrs['title'] ?? '';
-// 	$render_args = json_decode( $attrs['meta'], true ) ?: [];
-// 	return \POCHIPP\render_pochipp_block( $title, $render_args );
-// }
-
 function cb_pochipp_block( $attrs, $content ) {
 
 	$pid      = $attrs['pid'] ?? 0;

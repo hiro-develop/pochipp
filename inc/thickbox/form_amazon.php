@@ -10,9 +10,11 @@ if ( ! \POCHIPP::get_setting( 'amazon_access_key' ) || ! \POCHIPP::get_setting( 
 ?>
 
 <!-- Amazonタブ -->
-<select id="search_index" name="search_index">
-	<?php foreach ( \POCHIPP::$search_indexes as $key => $val ) : ?>
-		<option value="<?=esc_attr( $key )?>"><?=esc_html( $val )?></option>
-	<?php endforeach; ?>
-</select>
+<div class="pchpp-tb__selectbox">
+	<select id="search_index" name="search_index">
+		<?php foreach ( \POCHIPP::$search_indexes as $key => $val ) : ?>
+			<option value="<?=esc_attr( $key )?>"><?=esc_html( $val )?></option>
+		<?php endforeach; ?>
+	</select>
+</div>
 <?php echo $common_parts; // phpcs:ignore ?>

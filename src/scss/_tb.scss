@@ -2,14 +2,14 @@
 #TB_window.by-pochipp {
 	overflow: hidden;
 	border-radius: 8px;
-	box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+	// box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.5);
 	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
 
 
 	#TB_title {
 		display: flex;
 		align-items: center;
-		padding: 8px 16px;
+		padding: 12px;
 	}
 
 	#TB_ajaxWindowTitle {

@@ -14,10 +14,12 @@ $at     = \POCHIPP::array_get( $_GET, 'at' ) ?: '';
 // 各タブにおける共通パーツ
 $pochipp_url  = esc_url( POCHIPP_URL . 'assets/img/search-solid.svg' );
 $common_parts = <<<HTML
-<input id="keywords" type="text" name="keywords" placeholder="キーワードを入力してください">
+<div class="pchpp-tb__keywords">
+	<input id="keywords" type="text" name="keywords" placeholder="キーワードを入力してください">
 	<button id="submit" class="button" type="submit" >
 		<img src="{$pochipp_url}" alt="" width="20" height="20" >
 	</button>
+</div>
 HTML;
 ?>
 
@@ -30,7 +32,7 @@ HTML;
 		calledAt: "<?=esc_js( $at )?>", // どこから呼び出されたか
 	};
 </script>
-<div id="pochipp_tb_content" class="pchpp-tb wp-core-ui">
+<div id="pochipp_tb_content" class="pchpp-tb -<?=esc_attr( $tab )?> wp-core-ui">
 	<?php media_upload_header(); // タブ呼び出し ?>
 	<div class="pchpp-tb__body">
 		<div id="search_area" class="pchpp-tb__search">
