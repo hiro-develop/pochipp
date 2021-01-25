@@ -4,7 +4,7 @@
  * Plugin URI: https://pochipp.com/
  * Description: ぽちっぷ！
  * Author: ぽち
- * Version: 0.0.1
+ * Version: 0.1.0
  * Author URI: https://pochipp.com/
  */
 
@@ -14,7 +14,7 @@ if ( ! function_exists( 'register_block_type' ) ) return;
 /**
  * Ver.
  */
-define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '0.0.1' );
+define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '0.1.0' );
 
 /**
  * Define path, url

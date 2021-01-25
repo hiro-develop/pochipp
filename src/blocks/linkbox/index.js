@@ -200,7 +200,9 @@ registerBlockType(name, {
 			<>
 				{hasItem && (
 					<BlockControls>
-						<ToolbarGroup>
+						<ToolbarGroup
+							data-registering={isRegistering ? '1' : null}
+						>
 							<ToolbarButton
 								className='thickbox'
 								label='商品を再検索'

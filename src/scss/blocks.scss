@@ -42,10 +42,15 @@
 		}
 	}
 
-	&.data-registering {
-		opacity: 0.8;
+	&[data-registering] {
+		opacity: 0.5;
 		pointer-events: none;
 	}
+}
+
+.components-toolbar-group[data-registering] {
+	opacity: 0.5;
+	pointer-events: none;
 }
 
 .components-base-control.pchpp-hideCheck {
