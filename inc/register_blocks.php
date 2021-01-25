@@ -38,6 +38,10 @@ function cb_pochipp_block( $attrs, $content ) {
 		$metadata = json_decode( $metadata, true ) ?: [];
 	}
 
+	// echo '<pre style="margin-left: 100px;">';
+	// var_dump( $metadata );
+	// echo '</pre>';
+
 	// 商品未選択時
 	if ( ! $title ) {
 		if ( defined( 'REST_REQUEST' ) ) {
@@ -72,9 +76,6 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		'price_at'           => '',
 		'image_url'          => '',
 		// 'image_url_s'        => '',
-		// 'amazon_custom_url'  => '',
-		// 'rakuten_custom_url' => '',
-		// 'yahoo_custom_url'   => '',
 		'custom_btn_url'     => '',
 		'custom_btn_text'    => '',
 		'hideInfo'           => false,

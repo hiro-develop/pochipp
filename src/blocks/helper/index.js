@@ -61,8 +61,13 @@ export const sendUpdateAjax = async (params, doneFunc, failFunc) => {
 			}
 			throw new TypeError('Failed ajax!');
 		})
-		.then((json) => {
-			doneFunc(json);
+		.then((response) => {
+			if (response.error) {
+				alert(response.error.message);
+				console.error(response.error.code, response.error.message);
+			} else {
+				doneFunc(response);
+			}
 		})
 		.catch((error) => {
 			failFunc(error);

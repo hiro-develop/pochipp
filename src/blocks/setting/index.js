@@ -157,7 +157,7 @@ registerBlockType(name, {
 		// 商品データ更新処理
 		const itemCode = parsedMeta.asin || parsedMeta.itemcode;
 		const updateItemData = useCallback(() => {
-			const params = new URLSearchParams(); // WPのajax通す時は URLSearchParams 使う
+			const params = new URLSearchParams();
 			params.append('action', 'pochipp_update_data');
 			params.append('itemcode', itemCode);
 			params.append('keywords', parsedMeta.keywords);
@@ -169,15 +169,9 @@ registerBlockType(name, {
 			btns.classList.add('-updating');
 
 			const doneFunc = (response) => {
-				const resData = response.datas;
-				if (resData.error) {
-					alert(resData.error.message);
-					console.error(resData.error.code, resData.error.message);
-				} else {
-					const itemData = resData[0];
-					window.setItemMetaData(itemData, true);
-					alert('更新が完了しました！');
-				}
+				const itemData = response[0];
+				window.setItemMetaData(itemData, true);
+				alert('更新が完了しました！');
 				btns.classList.remove('-updating');
 			};
 			const failFunc = (err) => {

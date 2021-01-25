@@ -15,8 +15,7 @@
             "type": "number"
         },
         "title": {
-            "type": "string",
-            "default": ""
+            "type": "string"
         },
         "keywords": {
             "type": "string"
@@ -40,8 +39,7 @@
             "type": "string"
         },
         "image_url": {
-            "type": "string",
-            "default": ""
+            "type": "string"
         },
         "price": {
             "type": "string"
@@ -49,25 +47,11 @@
         "price_at": {
             "type": "string"
         },
-        "amazon_custom_url": {
-            "type": "string",
-            "default": ""
-        },
-        "rakuten_custom_url": {
-            "type": "string",
-            "default": ""
-        },
-        "yahoo_custom_url": {
-            "type": "string",
-            "default": ""
-        },
         "custom_btn_url": {
-            "type": "string",
-            "default": ""
+            "type": "string"
         },
         "custom_btn_text": {
-            "type": "string",
-            "default": ""
+            "type": "string"
         },
         "hideInfo": {
             "type": "boolean",

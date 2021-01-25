@@ -5,7 +5,7 @@
 // import apiFetch from '@wordpress/api-fetch';
 // import { useEntityProp } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
-import { useCallback } from '@wordpress/element';
+import { useState, useCallback } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import ServerSideRender from '@wordpress/server-side-render';
 import {
@@ -21,7 +21,7 @@ import {
 	CheckboxControl,
 	PanelBody,
 } from '@wordpress/components';
-import { Icon, search, rotateLeft } from '@wordpress/icons';
+import { Icon, search, rotateLeft, upload } from '@wordpress/icons';
 
 /**
  * @External dependencies
@@ -32,6 +32,11 @@ import { Icon, search, rotateLeft } from '@wordpress/icons';
  * @Internal dependencies
  */
 import metadata from './block.json';
+import {
+	// getParsedMeta,
+	// setCustomFieldArea,
+	sendUpdateAjax,
+} from '@blocks/helper';
 
 /**
  * metadata
@@ -39,7 +44,9 @@ import metadata from './block.json';
 const blockName = 'pochipp-block';
 const { apiVersion, name, category, keywords, supports } = metadata;
 
-//
+/* eslint no-alert: 0 */
+/* eslint no-console: 0 */
+
 /**
  * iframe 側から呼び出すメソッド。商品選択時の処理。
  *
@@ -63,12 +70,11 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 			asin: itemData.asin || '',
 			itemcode: itemData.itemcode || '',
 			info: itemData.info || '',
-			amazon_affi_url: itemData.amazon_affi_url || '',
-			rakuten_detail_url: itemData.rakuten_detail_url || '',
 			image_url: itemData.image_url || '',
-			// image_url_s: itemData.image_url_s || '',
 			price: itemData.price || '',
 			price_at: itemData.price_at || '',
+			amazon_affi_url: itemData.amazon_affi_url || '',
+			rakuten_detail_url: itemData.rakuten_detail_url || '',
 			// affi_rate: itemData.affi_rate || '',
 			// review_score: itemData.review_score || '',
 			pid: undefined,
@@ -89,6 +95,10 @@ registerBlockType(name, {
 	attributes: metadata.attributes,
 	edit: ({ attributes, setAttributes, clientId }) => {
 		const { pid, title, info } = attributes;
+		// console.log('attributes', attributes);
+
+		// ステート
+		const [isRegistering, setIsRegistering] = useState(false);
 
 		// apiFetch で meta取得 -> そんなことしなくていい
 		// apiFetch({
@@ -108,12 +118,14 @@ registerBlockType(name, {
 		);
 
 		// 商品セットされているか
+		const hasRegisterdItem = !!pid;
 		const hasItem = !!pid || !!title;
 
 		// ブロックprops
 		const blockProps = useBlockProps({
 			className: blockName,
 			'data-has-item': hasItem ? '1' : null,
+			'data-registering': isRegistering ? '1' : null,
 		});
 
 		// openThickbox
@@ -133,6 +145,55 @@ registerBlockType(name, {
 			}
 		}, [postId, clientId]);
 
+		// 商品データを登録する
+		const registerPochippData = useCallback(() => {
+			console.log('registerPochippData');
+
+			console.log(attributes);
+			console.log(JSON.stringify(attributes));
+			const params = new URLSearchParams();
+			params.append('action', 'pochipp_registerd_by_block');
+			params.append('attributes', JSON.stringify(attributes));
+			params.append('clientId', clientId);
+
+			setIsRegistering(true);
+
+			const doneFunc = (response) => {
+				console.log(response);
+				const newPid = response.pid;
+				if (newPid) {
+					setAttributes({
+						pid: newPid,
+						title: undefined,
+						searched_at: undefined,
+						keywords: undefined,
+						asin: undefined,
+						itemcode: undefined,
+						image_url: undefined,
+						info: undefined,
+						price: undefined,
+						price_at: undefined,
+						amazon_affi_url: undefined,
+						rakuten_detail_url: undefined,
+						custom_btn_text: undefined,
+						custom_btn_url: undefined,
+					});
+					alert('登録が完了しました！');
+				} else {
+					alert('エラー : 新規IDが取得できませんでした。');
+				}
+				setIsRegistering(false);
+			};
+			const failFunc = (err) => {
+				alert('登録に失敗しました。');
+				console.error(err);
+				setIsRegistering(false);
+			};
+
+			// ajax処理
+			sendUpdateAjax(params, doneFunc, failFunc);
+		}, [clientId, attributes, setAttributes]);
+
 		// memo: <RichText allowedFormats={[]} />
 
 		return (
@@ -146,6 +207,14 @@ registerBlockType(name, {
 								icon={<Icon icon={rotateLeft} />}
 								onClick={openThickbox}
 							/>
+							{!hasRegisterdItem && (
+								<ToolbarButton
+									className=''
+									label='商品データをポチップ管理画面に登録する'
+									icon={<Icon icon={upload} />}
+									onClick={registerPochippData}
+								/>
+							)}
 						</ToolbarGroup>
 					</BlockControls>
 				)}
@@ -216,33 +285,6 @@ registerBlockType(name, {
 									});
 								}}
 							/>
-							{/* <TextControl
-								label='AmazonボタンURL'
-								value={attributes.amazon_custom_url}
-								onChange={(newText) => {
-									setAttributes({
-										amazon_custom_url: newText,
-									});
-								}}
-							/>
-							<TextControl
-								label='楽天ボタンURL'
-								value={attributes.rakuten_custom_url}
-								onChange={(newText) => {
-									setAttributes({
-										rakuten_custom_url: newText,
-									});
-								}}
-							/>
-							<TextControl
-								label='YahooボタンURL'
-								value={attributes.yahoo_custom_url}
-								onChange={(newText) => {
-									setAttributes({
-										yahoo_custom_url: newText,
-									});
-								}}
-							/> */}
 						</PanelBody>
 						<PanelBody title='カスタムボタン設定'>
 							<TextControl
