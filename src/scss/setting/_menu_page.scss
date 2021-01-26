@@ -7,6 +7,13 @@
 
 .pchpp-setting {
 
+	.pchpp-setting__tabs {
+
+		.nav-tab {
+			border-radius: 2px 2px 0 0;
+		}
+	}
+
 	.pchpp-setting__body {
 		padding: 0 8px;
 	}
@@ -22,6 +29,8 @@
 		font-size: 1.75em;
 		border-bottom: 2px solid #333;
 	}
+
+	// .pchpp-setting__section_help{}
 
 	.pchpp-setting__h3 {
 		margin: 2em 0 1em;
@@ -115,7 +124,8 @@
 	&.-radio {
 
 		label {
-			padding: 0 8px;
+			display: block;
+			padding: 4px 0;
 		}
 	}
 

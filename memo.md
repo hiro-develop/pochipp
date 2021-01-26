@@ -3,8 +3,8 @@
 楽天 : https://webservice.rakuten.co.jp/api/ichibaitemsearch/
 
 # 作業メモ
-- max-widthの設定を基本設定 & ブロック個別に。
-- APIの規約を載せる
+- アップデート機能
+- 解説記事へのリンクをとりあえず非表示に。
 - wp-scripts バージョンアップ
 - ajax nonce
 

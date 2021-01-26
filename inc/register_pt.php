@@ -12,7 +12,7 @@ function register_pt_pochipp() {
 		\POCHIPP::POST_TYPE_SLUG,
 		[
 			'labels'                => [
-				'name'          => 'ポチップ',
+				'name'          => 'ポチップ管理',
 				'singular_name' => \POCHIPP::POST_TYPE_SLUG,
 			],
 			'public'                => false,

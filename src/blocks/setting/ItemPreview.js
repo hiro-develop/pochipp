@@ -38,21 +38,21 @@ export default memo(({ postTitle, parsedMeta }) => {
 
 					<div className='pochipp-box__btns'>
 						{showAmazon && (
-							<div className='pochipp-box__btnwrap'>
-								<div className='pochipp-box__btn -amazon'>
+							<div className='pochipp-box__btnwrap -amazon'>
+								<div className='pochipp-box__btn'>
 									{window.pchppVars.amazonBtnText || 'Amazon'}
 								</div>
 							</div>
 						)}
 
-						<div className='pochipp-box__btnwrap'>
-							<a href='###' className='pochipp-box__btn -rakuten'>
+						<div className='pochipp-box__btnwrap -rakuten'>
+							<a href='###' className='pochipp-box__btn'>
 								{window.pchppVars.rakutenBtnText || '楽天市場'}
 							</a>
 						</div>
 
-						<div className='pochipp-box__btnwrap'>
-							<a href='###' className='pochipp-box__btn -yahoo'>
+						<div className='pochipp-box__btnwrap -yahoo'>
+							<a href='###' className='pochipp-box__btn'>
 								{window.pchppVars.yahooBtnText ||
 									'Yahooショッピング'}
 							</a>
@@ -60,11 +60,8 @@ export default memo(({ postTitle, parsedMeta }) => {
 
 						{parsedMeta.custom_btn_url &&
 							parsedMeta.custom_btn_text && (
-								<div className='pochipp-box__btnwrap'>
-									<a
-										href='###'
-										className='pochipp-box__btn -custom'
-									>
+								<div className='pochipp-box__btnwrap -custom'>
+									<a href='###' className='pochipp-box__btn'>
 										{parsedMeta.custom_btn_text}
 									</a>
 								</div>

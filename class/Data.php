@@ -21,7 +21,7 @@ class Data {
 		'amazon_btn_text'  => 'Amazon',
 		'rakuten_btn_text' => '楽天市場',
 		'yahoo_btn_text'   => 'Yahooショッピング',
-		'custom_btn_color' => '#639c5a',
+		'custom_btn_color' => '#63a958',
 		// 'amazon_btn_target'  => 'detail',
 		// 'rakuten_btn_target' => 'detail',
 	];

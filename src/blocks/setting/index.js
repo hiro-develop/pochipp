@@ -218,7 +218,7 @@ registerBlockType(name, {
 						/>
 					)}
 
-					<div className='u-mt-20'>【開発用】データ確認</div>
+					{/* <div className='u-mt-20'>【開発用】データ確認</div>
 					<div className='pochipp-block-dump'>
 						{Object.keys(parsedMeta).map((metakey) => {
 							return (
@@ -228,7 +228,7 @@ registerBlockType(name, {
 								</div>
 							);
 						})}
-					</div>
+					</div> */}
 				</div>
 			</>
 		);
