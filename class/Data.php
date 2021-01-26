@@ -13,6 +13,11 @@ class Data {
 
 	// 設定のデフォルト値
 	public static $default_data = [
+		'box_style'        => 'default',
+		'max_columns_pc'   => '4',
+		'max_columns_sp'   => '1',
+		'sale_position_pc' => 'top',
+		'sale_position_sp' => 'inner',
 		'amazon_btn_text'  => 'Amazon',
 		'rakuten_btn_text' => '楽天市場',
 		'yahoo_btn_text'   => 'Yahooショッピング',

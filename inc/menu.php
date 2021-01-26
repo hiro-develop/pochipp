@@ -32,6 +32,7 @@ function setting_page() {
 		'rakuten'   => '楽天市場',
 		'yahoo'     => 'Yahooショッピング',
 		'moshimo'   => 'もしも',
+		'sale'      => 'セール情報',
 		// 'licence'   => 'ライセンス',
 	];
 
@@ -75,6 +76,11 @@ function add_menu_init() {
 		'section_title' => 'もしもアフィリエイト設定',
 		'section_key'   => 'moshimo',
 		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_moshimo',
+	] );
+	\POCHIPP\add_settings( [
+		'section_title' => 'セール情報の設定',
+		'section_key'   => 'sale',
+		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_sale',
 	] );
 
 	/**

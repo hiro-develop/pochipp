@@ -38,10 +38,6 @@ function cb_pochipp_block( $attrs, $content ) {
 		$metadata = json_decode( $metadata, true ) ?: [];
 	}
 
-	// echo '<pre style="margin-left: 100px;">';
-	// var_dump( $metadata );
-	// echo '</pre>';
-
 	// 商品未選択時
 	if ( ! $title ) {
 		if ( defined( 'REST_REQUEST' ) ) {
@@ -101,21 +97,21 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	$yahoo_aid   = \POCHIPP::get_setting( 'moshimo_yahoo_aid' );
 
 	// AmazonボタンURL
-	if ( ! $pdata['hideAmazon'] ) {
+	if ( apply_filters( 'pochipp_show_amazon_btn', ! $pdata['hideAmazon'] ) ) {
 		// $pdata['amazon_custom_url']
 		$amazon_url = $asin ? 'https://www.amazon.co.jp/dp/' . $asin : \POCHIPP::get_amazon_searched_url( $keywords );
 		$amazon_url = \POCHIPP::get_amazon_affi_url( $pdata['amazon_affi_url'], $amazon_url, $amazon_aid );
 	}
 
 	// 楽天ボタンURL
-	if ( ! $pdata['hideRakuten'] ) {
+	if ( apply_filters( 'pochipp_show_rakuten_btn', ! $pdata['hideRakuten'] ) ) {
 		// $pdata['rakuten_custom_url']
 		$rakuten_url = $pdata['rakuten_detail_url'] ?: \POCHIPP::get_rakuten_searched_url( $keywords );
 		$rakuten_url = \POCHIPP::get_rakuten_affi_url( $rakuten_url, $rakuten_aid );
 	}
 
 	// YahooボタンURL
-	if ( ! $pdata['hideYahoo'] ) {
+	if ( apply_filters( 'pochipp_show_yahoo_btn', ! $pdata['hideYahoo'] ) ) {
 		// $pdata['yahoo_custom_url']
 		$yahoo_url = \POCHIPP::get_yahoo_searched_url( $keywords );
 		$yahoo_url = \POCHIPP::get_yahoo_affi_url( $yahoo_url, $yahoo_aid );
@@ -149,11 +145,25 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		$price_memo .= ' | Amazon調べ';
 	}
 
+	// ボックススタイル
+	$box_style = \POCHIPP::get_setting( 'box_style' );
+
+	// セール通知テキスト
+	$amazon_sale_text_top    = apply_filters( 'pochipp_amazon_sale_text_top', '' );
+	$amazon_sale_text_inner  = apply_filters( 'pochipp_amazon_sale_text_inner', '' );
+	$rakuten_sale_text_top   = apply_filters( 'pochipp_rakuten_sale_text_top', '' );
+	$rakuten_sale_text_inner = apply_filters( 'pochipp_rakuten_sale_text_inner', '' );
+	$yahoo_sale_text_top     = apply_filters( 'pochipp_yahoo_sale_text_top', '' );
+	$yahoo_sale_text_inner   = apply_filters( 'pochipp_yahoo_sale_text_inner', '' );
+
 	ob_start();
 
 	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
-		<div class="pochipp-box">
+		<div class="pochipp-box is-style-<?=esc_attr( $box_style )?>"
+			data-sale-text-pc="<?=esc_attr( \POCHIPP::get_setting( 'sale_position_pc' ) )?>"
+			data-sale-text-sp="<?=esc_attr( \POCHIPP::get_setting( 'sale_position_sp' ) )?>"
+		>
 			<?php if ( $image_url ) : ?>
 				<div class="pochipp-box__image">
 					<a href="<?=esc_url( $main_url )?>" <?=$rel_target?>>
@@ -179,10 +189,18 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 					</div>
 				<?php endif; ?>
 
-				<div class="pochipp-box__btns">
+				<div class="pochipp-box__btns"
+					data-max-column="<?=esc_attr( \POCHIPP::get_setting( 'max_columns_pc' ) )?>"
+				>
 					<?php if ( $amazon_url ) : ?>
-						<div class="pochipp-box__btnwrap">
-							<a href="<?=esc_url( $amazon_url )?>" class="pochipp-box__btn -amazon" <?=$rel_target?>>
+						<div class="pochipp-box__btnwrap -amazon">
+							<?php if ( $amazon_sale_text_top ) : ?>
+								<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $amazon_sale_text_top )?>／</div>
+							<?php endif; ?>
+							<a href="<?=esc_url( $amazon_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
+								<?php if ( $amazon_sale_text_inner ) : ?>
+									<div class="pochipp-box__saleInfo -inner"><?=esc_html( $amazon_sale_text_inner )?></div>
+								<?php endif; ?>
 								<?php
 									echo esc_html( \POCHIPP::get_setting( 'amazon_btn_text' ) );
 									echo \POCHIPP::get_amazon_imptag( $amazon_aid );
@@ -191,8 +209,14 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 						</div>
 					<?php endif; ?>
 					<?php if ( $rakuten_url ) : ?>
-						<div class="pochipp-box__btnwrap">
-							<a href="<?=esc_url( $rakuten_url )?>" class="pochipp-box__btn -rakuten" <?=$rel_target?>>
+						<div class="pochipp-box__btnwrap -rakuten">
+							<?php if ( $rakuten_sale_text_top ) : ?>
+								<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $rakuten_sale_text_top )?>／</div>
+							<?php endif; ?>
+							<a href="<?=esc_url( $rakuten_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
+								<?php if ( $rakuten_sale_text_inner ) : ?>
+									<div class="pochipp-box__saleInfo -inner"><?=esc_html( $rakuten_sale_text_inner )?></div>
+								<?php endif; ?>
 								<?php
 									echo esc_html( \POCHIPP::get_setting( 'rakuten_btn_text' ) );
 									echo \POCHIPP::get_rakuten_imptag( $rakuten_aid );
@@ -201,8 +225,14 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 						</div>
 					<?php endif; ?>
 					<?php if ( $yahoo_url ) : ?>
-						<div class="pochipp-box__btnwrap">
-							<a href="<?=esc_url( $yahoo_url )?>" class="pochipp-box__btn -yahoo" <?=$rel_target?>>
+						<?php if ( $yahoo_sale_text_top ) : ?>
+							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $yahoo_sale_text_top )?>／</div>
+						<?php endif; ?>
+						<div class="pochipp-box__btnwrap -yahoo">
+							<a href="<?=esc_url( $yahoo_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
+								<?php if ( $yahoo_sale_text_inner ) : ?>
+									<div class="pochipp-box__saleInfo -inner"><?=esc_html( $yahoo_sale_text_inner )?></div>
+								<?php endif; ?>
 								<?php
 									echo esc_html( \POCHIPP::get_setting( 'yahoo_btn_text' ) );
 									echo \POCHIPP::get_yahoo_imptag( $yahoo_aid );
@@ -210,9 +240,9 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 							</a>
 						</div>
 					<?php endif; ?>
-					<?php if ( $pdata['custom_btn_url'] && $pdata['custom_btn_text'] ) : ?>
-						<div class="pochipp-box__btnwrap">
-							<a href="<?=esc_url( $pdata['custom_btn_url'] )?>" class="pochipp-box__btn -custom" <?=$rel_target?>>
+					<?php if ( apply_filters( 'pochipp_show_custom_btn', (bool) ( $pdata['custom_btn_url'] && $pdata['custom_btn_text'] ) ) ) : ?>
+						<div class="pochipp-box__btnwrap -custom">
+							<a href="<?=esc_url( $pdata['custom_btn_url'] )?>" class="pochipp-box__btn" <?=$rel_target?>>
 								<?php
 									echo esc_html( $pdata['custom_btn_text'] );
 								?>
@@ -221,7 +251,13 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 					<?php endif; ?>
 				</div>
 			</div>
-			</div>
+			<?php if ( 1 ) : ?>
+				<div class="pochipp-box__logo">
+					<img src="<?=esc_url( POCHIPP_URL )?>assets/img/pochipp-logo-t1.png" alt="" width="32" height="32">
+					<span>ポチップ</span>
+				</div>
+			<?php endif; ?>
+		</div>
 	<?php
 
 	return ob_get_clean();

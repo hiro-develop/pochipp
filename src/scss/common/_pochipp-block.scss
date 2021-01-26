@@ -1,13 +1,61 @@
 
+@keyframes pchppFlash {
+
+	20% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	80% {
+		opacity: 1;
+	}
+}
+
 // memo: フロントでも読み込ませる
 .pochipp-box {
+	position: relative;
 	display: flex;
 	flex-wrap: wrap;
-	margin: 2em 0;
-	padding: 16px;
+	max-width: 880px;
+	margin: 2em auto;
+	padding: 24px;
+	color: #353535;
 	font-size: 16px;
 	background: #fff;
-	border: solid 1px #ededed;
+
+
+	@include mobile {
+		width: 88%;
+		font-size: 15px;
+	}
+
+	.pochipp-box__logo {
+		position: absolute;
+		right: 3px;
+		bottom: 4px;
+		display: flex;
+		// flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		opacity: 0.2;
+
+		img {
+			display: block;
+			width: 12px;
+			height: 12px;
+		}
+
+		span {
+			display: block;
+			font-size: 10px;
+			line-height: 1;
+			// margin-left: 8px;
+			transform: scale(0.8);
+		}
+	}
 }
 
 .pochipp-box__image {
@@ -23,13 +71,30 @@
 		display: block;
 		width: 100%;
 		height: auto;
-		border: 1px solid #ededed;
+		// border: 1px solid #f0f0f0;
+	}
+
+
+	@include mobile {
+		width: 100%;
+		margin-bottom: 16px;
+
+		img {
+			width: 40%;
+			max-width: 120px;
+			margin: 0 auto;
+		}
 	}
 }
 
 .pochipp-box__body {
 	width: calc(100% - 100px);
 	padding-left: 24px;
+
+	@include mobile {
+		width: 100%;
+		padding: 0;
+	}
 }
 
 .pochipp-box__title {
@@ -49,7 +114,7 @@
 	margin: 8px 0 0 !important;
 	font-size: 12px;
 	line-height: 1.5;
-	opacity: 0.8;
+	opacity: 0.75;
 }
 
 .pochipp-box__price {
@@ -59,7 +124,7 @@
 
 	span {
 		font-size: 10px;
-		opacity: 0.8;
+		opacity: 0.75;
 	}
 }
 
@@ -68,38 +133,195 @@
 	left: -4px;
 	display: flex;
 	flex-wrap: wrap;
+	align-items: flex-end;
 	width: calc(100% + 8px);
 	margin-top: 8px;
+}
 
-	.pochipp-box__btnwrap {
-		padding: 4px;
+.pochipp-box__btnwrap {
+	min-width: max-content;
+	padding: 4px;
+
+	@media screen and (min-width: 1100px) {
+
+		[data-max-column="fit"] > & {
+			flex: 1;
+			max-width: 50%;
+			font-size: 15px;
+		}
+
+		[data-max-column="3"] > & {
+			flex: 0 0 33.3%;
+			font-size: 15px;
+		}
+
+		// ２段目以降のボタン
+		// [data-max-column="3"] > & + .pochipp-box__btnwrap + .pochipp-box__btnwrap {
+		// 	max-width: 33.3%;
+		// }
+
+		[data-max-column="2"] > & {
+			flex-basis: 50%;
+			max-width: 50%;
+		}
 	}
 
+	@media screen and (max-width: 1099px) {
+		flex-basis: 50%;
+		max-width: 50%;
+	}
+
+	@include mobile {
+		flex-basis: 100%;
+		max-width: 100%;
+		padding: 6px 0;
+	}
+}
+
+
+// 少し詳細度強めておく
+.pochipp-box .pochipp-box__btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 12px;
+	color: #fff;
+	font-size: 1em;
+	line-height: 1;
+
+	// @include mobile {
+	// 	padding: 12px;
+	// }
 }
 
 .pochipp-box__btn {
-	display: block !important;
 	margin: 0 !important;
-	padding: 8px 12px !important;
-	color: #fff;
-	font-size: 1em;
-	line-height: 1 !important;
+	letter-spacing: 0.5px;
+	text-align: center;
 	text-decoration: none !important;
 	background-color: #3c3c3c;
-	border-radius: 2px !important;
 
-	&.-amazon {
+	&:hover {
+		opacity: 0.8;
+	}
+
+	.-amazon > & {
 		color: #fff;
 		background: #f6a306;
 	}
 
-	&.-rakuten {
+	.-rakuten > & {
 		color: #fff;
 		background: #cf4944;
 	}
 
-	&.-yahoo {
+	.-yahoo > & {
 		color: #fff;
 		background: #5579db;
+	}
+}
+
+
+// border-radius: 40px !important;
+
+.pochipp-box__saleInfo {
+	font-size: 12px;
+	line-height: 1;
+	text-align: center;
+	animation: 1.5s linear 0s infinite pchppFlash;
+
+	@include mobile {
+		font-size: 11px;
+	}
+
+	.pochipp-box__btnwrap.-amazon & {
+		color: #f6a306;
+	}
+
+	.pochipp-box__btnwrap.-rakuten & {
+		color: #cf4944;
+	}
+
+	.pochipp-box__btnwrap.-yahoo & {
+		color: #5579db;
+	}
+
+	&.-top {
+		margin-bottom: 4px;
+		font-weight: bold;
+	}
+
+	&.-inner {
+		margin-top: -4px;
+		margin-bottom: 4px;
+		padding: 2px 8px;
+		background-color: #fff;
+	}
+}
+
+// 詳細度強く
+.pochipp-box .pochipp-box__saleInfo.-top {
+
+	@include mobile {
+		margin-top: -4px !important;
+	}
+}
+
+
+// tab以上
+@include tab {
+
+	[data-sale-text-pc="top"] .pochipp-box__saleInfo.-inner,
+	[data-sale-text-pc="inner"] .pochipp-box__saleInfo.-top {
+		display: none;
+	}
+}
+// モバイルサイズ
+@include mobile {
+
+	[data-sale-text-sp="top"] .pochipp-box__saleInfo.-inner,
+	[data-sale-text-sp="inner"] .pochipp-box__saleInfo.-top {
+		display: none;
+	}
+}
+
+
+// --------------------------------------------------------
+.pochipp-box.is-style-default {
+	// border: solid 1px #ededed;
+	border-radius: 1px;
+	box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
+
+	.pochipp-box__image img {
+		border-radius: 1px;
+	}
+
+	.pochipp-box__btn {
+		border-radius: 1px;
+		box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2);
+	}
+
+	.pochipp-box__saleInfo {
+		border-radius: 1px;
+	}
+}
+
+.pochipp-box.is-style-radius {
+	// border: solid 1px #ededed;
+	border-radius: 4px;
+	box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
+
+	.pochipp-box__image img {
+		border-radius: 4px;
+	}
+
+	.pochipp-box__btn {
+		border-radius: 40px;
+		box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2);
+	}
+
+	.pochipp-box__saleInfo {
+		border-radius: 40px;
 	}
 }

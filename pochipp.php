@@ -99,6 +99,15 @@ class POCHIPP extends \POCHIPP\Data {
 		}
 		return self::$setting_data;
 	}
+
+	/**
+	 * set_setting
+	 */
+	// public static function set_setting( $key = null, $value ) {
+	// 	if ( null !== $key ) {
+	// 		self::$setting_data[ $key ] = $value;
+	// 	}
+	// }
 }
 
 /**

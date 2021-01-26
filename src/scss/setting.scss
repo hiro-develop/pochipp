@@ -1,9 +1,10 @@
 /**
  * Pochippの設定画面と商品登録ページでしか読み込まれないCSSファイル
  */
+@import "./mixin";
 @import "./setting/**";
 
-@keyframes rotation {
+@keyframes pchppRotation {
 
 	0% {
 		transform: rotate(0);
@@ -67,7 +68,7 @@
 			}
 
 			.__updateBtn svg {
-				animation: 2s linear infinite rotation;
+				animation: 2s linear infinite pchppRotation;
 			}
 		}
 	}
