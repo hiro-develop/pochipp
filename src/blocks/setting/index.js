@@ -45,7 +45,7 @@ const { apiVersion, name, category, keywords, supports } = metadata;
  * @param {boolean} isMerge データをマージして更新するかどうか
  */
 window.setItemMetaData = (itemData, isMerge) => {
-	// console.log(itemData);
+	console.log('setItemMetaData:', itemData);
 
 	// タイトル情報抜き出す
 	const itemTitle = itemData.title || '';
@@ -117,7 +117,7 @@ registerBlockType(name, {
 		// メタデータを取得
 		// const [meta, setMeta] = useEntityProp('postType', postType, 'meta');
 		const parsedMeta = useMemo(() => getParsedMeta(meta), [meta]);
-		console.log(meta, parsedMeta);
+		// console.log(meta, parsedMeta);
 
 		const updateMetadata = useCallback(
 			(key, newVal) => {
@@ -169,8 +169,9 @@ registerBlockType(name, {
 			btns.classList.add('-updating');
 
 			const doneFunc = (response) => {
-				const itemData = response[0];
+				const itemData = response.data;
 				window.setItemMetaData(itemData, true);
+
 				alert('更新が完了しました！');
 				btns.classList.remove('-updating');
 			};

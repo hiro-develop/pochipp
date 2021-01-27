@@ -15,13 +15,17 @@ add_action( 'wp_ajax_pochipp_search_amazon', '\POCHIPP\search_from_amazon_api' )
  */
 function search_from_amazon_api() {
 
-	$keywords     = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$search_index = \POCHIPP::array_get( $_GET, 'search_index', '' );
+	if ( ! \POCHIPP\check_ajax_nonce() ) {
+		wp_die( json_encode( [
+			'error' => [
+				'code'    => 'nonce error',
+				'message' => '不正なアクセスです。',
+			],
+		] ) );
+	};
 
-	// 使用可能な インデックスカテゴリーかどうか
-	if ( ! isset( \POCHIPP::$search_indexes[ $search_index ] ) ) {
-		$search_index = 'All';
-	}
+	$keywords     = \POCHIPP::array_get( $_GET, 'keywords', '' );
+	$search_index = \POCHIPP::array_get( $_GET, 'search_index', 'All' );
 
 	// 登録済み商品
 	$registerd_items = \POCHIPP::get_registerd_items( [

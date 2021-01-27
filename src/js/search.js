@@ -40,7 +40,7 @@ const getItemList = (itemDatas, type) => {
 
 		let info = '';
 		if (item.info) {
-			info = `<div className='pochipp-item__info'>${item.info}</div>`;
+			info = `<div class='pochipp-item__info'>${item.info}</div>`;
 		}
 
 		let imageUrl = item.image_url;
@@ -125,10 +125,14 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 		$('#result_area').html('');
 
 		// paramsセット
-		params.search_index = $('#search_index').val(); // Amazonの商品カテゴリー
-		params.sort = $('#sort_select').val(); // 並び順 : 楽天 ＆ 登録済みタブで使用
+		// params.search_index = $('#search_index').val(); // Amazonの商品カテゴリー
+		// params.sort = $('#sort_select').val(); // 並び順 : 楽天 ＆ 登録済みタブで使用
 		params.term_id = $('#term_select').val(); // 商品カテゴリー : 登録済みタブで使用
 		// params.page = 1;
+
+		// nonceセット
+		const ajaxNonce = window.pchppVars.ajaxNonce;
+		params.nonce = ajaxNonce;
 
 		// ajax実行
 		$.ajax({
@@ -140,6 +144,15 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 			},
 		})
 			.done(function (datas, textStatus, jqXHR) {
+				// console.log('doSearchAjax: datas', datas);
+
+				if (datas.error) {
+					$('#result_area').html(
+						`<p>${datas.error.code}: ${datas.error.message}</p>`
+					);
+					return;
+				}
+
 				// 検索結果
 				const searchedItems = datas.searched_items;
 

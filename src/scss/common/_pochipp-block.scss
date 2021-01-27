@@ -14,18 +14,40 @@
 	}
 }
 
+:root {
+	--pchpp-color-amazon: #f6a306;
+	--pchpp-color-rakuten: #cf4944;
+	--pchpp-color-yahoo: #4e8fde;
+}
+
+
 // memo: フロントでも読み込ませる
 .pochipp-box {
 	position: relative;
-	display: flex;
-	flex-wrap: wrap;
 	max-width: 880px;
 	margin: 2em auto;
 	padding: 24px;
 	color: #353535;
 	font-size: 16px;
 	background: #fff;
+	box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
 
+
+	@include pc {
+		grid-template-areas:
+			"areaImg areaBody"
+			"areaImg areaBtns";
+	}
+
+	@include tab {
+		display: grid;
+		grid-gap: 0 24px;
+		grid-template-areas:
+			"areaImg areaBody"
+			"areaBtns areaBtns";
+		grid-template-rows: auto auto;
+		grid-template-columns: 100px 1fr;
+	}
 
 	@include mobile {
 		width: 88%;
@@ -59,7 +81,9 @@
 }
 
 .pochipp-box__image {
-	width: 100px;
+	grid-area: areaImg;
+	margin: 0;
+	padding: 0;
 
 	a {
 		display: block;
@@ -88,8 +112,9 @@
 }
 
 .pochipp-box__body {
-	width: calc(100% - 100px);
-	padding-left: 24px;
+	grid-area: areaBody;
+	margin: 0;
+	padding: 0;
 
 	@include mobile {
 		width: 100%;
@@ -98,7 +123,7 @@
 }
 
 .pochipp-box__title {
-	margin: 0 !important;
+	margin: 0 0 8px;
 	font-weight: bold;
 	line-height: 1.6;
 
@@ -111,15 +136,15 @@
 }
 
 .pochipp-box__info {
-	margin: 8px 0 0 !important;
+	margin: 4px 0 0;
 	font-size: 12px;
 	line-height: 1.5;
 	opacity: 0.75;
 }
 
 .pochipp-box__price {
-	margin: 8px 0 0 !important;
-	font-size: 14px;
+	margin: 4px 0 0;
+	font-size: 13px;
 	line-height: 1.5;
 
 	span {
@@ -133,9 +158,11 @@
 	left: -4px;
 	display: flex;
 	flex-wrap: wrap;
+	grid-area: areaBtns;
 	align-items: flex-end;
 	width: calc(100% + 8px);
-	margin-top: 8px;
+	margin: 12px 0 0;
+	padding: 0;
 }
 
 .pochipp-box__btnwrap {
@@ -174,7 +201,7 @@
 	@include mobile {
 		flex-basis: 100%;
 		max-width: 100%;
-		padding: 6px 0;
+		// padding: 6px 0;
 	}
 }
 
@@ -186,7 +213,6 @@
 	align-items: center;
 	justify-content: center;
 	padding: 12px;
-	color: #fff;
 	font-size: 1em;
 	line-height: 1;
 
@@ -200,26 +226,11 @@
 	letter-spacing: 0.5px;
 	text-align: center;
 	text-decoration: none !important;
-	background-color: #3c3c3c;
 
 	&:hover {
 		opacity: 0.8;
 	}
 
-	.-amazon > & {
-		color: #fff;
-		background: #f6a306;
-	}
-
-	.-rakuten > & {
-		color: #fff;
-		background: #cf4944;
-	}
-
-	.-yahoo > & {
-		color: #fff;
-		background: #4e8fde;
-	}
 }
 
 
@@ -236,15 +247,15 @@
 	}
 
 	.pochipp-box__btnwrap.-amazon & {
-		color: #f6a306;
+		color: var(--pchpp-color-amazon);
 	}
 
 	.pochipp-box__btnwrap.-rakuten & {
-		color: #cf4944;
+		color: var(--pchpp-color-rakuten);
 	}
 
 	.pochipp-box__btnwrap.-yahoo & {
-		color: #4e8fde;
+		color: var(--pchpp-color-yahoo);
 	}
 
 	&.-top {
@@ -257,14 +268,6 @@
 		margin-bottom: 4px;
 		padding: 2px 8px;
 		background-color: #fff;
-	}
-}
-
-// 詳細度強く
-.pochipp-box .pochipp-box__saleInfo.-top {
-
-	@include mobile {
-		margin-top: -4px !important;
 	}
 }
 
@@ -288,40 +291,92 @@
 
 
 // --------------------------------------------------------
-.pochipp-box.is-style-default {
+.pochipp-box[data-btn-radius="off"] {
 	// border: solid 1px #ededed;
 	border-radius: 1px;
-	box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
 
-	.pochipp-box__image img {
-		border-radius: 1px;
-	}
-
-	.pochipp-box__btn {
-		border-radius: 1px;
-		box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2);
-	}
-
+	.pochipp-box__image img,
+	.pochipp-box__btn,
 	.pochipp-box__saleInfo {
 		border-radius: 1px;
 	}
 }
 
-.pochipp-box.is-style-radius {
-	// border: solid 1px #ededed;
+
+.pochipp-box[data-btn-radius="on"] {
 	border-radius: 4px;
-	box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
 
 	.pochipp-box__image img {
 		border-radius: 4px;
 	}
 
-	.pochipp-box__btn {
-		border-radius: 40px;
-		box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2);
-	}
-
+	.pochipp-box__btn,
 	.pochipp-box__saleInfo {
 		border-radius: 40px;
+	}
+
+}
+
+.pochipp-box[data-btn-style="default"] {
+
+	.pochipp-box__btn {
+		position: relative;
+		overflow: hidden;
+		color: #fff;
+		background-color: #3c3c3c;
+		// box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.2), inset 0 0 1px rgba(#fff, 0.2);
+		box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.2);
+
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(175deg, #fff, transparent 50%, transparent 70%, #555);
+			opacity: 0.1;
+			content: "";
+		}
+	}
+
+	.-amazon > .pochipp-box__btn {
+		background: var(--pchpp-color-amazon);
+	}
+
+	.-rakuten > .pochipp-box__btn {
+		background: var(--pchpp-color-rakuten);
+	}
+
+	.-yahoo > .pochipp-box__btn {
+		background: var(--pchpp-color-yahoo);
+	}
+
+	.-custom > .pochipp-box__btn {
+		background: var(--pchpp-color-custom);
+	}
+}
+
+.pochipp-box[data-btn-style="outline"] {
+
+	.pochipp-box__btn {
+		background: none;
+		box-shadow: inset 0 0 0 1px currentColor;
+	}
+
+	.-amazon > .pochipp-box__btn {
+		color: var(--pchpp-color-amazon);
+	}
+
+	.-rakuten > .pochipp-box__btn {
+		color: var(--pchpp-color-rakuten);
+	}
+
+	.-yahoo > .pochipp-box__btn {
+		color: var(--pchpp-color-yahoo);
+	}
+
+	.-custom > .pochipp-box__btn {
+		color: var(--pchpp-color-custom);
 	}
 }

@@ -20,9 +20,17 @@ export default memo(({ postTitle, parsedMeta }) => {
 
 	// Amazonボタンを表示するか
 	const showAmazon = !!(keywords || parsedMeta.amazon_detail_url);
+
+	// ポチップ設定データ
+	const pchppVars = window.pchppVars || {};
+
 	return (
 		<div className='__preview components-disabled'>
-			<div className='pochipp-box'>
+			<div
+				className='pochipp-box'
+				data-btn-style={pchppVars.btnStyle || 'default'}
+				data-btn-radius={pchppVars.btnRadius || 'off'}
+			>
 				<div className='pochipp-box__image'>
 					<img src={parsedMeta.image_url} alt='' />
 				</div>
@@ -36,25 +44,27 @@ export default memo(({ postTitle, parsedMeta }) => {
 						</div>
 					)}
 
-					<div className='pochipp-box__btns'>
+					<div
+						className='pochipp-box__btns'
+						data-max-column={pchppVars.maxColumns || 'fit'}
+					>
 						{showAmazon && (
 							<div className='pochipp-box__btnwrap -amazon'>
 								<div className='pochipp-box__btn'>
-									{window.pchppVars.amazonBtnText || 'Amazon'}
+									{pchppVars.amazonBtnText || 'Amazon'}
 								</div>
 							</div>
 						)}
 
 						<div className='pochipp-box__btnwrap -rakuten'>
 							<a href='###' className='pochipp-box__btn'>
-								{window.pchppVars.rakutenBtnText || '楽天市場'}
+								{pchppVars.rakutenBtnText || '楽天市場'}
 							</a>
 						</div>
 
 						<div className='pochipp-box__btnwrap -yahoo'>
 							<a href='###' className='pochipp-box__btn'>
-								{window.pchppVars.yahooBtnText ||
-									'Yahooショッピング'}
+								{pchppVars.yahooBtnText || 'Yahooショッピング'}
 							</a>
 						</div>
 

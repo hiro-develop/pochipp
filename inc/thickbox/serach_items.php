@@ -59,7 +59,7 @@ HTML;
 			<!-- 検索結果がここに描画される -->
 		</div>
 		<div id="loading_image">
-			<img src="<?=esc_url( POCHIPP_URL )?>assets/img/loading.gif" alt="">
+			<img src="<?=esc_url( POCHIPP_URL )?>assets/img/loading_b.gif" alt="" width="80">
 		</div>
 	</div>
 </div>

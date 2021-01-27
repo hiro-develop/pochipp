@@ -8,9 +8,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * AJAXのNonceチェック
  */
 function check_ajax_nonce( $request_key = 'nonce', $nonce_key = '' ) {
-	if ( ! isset( $_POST[ $request_key ] ) ) return false;
 
-	$nonce     = $_POST[ $request_key ];
+	if ( isset( $_POST[ $request_key ] ) ) {
+		$nonce = $_POST[ $request_key ];
+	} elseif ( isset( $_GET[ $request_key ] ) ) {
+		$nonce = $_GET[ $request_key ];
+	} else {
+		return false;
+	}
+
 	$nonce_key = $nonce_key ?: \POCHIPP::NONCE_KEY;
 
 	if ( wp_verify_nonce( $nonce, $nonce_key ) ) {
@@ -32,8 +38,14 @@ require_once POCHIPP_PATH . 'inc/ajax/search_registerd.php';
 add_action( 'wp_ajax_pochipp_update_data', '\POCHIPP\update_data' );
 function update_data() {
 
-	// if ( ! \POCHIPP\check_ajax_nonce() ) {
-	// };
+	if ( ! \POCHIPP\check_ajax_nonce() ) {
+		wp_die( json_encode( [
+			'error' => [
+				'code'    => 'nonce error',
+				'message' => '不正なアクセスです。',
+			],
+		] ) );
+	};
 
 	$datas       = [];
 	$keywords    = \POCHIPP::array_get( $_POST, 'keywords', '' );
@@ -60,7 +72,7 @@ function update_data() {
 	}
 
 	wp_die( json_encode( [
-		'datas' => $datas,
+		'data' => $datas[0],
 	] ) );
 }
 
@@ -71,8 +83,14 @@ function update_data() {
 add_action( 'wp_ajax_pochipp_registerd_by_block', '\POCHIPP\registerd_by_block' );
 function registerd_by_block() {
 
-	// if ( ! \POCHIPP\check_ajax_nonce() ) {
-	// };
+	if ( ! \POCHIPP\check_ajax_nonce() ) {
+		wp_die( json_encode( [
+			'error' => [
+				'code'    => 'nonce error',
+				'message' => '不正なアクセスです。',
+			],
+		] ) );
+	};
 
 	$datas      = [];
 	$attributes = \POCHIPP::array_get( $_POST, 'attributes', '' );

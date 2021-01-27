@@ -133,6 +133,10 @@
 
 
 // 投稿一覧テーブル
+.manage-column#pid {
+	width: 5em;
+}
+
 .manage-column#searched_at {
 	width: 8em;
 }

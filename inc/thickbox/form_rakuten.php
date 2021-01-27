@@ -8,13 +8,15 @@ if ( ! \POCHIPP::get_setting( 'rakuten_app_id' ) ) {
 	echo '<a href="' . esc_url( $pochipp_setting_url ) . '" target="_blank">ポチップ設定ページ</a>から、楽天APIの「アプリID」の設定を行ってください。';
 	return;
 }
-?>
+
+/*
 <div class="pchpp-tb__selectbox">
 	<select id="sort_select" name="sort">
-		<option value="0">並び順</option>
-		<?php foreach ( \POCHIPP::$rakuten_sorts as $sort_id => $values ) : ?>
-			<option value="<?=esc_attr( $sort_id )?>"><?=esc_html( $values['label'] )?></option>
+		<?php foreach ( \POCHIPP::$rakuten_sorts as $sort_key => $label ) : ?>
+			<option value="<?=esc_attr( $sort_key )?>"><?=esc_html( $label )?></option>
 		<?php endforeach; ?>
 	</select>
 </div>
-<?php echo $common_parts; // phpcs:ignore ?>
+*/
+
+echo $common_parts; // phpcs:ignore

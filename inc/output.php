@@ -7,8 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function get_custom_style() {
 	$custom_btn_color = \POCHIPP::get_setting( 'custom_btn_color' );
 
-	$style = '.-custom > .pochipp-box__btn{background-color:' . $custom_btn_color . '};';
-	// .pochipp-box__btnwrap.-custom >
+	$style = ':root{--pchpp-color-custom:' . $custom_btn_color . '};';
 
 	return $style;
 }
@@ -48,6 +47,9 @@ add_action( 'admin_head', function() {
 	$script .= 'window.pchppVars.amazonBtnText = "' . esc_js( \POCHIPP::get_setting( 'amazon_btn_text' ) ) . '";';
 	$script .= 'window.pchppVars.rakutenBtnText = "' . esc_js( \POCHIPP::get_setting( 'rakuten_btn_text' ) ) . '";';
 	$script .= 'window.pchppVars.yahooBtnText = "' . esc_js( \POCHIPP::get_setting( 'yahoo_btn_text' ) ) . '";';
+	$script .= 'window.pchppVars.btnStyle = "' . esc_js( \POCHIPP::get_setting( 'btn_style' ) ) . '";';
+	$script .= 'window.pchppVars.btnRadius = "' . esc_js( \POCHIPP::get_setting( 'btn_radius' ) ) . '";';
+	$script .= 'window.pchppVars.maxColumns = "' . esc_js( \POCHIPP::get_setting( 'max_columns' ) ) . '";';
 
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '<script id="pchpp_admin_vars">' . $script . '</script>' . PHP_EOL;

@@ -14,6 +14,15 @@ add_action( 'wp_ajax_pochipp_search_registerd', '\POCHIPP\search_registerd_items
  */
 function search_registerd_items() {
 
+	if ( ! \POCHIPP\check_ajax_nonce() ) {
+		wp_die( json_encode( [
+			'error' => [
+				'code'    => 'nonce error',
+				'message' => '不正なアクセスです。',
+			],
+		] ) );
+	};
+
 	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
 	$term_id  = \POCHIPP::array_get( $_GET, 'term_id', 0 );
 	$count    = \POCHIPP::array_get( $_GET, 'count', 10 );

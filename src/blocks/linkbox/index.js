@@ -159,7 +159,7 @@ registerBlockType(name, {
 			setIsRegistering(true);
 
 			const doneFunc = (response) => {
-				console.log(response);
+				console.log('registerPochippData: response', response);
 				const newPid = response.pid;
 				if (newPid) {
 					setAttributes({
@@ -222,16 +222,34 @@ registerBlockType(name, {
 				)}
 				{hasItem && (
 					<InspectorControls>
+						{!hasRegisterdItem && (
+							<PanelBody title='検索キーワード'>
+								<TextControl
+									value={attributes.keywords}
+									onChange={(newText) => {
+										setAttributes({ keywords: newText });
+									}}
+								/>
+							</PanelBody>
+						)}
 						<PanelBody title='情報の表示設定'>
 							<TextControl
-								label='商品名を上書き'
+								label={
+									hasRegisterdItem
+										? '商品タイトルを上書き'
+										: '商品タイトル'
+								}
 								value={title}
 								onChange={(newText) => {
 									setAttributes({ title: newText });
 								}}
 							/>
 							<TextControl
-								label='補足情報を上書き'
+								label={
+									hasRegisterdItem
+										? 'タイトル下テキストを上書き'
+										: 'タイトル下テキスト'
+								}
 								value={info}
 								onChange={(newText) => {
 									setAttributes({ info: newText });
@@ -322,7 +340,6 @@ registerBlockType(name, {
 							商品を検索
 						</Button>
 					)}
-					{/* <ItemPreview {...props} /> */}
 					<div className={`${blockName}__preview`}>
 						<ServerSideRender
 							block={name}
@@ -330,6 +347,11 @@ registerBlockType(name, {
 							className={`components-disabled`}
 						/>
 					</div>
+					{hasItem && !hasRegisterdItem && (
+						<div className={`${blockName}__note`}>
+							※ ポチップ管理には未登録のブロックです。
+						</div>
+					)}
 				</div>
 			</>
 		);

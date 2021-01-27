@@ -32,6 +32,14 @@
 		}
 	}
 
+	.pochipp-block__note {
+		max-width: 880px;
+		margin: 4px auto;
+		font-size: 13px;
+		text-align: right;
+		opacity: 0.7;
+	}
+
 	&:not([data-has-item]) {
 		padding: 8px;
 	}

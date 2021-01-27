@@ -1,6 +1,6 @@
 #!/bin/bashx
 
-#使い方 : $ bash ./bin/update.sh 0-1-0
+#使い方 : $ bash ./bin/update.sh 0-1-3
 
 #引数 : プラグインのバージョン
 version=$1
@@ -20,4 +20,4 @@ zip -r pochipp.zip pochipp -x "*._*" "*__MACOSX*" "*.DS_Store" "*.git*" "*.vscod
 zip --delete pochipp.zip  "pochipp/.*"
 
 #zipファイルを移動
-mv pochipp.zip ./_versions/pochipp-${version}.zip
+mv pochipp.zip ./pochipp_versions/zip/pochipp-${version}.zip

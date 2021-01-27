@@ -9,7 +9,11 @@
 	#TB_title {
 		display: flex;
 		align-items: center;
-		padding: 12px;
+		height: auto;
+		padding: 8px 8px 0;
+		letter-spacing: 1px;
+		background: #efefef;
+		border: none;
 	}
 
 	#TB_ajaxWindowTitle {

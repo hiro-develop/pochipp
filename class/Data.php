@@ -13,9 +13,11 @@ class Data {
 
 	// 設定のデフォルト値
 	public static $default_data = [
-		'box_style'        => 'default',
-		'max_columns_pc'   => '4',
-		'max_columns_sp'   => '1',
+		// 'box_style'        => 'default',
+		'btn_style'        => 'default',
+		'btn_radius'       => 'off',
+		'max_columns'      => 'fit',
+		// 'max_columns_sp'   => '1',
 		'sale_position_pc' => 'top',
 		'sale_position_sp' => 'inner',
 		'amazon_btn_text'  => 'Amazon',
@@ -55,9 +57,8 @@ class Data {
 	// ライセンス関連で使用するURL
 	const IS_VALID_LICENSE_URL = 'https://asia-northeast1-pochipp-84843.cloudfunctions.net/isValidLicense';
 
-	// 国際化を考え、定数ではなく変数で ?
-	// あとで amazon_indexs とかに改名する
-	public static $search_indexes = [
+	// Amazonカテゴリー
+	public static $amazon_indexs = [
 		'All'                       => 'すべて',
 		'AmazonVideo'               => 'Prime Video',
 		'Apparel'                   => 'アパレル&ファッション雑貨',
@@ -100,36 +101,15 @@ class Data {
 		'Watches'                   => '腕時計',
 	];
 
-	// memo: 数字なに？
+	// 楽天APIに指定できるソートパラメータ
 	public static $rakuten_sorts = [
-		5 => [
-			'label' => '楽天標準ソート順',
-			'value' => 'standard',
-		],
-		10 => [
-			'label' => 'アフィリエイト料率順（昇順）',
-			'value' => '+affiliateRate',
-		],
-		15 => [
-			'label' => 'アフィリエイト料率順（降順）',
-			'value' => '-affiliateRate',
-		],
-		30 => [
-			'label' => 'レビュー平均順（昇順）',
-			'value' => '+reviewAverage',
-		],
-		35 => [
-			'label' => 'レビュー平均順（降順）',
-			'value' => '-reviewAverage',
-		],
-		40 => [
-			'label' => '価格順（昇順）',
-			'value' => '+reviewCount',
-		],
-		45 => [
-			'label' => '価格順（降順）',
-			'value' => '-itemPrice',
-		],
+		'standard'       => '楽天標準ソート順',
+		'+itemPrice'     => '価格順（昇順）',
+		'-itemPrice'     => '価格順（降順）',
+		'+affiliateRate' => 'アフィリエイト料率順（昇順）',
+		'-affiliateRate' => 'アフィリエイト料率順（降順）',
+		'+reviewAverage' => 'レビュー平均順（昇順）',
+		'-reviewAverage' => 'レビュー平均順（降順）',
 	];
 
 	// インスタンス化させない

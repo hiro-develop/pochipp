@@ -11,25 +11,21 @@ add_action( 'wp_ajax_pochipp_search_rakuten', '\POCHIPP\search_from_rakuten_api'
 
 
 /**
- * 楽天APIの並び順設定
- */
-function rakuten_sort( $sort ) {
-	$sort_info = \POCHIPP::array_get( \POCHIPP::$rakuten_sorts, intval( $sort ), false );
-	if ( ! $sort_info ) {
-		$sort_info = \POCHIPP::$rakuten_sorts[5];
-	}
-	return $sort_info['value'];
-}
-
-
-/**
  *  楽天APIから商品データを取得する for ajax
  */
 function search_from_rakuten_api() {
 
+	if ( ! \POCHIPP\check_ajax_nonce() ) {
+		wp_die( json_encode( [
+			'error' => [
+				'code'    => 'nonce error',
+				'message' => '不正なアクセスです。',
+			],
+		] ) );
+	};
+
 	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$sort     = \POCHIPP::array_get( $_GET, 'sort', 1 );
-	$sort     = \POCHIPP\rakuten_sort( $sort );
+	$sort     = \POCHIPP::array_get( $_GET, 'sort', 'standard' );
 
 	// ページ
 	// $page     = \POCHIPP::array_get( $_GET, 'page', 1 );

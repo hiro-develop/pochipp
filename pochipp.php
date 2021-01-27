@@ -4,7 +4,7 @@
  * Plugin URI: https://pochipp.com/
  * Description: 【ブロックエディター対応】Amazonや楽天市場から商品を検索して、簡単に商品リンクを管理できるプラグインです。
  * Author: ポチップ
- * Version: 0.1.2
+ * Version: 0.1.3
  * Author URI: https://pochipp.com/
  */
 
@@ -14,7 +14,7 @@ if ( ! function_exists( 'register_block_type' ) ) return;
 /**
  * Ver.
  */
-define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '0.1.2' );
+define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '0.1.3' );
 
 /**
  * Define path, url
@@ -65,6 +65,7 @@ class POCHIPP extends \POCHIPP\Data {
 		require_once POCHIPP_PATH . 'inc/register_tax.php';
 		require_once POCHIPP_PATH . 'inc/register_meta.php';
 		require_once POCHIPP_PATH . 'inc/register_blocks.php';
+		require_once POCHIPP_PATH . 'inc/register_shortcode.php';
 		require_once POCHIPP_PATH . 'inc/ajax.php';
 
 		if ( is_admin() ) {
@@ -110,6 +111,7 @@ class POCHIPP extends \POCHIPP\Data {
 	// }
 }
 
+
 /**
  * Start
  */
@@ -120,12 +122,12 @@ add_action( 'plugins_loaded', function() {
 	/**
 	 * アップデートチェック
 	 */
-	// if ( ! class_exists( 'Puc_v4_Factory' ) ) {
-	// 	require POCHIPP_PATH . 'inc/updater/plugin-update-checker.php';
-	// }
-	// Puc_v4_Factory::buildUpdateChecker(
-	// 	'https://pochipp.com/pochipp-plugin/update.json',
-	// 	POCHIPP_PATH,
-	// 	'pochipp'
-	// );
+	if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+		require POCHIPP_PATH . 'inc/updater/plugin-update-checker.php';
+	}
+	Puc_v4_Factory::buildUpdateChecker(
+		'https://pochipp.com/plugin_versions/version.json',
+		POCHIPP_PATH . '/pochipp.php',
+		'pochipp'
+	);
 }, 11 );

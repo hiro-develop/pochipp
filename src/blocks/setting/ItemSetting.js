@@ -15,14 +15,6 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 		<>
 			<div className='__setting'>
 				<TextControl
-					label='商品名'
-					value={postTitle}
-					onChange={(newTitle) => {
-						editPost({ title: newTitle });
-						// setItemTitle(newTitle);
-					}}
-				/>
-				<TextControl
 					label='検索キーワード'
 					value={parsedMeta.keywords}
 					onChange={(val) => {
@@ -30,7 +22,15 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					}}
 				/>
 				<TextControl
-					label='商品名の下に表示するテキスト'
+					label='商品タイトル'
+					value={postTitle}
+					onChange={(newTitle) => {
+						editPost({ title: newTitle });
+						// setItemTitle(newTitle);
+					}}
+				/>
+				<TextControl
+					label='タイトル下に表示するテキスト'
 					value={parsedMeta.info}
 					onChange={(val) => {
 						updateMetadata('info', val);

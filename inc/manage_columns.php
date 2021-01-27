@@ -14,6 +14,7 @@ function add_custom_post_columns( $columns ) {
 
 	if ( \POCHIPP::POST_TYPE_SLUG === $post_type ) {
 
+		$columns['pid']         = 'ID';
 		$columns['searched_at'] = '検索元';
 		$columns['used_at']     = '使用ページ';
 
@@ -33,8 +34,18 @@ function output_custom_post_columns( $column_name, $post_id ) {
 	if ( 'searched_at' === $column_name ) {
 		$pchpp_metas = get_post_meta( $post_id, \POCHIPP::META_SLUG, true );
 		$pchpp_metas = json_decode( $pchpp_metas, true ) ?: [];
+		$searched_at = $pchpp_metas['searched_at'] ?? '';
 
-		echo esc_html( $pchpp_metas['searched_at'] ?? '-' );
+		if ( 'amazon' === $searched_at ) {
+			echo 'Amazon';
+		} elseif ( 'rakuten' === $searched_at ) {
+			echo '楽天市場';
+		} else {
+			echo '-';
+		}
+} elseif ( 'pid' === $column_name ) {
+
+		echo esc_html( $post_id );
 
 	} elseif ( 'used_at' === $column_name ) {
 		$post_id;

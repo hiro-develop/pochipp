@@ -8,26 +8,41 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <h3 class="pchpp-setting__h3">ポチップボックスのデザイン</h3>
 
 <div class="pchpp-setting__div">
-	<dl class="pchpp-setting__dl">
-		<dt>スタイル</dt>
+<dl class="pchpp-setting__dl">
+		<dt>ボタンスタイル</dt>
 		<dd>
 			<?php
 				\POCHIPP::output_radio([
-					'key'     => 'box_style',
+					'key'     => 'btn_style',
 					'choices' => [
 						'default' => '標準',
-						'radius'  => '丸め',
+						'outline' => 'アウトライン',
 					],
 				]);
 			?>
 		</dd>
 	</dl>
 	<dl class="pchpp-setting__dl">
+		<dt>ボタンの丸み</dt>
+		<dd>
+			<?php
+				\POCHIPP::output_radio([
+					'key'     => 'btn_radius',
+					'choices' => [
+						'off' => '四角',
+						'on'  => '丸め',
+					],
+				]);
+			?>
+		</dd>
+	</dl>
+	
+	<dl class="pchpp-setting__dl">
 		<dt>ボタンサイズ（PC）</dt>
 		<dd>
 			<?php
 				\POCHIPP::output_radio([
-					'key'     => 'max_columns_pc',
+					'key'     => 'max_columns',
 					'choices' => [
 						'fit'     => '自動フィット',
 						'text'    => 'テキストに応じる',
