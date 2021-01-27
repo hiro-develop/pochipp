@@ -1,9 +1,6 @@
 <?php
 namespace POCHIPP;
 
-// バリューコマースでYahoo!ショッピングのsidとpidを取得する方法
-// https://wp-cocoon.com/valuecommerce-yahoo-sid-pid/
-
 if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
 <!-- <p>

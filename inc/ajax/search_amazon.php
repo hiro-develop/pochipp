@@ -4,9 +4,8 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Amazon APIから検索
+ * APIから検索
  */
-// \POCHIPP::ACTION_NAME['amazon'] とかでアクション名 とれるようにする
 add_action( 'wp_ajax_pochipp_search_amazon', '\POCHIPP\search_from_amazon_api' );
 
 
@@ -181,7 +180,7 @@ function get_json_from_amazon_api( $operation, $request, $keywords ) {
 /**
  * 商品データを整形
  */
-function set_item_data_by_amazon_api( $resultData, $keywords, $is_new = true ) {
+function set_item_data_by_amazon_api( $resultData, $keywords ) {
 
 	$items = [];
 	foreach ( $resultData->Items as $item ) {
@@ -190,44 +189,40 @@ function set_item_data_by_amazon_api( $resultData, $keywords, $is_new = true ) {
 			'searched_at' => 'amazon',
 		];
 
-		// 新規の時だけ登録する部分
-		// memo: ↑ 「新規の時」、とは...？
-		if ( $is_new ) {
-			$asin         = $item->ASIN ?? '';
-			$data['asin'] = (string) $asin;
+		$asin         = $item->ASIN ?? '';
+		$data['asin'] = (string) $asin;
 
-			// 商品名
-			$item_title    = $item->ItemInfo->Title->DisplayValue ?? '';
-			$data['title'] = (string) $item_title;
+		// 商品名
+		$item_title    = $item->ItemInfo->Title->DisplayValue ?? '';
+		$data['title'] = (string) $item_title;
 
-			// ブランド名
-			$brand        = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
-			$data['info'] = $brand;
+		// ブランド名
+		$brand        = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
+		$data['info'] = $brand;
 
-			// ブランド名なければ、著者名などの情報
-			if ( ! $brand ) {
-				$contributors      = '';
-				$contributors_data = $item->ItemInfo->ByLineInfo->Contributors ?? [];
-				foreach ( $contributors_data as $obj ) {
-					if ( '' !== $contributors ) {
-						$contributors .= ', ';
-					}
-					$contributors .= $obj->Role . ':' . $obj->Name;
+		// ブランド名なければ、著者名などの情報
+		if ( ! $brand ) {
+			$contributors      = '';
+			$contributors_data = $item->ItemInfo->ByLineInfo->Contributors ?? [];
+			foreach ( $contributors_data as $obj ) {
+				if ( '' !== $contributors ) {
+					$contributors .= ', ';
 				}
-				$data['info'] = $contributors;
+				$contributors .= $obj->Role . ':' . $obj->Name;
 			}
-
-			// 商品詳細 アフィURL
-			$data['amazon_affi_url'] = $item->DetailPageURL;
-
-			// 商品詳細URL memo: アフィ用のクエリが付いていないURL
-			// $data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
+			$data['info'] = $contributors;
 		}
+
+		// 商品詳細 アフィURL
+		$data['amazon_affi_url'] = $item->DetailPageURL;
+
+		// 商品詳細URL memo: アフィ用のクエリが付いていないURL
+		// $data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
 
 		// 価格
 		$price            = $item->Offers->Listings[0]->Price->Amount ?? '';
 		$data['price']    = (string) $price;
-		$data['price_at'] = date_i18n( 'Y/m/d H:i' );
+		$data['price_at'] = wp_date( 'Y/m/d H:i' );
 
 		// 画像URL
 		$data['image_url'] = $item->Images->Primary->Large->URL ?? '';
@@ -242,27 +237,25 @@ function set_item_data_by_amazon_api( $resultData, $keywords, $is_new = true ) {
 
 /**
  * Amazon APIのエラーメッセージをできるだけ日本語化して返す
+ * see: https://webservices.amazon.com/paapi5/documentation/troubleshooting/error-messages.html
  */
 function get_amazon_api_error_text( $code, $description ) {
 	switch ( $code ) {
 		case 'AccessDenied':
 		case 'AccessDeniedAwsUsers':
-			$message = 'このアクセスキーは、Product Advertising APIにアクセスするために有効になっていません。AWS認証情報を利用している場合はProduct Advertising APIで取得し直してください。';
+			$message = '無効なアクセスキーです。';
 			break;
 		case 'InvalidAssociate':
-			$message = 'アクセスキーは、承認されたアソシエイトストアのプライマリにマップされていません。';
+			$message = 'アクセスキーがAmazonアソシエイトに登録されていません。';
 			break;
 		case 'IncompleteSignature':
-			$message = '要求の署名には、必要なコンポーネントのすべてが含まれていませんでした。';
+			$message = 'リクエストの署名情報が欠落しています。';
 			break;
 		case 'InvalidPartnerTag':
-			$message = '認証情報が合いません。ポチップ設定 > Amazon > 「トラッキングID」を正しいものに設定してください。';
+			$message = 'パートナータグ（トラッキングID）の認証に失敗しました。';
 			break;
-		case 'InvalidSignature"':
-			$message = 'アクセスキーIDが存在しません。ポチップ設定 > Amazon > PA-APIの設定 > 「シークレットキー」を正しいものに設定してください。';
-			break;
-		case 'UnrecognizedClient':
-			$message = 'アクセスキーIDが合いません。ポチップ設定 > Amazon > PA-APIの設定 > 「アクセスキー」を正しいものに設定してください。';
+		case 'InvalidSignature':
+			$message = 'リクエストが正しく署名されていません。';
 			break;
 		case 'TooManyRequests':
 			$message = 'リクエスト回数が多すぎます。';
@@ -274,14 +267,14 @@ function get_amazon_api_error_text( $code, $description ) {
 		case 'MissingParameter':
 			$message = 'キーワードを入力してください';
 			break;
-		case 'UnknownOperationException':
-			$message = '要求された操作は無効です。操作名が正しく入力されていることを確認してください。';
+		case 'UnknownOperation':
+			$message = '要求された操作が無効なものです。';
+			break;
+		case 'UnrecognizedClient':
+			$message = 'アクセスキーまたはシークレットキーが無効です。';
 			break;
 		case 'NoResults':
-			$message = '該当する商品がありません';
-			break;
-		case 'UnrecognizedClientException':
-			$message = 'アクセスキーまたはセキュリティトークンが無効です。';
+			$message = 'リクエストに該当する商品が見つかりませんでした。';
 			break;
 		default:
 			$message = $description;

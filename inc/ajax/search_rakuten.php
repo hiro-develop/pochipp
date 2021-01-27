@@ -4,14 +4,13 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Amazon APIから検索
+ * APIから検索
  */
-// \POCHIPP::ACTION_NAME['rakuten'] とかでアクション名 とれるようにする
 add_action( 'wp_ajax_pochipp_search_rakuten', '\POCHIPP\search_from_rakuten_api' );
 
 
 /**
- *  楽天APIから商品データを取得する for ajax
+ *  楽天APIから商品データを取得する
  */
 function search_from_rakuten_api() {
 
@@ -34,11 +33,11 @@ function search_from_rakuten_api() {
 	// 登録済み商品
 	$registerd_items = \POCHIPP::get_registerd_items( [
 		'keywords' => $keywords,
-		'count'    => 2, // memo: ２個まで取得。<- 少ない？
+		'count'    => 2, // memo: ２個は少ない？
 	] );
 
 	// 検索API用のurlに付与するクエリ情報を生成
-	$api_query  = '&hits=10'; // 検索数
+	$api_query  = '&hits=10'; // 検索数: amazonの数と揃える
 	$api_query .= '&page=1&sort=' . rawurlencode( $sort );
 	$api_query .= '&availability=1&keyword=' . rawurlencode( $keywords );
 
@@ -131,15 +130,6 @@ function get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode = '' )
 		];
 	}
 
-	// if ( $itemcode && isset( $response_arr['hits'] ) && intval( $response_arr['hits'] ) === 0 ) {
-	// 	return [
-	// 		'error' => [
-	// 			'code'    => 'no item',
-	// 			'message' => '指定の商品コードの商品がありません',
-	// 		],
-	// 	];
-	// }
-
 	// OK
 	return \POCHIPP\set_item_data_by_rakuten_api( $response_arr['Items'], $keywords, $itemcode );
 }
@@ -183,9 +173,9 @@ function set_item_data_by_rakuten_api( $items_data, $keywords = '', $itemcode ) 
 		// 商品情報
 		$item['info']     = $data['Item']['shopName'] ?? '';
 		$item['price']    = $data['Item']['itemPrice'] ?? '';
-		$item['price_at'] = date_i18n( 'Y/m/d H:i' );
+		$item['price_at'] = wp_date( 'Y/m/d H:i' );
 
-		// 楽天市場のみ memo: いる？
+		// 楽天市場のみ memo: とりあえずなしで
 		// $item['affi_rate']    = $data['Item']['affiliateRate'] ?? '';
 		// $item['review_score'] = $data['Item']['reviewAverage'] ?? '';
 
@@ -198,38 +188,35 @@ function set_item_data_by_rakuten_api( $items_data, $keywords = '', $itemcode ) 
 
 /**
  * 楽天APIのエラーメッセージをできるだけ日本語化して返す
+ * see: https://webservice.rakuten.co.jp/api/ichibaitemsearch/
  */
 function get_rakuten_api_error_text( $code = '', $description = '' ) {
 	switch ( $code ) {
+		// パラメーターエラー
 		case 'wrong_parameter':
 			switch ( $description ) {
-				case 'keyword is not valid':
-					$message = 'キーワードを正しく設定してください';
-					break;
 				case 'specify valid applicationId':
-				case 'client_id or access_token':
-					$message = 'アプリケーションIDが登録されていません。開発者に問い合わせてください。';
+					$message = 'アプリIDが指定されていません。';
 					break;
-				case 'itemCode is not valid':
-					$message = '商品コードが存在しません';
+				case 'keyword parameter is not valid':
+					$message = 'キーワードを正しく設定してください。';
 					break;
 				default:
-					$message = 'パラメーターエラーです';
+					$message = 'パラメーターが不足しています。(' . $description . ')';
 					break;
 			}
 			break;
 		case 'not_found':
-			$message = 'データが存在しません';
+			$message = 'リクエストに該当するデータが見つかりませんでした。';
 			break;
 		case 'too_many_requests':
-			$message = 'リクエスト回数が多すぎます。しばらく時間を空けてからご利用ください。';
+			$message = 'リクエスト回数が多すぎます。しばらく時間を空けてから再度お試しください。';
 			break;
-
 		case 'system_error':
-			$message = '楽天ウェブサービスのシステムエラーです。長時間続くようであれば楽天ウェブサービスヘルプページよりごお問い合わせください。';
+			$message = '楽天ウェブサービス内のシステムエラーです。';
 			break;
 		case 'service_unavailable':
-			$message = '楽天ウェブサービスメンテナンス中です。' . $description;
+			$message = '楽天ウェブサービスのメンテナンス中です。';
 			break;
 		default:
 			$message = $description;

@@ -58,7 +58,6 @@ trait Utility {
 		}
 
 		// amazonはアフィリンクをデータとして保存しているので、それがあればそのまま返す
-		// memo: -> APIからの返答 : &linkCode=ogi&th=1&psc=1 をつけるだけでいいのか？
 		if ( ! $affi_url ) {
 			$traccking_id = \POCHIPP::get_setting( 'amazon_traccking_id' );
 

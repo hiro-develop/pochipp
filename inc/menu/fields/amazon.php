@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<br>
 		認証キーを取得後、「アクセスキー」と「シークレットキー」を設定してください。
 		<br>
-		認証キーの詳しい取得方法は<a href="###" target="_blank" rel="noopener noreferrer">こちらのページ</a>で解説しています。
+		<!-- 認証キーの詳しい取得方法は<a href="###" target="_blank" rel="noopener noreferrer">こちらのページ</a>で解説しています。 -->
 	</p>
 	<dl class="pchpp-setting__dl">
 		<dt>アクセスキー</dt>
