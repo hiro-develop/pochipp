@@ -70,10 +70,7 @@ function set_sale_text() {
 	$deadline_amazon = \POCHIPP::get_setting( 'amazon_sale_deadline' );
 	$deadline_amazon = (int) preg_replace( '/[^0-9]/', '', $deadline_amazon );
 	if ( $deadline_amazon >= $date ) {
-		add_filter( 'pochipp_amazon_sale_text_top', function() {
-			return \POCHIPP::get_setting( 'amazon_sale_text' );
-		});
-		add_filter( 'pochipp_amazon_sale_text_inner', function() {
+		add_filter( 'pochipp_amazon_sale_text', function() {
 			return \POCHIPP::get_setting( 'amazon_sale_text' );
 		});
 
@@ -93,10 +90,7 @@ function set_sale_text() {
 	$deadline_rakuten = \POCHIPP::get_setting( 'rakuten_sale_deadline' );
 	$deadline_rakuten = (int) preg_replace( '/[^0-9]/', '', $deadline_rakuten );
 	if ( $deadline_rakuten >= $date ) {
-		add_filter( 'pochipp_rakuten_sale_text_top', function() {
-			return \POCHIPP::get_setting( 'rakuten_sale_text' );
-		});
-		add_filter( 'pochipp_rakuten_sale_text_inner', function() {
+		add_filter( 'pochipp_rakuten_sale_text', function() {
 			return \POCHIPP::get_setting( 'rakuten_sale_text' );
 		});
 
@@ -116,10 +110,7 @@ function set_sale_text() {
 	$deadline_yahoo = \POCHIPP::get_setting( 'rakuten_sale_deadline' );
 	$deadline_yahoo = (int) preg_replace( '/[^0-9]/', '', $deadline_yahoo );
 	if ( $deadline_yahoo >= $date ) {
-		add_filter( 'pochipp_yahoo_sale_text_top', function() {
-			return \POCHIPP::get_setting( 'yahoo_sale_text' );
-		});
-		add_filter( 'pochipp_yahoo_sale_text_inner', function() {
+		add_filter( 'pochipp_yahoo_sale_text', function() {
 			return \POCHIPP::get_setting( 'yahoo_sale_text' );
 		});
 

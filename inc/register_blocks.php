@@ -147,16 +147,14 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 
 	// スタイル
 	// $box_style  = \POCHIPP::get_setting( 'box_style' );
-	$btn_style  = \POCHIPP::get_setting( 'btn_style' );
-	$btn_radius = \POCHIPP::get_setting( 'btn_radius' );
+	$btn_style        = \POCHIPP::get_setting( 'btn_style' );
+	$btn_radius       = \POCHIPP::get_setting( 'btn_radius' );
+	$sale_text_effect = \POCHIPP::get_setting( 'sale_text_effect' );
 
 	// セール通知テキスト
-	$amazon_sale_text_top    = apply_filters( 'pochipp_amazon_sale_text_top', '' );
-	$amazon_sale_text_inner  = apply_filters( 'pochipp_amazon_sale_text_inner', '' );
-	$rakuten_sale_text_top   = apply_filters( 'pochipp_rakuten_sale_text_top', '' );
-	$rakuten_sale_text_inner = apply_filters( 'pochipp_rakuten_sale_text_inner', '' );
-	$yahoo_sale_text_top     = apply_filters( 'pochipp_yahoo_sale_text_top', '' );
-	$yahoo_sale_text_inner   = apply_filters( 'pochipp_yahoo_sale_text_inner', '' );
+	$amazon_sale_text  = apply_filters( 'pochipp_amazon_sale_text', '' );
+	$rakuten_sale_text = apply_filters( 'pochipp_rakuten_sale_text', '' );
+	$yahoo_sale_text   = apply_filters( 'pochipp_yahoo_sale_text', '' );
 
 	ob_start();
 
@@ -165,8 +163,7 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		<div class="pochipp-box"
 			data-btn-style="<?=esc_attr( $btn_style )?>"
 			data-btn-radius="<?=esc_attr( $btn_radius )?>"
-			data-sale-text-pc="<?=esc_attr( \POCHIPP::get_setting( 'sale_position_pc' ) )?>"
-			data-sale-text-sp="<?=esc_attr( \POCHIPP::get_setting( 'sale_position_sp' ) )?>"
+			data-sale-effect="<?=esc_attr( $sale_text_effect )?>"
 		>
 			<?php if ( $image_url ) : ?>
 				<div class="pochipp-box__image">
@@ -198,13 +195,10 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 			>
 				<?php if ( $amazon_url ) : ?>
 					<div class="pochipp-box__btnwrap -amazon">
-						<?php if ( $amazon_sale_text_top ) : ?>
-							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $amazon_sale_text_top )?>／</div>
+						<?php if ( $amazon_sale_text ) : ?>
+							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $amazon_sale_text )?>／</div>
 						<?php endif; ?>
 						<a href="<?=esc_url( $amazon_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
-							<?php if ( $amazon_sale_text_inner ) : ?>
-								<div class="pochipp-box__saleInfo -inner"><?=esc_html( $amazon_sale_text_inner )?></div>
-							<?php endif; ?>
 							<?php
 								echo esc_html( \POCHIPP::get_setting( 'amazon_btn_text' ) );
 								echo \POCHIPP::get_amazon_imptag( $amazon_aid );
@@ -214,13 +208,10 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 				<?php endif; ?>
 				<?php if ( $rakuten_url ) : ?>
 					<div class="pochipp-box__btnwrap -rakuten">
-						<?php if ( $rakuten_sale_text_top ) : ?>
-							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $rakuten_sale_text_top )?>／</div>
+						<?php if ( $rakuten_sale_text ) : ?>
+							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $rakuten_sale_text )?>／</div>
 						<?php endif; ?>
 						<a href="<?=esc_url( $rakuten_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
-							<?php if ( $rakuten_sale_text_inner ) : ?>
-								<div class="pochipp-box__saleInfo -inner"><?=esc_html( $rakuten_sale_text_inner )?></div>
-							<?php endif; ?>
 							<?php
 								echo esc_html( \POCHIPP::get_setting( 'rakuten_btn_text' ) );
 								echo \POCHIPP::get_rakuten_imptag( $rakuten_aid );
@@ -229,14 +220,11 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 					</div>
 				<?php endif; ?>
 				<?php if ( $yahoo_url ) : ?>
-					<?php if ( $yahoo_sale_text_top ) : ?>
-						<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $yahoo_sale_text_top )?>／</div>
+					<?php if ( $yahoo_sale_text ) : ?>
+						<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $yahoo_sale_text )?>／</div>
 					<?php endif; ?>
 					<div class="pochipp-box__btnwrap -yahoo">
 						<a href="<?=esc_url( $yahoo_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
-							<?php if ( $yahoo_sale_text_inner ) : ?>
-								<div class="pochipp-box__saleInfo -inner"><?=esc_html( $yahoo_sale_text_inner )?></div>
-							<?php endif; ?>
 							<?php
 								echo esc_html( \POCHIPP::get_setting( 'yahoo_btn_text' ) );
 								echo \POCHIPP::get_yahoo_imptag( $yahoo_aid );

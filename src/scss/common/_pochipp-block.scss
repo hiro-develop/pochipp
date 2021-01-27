@@ -182,11 +182,6 @@
 			font-size: 15px;
 		}
 
-		// ２段目以降のボタン
-		// [data-max-column="3"] > & + .pochipp-box__btnwrap + .pochipp-box__btnwrap {
-		// 	max-width: 33.3%;
-		// }
-
 		[data-max-column="2"] > & {
 			flex-basis: 50%;
 			max-width: 50%;
@@ -240,7 +235,10 @@
 	font-size: 12px;
 	line-height: 1;
 	text-align: center;
-	animation: 1.5s linear 0s infinite pchppFlash;
+
+	[data-sale-effect="flash"] & {
+		animation: 1.5s linear 0s infinite pchppFlash;
+	}
 
 	@include mobile {
 		font-size: 11px;
@@ -263,31 +261,31 @@
 		font-weight: bold;
 	}
 
-	&.-inner {
-		margin-top: -4px;
-		margin-bottom: 4px;
-		padding: 2px 8px;
-		background-color: #fff;
-	}
+	// &.-inner {
+	// 	margin-top: -4px;
+	// 	margin-bottom: 4px;
+	// 	padding: 2px 8px;
+	// 	background-color: #fff;
+	// }
 }
 
 
 // tab以上
-@include tab {
+// @include tab {
 
-	[data-sale-text-pc="top"] .pochipp-box__saleInfo.-inner,
-	[data-sale-text-pc="inner"] .pochipp-box__saleInfo.-top {
-		display: none;
-	}
-}
-// モバイルサイズ
-@include mobile {
+// 	[data-sale-text-pc="top"] .pochipp-box__saleInfo.-inner,
+// 	[data-sale-text-pc="inner"] .pochipp-box__saleInfo.-top {
+// 		display: none;
+// 	}
+// }
+// // モバイルサイズ
+// @include mobile {
 
-	[data-sale-text-sp="top"] .pochipp-box__saleInfo.-inner,
-	[data-sale-text-sp="inner"] .pochipp-box__saleInfo.-top {
-		display: none;
-	}
-}
+// 	[data-sale-text-sp="top"] .pochipp-box__saleInfo.-inner,
+// 	[data-sale-text-sp="inner"] .pochipp-box__saleInfo.-top {
+// 		display: none;
+// 	}
+// }
 
 
 // --------------------------------------------------------

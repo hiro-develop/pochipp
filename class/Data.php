@@ -17,15 +17,13 @@ class Data {
 		'btn_style'        => 'default',
 		'btn_radius'       => 'off',
 		'max_columns'      => 'fit',
-		// 'max_columns_sp'   => '1',
 		'sale_position_pc' => 'top',
 		'sale_position_sp' => 'inner',
 		'amazon_btn_text'  => 'Amazon',
 		'rakuten_btn_text' => '楽天市場',
 		'yahoo_btn_text'   => 'Yahooショッピング',
 		'custom_btn_color' => '#63a958',
-		// 'amazon_btn_target'  => 'detail',
-		// 'rakuten_btn_target' => 'detail',
+		'sale_text_effect' => 'flash',
 	];
 
 	// DB名
@@ -55,7 +53,7 @@ class Data {
 	const TABKEY_REGISTERD = 'pochipp_search_registerd';
 
 	// ライセンス関連で使用するURL
-	const IS_VALID_LICENSE_URL = 'https://asia-northeast1-pochipp-84843.cloudfunctions.net/isValidLicense';
+	// const IS_VALID_LICENSE_URL = 'https://asia-northeast1-pochipp-84843.cloudfunctions.net/isValidLicense';
 
 	// Amazonカテゴリー
 	// public static $amazon_indexs = [

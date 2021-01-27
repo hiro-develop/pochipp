@@ -3,8 +3,7 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-?>
-
+/*
 <h3 class="pchpp-setting__h3">セール情報の表示位置</h3>
 <div class="pchpp-setting__div">
 	<dl class="pchpp-setting__dl">
@@ -36,6 +35,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</dd>
 	</dl>
 </div>
+*/
+?>
 
 <h3 class="pchpp-setting__h3">Amazonセール情報</h3>
 <!-- <p class="pchpp-setting__p"></p> -->
@@ -170,6 +171,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				\POCHIPP::output_checkbox([
 					'key'   => 'hide_custom_at_yahoo_sale',
 					'label' => 'カスタムボタン',
+				]);
+			?>
+		</dd>
+	</dl>
+</div>
+
+<h3 class="pchpp-setting__h3">セール情報の表示エフェクト</h3>
+<div class="pchpp-setting__div">
+	<dl class="pchpp-setting__dl">
+		<!-- <dt>アクセント</dt> -->
+		<dd>
+			<?php
+				\POCHIPP::output_radio([
+					'key'     => 'sale_text_effect',
+					'choices' => [
+						'none'  => 'なし',
+						'flash' => '点滅',
+					],
 				]);
 			?>
 		</dd>
