@@ -58,59 +58,21 @@ class Data {
 	const IS_VALID_LICENSE_URL = 'https://asia-northeast1-pochipp-84843.cloudfunctions.net/isValidLicense';
 
 	// Amazonカテゴリー
-	public static $amazon_indexs = [
-		'All'                       => 'すべて',
-		'AmazonVideo'               => 'Prime Video',
-		'Apparel'                   => 'アパレル&ファッション雑貨',
-		'Appliances'                => '電化製品',
-		'Automotive'                => '車＆バイク',
-		'Baby'                      => 'ベビー&マタニティ',
-		'Beauty'                    => 'コスメ',
-		'Books'                     => '書籍（Kindle含む）',
-		'KindleStore'               => 'Kindleのみ',
-		'Classical'                 => 'クラシック音楽',
-		'Computers'                 => 'コンピューター',
-		'CreditCards'               => 'クレジットカード',
-		'DigitalMusic'              => 'デジタルミュージック',
-		'Electronics'               => '家電&カメラ',
-		// 'EverythingElse'          => 'ほかのすべて',
-		'Fashion'                   => 'ファッション',
-		'FashionBaby'               => 'ファッション（キッズ&ベビー）',
-		'FashionMen'                => 'ファッション（メンズ）',
-		'FashionWomen'              => 'ファッション（レディース）',
-		'ForeignBooks'              => '洋書',
-		'GiftCards'                 => 'ギフトカード',
-		'GroceryAndGourmetFood'     => '食料と飲料',
-		'HealthPersonalCare'        => 'ヘルス＆ビューティー',
-		'Hobbies'                   => 'ホビー',
-		'HomeAndKitchen'            => 'ホーム&キッチン',
-		'Industrial'                => '産業・研究開発用品',
-		'Jewelry'                   => 'ジュエリー',
-		'MobileApps'                => 'Android アプリ',
-		'MoviesAndTV'               => '映画とテレビ',
-		'Music'                     => 'ミュージック',
-		'MusicalInstruments'        => '楽器',
-		'OfficeProducts'            => '文房具&オフィス用品',
-		'PetSupplies'               => 'ペット用品',
-		'Shoes'                     => 'シューズ&バッグ',
-		'Software'                  => 'PCソフト',
-		'SportsAndOutdoors'         => 'スポーツ&アウトドア',
-		'ToolsAndHomeImprovement'   => 'DIY&工具&ガーデン',
-		'Toys'                      => 'おもちゃ',
-		'VideoGames'                => 'TVゲーム',
-		'Watches'                   => '腕時計',
-	];
+	// public static $amazon_indexs = [
+	// 	'All'            => 'すべて',
+	// 	// ...
+	// ];
 
 	// 楽天APIに指定できるソートパラメータ
-	public static $rakuten_sorts = [
-		'standard'       => '楽天標準ソート順',
-		'+itemPrice'     => '価格順（昇順）',
-		'-itemPrice'     => '価格順（降順）',
-		'+affiliateRate' => 'アフィリエイト料率順（昇順）',
-		'-affiliateRate' => 'アフィリエイト料率順（降順）',
-		'+reviewAverage' => 'レビュー平均順（昇順）',
-		'-reviewAverage' => 'レビュー平均順（降順）',
-	];
+	// public static $rakuten_sorts = [
+	// 	'standard'       => '楽天標準ソート順',
+	// 	'+itemPrice'     => '価格順（昇順）',
+	// 	'-itemPrice'     => '価格順（降順）',
+	// 	'+affiliateRate' => 'アフィリエイト料率順（昇順）',
+	// 	'-affiliateRate' => 'アフィリエイト料率順（降順）',
+	// 	'+reviewAverage' => 'レビュー平均順（昇順）',
+	// 	'-reviewAverage' => 'レビュー平均順（降順）',
+	// ];
 
 	// インスタンス化させない
 	private function __construct() {}

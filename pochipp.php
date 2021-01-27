@@ -2,10 +2,12 @@
 /**
  * Plugin Name: Pochipp
  * Plugin URI: https://pochipp.com/
- * Description: 【ブロックエディター対応】Amazonや楽天市場から商品を検索して、簡単に商品リンクを管理できるプラグインです。
- * Author: ポチップ
- * Version: 0.1.3
+ * Description: Amazon・楽天市場・Yahooショッピングなどのアフィリエイトリンクを簡単に作成・管理できる、ブロックエディターに最適化されたプラグインです。
+ * Author: ひろ
+ * Version: 0.1.5
  * Author URI: https://pochipp.com/
+ * License: GPL2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -14,7 +16,7 @@ if ( ! function_exists( 'register_block_type' ) ) return;
 /**
  * Ver.
  */
-define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '0.1.3' );
+define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '0.1.5' );
 
 /**
  * Define path, url
@@ -127,7 +129,7 @@ add_action( 'plugins_loaded', function() {
 	}
 	Puc_v4_Factory::buildUpdateChecker(
 		'https://pochipp.com/plugin_versions/version.json',
-		POCHIPP_PATH . '/pochipp.php',
+		POCHIPP_PATH . 'pochipp.php',
 		'pochipp'
 	);
 }, 11 );

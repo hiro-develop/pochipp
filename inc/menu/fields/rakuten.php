@@ -3,6 +3,14 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
+
+
+<div class="pchpp-setting__section_help">
+	ご利用前に楽天の公式ドキュメントをご確認ください。<br>
+	<a href="https://webservice.faq.rakuten.net/hc/ja/categories/900000158383-%E3%81%94%E5%88%A9%E7%94%A8%E3%83%AB%E3%83%BC%E3%83%AB" target="_blank" rel="noopener noreferrer">Rakuten Devekipers ご利用ルール契約</a>
+</div>
+
+
 <h3 class="pchpp-setting__h3">アプリIDの設定</h3>
 <div class="pchpp-setting__div">
 	<p class="pchpp-setting__p">

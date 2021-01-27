@@ -5,12 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
 
 <div class="pchpp-setting__section_help">
-	公式ドキュメント : 
-	<a href="https://affiliate.amazon.co.jp/help/operating/paapilicenseagreement" target="_blank">Amazon.co.jp Product Advertising API ライセンス契約</a>
+	ご利用前にAmazonの公式ドキュメントをご確認ください。<br>
+	<a href="https://affiliate.amazon.co.jp/help/operating/paapilicenseagreement" target="_blank" rel="noopener noreferrer">Amazon.co.jp Product Advertising API ライセンス契約</a>
 	/
-	<a href="https://affiliate.amazon.co.jp/help/operating/agreement" target="_blank">Amazonアソシエイト・プログラム運営規約</a>
+	<a href="https://affiliate.amazon.co.jp/help/operating/agreement" target="_blank" rel="noopener noreferrer">Amazonアソシエイト・プログラム運営規約</a>
 	/
-	<a href="https://affiliate.amazon.co.jp/help/node" target="_blank">Amazonアソシエイトに関するヘルプページ</a>
+	<a href="https://affiliate.amazon.co.jp/help/node" target="_blank" rel="noopener noreferrer">Amazonアソシエイトに関するヘルプページ</a>
 </div>
 <h3 class="pchpp-setting__h3">PA-APIの設定</h3>
 <div class="pchpp-setting__div">

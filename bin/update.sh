@@ -14,7 +14,7 @@ sed -i '' -e "s/date( 'mdGis' ) : .*/date( 'mdGis' ) : '${version_num}' );/g" po
 cd ..
 
 #zプラグインファイルをip化
-zip -r pochipp.zip pochipp -x "*._*" "*__MACOSX*" "*.DS_Store" "*.git*" "*.vscode*" "*/_nouse/*" "*/src/*" "*/bin/*" "*gulpfile.js" "*webpack.config.*" "*/node_modules/*" "*package.json" "*package-lock.json" "*composer.json" "*composer.lock" "*README.md" "*postcss.config.js" "*memo.md" "*phpcs.xml"
+zip -r pochipp.zip pochipp -x "*._*" "*__MACOSX*" "*.DS_Store" "*.git*" "*.vscode*" "*/_nouse/*" "*/src/**/*.js" "*/bin/*" "*/vendor/*" "*gulpfile.js" "*webpack.config.*" "*/node_modules/*" "*package.json" "*package-lock.json" "*composer.json" "*composer.lock" "*README.md" "*postcss.config.js" "*memo.md" "*phpcs.xml"
 
 #設定ファイル系削除
 zip --delete pochipp.zip  "pochipp/.*"

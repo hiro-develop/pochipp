@@ -3,7 +3,6 @@
 楽天 : https://webservice.rakuten.co.jp/api/ichibaitemsearch/
 
 # 作業メモ
-- アップデート機能
 - 解説記事へのリンクをとりあえず非表示に。
 - wp-scripts バージョンアップ
 
