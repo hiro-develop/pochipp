@@ -7,6 +7,36 @@
 
 .pchpp-setting {
 
+	.pchpp-setting__preview {
+		display: flex;
+
+		.__wrap {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.__label {
+			margin-bottom: 8px;
+			font-size: 13px;
+		}
+
+		.__inner {
+			padding: 8px;
+			border: dashed 1px #dcdcdc;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.pochipp-box {
+			margin: 0 0 !important;
+			// transform: scale(0.8);
+			// transform-origin: 0 0;
+		}
+	}
+
 	.pchpp-setting__tabs {
 
 		.nav-tab {
@@ -89,6 +119,7 @@
 
 		&.-flex {
 			display: flex;
+			flex-wrap: wrap;
 
 			.pchpp-setting__field {
 				margin-right: 16px;
@@ -126,6 +157,15 @@
 		label {
 			display: block;
 			padding: 4px 0;
+		}
+
+		&.-flex {
+			display: flex;
+			flex-wrap: wrap;
+
+			label {
+				margin-right: 16px;
+			}
 		}
 	}
 

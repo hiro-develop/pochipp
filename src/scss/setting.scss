@@ -2,6 +2,7 @@
  * Pochippの設定画面と商品登録ページでしか読み込まれないCSSファイル
  */
 @import "./mixin";
+@import "./common/**";
 @import "./setting/**";
 
 @keyframes pchppRotation {

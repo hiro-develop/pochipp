@@ -41,6 +41,7 @@ function admin_scripts( $hook_suffix ) {
 	// 管理画面用CSS
 	if ( $is_pochipp_menu || $is_columns_page ) {
 		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
+		wp_enqueue_script( 'pochipp-setting', POCHIPP_URL . 'dist/js/setting.js', [ 'jquery' ], POCHIPP_VERSION, true );
 	}
 
 	// 設定ページにだけ読み込むファイル

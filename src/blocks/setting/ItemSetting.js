@@ -72,13 +72,13 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 				<div className='__note'>
 					アフィリエイトリンクではなく、通常の商品ページのURLを入力してください。
 				</div> */}
-				<TextControl
+				{/* <TextControl
 					label='商品画像 '
 					value={parsedMeta.image_url}
 					onChange={(val) => {
 						updateMetadata('image_url', val);
 					}}
-				/>
+				/> */}
 			</div>
 		</>
 	);

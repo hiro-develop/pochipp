@@ -11,6 +11,9 @@
         "html": false
     },
     "attributes": {
+        "className": {
+            "type": "string"
+        },
         "pid": {
             "type": "number"
         },
@@ -70,6 +73,10 @@
             "default": false
         },
         "hideYahoo": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideCustom": {
             "type": "boolean",
             "default": false
         }

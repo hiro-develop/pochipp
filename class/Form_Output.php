@@ -57,12 +57,13 @@ trait Form_Output {
 
 		$key     = $args['key'] ?? '';
 		$choices = $args['choices'] ?? '';
+		$class   = $args['class'] ?? '';
 
 		$name = \POCHIPP::DB_NAME . '[' . $key . ']';
 		$val  = \POCHIPP::get_setting( $key );
 
 		?>
-		<div class="pchpp-setting__field -radio">
+		<div class="pchpp-setting__field -radio <?=esc_attr( $class )?>">
 			<?php
 				foreach ( $choices as $value => $label ) :
 				$radio_id = $key . '_' . $value;
@@ -70,7 +71,7 @@ trait Form_Output {
 			?>
 					<label for="<?=esc_attr( $radio_id )?>">
 						<input type="radio" id="<?=esc_attr( $radio_id )?>" name="<?=esc_attr( $name )?>" value="<?=esc_attr( $value )?>" <?=$checked?> >
-						<span><?=esc_html( $label )?></span>
+						<span><?=wp_kses_post( $label )?></span>
 					</label>
 			<?php endforeach; ?>
 		</div>

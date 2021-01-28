@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<dd>
 			<?php
 				\POCHIPP::output_radio([
-					'key'     => 'sale_position_sp',
+					'key'     => 'sale_position_mb',
 					'choices' => [
 						'top'   => 'ボタン上部',
 						'inner' => 'ボタン内部',

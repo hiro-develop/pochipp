@@ -325,6 +325,16 @@ registerBlockType(name, {
 									});
 								}}
 							/>
+							<CheckboxControl
+								label='カスタムボタンを非表示'
+								className='pchpp-hideCheck'
+								checked={attributes.hideCustom}
+								onChange={(checked) => {
+									setAttributes({
+										hideCustom: checked,
+									});
+								}}
+							/>
 						</PanelBody>
 					</InspectorControls>
 				)}
