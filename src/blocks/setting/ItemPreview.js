@@ -24,11 +24,17 @@ export default memo(({ postTitle, parsedMeta }) => {
 	// ポチップ設定データ
 	const pchppVars = window.pchppVars || {};
 
+	let dataBtnStyle = pchppVars.btnStyle || 'dflt';
+	if ('default' === dataBtnStyle) dataBtnStyle = 'dflt';
+
 	return (
 		<div className='__preview components-disabled'>
 			<div
 				className='pochipp-box'
-				data-btn-style={pchppVars.btnStyle || 'default'}
+				data-img={pchppVars.imgPosition || 'l'}
+				data-lyt-pc={pchppVars.boxLayoutPC || 'dflt'}
+				data-lyt-mb={pchppVars.boxLayoutMB || 'vrtcl'}
+				data-btn-style={dataBtnStyle}
 				data-btn-radius={pchppVars.btnRadius || 'off'}
 			>
 				<div className='pochipp-box__image'>
@@ -46,7 +52,8 @@ export default memo(({ postTitle, parsedMeta }) => {
 
 					<div
 						className='pochipp-box__btns'
-						data-max-column={pchppVars.maxColumns || 'fit'}
+						data-maxclmn-pc={pchppVars.maxClmnPC || 'fit'}
+						data-maxclmn-mb={pchppVars.maxClmnMB || '1'}
 					>
 						{showAmazon && (
 							<div className='pochipp-box__btnwrap -amazon'>

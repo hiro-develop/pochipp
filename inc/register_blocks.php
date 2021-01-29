@@ -205,10 +205,10 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $amazon_sale_text )?>／</div>
 						<?php endif; ?>
 						<a href="<?=esc_url( $amazon_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
-							<?php
-								echo esc_html( \POCHIPP::get_setting( 'amazon_btn_text' ) );
-								echo \POCHIPP::get_amazon_imptag( $amazon_aid );
-							?>
+							<span>
+								<?php echo esc_html( \POCHIPP::get_setting( 'amazon_btn_text' ) ); ?>
+							</span>
+							<?php echo \POCHIPP::get_amazon_imptag( $amazon_aid ); ?>
 						</a>
 					</div>
 				<?php endif; ?>
@@ -218,32 +218,46 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $rakuten_sale_text )?>／</div>
 						<?php endif; ?>
 						<a href="<?=esc_url( $rakuten_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
-							<?php
-								echo esc_html( \POCHIPP::get_setting( 'rakuten_btn_text' ) );
-								echo \POCHIPP::get_rakuten_imptag( $rakuten_aid );
-							?>
+							<span>
+								<?php echo esc_html( \POCHIPP::get_setting( 'rakuten_btn_text' ) ); ?>
+							</span>
+							<?php echo \POCHIPP::get_rakuten_imptag( $rakuten_aid ); ?>
 						</a>
 					</div>
 				<?php endif; ?>
 				<?php if ( $yahoo_url ) : ?>
-					<div class="pochipp-box__btnwrap -yahoo<?php if ($yahoo_sale_text) echo ' -on-sale'; ?>">
+					<?php
+						// yahooは文字列の長さに注意する
+						$yahoo_text = \POCHIPP::get_setting( 'yahoo_btn_text' );
+						$length     = mb_strwidth( $yahoo_text, 'UTF-8' );
+
+						$add_class                          = '';
+						if ( 14 < $length )  $add_class    .= ' -long-text';
+						if ( $yahoo_sale_text ) $add_class .= ' -on-salse';
+					?>
+					<div class="pochipp-box__btnwrap -yahoo<?php if ($add_class) echo $add_class; ?>">
 						<?php if ( $yahoo_sale_text ) : ?>
 							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $yahoo_sale_text )?>／</div>
 						<?php endif; ?>
 						<a href="<?=esc_url( $yahoo_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
-							<?php
-								echo esc_html( \POCHIPP::get_setting( 'yahoo_btn_text' ) );
-								echo \POCHIPP::get_yahoo_imptag( $yahoo_aid );
-							?>
+							<span>
+								<?php echo esc_html( $yahoo_text ); ?>
+							</span>
+							<?php echo \POCHIPP::get_yahoo_imptag( $yahoo_aid ); ?>
 						</a>
 					</div>
 				<?php endif; ?>
 				<?php if ( apply_filters( 'pochipp_show_custom_btn', (bool) ( $pdata['custom_btn_url'] && $pdata['custom_btn_text'] ) ) ) : ?>
-					<div class="pochipp-box__btnwrap -custom">
+					<?php
+						// カスタムボタンも文字列の長さに注意する
+						$custom_btn_text = $pdata['custom_btn_text'];
+						$length          = mb_strwidth( $custom_btn_text, 'UTF-8' );
+					?>
+					<div class="pochipp-box__btnwrap -custom<?php if (14 < $length) echo ' -long-text'; ?>">
 						<a href="<?=esc_url( $pdata['custom_btn_url'] )?>" class="pochipp-box__btn" <?=$rel_target?>>
-							<?php
-								echo esc_html( $pdata['custom_btn_text'] );
-							?>
+							<span>
+								<?php echo esc_html( $custom_btn_text ); ?>
+							</span>
 						</a>
 					</div>
 				<?php endif; ?>

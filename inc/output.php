@@ -49,7 +49,11 @@ add_action( 'admin_head', function() {
 	$script .= 'window.pchppVars.yahooBtnText = "' . esc_js( \POCHIPP::get_setting( 'yahoo_btn_text' ) ) . '";';
 	$script .= 'window.pchppVars.btnStyle = "' . esc_js( \POCHIPP::get_setting( 'btn_style' ) ) . '";';
 	$script .= 'window.pchppVars.btnRadius = "' . esc_js( \POCHIPP::get_setting( 'btn_radius' ) ) . '";';
-	$script .= 'window.pchppVars.maxColumns = "' . esc_js( \POCHIPP::get_setting( 'max_columns' ) ) . '";';
+	$script .= 'window.pchppVars.maxClmnPC = "' . esc_js( \POCHIPP::get_setting( 'max_column_pc' ) ) . '";';
+	$script .= 'window.pchppVars.maxClmnMB = "' . esc_js( \POCHIPP::get_setting( 'max_column_mb' ) ) . '";';
+	$script .= 'window.pchppVars.imgPosition = "' . esc_js( \POCHIPP::get_setting( 'img_position' ) ) . '";';
+	$script .= 'window.pchppVars.boxLayoutPC = "' . esc_js( \POCHIPP::get_setting( 'box_layout_pc' ) ) . '";';
+	$script .= 'window.pchppVars.boxLayoutMB = "' . esc_js( \POCHIPP::get_setting( 'box_layout_mb' ) ) . '";';
 
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '<script id="pchpp_admin_vars">' . $script . '</script>' . PHP_EOL;

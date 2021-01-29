@@ -199,7 +199,7 @@
 		}
 
 		[data-maxclmn-mb="2"] > & {
-			font-size: 12px;
+			font-size: 13px;
 
 			&.-on-sale {
 				flex-basis: 100%;
@@ -243,7 +243,23 @@
 		opacity: 0;
 	}
 
+	span {
+		font-size: inherit;
+		line-height: 1;
+	}
+
 }
+
+@include mobile {
+
+	[data-maxclmn-mb="2"] > .-long-text:not(.-on-sale) .pochipp-box__btn {
+		font-size: 12px;
+		line-height: 13px;
+		letter-spacing: 0;
+		white-space: nowrap;
+	}
+}
+
 
 .pochipp-box__saleInfo {
 	font-size: 12px;
@@ -375,6 +391,10 @@
 		"areaBody areaImg"
 		"areaBtns areaBtns";
 	grid-template-columns: 1fr 100px;
+
+	@include mobile {
+		grid-template-columns: 1fr 25%;
+	}
 }
 
 @include pc {
