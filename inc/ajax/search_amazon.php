@@ -258,7 +258,7 @@ function get_amazon_api_error_text( $code, $description ) {
 			$message = 'リクエストが正しく署名されていません。';
 			break;
 		case 'TooManyRequests':
-			$message = 'リクエスト回数が多すぎます。';
+			$message = 'リクエスト回数が多すぎます。（PA-APIの利用制限についても確認してみてください。）';
 			break;
 		case 'RequestExpired':
 			$message = 'リクエストの有効期限が過ぎています。';

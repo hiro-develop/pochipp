@@ -135,11 +135,15 @@
 
 // 投稿一覧テーブル
 .manage-column#pid {
-	width: 5em;
+	width: 4.5em;
+}
+
+.manage-column#pimg {
+	width: 56px;
 }
 
 .manage-column#searched_at {
-	width: 8em;
+	width: 5em;
 }
 
 .manage-column#used_at {

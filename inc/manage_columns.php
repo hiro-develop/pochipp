@@ -14,6 +14,7 @@ function add_custom_post_columns( $columns ) {
 
 	if ( \POCHIPP::POST_TYPE_SLUG === $post_type ) {
 
+		$columns['pimg']        = '商品画像';
 		$columns['pid']         = 'ID';
 		$columns['searched_at'] = '検索元';
 		$columns['used_at']     = '使用ページ';
@@ -31,9 +32,11 @@ function output_custom_post_columns( $column_name, $post_id ) {
 
 	if ( \POCHIPP::POST_TYPE_SLUG !== $post_type ) return;
 
+	$pchpp_metas = get_post_meta( $post_id, \POCHIPP::META_SLUG, true );
+	$pchpp_metas = json_decode( $pchpp_metas, true ) ?: [];
+
 	if ( 'searched_at' === $column_name ) {
-		$pchpp_metas = get_post_meta( $post_id, \POCHIPP::META_SLUG, true );
-		$pchpp_metas = json_decode( $pchpp_metas, true ) ?: [];
+
 		$searched_at = $pchpp_metas['searched_at'] ?? '';
 
 		if ( 'amazon' === $searched_at ) {
@@ -43,11 +46,19 @@ function output_custom_post_columns( $column_name, $post_id ) {
 		} else {
 			echo '-';
 		}
-} elseif ( 'pid' === $column_name ) {
+	} elseif ( 'pid' === $column_name ) {
 
 		echo esc_html( $post_id );
 
-	} elseif ( 'used_at' === $column_name ) {
+	} elseif ( 'pimg' === $column_name ) {
+
+		$image_url = $pchpp_metas['image_url'] ?? '';
+		if ( $image_url ) {
+			echo '<img src="' . esc_attr( $image_url ) . '" alt="" width="48"/>';
+		} else {
+			'-';
+		}
+} elseif ( 'used_at' === $column_name ) {
 		$post_id;
 		$args = [
 			'post_type'      => ['post', 'page' ],
@@ -79,7 +90,7 @@ function output_custom_post_columns( $column_name, $post_id ) {
 
 				$count++;
 			endwhile;
-		endif;
+			endif;
 		wp_reset_postdata();
 
 		update_post_meta( $post_id, 'used_count', $count );

@@ -63,6 +63,7 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 
 	// ※ 定期的に、データの再取得も行う
 	$pdata = array_merge([
+		'pid'                => 0,
 		'box_class'          => '',
 		'keywords'           => '',
 		'searched_at'        => '',
@@ -163,6 +164,7 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
 		<div class="pochipp-box<?php if ( $box_class ) echo ' ' . $box_class; ?>"
+			data-id="<?=esc_attr( $pdata['pid'] )?>"
 			data-img="<?=esc_attr( \POCHIPP::get_setting( 'img_position' ) )?>"
 			data-lyt-pc="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) )?>"
 			data-lyt-mb="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_mb' ) )?>"

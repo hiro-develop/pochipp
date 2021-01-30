@@ -52,18 +52,28 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</dd>
 	</dl>
 	<dl class="pchpp-setting__dl">
-		<dt>いつまでか</dt>
+		<dt>セール期間</dt>
 		<dd>
+			<p>いつから：</p>
+			<?php
+				\POCHIPP::output_text_field([
+					'key' => 'amazon_sale_startline',
+				]);
+			?>
+			<br>
+			<p>いつまで：</p>
 			<?php
 				\POCHIPP::output_text_field([
 					'key' => 'amazon_sale_deadline',
 				]);
 			?>
+			<br>
 			<p class="pchpp-setting__desc">
 				<code>Y/m/d G:i</code>の形式で入力してください。 例 : <code>2020/01/05 10:00</code>, <code>2020/11/25 20:00</code>
 			</p>
 		</dd>
 	</dl>
+
 	<dl class="pchpp-setting__dl">
 		<dt>セール中に隠すボタン</dt>
 		<dd class="-flex">
@@ -98,13 +108,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</dd>
 	</dl>
 	<dl class="pchpp-setting__dl">
-		<dt>いつまでか</dt>
+		<dt>セール期間</dt>
 		<dd>
+			<p>いつから：</p>
+			<?php
+				\POCHIPP::output_text_field([
+					'key' => 'rakuten_sale_startline',
+				]);
+			?>
+			<br>
+			<p>いつまで：</p>
 			<?php
 				\POCHIPP::output_text_field([
 					'key' => 'rakuten_sale_deadline',
 				]);
 			?>
+			<br>
 			<p class="pchpp-setting__desc">
 				<code>Y/m/d G:i</code>の形式で入力してください。 例 : <code>2020/01/05 10:00</code>, <code>2020/11/25 20:00</code>
 			</p>
@@ -144,13 +163,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</dd>
 	</dl>
 	<dl class="pchpp-setting__dl">
-		<dt>いつまでか</dt>
+		<dt>セール期間</dt>
 		<dd>
+			<p>いつから：</p>
+			<?php
+				\POCHIPP::output_text_field([
+					'key' => 'yahoo_sale_startline',
+				]);
+			?>
+			<br>
+			<p>いつまで：</p>
 			<?php
 				\POCHIPP::output_text_field([
 					'key' => 'yahoo_sale_deadline',
 				]);
 			?>
+			<br>
 			<p class="pchpp-setting__desc">
 				<code>Y/m/d G:i</code>の形式で入力してください。 例 : <code>2020/01/05 10:00</code>, <code>2020/11/25 20:00</code>
 			</p>
