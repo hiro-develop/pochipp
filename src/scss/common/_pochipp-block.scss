@@ -15,9 +15,11 @@
 }
 
 :root {
-	--pchpp-color-amazon: #f6a306;
-	--pchpp-color-rakuten: #cf4944;
-	--pchpp-color-yahoo: #4e8fde;
+	--pchpp-color-amazon: #f99a0c;
+	--pchpp-color-rakuten: #e0423c;
+	--pchpp-color-yahoo: #438ee8;
+	--pchpp-color-paypay: #b9a01a;
+
 }
 
 
@@ -286,6 +288,10 @@
 		color: var(--pchpp-color-yahoo);
 	}
 
+	.pochipp-box__btnwrap.-paypay & {
+		color: var(--pchpp-color-paypay);
+	}
+
 	&.-top {
 		margin-bottom: 4px;
 		font-weight: bold;
@@ -353,6 +359,10 @@
 
 	.-yahoo > .pochipp-box__btn {
 		background: var(--pchpp-color-yahoo);
+	}
+
+	.-paypay > .pochipp-box__btn {
+		background: var(--pchpp-color-paypay);
 	}
 
 	.-custom > .pochipp-box__btn {
@@ -449,3 +459,63 @@
 
 	}
 }
+
+
+// .pochipp-box[data-btn-style="dflt"] {
+
+// 	.pochipp-box__btn {
+// 		position: relative;
+// 		overflow: hidden;
+// 		color: #fff !important;
+// 		background-color: #3c3c3c;
+
+// 		&::before {
+// 			position: absolute;
+// 			right: 12px;
+// 			bottom: -10px;
+// 			display: block;
+// 			width: 12px;
+// 			height: 34px;
+// 			background: #fff;
+// 			transform: rotate(55deg);
+// 			transform-origin: 100% 100%;
+// 			opacity: 1;
+// 			content: "";
+// 		}
+
+// 		&::after {
+// 			position: absolute;
+// 			top: -10px;
+// 			left: 12px;
+// 			display: block;
+// 			width: 12px;
+// 			height: 34px;
+// 			background: #fff;
+// 			transform: rotate(55deg);
+// 			transform-origin: 0 0;
+// 			opacity: 1;
+// 			content: "";
+// 		}
+// 	}
+
+// 	.-amazon > .pochipp-box__btn {
+// 		background: var(--pchpp-color-amazon);
+// 	}
+
+// 	.-rakuten > .pochipp-box__btn {
+// 		background: var(--pchpp-color-rakuten);
+// 	}
+
+// 	.-yahoo > .pochipp-box__btn {
+// 		background: var(--pchpp-color-yahoo);
+// 	}
+
+// 	.-paypay > .pochipp-box__btn {
+// 		background: var(--pchpp-color-paypay);
+// 	}
+
+// 	.-custom > .pochipp-box__btn {
+// 		background: var(--pchpp-color-custom);
+// 	}
+
+// }

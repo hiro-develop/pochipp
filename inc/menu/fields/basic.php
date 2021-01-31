@@ -198,6 +198,19 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 			?>
 		</dd>
 	</dl>
+	<dl class="pchpp-setting__dl">
+		<dt>PayPayモールボタン</dt>
+		<dd>
+			<?php
+				\POCHIPP::output_text_field([
+					'key' => 'paypay_btn_text',
+				]);
+			?>
+			<p class="pchpp-setting__desc">
+				Yahooショッピングから検索した商品リンクがPayPayモールのURLだった時に、「Yahooショッピングボタン」の代わりに表示されます。
+			</p>
+		</dd>
+	</dl>
 </div>
 
 

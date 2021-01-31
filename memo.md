@@ -31,7 +31,6 @@
 
 - array_get 整理
 - Data 整理
-  - TABKEY_AMAZON, TABKEY_RAKUTEN → TABKEY['amazon'], TABKEY['rakuten']
   - TABKEY === ajaxアクション名なので、そのあたり統合する？
   - thickboxのアクション名？とかも定数化 ? 
 

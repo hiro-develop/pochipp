@@ -6,7 +6,7 @@
 // phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
 
 // iframeのURLから受け取るパラメータ
-$tab    = \POCHIPP::array_get( $_GET, 'tab' ) ?: \POCHIPP::TABKEY_AMAZON;
+$tab    = \POCHIPP::array_get( $_GET, 'tab' ) ?: \POCHIPP::TABKEYS['amazon'];
 $cid    = \POCHIPP::array_get( $_GET, 'blockid' ) ?: 0;
 $postid = \POCHIPP::array_get( $_GET, 'postid' ) ?: 0;
 $at     = \POCHIPP::array_get( $_GET, 'at' ) ?: '';
@@ -39,17 +39,22 @@ HTML;
 			<form id="search_form" method="GET" action="<?=esc_url( admin_url( 'admin-ajax.php' ) ) ?>">
 				<?php
 					// Amazonタブ
-					if ( \POCHIPP::TABKEY_AMAZON === $tab ) :
+					if ( \POCHIPP::TABKEYS['amazon'] === $tab ) :
 					include __DIR__ . '/form_amazon.php';
 					endif;
 
 					// 楽天タブ
-					if ( \POCHIPP::TABKEY_RAKUTEN === $tab ) :
+					if ( \POCHIPP::TABKEYS['rakuten'] === $tab ) :
 						include __DIR__ . '/form_rakuten.php';
 					endif;
 
+					// Yahooタブ
+					if ( \POCHIPP::TABKEYS['yahoo'] === $tab ) :
+						include __DIR__ . '/form_yahoo.php';
+					endif;
+
 					// 登録済み商品タブ
-					if ( \POCHIPP::TABKEY_REGISTERD === $tab ) :
+					if ( \POCHIPP::TABKEYS['registerd'] === $tab ) :
 						include __DIR__ . '/form_registerd.php';
 					endif;
 				?>

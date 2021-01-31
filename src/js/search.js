@@ -28,6 +28,8 @@ const getItemList = (itemDatas, type) => {
 			: '';
 		const rakutenLink = item.rakuten_detail_url || '';
 
+		const yahooLink = item.yahoo_detail_url || '';
+
 		let amazonBtn = '';
 		if (amazonLink) {
 			amazonBtn = `<a href="${amazonLink}" class="button" rel="nofollow noopener noreferrer" target="_blank">Amazon商品ページを確認</a>`;
@@ -36,6 +38,15 @@ const getItemList = (itemDatas, type) => {
 		let rakutenBtn = '';
 		if (rakutenLink) {
 			rakutenBtn = `<a href="${rakutenLink}" class="button" rel="nofollow noopener noreferrer" target="_blank">楽天商品ページを確認</a>`;
+		}
+
+		let yahooBtn = '';
+		if (yahooLink) {
+			const yahooBtnText = item.is_paypay
+				? 'PayPayモール商品ページを確認'
+				: 'Yahooショッピング商品ページを確認';
+			yahooBtn = `<a href="${yahooLink}" class="button" rel="nofollow noopener noreferrer" target="_blank">${yahooBtnText}</a>`;
+			// yahooBtn += `/ ${item.seller_id} / ${item.yahoo_itemcode}`;
 		}
 
 		let info = '';
@@ -72,13 +83,13 @@ const getItemList = (itemDatas, type) => {
 
 			result += `<div class="pochipp-item__btns">
 				<button class="button button-primary" data-pochipp="select">この商品を選択</button>
-				${amazonBtn}${rakutenBtn}
+				${amazonBtn}${rakutenBtn}${yahooBtn}
 				<a class="button" data-pochipp="edit" href="${editUrl}" rel="nofollow noreferrer" target="_blank">この商品を編集</a>
 			</div>`;
 		} else {
 			result += `<div class="pochipp-item__btns">
 				<button class="button button-primary" data-pochipp="select">この商品を選択</button>
-				${amazonBtn}${rakutenBtn}
+				${amazonBtn}${rakutenBtn}${yahooBtn}
 			</div>`;
 		}
 

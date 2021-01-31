@@ -154,8 +154,9 @@ registerBlockType(name, {
 			}
 		}, [postId, clientId]);
 
-		// 商品データ更新処理
-		const itemCode = parsedMeta.asin || parsedMeta.itemcode;
+		// 商品データ更新処理 memo: 後々全ボタンで詳細ページセットできるようにするなら、それぞれのitemcodeを渡す必要がある？
+		const itemCode =
+			parsedMeta.asin || parsedMeta.itemcode || parsedMeta.isbn;
 		const updateItemData = useCallback(() => {
 			const params = new URLSearchParams();
 			params.append('action', 'pochipp_update_data');

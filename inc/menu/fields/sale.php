@@ -153,7 +153,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <h3 class="pchpp-setting__h3">Yahooセール情報</h3>
 <div class="pchpp-setting__div">
 	<dl class="pchpp-setting__dl">
-		<dt>Yahooショッピングセール情報</dt>
+		<dt>Yahooショッピング<br>セール情報</dt>
 		<dd>
 			<?php
 				\POCHIPP::output_text_field([

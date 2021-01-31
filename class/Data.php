@@ -26,7 +26,8 @@ class Data {
 		'amazon_btn_text'  => 'Amazon',
 		'rakuten_btn_text' => '楽天市場',
 		'yahoo_btn_text'   => 'Yahooショッピング',
-		'custom_btn_color' => '#63a958',
+		'paypay_btn_text'  => 'PayPayモール',
+		'custom_btn_color' => '#5ca250',
 		'sale_text_effect' => 'flash',
 	];
 
@@ -52,9 +53,12 @@ class Data {
 	const NONCE_KEY = 'pchpp-nonce';
 
 	// タブ名 -> ajax の アクション名と同じ
-	const TABKEY_AMAZON    = 'pochipp_search_amazon';
-	const TABKEY_RAKUTEN   = 'pochipp_search_rakuten';
-	const TABKEY_REGISTERD = 'pochipp_search_registerd';
+	const TABKEYS = [
+		'amazon'    => 'pochipp_search_amazon',
+		'rakuten'   => 'pochipp_search_rakuten',
+		'yahoo'     => 'pochipp_search_yahoo',
+		'registerd' => 'pochipp_search_registerd',
+	];
 
 	// ライセンス関連で使用するURL
 	// const IS_VALID_LICENSE_URL = 'https://asia-northeast1-pochipp-84843.cloudfunctions.net/isValidLicense';

@@ -47,6 +47,7 @@ add_action( 'admin_head', function() {
 	$script .= 'window.pchppVars.amazonBtnText = "' . esc_js( \POCHIPP::get_setting( 'amazon_btn_text' ) ) . '";';
 	$script .= 'window.pchppVars.rakutenBtnText = "' . esc_js( \POCHIPP::get_setting( 'rakuten_btn_text' ) ) . '";';
 	$script .= 'window.pchppVars.yahooBtnText = "' . esc_js( \POCHIPP::get_setting( 'yahoo_btn_text' ) ) . '";';
+	$script .= 'window.pchppVars.paypayBtnText = "' . esc_js( \POCHIPP::get_setting( 'paypay_btn_text' ) ) . '";';
 	$script .= 'window.pchppVars.btnStyle = "' . esc_js( \POCHIPP::get_setting( 'btn_style' ) ) . '";';
 	$script .= 'window.pchppVars.btnRadius = "' . esc_js( \POCHIPP::get_setting( 'btn_radius' ) ) . '";';
 	$script .= 'window.pchppVars.maxClmnPC = "' . esc_js( \POCHIPP::get_setting( 'max_column_pc' ) ) . '";';

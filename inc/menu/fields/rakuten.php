@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		<!-- アプリIDの詳しい取得方法については、<a href="###" target="_blank" rel="noopener noreferrer">こちらのページ</a>で解説しています。 -->
 	</p>
 	<dl class="pchpp-setting__dl">
-		<dt>アプリID ( デベロッパーID )</dt>
+		<dt>アプリID<br>( デベロッパーID )</dt>
 		<dd>
 			<?php
 				\POCHIPP::output_text_field([

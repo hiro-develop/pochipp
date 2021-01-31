@@ -27,6 +27,9 @@ export default memo(({ postTitle, parsedMeta }) => {
 	let dataBtnStyle = pchppVars.btnStyle || 'dflt';
 	if ('default' === dataBtnStyle) dataBtnStyle = 'dflt';
 
+	const isPayPay = !!parsedMeta.is_paypay;
+	const yahooClass = isPayPay ? '-paypay' : '-yahoo';
+
 	return (
 		<div className='__preview components-disabled'>
 			<div
@@ -69,9 +72,11 @@ export default memo(({ postTitle, parsedMeta }) => {
 							</a>
 						</div>
 
-						<div className='pochipp-box__btnwrap -yahoo'>
+						<div className={`pochipp-box__btnwrap ${yahooClass}`}>
 							<a href='###' className='pochipp-box__btn'>
-								{pchppVars.yahooBtnText || 'Yahooショッピング'}
+								{isPayPay
+									? pchppVars.paypayBtnText || 'PayPayモール'
+									: pchppVars.yahooBtnText || 'Yahoo'}
 							</a>
 						</div>
 

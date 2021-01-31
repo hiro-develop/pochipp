@@ -1,65 +1,76 @@
 # API取得データについて
 
 
-## エラーを返す時
-ajaxでAPIから商品検索時、エラーがあれば以下の形式でデータを返す。
-（'searched_items' にエラーデータがそのまま格納されるので、出力時にそれを判別する。)
+## エラーを返す時の形式ルール
 
-```
-array(
+ajaxでAPIから商品検索時、エラーがあれば以下の形式でデータを返す。
+（'searched_items' にエラーデータがそのまま格納されるので、出力時にそれを判別してエラー表示している。)
+
+```php
+return [
     'error' => [
         'code' => 'エラーコード',
         'message' => 'エラーの詳細メッセージ'
     ]
-)
+];
 ```
 
 
-## Amazonから取得時
+## Pochipp管理で保存されるデータ
 
-- keywords: 検索ワード
-- searched_at: "amazon"
-- asin : Amazon用商品ID
-- brand : ブランド名（メーカー名？）
-- contributors : 著者情報など。（brandなければこっち出力する）
-- amazon_detail_url : Amazon商品詳細ページのURL（アフィリンクじゃない）
-- product_group : Amazonの商品カテゴリー名 ?
-- price : 値段
-- price_at : 値段取得日時
-- s_image_url : 画像 src (Sサイズ)
-- m_image_url : 画像 src (Mサイズ)
-- l_image_url : 画像 src (Lサイズ)
+▼ 投稿データとして保存されるデータ
 
+- "pid": ポチップ管理ID（投稿ID）
+- "title": 商品タイトル（投稿タイトル）
 
-## 楽天
-
-- keywords: 検索ワード
-- searched_at: "rakuten"
-- itemcode : 楽天用商品ID
-- rakuten_detail_url : 楽天商品詳細ページのURL（アフィリンクじゃない）
-- brand : （とれない）
-- shop_name : ショップ名
-- price : 価格
-- price_at : 値段取得日時
-- s_image_url : 画像 src (Sサイズ)
-- m_image_url : 画像 src (Mサイズ)
-- l_image_url : 画像 src (Lサイズ) （とれない）
-
-- affiliateRate : アフィリエイトレート いる？
-- reviewAverage : レビューの平均点 いる？ -> Amazon APIでは取れない
+▼ 投稿のメタデータとして保存されるデータ
+- "keywords": 検索キーワード
+- "searched_at": どのAPIから検索したか
+- "info": 商品タイトルの下に表示されるテキスト。（ブランド情報orショップ名or著者情報など。）
+    - 検索元APIによって何がセットされるか変わる。
+    - Amazonは brand > contributors , 楽天は shopName , Yahooは brand/name > seller/name
+- "image_url": 商品画像
+- "price": 価格
+- "price_at": 価格取得時の時刻(年/月/日 時:分)
+- "custom_btn_url": カスタムボタンのURL
+- "custom_btn_text": カスタムボタンのテキスト
 
 
-商品検索API の後に、さらに 製品詳細API で情報とるとブランド名とかもとれるっぽい。
 
+### Amazonから取得時のみセットされるデータ
+
+- "asin": 商品ID
+- "amazon_affi_url": 商品詳細ページのアフィURL
+
+
+### 楽天から取得時のみセットされるデータ
+
+- "itemcode": 
+- "rakuten_detail_url": 商品詳細ページのURL
+- "review_score" : レビューの平均点 -> オフ中（Amazon APIで取れない）
+
+memo: 商品検索APIでは販売ショップ名しか取得できないが、製品詳細API だと「ブランド名」とかもとれるっぽい。
 https://webservice.rakuten.co.jp/api/productdetail/
 
 
+### Yahooから取得時のみセットされるデータ
+
+- "yahoo_itemcode": 商品ID
+- "seller_id": 販売ショップID
+- "yahoo_detail_url": Yahooショッピング（PayPayモール）の商品詳細ページのURL
+- "is_paypay": PayPayモールで出品されている商品かどうか
+
+
+### ブロックでだけ持つ情報
+
+- "hideInfo": タイトル下情報を非表示にするかどうか ->（ポチップ管理側でも設定できるようにする...？）
+- "hidePrice": 価格を非表示にするかどうか ->（ポチップ管理側でも設定できるようにする...？）
+- "hideAmazon": Amazonボタンを非表示にするかどうか
+- "hideRakuten": Rakutenボタンを非表示にするかどうか
+- "hideYahoo": Yahooボタンを非表示にするかどうか
+- "hideCustom": カスタムボタンを非表示にするかどうか
+
 
 **メモ**
-- keyword 保存する？
-- 画像ソースはサイズによって取得できないことがあるので注意する。（取得時によしなに）
 - 商品詳細ページのURLが取得できるのは、その検索元の情報だけ。（Amazonで検索したら楽天の詳細ページは取得できない）
-- 本の時、brandがないので、著者情報も引っ張れるようにする？
-- 現状、amazon_kindle_url は、Kindle商品の時だけ存在している。（値が空なだけじゃなく、キーがそもそも存在しない）
-- key名は整えたい。（amazon_title_url とか。price_at -> date でよくない？）
 - 楽天でもアフィリンクなしの商品詳細URL持たせてよくない？

@@ -29,6 +29,7 @@ function check_ajax_nonce( $request_key = 'nonce', $nonce_key = '' ) {
 
 require_once POCHIPP_PATH . 'inc/ajax/search_amazon.php';
 require_once POCHIPP_PATH . 'inc/ajax/search_rakuten.php';
+require_once POCHIPP_PATH . 'inc/ajax/search_yahoo.php';
 require_once POCHIPP_PATH . 'inc/ajax/search_registerd.php';
 
 
@@ -62,6 +63,10 @@ function update_data() {
 
 		$api_query = '&availability=0&itemCode=' . rawurlencode( $itemcode );
 		$datas     = \POCHIPP\get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode );
+
+	} elseif ( 'yahoo' === $searched_at ) {
+
+		// do: yahooの情報更新処理
 
 	}
 

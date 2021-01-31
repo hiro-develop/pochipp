@@ -67,8 +67,13 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		'box_class'          => '',
 		'keywords'           => '',
 		'searched_at'        => '',
+		'asin'               => '',
+		// 'itemcode'           => '',
+		// 'seller_id'     => '',
 		'amazon_affi_url'    => '',
 		'rakuten_detail_url' => '',
+		'yahoo_detail_url'   => '',
+		'is_paypay'          => '',
 		'info'               => '',
 		'price'              => 0,
 		'price_at'           => '',
@@ -116,7 +121,7 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	// YahooボタンURL
 	if ( apply_filters( 'pochipp_show_yahoo_btn', ! $pdata['hideYahoo'] ) ) {
 		// $pdata['yahoo_custom_url']
-		$yahoo_url = \POCHIPP::get_yahoo_searched_url( $keywords );
+		$yahoo_url = $pdata['yahoo_detail_url'] ?: \POCHIPP::get_yahoo_searched_url( $keywords );
 		$yahoo_url = \POCHIPP::get_yahoo_affi_url( $yahoo_url, $yahoo_aid );
 	}
 
@@ -146,6 +151,8 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		$price_memo .= ' | 楽天市場調べ';
 	} elseif ( 'amazon' === $searched_at ) {
 		$price_memo .= ' | Amazon調べ';
+	} elseif ( 'yahoo' === $searched_at ) {
+		$price_memo .= ' | Yahooショッピング調べ';
 	}
 
 	// スタイル
@@ -230,14 +237,15 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 				<?php if ( $yahoo_url ) : ?>
 					<?php
 						// yahooは文字列の長さに注意する
-						$yahoo_text = \POCHIPP::get_setting( 'yahoo_btn_text' );
+						$is_paypay  = $pdata['is_paypay'];
+						$yahoo_text = ( $is_paypay ) ? \POCHIPP::get_setting( 'paypay_btn_text' ) : \POCHIPP::get_setting( 'yahoo_btn_text' );
 						$length     = mb_strwidth( $yahoo_text, 'UTF-8' );
 
-						$add_class                          = '';
+						$add_class                          = $is_paypay ? '-paypay' : '-yahoo';
 						if ( 14 < $length )  $add_class    .= ' -long-text';
 						if ( $yahoo_sale_text ) $add_class .= ' -on-salse';
 					?>
-					<div class="pochipp-box__btnwrap -yahoo<?php if ($add_class) echo $add_class; ?>">
+					<div class="pochipp-box__btnwrap <?=$add_class?>">
 						<?php if ( $yahoo_sale_text ) : ?>
 							<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $yahoo_sale_text )?>／</div>
 						<?php endif; ?>

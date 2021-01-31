@@ -32,6 +32,12 @@
         "itemcode": {
             "type": "string"
         },
+        "yahoo_itemcode": {
+            "type": "string"
+        },
+        "seller_id": {
+            "type": "string"
+        },
         "info": {
             "type": "string"
         },
@@ -41,6 +47,9 @@
         "rakuten_detail_url": {
             "type": "string"
         },
+        "yahoo_detail_url": {
+            "type": "string"
+        },
         "image_url": {
             "type": "string"
         },
@@ -48,6 +57,9 @@
             "type": "string"
         },
         "price_at": {
+            "type": "string"
+        },
+        "is_paypay": {
             "type": "string"
         },
         "custom_btn_url": {
