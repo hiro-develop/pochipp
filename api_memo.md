@@ -45,7 +45,7 @@ return [
 
 ### 楽天から取得時のみセットされるデータ
 
-- "itemcode": 
+- "itemcode": 商品ID
 - "rakuten_detail_url": 商品詳細ページのURL
 - "review_score" : レビューの平均点 -> オフ中（Amazon APIで取れない）
 
