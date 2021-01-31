@@ -56,7 +56,7 @@ https://webservice.rakuten.co.jp/api/productdetail/
 ### Yahooから取得時のみセットされるデータ
 
 - "yahoo_itemcode": 商品ID
-- "seller_id": 販売ショップID
+- "seller_id": 販売ショップID (「商品ID」だけではAPIで個別情報取得できない。)
 - "yahoo_detail_url": Yahooショッピング（PayPayモール）の商品詳細ページのURL
 - "is_paypay": PayPayモールで出品されている商品かどうか
 
