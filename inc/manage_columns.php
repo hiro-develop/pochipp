@@ -43,6 +43,8 @@ function output_custom_post_columns( $column_name, $post_id ) {
 			echo 'Amazon';
 		} elseif ( 'rakuten' === $searched_at ) {
 			echo '楽天市場';
+		} elseif ( 'yahoo' === $searched_at ) {
+			echo 'Yahoo';
 		} else {
 			echo '-';
 		}

@@ -16,6 +16,38 @@ return [
 ```
 
 
+Amazonで必要なデータ
+
+```php
+return [
+    [
+        'keywords'    => '検索ワード',
+        'searched_at' => 'amazon',
+        'asin' => 'ASINナンバー',
+        'info' => 'ブランド名 or 著者情報など',
+        'image_url' => '画像URL(~._xxxxx_.jpg を  ~.jpg に。)',
+        'price': '価格',
+        'price_at': '価格取得時の時刻(年/月/日 時:分)',
+        'amazon_affi_url': '商品詳細ページのアフィURL (スクレイピングでは不要)'
+    ],
+    [
+        // ...同じ
+    ],
+    [
+        // ...同じ
+    ],
+];
+```
+
+
+https://m.media-amazon.com/images/I/7181DKUdiBL._AC_UY218_.jpg
+
+↓
+
+https://m.media-amazon.com/images/I/7181DKUdiBL.jpg
+
+
+
 ## Pochipp管理で保存されるデータ
 
 ▼ 投稿データとして保存されるデータ

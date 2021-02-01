@@ -61,9 +61,27 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 	if (itemData.post_id) {
 		updateBlockAttributes(clientId, {
 			pid: itemData.post_id,
+			title: undefined,
+			searched_at: undefined,
+			keywords: undefined,
+			asin: undefined,
+			itemcode: undefined,
+			yahoo_itemcode: undefined,
+			seller_id: undefined,
+			image_url: undefined,
+			info: undefined,
+			price: undefined,
+			price_at: undefined,
+			amazon_affi_url: undefined,
+			rakuten_detail_url: undefined,
+			yahoo_detail_url: undefined,
+			is_paypay: undefined,
+			custom_btn_text: undefined,
+			custom_btn_url: undefined,
 		});
 	} else {
 		updateBlockAttributes(clientId, {
+			pid: undefined,
 			title: itemData.title || undefined,
 			keywords: itemData.keywords || undefined,
 			searched_at: itemData.searched_at || undefined,
@@ -73,15 +91,12 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 			seller_id: itemData.seller_id || undefined,
 			info: itemData.info || undefined,
 			image_url: itemData.image_url || undefined,
-			price: itemData.price || undefined,
+			price: itemData.price + '' || undefined,
 			price_at: itemData.price_at || undefined,
 			amazon_affi_url: itemData.amazon_affi_url || undefined,
 			rakuten_detail_url: itemData.rakuten_detail_url || undefined,
 			yahoo_detail_url: itemData.yahoo_detail_url || undefined,
 			is_paypay: itemData.is_paypay || undefined,
-			// affi_rate: itemData.affi_rate || '',
-			// review_score: itemData.review_score || '',
-			pid: undefined,
 		});
 	}
 };
