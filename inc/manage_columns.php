@@ -85,7 +85,7 @@ function output_custom_post_columns( $column_name, $post_id ) {
 					$title = '(タイトルなし)';
 				}
 
-				$edit_link = 'http://shop.wp/wp-admin/post.php?post=' . $the_id . '&action=edit';
+				$edit_link = admin_url( 'post.php?post=' . $the_id . '&action=edit' );
 				echo '<a href="' . esc_url( $edit_link ) . '" class="pchpp-usepage" data-title="' . esc_attr( $title ) . '">' .
 					esc_html( $the_id )
 				. '</a>';
