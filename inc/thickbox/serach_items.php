@@ -10,6 +10,7 @@ $tab    = \POCHIPP::array_get( $_GET, 'tab' ) ?: \POCHIPP::TABKEYS['amazon'];
 $cid    = \POCHIPP::array_get( $_GET, 'blockid' ) ?: 0;
 $postid = \POCHIPP::array_get( $_GET, 'postid' ) ?: 0;
 $at     = \POCHIPP::array_get( $_GET, 'at' ) ?: '';
+$only   = \POCHIPP::array_get( $_GET, 'only' ) ?: '';
 
 // 各タブにおける共通パーツ
 $pochipp_url  = esc_url( POCHIPP_URL . 'assets/img/search-solid.svg' );
@@ -30,6 +31,7 @@ HTML;
 		tabKey: "<?=esc_js( $tab )?>", // 現在のタブ種別
 		blockId: "<?=esc_js( $cid )?>", // ブロックID
 		calledAt: "<?=esc_js( $at )?>", // どこから呼び出されたか
+		only: "<?=esc_js( $only )?>", // 限定検索かどうか
 	};
 </script>
 <div id="pochipp_tb_content" class="pchpp-tb -<?=esc_attr( $tab )?> wp-core-ui">
@@ -40,7 +42,7 @@ HTML;
 				<?php
 					// Amazonタブ
 					if ( \POCHIPP::TABKEYS['amazon'] === $tab ) :
-					include __DIR__ . '/form_amazon.php';
+						include __DIR__ . '/form_amazon.php';
 					endif;
 
 					// 楽天タブ

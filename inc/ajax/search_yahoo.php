@@ -27,12 +27,16 @@ function search_from_yahoo_api() {
 	};
 
 	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
+	$only     = \POCHIPP::array_get( $_GET, 'only', '' );
 
 	// 登録済み商品
-	$registerd_items = \POCHIPP::get_registerd_items( [
-		'keywords' => $keywords,
-		'count'    => 2, // memo: ２個まで取得。<- 少ない？
-	] );
+	$registerd_items = [];
+	if ( ! $only ) {
+		$registerd_items = \POCHIPP::get_registerd_items( [
+			'keywords' => $keywords,
+			'count'    => 2, // memo: ２個まで取得。<- 少ない？
+		] );
+	}
 
 	// 検索API用のurlに付与するクエリ情報を生成
 	$api_query = '&results=10'; // 検索数: amazonの数と揃える
@@ -185,10 +189,6 @@ function set_item_data_by_yahoo_api( $items_data, $keywords = '', $itemcode ) {
 
 		// レビュー平均
 		// hits/seller/review/rate
-
-		// echo '<pre style="margin-left: 100px;">';
-		// var_dump( $item );
-		// echo '</pre>';
 
 		$items[] = $item;
 	}

@@ -42,7 +42,7 @@
 		margin: 0;
 
 		.pochipp-box {
-			margin: 0;
+			margin: 0 !important;
 		}
 
 		&.-null {
@@ -53,6 +53,13 @@
 			p {
 				margin: 0 !important;
 			}
+		}
+
+		.__helpText {
+			margin-top: 8px;
+			color: #666;
+			font-size: 12px;
+			text-align: right;
 		}
 	}
 

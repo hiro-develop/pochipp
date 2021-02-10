@@ -130,7 +130,8 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 	 * 商品検索のAjax実行部分
 	 */
 	const doSearchAjax = (params) => {
-		const { ajaxUrl, blockId, calledAt } = window.pochippIframeVars;
+		const { ajaxUrl, blockId, calledAt, only } = window.pochippIframeVars;
+		// console.log(window.pochippIframeVars);
 
 		// 検索エリアの描画をリセット
 		$('#result_area').html('');
@@ -139,6 +140,8 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 		// params.search_index = $('#search_index').val(); // Amazonの商品カテゴリー
 		// params.sort = $('#sort_select').val(); // 並び順 : 楽天 ＆ 登録済みタブで使用
 		params.term_id = $('#term_select').val(); // 商品カテゴリー : 登録済みタブで使用
+		params.only = only; // 追加の限定検索かどうか
+
 		// params.page = 1;
 
 		// nonceセット
@@ -193,6 +196,26 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 					// 商品データ更新
 					if ('editor' === calledAt) {
 						window.top.set_block_data_at_editor(itemData, blockId);
+					} else if (only) {
+						const onlyData = {};
+						if ('amazon' === only) {
+							onlyData.asin = itemData.asin || '';
+							onlyData.amazon_affi_url =
+								itemData.amazon_affi_url || '';
+						} else if ('rakuten' === only) {
+							onlyData.itemcode = itemData.itemcode || '';
+							onlyData.rakuten_detail_url =
+								itemData.rakuten_detail_url || '';
+						} else if ('yahoo' === only) {
+							onlyData.yahoo_itemcode =
+								itemData.yahoo_itemcode || '';
+							onlyData.yahoo_detail_url =
+								itemData.yahoo_detail_url || '';
+							onlyData.seller_id = itemData.seller_id || '';
+							onlyData.is_paypay = itemData.is_paypay || '';
+						}
+
+						window.top.setItemMetaData(onlyData, true);
 					} else {
 						window.top.setItemMetaData(itemData, false);
 					}

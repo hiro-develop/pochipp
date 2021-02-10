@@ -34,16 +34,26 @@ function media_upload_tabs() {
 
 	$tabs = [];
 
-	// エディターからモーダルが開かれた時、タブを追加
+	// 投稿のエディターからモーダルが開かれた時、タブを追加
 	$at = \POCHIPP::array_get( $_GET, 'at', '' );
 	if ( 'editor' === $at ) {
 		$tabs[ \POCHIPP::TABKEYS['registerd'] ] = '登録済み商品を検索';
 	}
 
-	// 共通
-	$tabs[ \POCHIPP::TABKEYS['amazon'] ]  = 'Amazonで検索';
-	$tabs[ \POCHIPP::TABKEYS['rakuten'] ] = '楽天市場で検索';
-	$tabs[ \POCHIPP::TABKEYS['yahoo'] ]   = 'Yahooショッピングで検索';
+	$tab_labels = [
+		'amazon'  => 'Amazonで検索',
+		'rakuten' => '楽天市場で検索',
+		'yahoo'   => 'Yahooショッピングで検索',
+	];
+
+	$only = \POCHIPP::array_get( $_GET, 'only', '' );
+	if ( $only ) {
+		$tabs[ \POCHIPP::TABKEYS[ $only ] ] = $tab_labels[ $only ];
+	} else {
+		$tabs[ \POCHIPP::TABKEYS['amazon'] ]  = $tab_labels['amazon'];
+		$tabs[ \POCHIPP::TABKEYS['rakuten'] ] = $tab_labels['rakuten'];
+		$tabs[ \POCHIPP::TABKEYS['yahoo'] ]   = $tab_labels['yahoo'];
+	}
 
 	return $tabs;
 }

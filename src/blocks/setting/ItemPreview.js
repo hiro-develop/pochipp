@@ -2,6 +2,7 @@
  * @WordPress dependencies
  */
 import { memo } from '@wordpress/element';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * ItemPreview
@@ -16,10 +17,10 @@ export default memo(({ postTitle, parsedMeta }) => {
 		);
 	}
 
-	const { info, price, keywords } = parsedMeta;
+	const { info, price } = parsedMeta;
 
 	// Amazonボタンを表示するか
-	const showAmazon = !!(keywords || parsedMeta.amazon_detail_url);
+	// const showAmazon = !!(keywords || parsedMeta.amazon_detail_url);
 
 	// ポチップ設定データ
 	const pchppVars = window.pchppVars || {};
@@ -27,11 +28,11 @@ export default memo(({ postTitle, parsedMeta }) => {
 	let dataBtnStyle = pchppVars.btnStyle || 'dflt';
 	if ('default' === dataBtnStyle) dataBtnStyle = 'dflt';
 
-	const isPayPay = !!parsedMeta.is_paypay;
-	const yahooClass = isPayPay ? '-paypay' : '-yahoo';
+	// const isPayPay = !!parsedMeta.is_paypay;
+	// const yahooClass = isPayPay ? '-paypay' : '-yahoo';
 
 	return (
-		<div className='__preview components-disabled'>
+		<div className='__preview'>
 			<div
 				className='pochipp-box'
 				data-img={pchppVars.imgPosition || 'l'}
@@ -49,11 +50,19 @@ export default memo(({ postTitle, parsedMeta }) => {
 					{price && (
 						<div className='pochipp-box__price'>
 							¥{price.toLocaleString()}
-							<span>（{parsedMeta.price_at}時点）</span>
+							<span>
+								（{parsedMeta.price_at}時点 |{' '}
+								{parsedMeta.searched_at}調べ）
+							</span>
 						</div>
 					)}
 
-					<div
+					<ServerSideRender
+						block='pochipp/setting-preview'
+						attributes={{ meta: JSON.stringify(parsedMeta) }}
+						className={`_components-disabled`}
+					/>
+					{/* <div
 						className='pochipp-box__btns'
 						data-maxclmn-pc={pchppVars.maxClmnPC || 'fit'}
 						data-maxclmn-mb={pchppVars.maxClmnMB || '1'}
@@ -88,8 +97,12 @@ export default memo(({ postTitle, parsedMeta }) => {
 									</a>
 								</div>
 							)}
-					</div>
+					</div> */}
 				</div>
+			</div>
+
+			<div className='__helpText'>
+				※ プレビュー内のボタンはアフィリエイトリンク化されていません。
 			</div>
 		</div>
 	);

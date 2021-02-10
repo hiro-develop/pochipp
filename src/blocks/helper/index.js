@@ -64,8 +64,8 @@ export const sendUpdateAjax = async (params, doneFunc, failFunc) => {
 		.then((response) => {
 			console.log('sendUpdateAjax: response', response);
 			if (response.error) {
-				alert(response.error.message);
-				console.error(response.error.code, response.error.message);
+				// console.error(response.error.code, response.error.message);
+				throw new TypeError(response.error.message);
 			} else {
 				doneFunc(response);
 			}

@@ -32,6 +32,7 @@ import { Icon, search, rotateLeft, upload } from '@wordpress/icons';
  * @Internal dependencies
  */
 import metadata from './block.json';
+import iconReSearch from './icon_re_search.js';
 import {
 	// getParsedMeta,
 	// setCustomFieldArea,
@@ -229,7 +230,7 @@ registerBlockType(name, {
 							<ToolbarButton
 								className='thickbox'
 								label='商品を再検索'
-								icon={<Icon icon={rotateLeft} />}
+								icon={<Icon icon={iconReSearch} />}
 								onClick={openThickbox}
 							/>
 							{!hasRegisterdItem && (

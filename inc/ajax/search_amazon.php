@@ -24,13 +24,17 @@ function search_from_amazon_api() {
 	};
 
 	$keywords     = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$search_index = \POCHIPP::array_get( $_GET, 'search_index', 'All' );
+	$only         = \POCHIPP::array_get( $_GET, 'only', '' );
+	$search_index = 'All'; // \POCHIPP::array_get( $_GET, 'search_index', 'All' );
 
 	// 登録済み商品
-	$registerd_items = \POCHIPP::get_registerd_items( [
-		'keywords' => $keywords,
-		'count'    => 2, // memo: ２個まで取得。<- 少ない？
-	] );
+	$registerd_items = [];
+	if ( ! $only ) {
+		$registerd_items = \POCHIPP::get_registerd_items( [
+			'keywords' => $keywords,
+			'count'    => 2, // memo: ２個まで取得。<- 少ない？
+		] );
+	}
 
 	// 検索結果
 	$searched_items = \POCHIPP\get_item_data_from_amazon_api( $keywords, $search_index );
@@ -161,8 +165,8 @@ function get_json_from_amazon_api( $operation, $request, $keywords ) {
 		];
 	}
 
-	$resultData = 'SearchItems' === $operation ? $response_obj->SearchResult : $response_obj->ItemsResult;
-	if ( empty( $resultData ) ) {
+	$result_data = 'SearchItems' === $operation ? $response_obj->SearchResult : $response_obj->ItemsResult;
+	if ( empty( $result_data ) ) {
 		return [
 			'error' => [
 				'code'       => 'no result',
@@ -172,7 +176,7 @@ function get_json_from_amazon_api( $operation, $request, $keywords ) {
 	}
 
 	// エラーがなければ、必要な商品データを取得
-	return \POCHIPP\set_item_data_by_amazon_api( $resultData, $keywords );
+	return \POCHIPP\set_item_data_by_amazon_api( $result_data, $keywords );
 }
 
 
@@ -180,21 +184,30 @@ function get_json_from_amazon_api( $operation, $request, $keywords ) {
 /**
  * 商品データを整形
  */
-function set_item_data_by_amazon_api( $resultData, $keywords ) {
+function set_item_data_by_amazon_api( $result_data, $keywords ) {
 
 	$items = [];
-	foreach ( $resultData->Items as $item ) {
+	foreach ( $result_data->Items as $item ) {
+
+		// if ( $only ) {
+		// 	$items[] = [
+		// 		'title'           => $item->ItemInfo->Title->DisplayValue ?? '',
+		// 		'asin'            => $item->ASIN ?? '',
+		// 		'amazon_affi_url' => $item->DetailPageURL ?? '',
+		// 		// 'add_searched_at' => 'amazon',
+		// 	];
+		// 	continue;
+		// }
+
 		$data = [
 			'keywords'    => $keywords,
 			'searched_at' => 'amazon',
 		];
 
-		$asin         = $item->ASIN ?? '';
-		$data['asin'] = (string) $asin;
+		$data['asin'] = $item->ASIN ?? '';
 
 		// 商品名
-		$item_title    = $item->ItemInfo->Title->DisplayValue ?? '';
-		$data['title'] = (string) $item_title;
+		$data['title'] = $item->ItemInfo->Title->DisplayValue ?? '';
 
 		// ブランド名
 		$brand        = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
@@ -214,7 +227,7 @@ function set_item_data_by_amazon_api( $resultData, $keywords ) {
 		}
 
 		// 商品詳細 アフィURL
-		$data['amazon_affi_url'] = $item->DetailPageURL;
+		$data['amazon_affi_url'] = $item->DetailPageURL ?? '';
 
 		// 商品詳細URL memo: アフィ用のクエリが付いていないURL
 		// $data['amazon_detail_url'] = 'https://www.amazon.co.jp/dp/' . $asin;
@@ -226,8 +239,6 @@ function set_item_data_by_amazon_api( $resultData, $keywords ) {
 
 		// 画像URL
 		$data['image_url'] = $item->Images->Primary->Large->URL ?? '';
-		// $data['image_url_s'] = $item->Images->Primary->Small->URL ?? '';
-		// $data['m_image_url'] = $item->Images->Primary->Medium->URL ?? '';
 
 		$items[] = $data;
 	}

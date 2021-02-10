@@ -25,16 +25,20 @@ function search_from_rakuten_api() {
 
 	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
 	$sort     = \POCHIPP::array_get( $_GET, 'sort', 'standard' );
+	$only     = \POCHIPP::array_get( $_GET, 'only', '' );
 
 	// ページ
 	// $page     = \POCHIPP::array_get( $_GET, 'page', 1 );
 	// $page = intval( $page ) > 1 ? $page : '1';
 
 	// 登録済み商品
-	$registerd_items = \POCHIPP::get_registerd_items( [
-		'keywords' => $keywords,
-		'count'    => 2, // memo: ２個は少ない？
-	] );
+	$registerd_items = [];
+	if ( ! $only ) {
+		$registerd_items = \POCHIPP::get_registerd_items( [
+			'keywords' => $keywords,
+			'count'    => 2, // memo: ２個は少ない？
+		] );
+	}
 
 	// 検索API用のurlに付与するクエリ情報を生成
 	$api_query  = '&hits=10'; // 検索数: amazonの数と揃える

@@ -44,7 +44,6 @@ spl_autoload_register(
 	}
 );
 
-require_once POCHIPP_PATH . 'inc/register_rest.php';
 
 /**
  * POCHIPP main

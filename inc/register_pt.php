@@ -22,7 +22,7 @@ function register_pt_pochipp() {
 			'show_ui'               => true,
 			'show_in_menu'          => true,
 			'exclude_from_search'   => true,
-			'menu_position'         => 21,
+			'menu_position'         => 80,
 			'menu_icon'             => 'dashicons-pets', // products
 			'show_in_rest'          => true,
 			'rest_base'             => 'pochipps',

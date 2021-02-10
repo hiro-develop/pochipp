@@ -11,7 +11,8 @@ trait Utility {
 	 */
 	public static function get_amazon_searched_url( $keywords = '' ) {
 		if ( ! $keywords ) return '';
-		$url = 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' . rawurlencode( $keywords );
+		// $url = 'https://www.amazon.co.jp/gp/search?ie=UTF8&keywords=' . rawurlencode( $keywords );
+		$url = 'https://www.amazon.co.jp/s?k=' . rawurlencode( $keywords );
 
 		// $url = apply_filters( 'pochipp_amazon_searched_url', $url, $keywords );
 		return $url;
@@ -93,7 +94,7 @@ trait Utility {
 			$affi_url = $url;
 
 		} elseif ( ! $affi_id ) {
-			// アフィリエイトDがないとき
+			// アフィリエイトIDがないとき
 			$affi_url = '';
 
 		} else {

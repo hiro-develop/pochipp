@@ -11,9 +11,18 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 	// タイトル更新用関数
 	const { editPost } = wp.data.dispatch('core/editor');
 
+	// const amazonDetailUrl = parsedMeta.asin
+	// 	? `https://www.amazon.co.jp/dp/${parsedMeta.asin}`
+	// 	: '';
+
 	return (
 		<>
 			<div className='__setting'>
+				<TextControl
+					label='検索元'
+					value={parsedMeta.searched_at}
+					disabled
+				/>
 				<TextControl
 					label='検索キーワード'
 					value={parsedMeta.keywords}

@@ -3,7 +3,7 @@
  */
 // import { __ } from '@wordpress/i18n';
 // import { useEntityProp } from '@wordpress/core-data';
-// import ServerSideRender from '@wordpress/server-side-render';
+import ServerSideRender from '@wordpress/server-side-render';
 import { useSelect } from '@wordpress/data';
 import { useCallback, useMemo } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
@@ -47,16 +47,18 @@ const { apiVersion, name, category, keywords, supports } = metadata;
 window.setItemMetaData = (itemData, isMerge) => {
 	console.log('setItemMetaData:', itemData);
 
-	// タイトル情報抜き出す
-	const itemTitle = itemData.title || '';
-	delete itemData.title;
-
 	// 使用するメソッドの準備
 	const { editPost } = wp.data.dispatch('core/editor');
 	const { getEditedPostAttribute } = wp.data.select('core/editor');
 
-	// タイトルの更新
-	editPost({ title: itemTitle });
+	// タイトル情報の処理
+	if (itemData.title) {
+		// 更新
+		editPost({ title: itemData.title });
+
+		// metaには保存しない
+		delete itemData.title;
+	}
 
 	// metaの取得
 	const oldMeta = getEditedPostAttribute('meta');
@@ -132,37 +134,58 @@ registerBlockType(name, {
 			[parsedMeta]
 		);
 
-		const hasSearchedItem = !!parsedMeta.searched_at;
-
 		// 商品検索
-		const openThickbox = useCallback(() => {
-			let url = 'media-upload.php?type=pochipp';
-			url += `&at=setting`;
-			url += `&tab=pochipp_search_amazon`;
-			url += `&blockid=${clientId}`;
-			url += `&postid=${postId}`;
-			url += '&TB_iframe=true';
+		const openThickbox = useCallback(
+			(only = '') => {
+				let url = 'media-upload.php?type=pochipp';
+				url += `&at=setting`;
+				// url += `&tab=pochipp_search_${type}`;
+				url += `&blockid=${clientId}`;
+				url += `&postid=${postId}`;
+				if (only) {
+					url += `&tab=pochipp_search_${only}`;
+					url += `&only=${only}`;
+				} else {
+					url += `&tab=pochipp_search_amazon`;
+				}
+				url += '&TB_iframe=true';
 
-			// #TB_window を開く
-			window.tb_show('商品検索', url);
+				// #TB_window を開く
+				window.tb_show('商品検索', url);
 
-			// 開いた #TB_window を取得してクラス追加
-			const tbWindow = document.querySelector('#TB_window');
+				// 開いた #TB_window を取得してクラス追加
+				const tbWindow = document.querySelector('#TB_window');
 
-			if (tbWindow) {
-				tbWindow.classList.add('by-pochipp');
-			}
-		}, [postId, clientId]);
+				if (tbWindow) {
+					tbWindow.classList.add('by-pochipp');
+				}
+			},
+			[postId, clientId]
+		);
 
-		// 商品データ更新処理 memo: 後々全ボタンで詳細ページセットできるようにするなら、それぞれのitemcodeを渡す必要がある？
-		const itemCode =
-			parsedMeta.asin || parsedMeta.itemcode || parsedMeta.isbn;
+		// 商品が検索された状態かどうか
+		const searchedAt = parsedMeta.searched_at;
+		const hasSearchedItem = !!searchedAt;
+
+		// 商品データ更新用の itemCode
+		let itemCode = '';
+
+		// 情報更新ボタンを表示するかどうか
+		if ('amazon' === searchedAt) {
+			itemCode = parsedMeta.asin || '';
+		} else if ('rakuten' === searchedAt) {
+			itemCode = parsedMeta.itemcode || '';
+		} else if ('yahoo' === searchedAt) {
+			// itemCode = parsedMeta.yahoo_itemcode || '';
+		}
+
+		// 商品データ更新処理
 		const updateItemData = useCallback(() => {
 			const params = new URLSearchParams();
 			params.append('action', 'pochipp_update_data');
 			params.append('itemcode', itemCode);
 			params.append('keywords', parsedMeta.keywords);
-			params.append('searched_at', parsedMeta.searched_at);
+			params.append('searched_at', searchedAt);
 
 			const btns = document.querySelector(
 				'.pochipp-block--setting .__btns'
@@ -184,7 +207,12 @@ registerBlockType(name, {
 
 			// ajax処理
 			sendUpdateAjax(params, doneFunc, failFunc);
-		}, [parsedMeta]);
+		}, [itemCode, parsedMeta]);
+
+		// 各APIから検索済みかどうか
+		const searchedAmazon = !!parsedMeta.asin;
+		const searchedRakuten = !!parsedMeta.rakuten_detail_url;
+		const searchedYahoo = !!parsedMeta.yahoo_detail_url;
 
 		return (
 			<>
@@ -203,7 +231,7 @@ registerBlockType(name, {
 						>
 							{hasSearchedItem ? '商品を再検索' : '商品を検索'}
 						</Button>
-						{hasSearchedItem && itemCode && (
+						{itemCode && (
 							<Button
 								icon={<Icon icon={rotateLeft} />}
 								className='__updateBtn'
@@ -211,6 +239,42 @@ registerBlockType(name, {
 								onClick={updateItemData}
 							>
 								最新情報に更新
+							</Button>
+						)}
+						{hasSearchedItem && !searchedAmazon && (
+							<Button
+								icon={<Icon icon={search} />}
+								className='__updateBtn'
+								isSecondary={true}
+								onClick={() => {
+									openThickbox('amazon');
+								}}
+							>
+								Amazonでも検索
+							</Button>
+						)}
+						{hasSearchedItem && !searchedRakuten && (
+							<Button
+								icon={<Icon icon={search} />}
+								className='__updateBtn'
+								isSecondary={true}
+								onClick={() => {
+									openThickbox('rakuten');
+								}}
+							>
+								楽天でも検索
+							</Button>
+						)}
+						{hasSearchedItem && !searchedYahoo && (
+							<Button
+								icon={<Icon icon={search} />}
+								className='__updateBtn'
+								isSecondary={true}
+								onClick={() => {
+									openThickbox('yahoo');
+								}}
+							>
+								Yahooでも検索
 							</Button>
 						)}
 					</div>
