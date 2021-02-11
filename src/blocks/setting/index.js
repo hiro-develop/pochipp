@@ -22,13 +22,8 @@ import { useBlockProps } from '@wordpress/block-editor';
 import metadata from './block.json';
 import ItemPreview from './ItemPreview';
 import ItemSetting from './ItemSetting';
-import {
-	SearchBtn,
-	UpdateBtn,
-	UrlConfBtn,
-	AdditionalSearchBtn,
-	DeleteDetailLinkBtn,
-} from './settingBtns';
+import BtnSettingTable from '../components/BtnSettingTable';
+import { SearchBtn, UpdateBtn } from './settingBtns';
 import {
 	getParsedMeta,
 	setCustomFieldArea,
@@ -224,79 +219,6 @@ registerBlockType(name, {
 			sendUpdateAjax(params, doneFunc, failFunc);
 		}, [itemCode, parsedMeta]);
 
-		// 各APIから検索済みかどうか
-		const amazonDetailUrl = amazonAsin
-			? `https://www.amazon.co.jp/dp/${amazonAsin}`
-			: '';
-		const amazonSearchedLink = amazonAffiUrl || amazonDetailUrl;
-		const rakutenSearchedLink = parsedMeta.rakuten_detail_url || '';
-		const yahooSearchedLink = parsedMeta.yahoo_detail_url || '';
-
-		// Amazonボタン設定
-		const amazonBtnSetting =
-			'amazon' === searchedAt ? (
-				<span className='__mainLabel'>メイン検索元</span>
-			) : (
-				<>
-					<AdditionalSearchBtn
-						type='amazon'
-						openThickbox={openThickbox}
-						hasSearchedLink={amazonSearchedLink}
-					/>
-					<DeleteDetailLinkBtn
-						isHide={!amazonSearchedLink}
-						onClick={() => {
-							updateMetadata('asin', '');
-							updateMetadata('amazon_affi_url', '');
-						}}
-					/>
-				</>
-			);
-
-		// 楽天ボタン設定
-		const rakutenBtnSetting =
-			'rakuten' === searchedAt ? (
-				<span className='__mainLabel'>メイン検索元</span>
-			) : (
-				<>
-					<AdditionalSearchBtn
-						type='rakuten'
-						openThickbox={openThickbox}
-						hasSearchedLink={rakutenSearchedLink}
-					/>
-					<DeleteDetailLinkBtn
-						isHide={!rakutenSearchedLink}
-						onClick={() => {
-							updateMetadata('itemcode', '');
-							updateMetadata('rakuten_detail_url', '');
-						}}
-					/>
-				</>
-			);
-
-		// Yahooボタン設定
-		const yahooBtnSetting =
-			'yahoo' === searchedAt ? (
-				<span className='__mainLabel'>メイン検索元</span>
-			) : (
-				<>
-					<AdditionalSearchBtn
-						type='yahoo'
-						openThickbox={openThickbox}
-						hasSearchedLink={yahooSearchedLink}
-					/>
-					<DeleteDetailLinkBtn
-						isHide={!yahooSearchedLink}
-						onClick={() => {
-							updateMetadata('yahoo_itemcode', '');
-							updateMetadata('seller_id', '');
-							updateMetadata('is_paypay', '');
-							updateMetadata('yahoo_detail_url', '');
-						}}
-					/>
-				</>
-			);
-
 		return (
 			<>
 				<div
@@ -318,50 +240,31 @@ registerBlockType(name, {
 					</div>
 					{hasSearchedItem && (
 						<div className='__setting'>
-							<div className='components-base-control __btnLinkSettings'>
+							<div className='components-base-control'>
 								<div className='components-base-control__label'>
 									ボタンリンク先
 								</div>
-								<table>
-									<tbody>
-										<tr>
-											<th>Amazon</th>
-											<td>
-												<UrlConfBtn
-													type='amazon'
-													hasSearchedLink={
-														amazonSearchedLink
-													}
-												/>
-											</td>
-											<td>{amazonBtnSetting}</td>
-										</tr>
-										<tr>
-											<th>楽天</th>
-											<td>
-												<UrlConfBtn
-													type='rakuten'
-													hasSearchedLink={
-														rakutenSearchedLink
-													}
-												/>
-											</td>
-											<td>{rakutenBtnSetting}</td>
-										</tr>
-										<tr>
-											<th>Yahoo</th>
-											<td>
-												<UrlConfBtn
-													type='yahoo'
-													hasSearchedLink={
-														yahooSearchedLink
-													}
-												/>
-											</td>
-											<td>{yahooBtnSetting}</td>
-										</tr>
-									</tbody>
-								</table>
+								<BtnSettingTable
+									attrs={parsedMeta}
+									openThickbox={openThickbox}
+									deleteAmazon={() => {
+										updateMetadata('asin', '');
+										updateMetadata('amazon_affi_url', '');
+									}}
+									deleteRakuten={() => {
+										updateMetadata('itemcode', '');
+										updateMetadata(
+											'rakuten_detail_url',
+											''
+										);
+									}}
+									deleteYahoo={() => {
+										updateMetadata('yahoo_itemcode', '');
+										updateMetadata('seller_id', '');
+										updateMetadata('is_paypay', '');
+										updateMetadata('yahoo_detail_url', '');
+									}}
+								/>
 							</div>
 							<ItemSetting
 								{...{ postTitle, parsedMeta, updateMetadata }}

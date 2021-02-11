@@ -21,7 +21,7 @@ import {
 	CheckboxControl,
 	PanelBody,
 } from '@wordpress/components';
-import { Icon, search, rotateLeft, upload, replace } from '@wordpress/icons';
+import { Icon, search, rotateLeft, upload, edit } from '@wordpress/icons';
 
 /**
  * @External dependencies
@@ -38,6 +38,7 @@ import {
 	// setCustomFieldArea,
 	sendUpdateAjax,
 } from '@blocks/helper';
+import BtnSettingTable from '../components/BtnSettingTable';
 
 /**
  * metadata
@@ -55,7 +56,7 @@ const { apiVersion, name, category, keywords, supports } = metadata;
  * @param {string} clientId ブロックID
  */
 window.set_block_data_at_editor = (itemData, clientId) => {
-	// console.log('itemData:', itemData);
+	console.log('itemData:', itemData);
 
 	// ブロックのattributesを更新する
 	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
@@ -81,24 +82,27 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 			custom_btn_url: undefined,
 		});
 	} else {
-		updateBlockAttributes(clientId, {
-			pid: undefined,
-			title: itemData.title || undefined,
-			keywords: itemData.keywords || undefined,
-			searched_at: itemData.searched_at || undefined,
-			asin: itemData.asin || undefined,
-			itemcode: itemData.itemcode || undefined,
-			yahoo_itemcode: itemData.yahoo_itemcode || undefined,
-			seller_id: itemData.seller_id || undefined,
-			info: itemData.info || undefined,
-			image_url: itemData.image_url || undefined,
-			price: itemData.price + '' || undefined,
-			price_at: itemData.price_at || undefined,
-			amazon_affi_url: itemData.amazon_affi_url || undefined,
-			rakuten_detail_url: itemData.rakuten_detail_url || undefined,
-			yahoo_detail_url: itemData.yahoo_detail_url || undefined,
-			is_paypay: itemData.is_paypay || undefined,
-		});
+		// pid: undefined,
+		updateBlockAttributes(clientId, itemData);
+
+		// updateBlockAttributes(clientId, {
+		// 	pid: undefined,
+		// 	title: itemData.title || undefined,
+		// 	keywords: itemData.keywords || undefined,
+		// 	searched_at: itemData.searched_at || undefined,
+		// 	asin: itemData.asin || undefined,
+		// 	itemcode: itemData.itemcode || undefined,
+		// 	yahoo_itemcode: itemData.yahoo_itemcode || undefined,
+		// 	seller_id: itemData.seller_id || undefined,
+		// 	info: itemData.info || undefined,
+		// 	image_url: itemData.image_url || undefined,
+		// 	price: itemData.price + '' || undefined,
+		// 	price_at: itemData.price_at || undefined,
+		// 	amazon_affi_url: itemData.amazon_affi_url || undefined,
+		// 	rakuten_detail_url: itemData.rakuten_detail_url || undefined,
+		// 	yahoo_detail_url: itemData.yahoo_detail_url || undefined,
+		// 	is_paypay: itemData.is_paypay || undefined,
+		// });
 	}
 };
 
@@ -113,7 +117,7 @@ registerBlockType(name, {
 	keywords,
 	supports,
 	attributes: metadata.attributes,
-	edit: ({ attributes, setAttributes, clientId }) => {
+	edit: ({ attributes, setAttributes, clientId, isSelected }) => {
 		const { pid, title, info } = attributes;
 		// console.log('attributes', attributes);
 
@@ -149,21 +153,29 @@ registerBlockType(name, {
 		});
 
 		// openThickbox
-		const openThickbox = useCallback(() => {
-			let url = 'media-upload.php?type=pochipp';
-			url += `&at=editor`;
-			url += `&tab=pochipp_search_registerd`;
-			url += `&blockid=${clientId}`;
-			url += `&postid=${postId}`;
-			url += '&TB_iframe=true';
+		const openThickbox = useCallback(
+			(only = '') => {
+				let url = 'media-upload.php?type=pochipp';
+				url += `&at=editor`;
+				url += `&blockid=${clientId}`;
+				url += `&postid=${postId}`;
+				if (only) {
+					url += `&tab=pochipp_search_${only}`;
+					url += `&only=${only}`;
+				} else {
+					url += `&tab=pochipp_search_registerd`;
+				}
+				url += '&TB_iframe=true'; // これは最後に。
 
-			window.tb_show('商品検索', url);
+				window.tb_show('商品検索', url);
 
-			const tbWindow = document.querySelector('#TB_window');
-			if (tbWindow) {
-				tbWindow.classList.add('by-pochipp');
-			}
-		}, [postId, clientId]);
+				const tbWindow = document.querySelector('#TB_window');
+				if (tbWindow) {
+					tbWindow.classList.add('by-pochipp');
+				}
+			},
+			[postId, clientId]
+		);
 
 		// 商品データを登録する
 		const registerPochippData = useCallback(() => {
@@ -220,6 +232,75 @@ registerBlockType(name, {
 
 		// memo: <RichText allowedFormats={[]} />
 
+		let branchContent = null;
+		if (isSelected && hasItem && hasRegisterdItem) {
+			// ポチップ登録済みのブロックにのみ表示
+			branchContent = (
+				<div className='__bigBtnWrap' style={{ padding: '16px 0 8px' }}>
+					<Button
+						icon={<Icon icon={edit} />}
+						className='__bigBtn'
+						isPrimary={true}
+						onClick={() => {
+							const adminUrl = window.pchppVars.adminUrl || '';
+							window.open(
+								`${adminUrl}/post.php?post=${pid}&action=edit`
+							);
+						}}
+					>
+						ポチップ管理画面で編集する
+					</Button>
+				</div>
+			);
+		} else if (isSelected && hasItem && !hasRegisterdItem) {
+			// ポチップ未登録のブロックにのみ表示
+			branchContent = (
+				<>
+					<BtnSettingTable
+						attrs={attributes}
+						openThickbox={openThickbox}
+						deleteAmazon={() => {
+							setAttributes({
+								asin: undefined,
+								amazon_affi_url: undefined,
+							});
+						}}
+						deleteRakuten={() => {
+							setAttributes({
+								itemcode: undefined,
+								rakuten_detail_url: undefined,
+							});
+						}}
+						deleteYahoo={() => {
+							setAttributes({
+								yahoo_itemcode: undefined,
+								seller_id: undefined,
+								is_paypay: undefined,
+								yahoo_detail_url: undefined,
+							});
+						}}
+					/>
+					<div
+						className='__bigBtnWrap'
+						style={{ padding: '0 0 8px' }}
+					>
+						<Button
+							icon={<Icon icon={upload} />}
+							className='__bigBtn'
+							isPrimary={true}
+							onClick={() => {
+								if (window.confirm('本当に登録しますか？')) {
+									registerPochippData();
+								}
+							}}
+						>
+							商品データをポチップ管理画面に登録する
+						</Button>
+					</div>
+				</>
+			);
+		}
+
 		return (
 			<>
 				{hasItem && (
@@ -230,17 +311,11 @@ registerBlockType(name, {
 							<ToolbarButton
 								className='thickbox'
 								label='商品を再検索'
-								icon={<Icon icon={replace} />}
-								onClick={openThickbox}
+								icon={<Icon icon={iconReSearch} />}
+								onClick={() => {
+									openThickbox();
+								}}
 							/>
-							{!hasRegisterdItem && (
-								<ToolbarButton
-									className=''
-									label='商品データをポチップ管理画面に登録する'
-									icon={<Icon icon={upload} />}
-									onClick={registerPochippData}
-								/>
-							)}
 						</ToolbarGroup>
 					</BlockControls>
 				)}
@@ -367,14 +442,16 @@ registerBlockType(name, {
 					{!hasItem && (
 						<Button
 							icon={<Icon icon={search} />}
-							className={`${blockName}__searchBtn thickbox`}
+							className='__bigBtn thickbox'
 							isPrimary={true}
-							onClick={openThickbox}
+							onClick={() => {
+								openThickbox();
+							}}
 						>
 							商品を検索
 						</Button>
 					)}
-					<div className={`${blockName}__preview`}>
+					<div className='__preview'>
 						<ServerSideRender
 							block={name}
 							attributes={attributes}
@@ -382,10 +459,11 @@ registerBlockType(name, {
 						/>
 					</div>
 					{hasItem && !hasRegisterdItem && (
-						<div className={`${blockName}__note`}>
+						<div className='__note'>
 							※ ポチップ管理には未登録のブロックです。
 						</div>
 					)}
+					{branchContent}
 				</div>
 			</>
 		);

@@ -194,9 +194,7 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 							: searchedItems[itemIndex];
 
 					// 商品データ更新
-					if ('editor' === calledAt) {
-						window.top.set_block_data_at_editor(itemData, blockId);
-					} else if (only) {
+					if (only) {
 						const onlyData = {};
 						if ('amazon' === only) {
 							onlyData.asin = itemData.asin || '';
@@ -215,7 +213,16 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 							onlyData.is_paypay = itemData.is_paypay || '';
 						}
 
-						window.top.setItemMetaData(onlyData, true);
+						if ('editor' === calledAt) {
+							window.top.set_block_data_at_editor(
+								onlyData,
+								blockId
+							);
+						} else {
+							window.top.setItemMetaData(onlyData, true);
+						}
+					} else if ('editor' === calledAt) {
+						window.top.set_block_data_at_editor(itemData, blockId);
 					} else {
 						window.top.setItemMetaData(itemData, false);
 					}

@@ -40,6 +40,7 @@ add_action( 'admin_head', function() {
 
 	// ajax用のグローバル変数
 	$script  = 'window.pchppVars = {};';
+	$script .= 'window.pchppVars.adminUrl = "' . esc_js( admin_url() ) . '";';
 	$script .= 'window.pchppVars.ajaxUrl = "' . esc_js( admin_url( 'admin-ajax.php' ) ) . '";';
 	$script .= 'window.pchppVars.ajaxNonce = "' . esc_js( wp_create_nonce( \POCHIPP::NONCE_KEY ) ) . '";';
 

@@ -1,0 +1,109 @@
+
+// 設定用ブロック
+.pochipp-block--setting {
+	max-width: 900px !important;
+	padding: 24px;
+	background-color: #fdfdfd;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+
+	.__preview {
+		margin: 0;
+
+		.pochipp-box {
+			margin: 0 !important;
+		}
+
+		&.-null {
+			padding: 24px;
+			text-align: center;
+			border: solid 1px #e8e8e8;
+
+			p {
+				margin: 0 !important;
+			}
+		}
+
+		.__helpText {
+			margin-top: 8px;
+			color: #666;
+			font-size: 12px;
+			text-align: right;
+		}
+	}
+
+	.__btns {
+		display: flex;
+		justify-content: space-between;
+		margin: 24px 0 40px;
+
+		&.-updating {
+			pointer-events: none;
+
+			.__searchBtn {
+				opacity: 0.5;
+			}
+
+			.__updateBtn svg {
+				animation: 2s linear infinite pchppRotation;
+			}
+		}
+	}
+
+	.__searchBtn {
+		display: flex;
+		justify-content: center !important;
+		width: 100%;
+		height: auto;
+		padding: 8px !important;
+		font-size: 16px;
+		// box-shadow: inset 0 0 2px rgba(255, 255, 255, 1), inset 1px 1px 4px -1px rgba(255, 255, 255, 0.1), 1px 1px 12px -2px rgba(0, 0, 0, 0.2);
+	}
+
+	.__updateBtn {
+		display: flex;
+		justify-content: center !important;
+		width: 100%;
+		height: auto;
+		margin-left: 16px;
+		padding: 8px !important;
+		font-size: 16px;
+		// box-shadow: inset 0 0 2px rgba(255, 255, 255, 1), inset 1px 1px 4px -1px rgba(255, 255, 255, 0.1), 1px 1px 12px -2px rgba(0, 0, 0, 0.2);
+	}
+
+
+	.__setting {
+
+		margin-top: 24px;
+		border-top: dashed 1px #dedede;
+
+		.components-base-control {
+			margin: 24px 0 0;
+		}
+
+		.components-base-control__label {
+			margin-left: 1px;
+			padding-left: 6px;
+			font-size: 14px;
+			line-height: 1.5;
+			border-left: 2px solid;
+		}
+	}
+
+	.__note {
+		color: #555;
+		font-size: 12px;
+
+		&::before {
+			margin-right: 4px;
+			content: "";
+		}
+	}
+
+
+	// 確認用 dump データ
+	.pochipp-block-dump {
+		padding: 20px;
+		font-size: 13px;
+		background: #f7f7f7;
+	}
+}

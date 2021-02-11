@@ -97,14 +97,14 @@ function registerd_by_block() {
 		] ) );
 	};
 
-	$datas      = [];
-	$attributes = \POCHIPP::array_get( $_POST, 'attributes', '' );
-	$client_id  = \POCHIPP::array_get( $_POST, 'clientId', '' );
+	$datas     = [];
+	$attrs     = \POCHIPP::array_get( $_POST, 'attributes', '' );
+	$client_id = \POCHIPP::array_get( $_POST, 'clientId', '' );
 
-	$attributes = str_replace( '\\"', '"', $attributes );
-	$attributes = json_decode( $attributes, true );
+	$attrs = str_replace( '\\"', '"', $attrs );
+	$attrs = json_decode( $attrs, true );
 
-	if ( empty( $attributes ) || ! is_array( $attributes ) ) {
+	if ( empty( $attrs ) || ! is_array( $attrs ) ) {
 		wp_die( json_encode( [
 			'error' => [
 				'code'    => 'decode error',
@@ -113,7 +113,7 @@ function registerd_by_block() {
 		] ) );
 	}
 
-	$pid = $attributes['pid'] ?? 0;
+	$pid = $attrs['pid'] ?? 0;
 	if ( $pid ) {
 		wp_die( json_encode( [
 			'error' => [
@@ -123,23 +123,23 @@ function registerd_by_block() {
 		] ) );
 	}
 
-	$title = $attributes['title'] ?? '';
-	$title = $title ?: '不明なタイトル - ' . $client_id;
+	$title = $attrs['title'] ?? '不明なタイトル - ' . $client_id; // 初期値
 
-	$meta = [
-		'searched_at'        => $attributes['searched_at'] ?? '',
-		'asin'               => $attributes['asin'] ?? '',
-		'itemcode'           => $attributes['itemcode'] ?? '',
-		'image_url'          => $attributes['image_url'] ?? '',
-		'info'               => $attributes['info'] ?? '',
-		'keywords'           => $attributes['keywords'] ?? '',
-		'price'              => $attributes['price'] ?? '',
-		'price_at'           => $attributes['price_at'] ?? '',
-		'amazon_affi_url'    => $attributes['amazon_affi_url'] ?? '',
-		'rakuten_detail_url' => $attributes['rakuten_detail_url'] ?? '',
-		'custom_btn_text'    => $attributes['custom_btn_text'] ?? '',
-		'custom_btn_url'     => $attributes['custom_btn_url'] ?? '',
-	];
+	if ( isset( $attrs['title'] ) ) {
+		$title = $attrs['title'];
+		unset( $attrs['title'] );
+	}
+
+	// メタに保存しない項目を削除
+	unset( $attrs['title'] );
+	unset( $attrs['className'] );
+	unset( $attrs['pid'] );
+	unset( $attrs['hideInfo'] );
+	unset( $attrs['hidePrice'] );
+	unset( $attrs['hideAmazon'] );
+	unset( $attrs['hideRakuten'] );
+	unset( $attrs['hideYahoo'] );
+	unset( $attrs['hideCustom'] );
 
 	$new_id = wp_insert_post( [
 		'post_type'      => \POCHIPP::POST_TYPE_SLUG,
@@ -157,11 +157,9 @@ function registerd_by_block() {
 		] ) );
 	}
 
-	update_post_meta( $new_id, \POCHIPP::META_SLUG, json_encode( $meta, JSON_UNESCAPED_UNICODE ) );
+	update_post_meta( $new_id, \POCHIPP::META_SLUG, json_encode( $attrs, JSON_UNESCAPED_UNICODE ) );
 
 	wp_die( json_encode( [
-		'pid'        => $new_id,
-		// 'attributes' => $attributes,
-		// 'meta'       => json_encode( $meta, JSON_UNESCAPED_UNICODE ),
+		'pid' => $new_id,
 	] ) );
 }

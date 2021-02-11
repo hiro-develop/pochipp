@@ -1,67 +1,8 @@
+// ----------------------------------------
+// ブロックエディターで読み込まれるCSS
+// ----------------------------------------
+
 @import "./mixin";
 @import "./common/**";
+@import "./block/**";
 @import "./tb";
-
-// ブロックエディターで読み込まれる
-
-.pochipp-block {
-
-	// ブロック用CSS
-	.pochipp-block__searchBtn {
-		display: flex;
-		justify-content: center !important;
-		width: 90%;
-		margin-right: auto;
-		margin-left: auto;
-		padding: 8px 16px 8px 8px !important;
-	}
-
-	.pochipp-block__preview {
-
-		.pochipp-box {
-			margin: 0 auto !important;
-		}
-
-		.__nullText {
-			display: none;
-			margin: 0 !important;
-		}
-
-		pre {
-			white-space: pre-wrap;
-		}
-	}
-
-	.pochipp-block__note {
-		max-width: 880px;
-		margin: 4px auto;
-		font-size: 13px;
-		text-align: right;
-		opacity: 0.7;
-	}
-
-	&:not([data-has-item]) {
-		padding: 8px;
-	}
-
-	&[data-has-item]:not(.is-selected) {
-
-		.pochipp-block__searchBtn {
-			display: none;
-		}
-	}
-
-	&[data-registering] {
-		opacity: 0.5;
-		pointer-events: none;
-	}
-}
-
-.components-toolbar-group[data-registering] {
-	opacity: 0.5;
-	pointer-events: none;
-}
-
-.components-base-control.pchpp-hideCheck {
-	margin-bottom: 0 !important;
-}

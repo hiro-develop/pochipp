@@ -53,6 +53,9 @@ trait Utility {
 	 */
 	public static function get_amazon_affi_url( $affi_url = '', $url = '', $a_id = '' ) {
 
+		// ブロックエディター上ではアフィリンク化しない
+		// if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) return $url;
+
 		// もしもリンクにする場合
 		if ( $a_id ) {
 			return \POCHIPP::get_moshimo_url( 'amazon', $url, $a_id );

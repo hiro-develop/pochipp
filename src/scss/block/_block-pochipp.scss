@@ -1,0 +1,78 @@
+
+// フロント用ブロック
+.pochipp-block {
+	padding: 8px;
+
+
+	// ブロック用CSS
+	.__bigBtn {
+		display: flex;
+		justify-content: center !important;
+		width: 90%;
+		margin-right: auto;
+		margin-left: auto;
+		padding: 8px 16px 8px 8px !important;
+	}
+
+	.__bigBtnWrap {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.__preview {
+
+		.pochipp-box {
+			margin: 0 auto !important;
+		}
+
+		.__nullText {
+			display: none;
+			margin: 0 !important;
+		}
+
+		pre {
+			white-space: pre-wrap;
+		}
+	}
+
+	.__note {
+		max-width: 960px;
+		margin: 4px auto;
+		color: #d64b14;
+		font-weight: bold;
+		font-size: 13px;
+		text-align: right;
+		text-shadow:
+			1px 1px 1px #fff,
+			-1px 1px 1px #fff,
+			1px -1px 1px #fff,
+			-1px -1px 1px #fff;
+		opacity: 0.7;
+	}
+
+	&:not([data-has-item]) {
+		padding: 8px;
+	}
+
+	&[data-has-item]:not(.is-selected) {
+
+		.pochipp-block__searchBtn {
+			display: none;
+		}
+	}
+
+	&[data-registering] {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+}
+
+.components-toolbar-group[data-registering] {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+.components-base-control.pchpp-hideCheck {
+	margin-bottom: 0 !important;
+}
+
