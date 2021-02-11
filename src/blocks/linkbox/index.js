@@ -21,7 +21,7 @@ import {
 	CheckboxControl,
 	PanelBody,
 } from '@wordpress/components';
-import { Icon, search, rotateLeft, upload } from '@wordpress/icons';
+import { Icon, search, rotateLeft, upload, replace } from '@wordpress/icons';
 
 /**
  * @External dependencies
@@ -230,7 +230,7 @@ registerBlockType(name, {
 							<ToolbarButton
 								className='thickbox'
 								label='商品を再検索'
-								icon={<Icon icon={iconReSearch} />}
+								icon={<Icon icon={replace} />}
 								onClick={openThickbox}
 							/>
 							{!hasRegisterdItem && (

@@ -105,6 +105,7 @@
 
 	.__setting {
 
+		margin-top: 24px;
 		border-top: dashed 1px #dedede;
 
 		.components-base-control {
@@ -128,6 +129,89 @@
 			margin-right: 4px;
 			content: "";
 		}
+	}
+
+
+	.components-button.-icon-right {
+		flex-direction: row-reverse;
+
+		svg {
+			margin-right: 0;
+			margin-left: 4px;
+		}
+	}
+
+	.__btnLinkSettings {
+
+		table {
+			width: 100%;
+			max-width: 100%;
+			font-size: 14px;
+			text-align: left;
+			border: none;
+			border-top: 1px solid #ededed;
+			border-right: 1px solid #ededed;
+			border-spacing: 0;
+		}
+
+		th,
+		td {
+			padding: 8px 12px;
+			vertical-align: middle;
+			background: none;
+			border-bottom: 1px solid #ededed;
+			border-left: 1px solid #ededed;
+		}
+
+		th {
+			background-color: #f7f7f7;
+		}
+
+		@media screen and (max-width: 782px) {
+
+			table,
+			tbody,
+			th,
+			td {
+				display: block;
+			}
+
+			tr {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			th {
+				width: 100%;
+			}
+
+			td {
+				width: 50%;
+			}
+
+		}
+
+		.components-button {
+			height: auto;
+			margin: 4px 0;
+			padding: 4px 8px 4px 4px;
+			line-height: 1;
+
+			&.-hide {
+				visibility: hidden;
+				opacity: 0;
+				pointer-events: none !important;
+			}
+
+			svg {
+				margin-right: 4px;
+			}
+
+			& + .components-button {
+				margin-left: 8px;
+			}
+		}
+
 	}
 
 

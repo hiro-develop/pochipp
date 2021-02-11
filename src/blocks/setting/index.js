@@ -3,13 +3,13 @@
  */
 // import { __ } from '@wordpress/i18n';
 // import { useEntityProp } from '@wordpress/core-data';
-import ServerSideRender from '@wordpress/server-side-render';
+// import ServerSideRender from '@wordpress/server-side-render';
 import { useSelect } from '@wordpress/data';
 import { useCallback, useMemo } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
-import { Icon, search, rotateLeft } from '@wordpress/icons';
+// import { Button } from '@wordpress/components';
+// import { Icon, search, rotateLeft, closeSmall } from '@wordpress/icons';
 
 /**
  * External dependencies
@@ -22,6 +22,13 @@ import { Icon, search, rotateLeft } from '@wordpress/icons';
 import metadata from './block.json';
 import ItemPreview from './ItemPreview';
 import ItemSetting from './ItemSetting';
+import {
+	SearchBtn,
+	UpdateBtn,
+	UrlConfBtn,
+	AdditionalSearchBtn,
+	DeleteDetailLinkBtn,
+} from './settingBtns';
 import {
 	getParsedMeta,
 	setCustomFieldArea,
@@ -148,7 +155,7 @@ registerBlockType(name, {
 				} else {
 					url += `&tab=pochipp_search_amazon`;
 				}
-				url += '&TB_iframe=true';
+				url += '&TB_iframe=true'; //これは最後に。
 
 				// #TB_window を開く
 				window.tb_show('商品検索', url);
@@ -163,6 +170,10 @@ registerBlockType(name, {
 			[postId, clientId]
 		);
 
+		// meta情報
+		const amazonAsin = parsedMeta.asin || '';
+		const amazonAffiUrl = parsedMeta.amazon_affi_url || '';
+
 		// 商品が検索された状態かどうか
 		const searchedAt = parsedMeta.searched_at;
 		const hasSearchedItem = !!searchedAt;
@@ -171,12 +182,16 @@ registerBlockType(name, {
 		let itemCode = '';
 
 		// 情報更新ボタンを表示するかどうか
+		let showUpdateBtn = false;
 		if ('amazon' === searchedAt) {
-			itemCode = parsedMeta.asin || '';
+			itemCode = amazonAsin || '';
+			showUpdateBtn = !!(itemCode && amazonAffiUrl);
 		} else if ('rakuten' === searchedAt) {
 			itemCode = parsedMeta.itemcode || '';
+			showUpdateBtn = !!itemCode;
 		} else if ('yahoo' === searchedAt) {
 			// itemCode = parsedMeta.yahoo_itemcode || '';
+			// showUpdateBtn = !!itemCode;
 		}
 
 		// 商品データ更新処理
@@ -210,9 +225,77 @@ registerBlockType(name, {
 		}, [itemCode, parsedMeta]);
 
 		// 各APIから検索済みかどうか
-		const searchedAmazon = !!parsedMeta.asin;
-		const searchedRakuten = !!parsedMeta.rakuten_detail_url;
-		const searchedYahoo = !!parsedMeta.yahoo_detail_url;
+		const amazonDetailUrl = amazonAsin
+			? `https://www.amazon.co.jp/dp/${amazonAsin}`
+			: '';
+		const amazonSearchedLink = amazonAffiUrl || amazonDetailUrl;
+		const rakutenSearchedLink = parsedMeta.rakuten_detail_url || '';
+		const yahooSearchedLink = parsedMeta.yahoo_detail_url || '';
+
+		// Amazonボタン設定
+		const amazonBtnSetting =
+			'amazon' === searchedAt ? (
+				<span className='__mainLabel'>メイン検索元</span>
+			) : (
+				<>
+					<AdditionalSearchBtn
+						type='amazon'
+						openThickbox={openThickbox}
+						hasSearchedLink={amazonSearchedLink}
+					/>
+					<DeleteDetailLinkBtn
+						isHide={!amazonSearchedLink}
+						onClick={() => {
+							updateMetadata('asin', '');
+							updateMetadata('amazon_affi_url', '');
+						}}
+					/>
+				</>
+			);
+
+		// 楽天ボタン設定
+		const rakutenBtnSetting =
+			'rakuten' === searchedAt ? (
+				<span className='__mainLabel'>メイン検索元</span>
+			) : (
+				<>
+					<AdditionalSearchBtn
+						type='rakuten'
+						openThickbox={openThickbox}
+						hasSearchedLink={rakutenSearchedLink}
+					/>
+					<DeleteDetailLinkBtn
+						isHide={!rakutenSearchedLink}
+						onClick={() => {
+							updateMetadata('itemcode', '');
+							updateMetadata('rakuten_detail_url', '');
+						}}
+					/>
+				</>
+			);
+
+		// Yahooボタン設定
+		const yahooBtnSetting =
+			'yahoo' === searchedAt ? (
+				<span className='__mainLabel'>メイン検索元</span>
+			) : (
+				<>
+					<AdditionalSearchBtn
+						type='yahoo'
+						openThickbox={openThickbox}
+						hasSearchedLink={yahooSearchedLink}
+					/>
+					<DeleteDetailLinkBtn
+						isHide={!yahooSearchedLink}
+						onClick={() => {
+							updateMetadata('yahoo_itemcode', '');
+							updateMetadata('seller_id', '');
+							updateMetadata('is_paypay', '');
+							updateMetadata('yahoo_detail_url', '');
+						}}
+					/>
+				</>
+			);
 
 		return (
 			<>
@@ -223,67 +306,68 @@ registerBlockType(name, {
 				>
 					<ItemPreview {...{ postTitle, parsedMeta }} />
 					<div className='__btns'>
-						<Button
-							icon={<Icon icon={search} />}
-							className='__searchBtn thickbox'
-							isPrimary={true}
+						<SearchBtn
 							onClick={openThickbox}
-						>
-							{hasSearchedItem ? '商品を再検索' : '商品を検索'}
-						</Button>
-						{itemCode && (
-							<Button
-								icon={<Icon icon={rotateLeft} />}
-								className='__updateBtn'
-								isSecondary={true}
-								onClick={updateItemData}
-							>
-								最新情報に更新
-							</Button>
-						)}
-						{hasSearchedItem && !searchedAmazon && (
-							<Button
-								icon={<Icon icon={search} />}
-								className='__updateBtn'
-								isSecondary={true}
-								onClick={() => {
-									openThickbox('amazon');
-								}}
-							>
-								Amazonでも検索
-							</Button>
-						)}
-						{hasSearchedItem && !searchedRakuten && (
-							<Button
-								icon={<Icon icon={search} />}
-								className='__updateBtn'
-								isSecondary={true}
-								onClick={() => {
-									openThickbox('rakuten');
-								}}
-							>
-								楽天でも検索
-							</Button>
-						)}
-						{hasSearchedItem && !searchedYahoo && (
-							<Button
-								icon={<Icon icon={search} />}
-								className='__updateBtn'
-								isSecondary={true}
-								onClick={() => {
-									openThickbox('yahoo');
-								}}
-							>
-								Yahooでも検索
-							</Button>
+							text={
+								hasSearchedItem ? '商品を再検索' : '商品を検索'
+							}
+						/>
+						{showUpdateBtn && (
+							<UpdateBtn onClick={updateItemData} />
 						)}
 					</div>
 					{hasSearchedItem && (
-						<ItemSetting
-							{...{ postTitle, parsedMeta, updateMetadata }}
-						/>
+						<div className='__setting'>
+							<div className='components-base-control __btnLinkSettings'>
+								<div className='components-base-control__label'>
+									ボタンリンク先
+								</div>
+								<table>
+									<tbody>
+										<tr>
+											<th>Amazon</th>
+											<td>
+												<UrlConfBtn
+													type='amazon'
+													hasSearchedLink={
+														amazonSearchedLink
+													}
+												/>
+											</td>
+											<td>{amazonBtnSetting}</td>
+										</tr>
+										<tr>
+											<th>楽天</th>
+											<td>
+												<UrlConfBtn
+													type='rakuten'
+													hasSearchedLink={
+														rakutenSearchedLink
+													}
+												/>
+											</td>
+											<td>{rakutenBtnSetting}</td>
+										</tr>
+										<tr>
+											<th>Yahoo</th>
+											<td>
+												<UrlConfBtn
+													type='yahoo'
+													hasSearchedLink={
+														yahooSearchedLink
+													}
+												/>
+											</td>
+											<td>{yahooBtnSetting}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<ItemSetting
+								{...{ postTitle, parsedMeta, updateMetadata }}
+							/>
+						</div>
 					)}
-
 					{/* <div className='u-mt-20'>【開発用】データ確認</div>
 					<div className='pochipp-block-dump'>
 						{Object.keys(parsedMeta).map((metakey) => {
