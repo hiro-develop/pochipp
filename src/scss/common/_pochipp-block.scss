@@ -44,6 +44,35 @@
 	// @include tab {
 	// }
 
+	&.is-vrtcl {
+
+		@include tab {
+			display: block;
+			// width: 88%;
+			max-width: 400px;
+
+			.pochipp-box__btns {
+				display: block;
+
+				.pochipp-box__btnwrap {
+					width: 100%;
+					max-width: 100%;
+				}
+			}
+
+			.pochipp-box__image {
+				margin-bottom: 16px;
+
+				img {
+					width: 40%;
+					max-width: 120px;
+					margin: 0 auto;
+				}
+			}
+		}
+
+	}
+
 	@include mobile {
 		grid-gap: 0 16px;
 		grid-template-columns: 25% 1fr;
@@ -146,21 +175,28 @@
 }
 
 .pochipp-box__btns {
-	position: relative;
-	left: -4px;
-	display: flex;
-	flex-wrap: wrap;
-	grid-area: areaBtns;
-	align-items: flex-end;
-	width: calc(100% + 8px);
-	margin: 12px 0 0;
-	padding: 0;
 
+	// 詳細度強く
+	.pochipp-box & {
+		position: relative;
+		left: -4px;
+		display: flex;
+		flex-wrap: wrap;
+		grid-area: areaBtns;
+		align-items: flex-end;
+		width: calc(100% + 8px);
+		margin: 12px 0 0;
+		padding: 0;
+	}
 }
 
 .pochipp-box__btnwrap {
-	min-width: max-content;
-	padding: 4px;
+
+	// 詳細度強く
+	.pochipp-box & {
+		min-width: max-content;
+		padding: 4px;
+	}
 
 	&.-on-sale {
 		order: -1;
@@ -213,7 +249,7 @@
 }
 
 
-// 少し詳細度強めておく
+// 詳細度強く
 .pochipp-box .pochipp-box__btn {
 	position: relative;
 	display: flex;
@@ -264,16 +300,24 @@
 
 
 .pochipp-box__saleInfo {
-	font-size: 12px;
-	line-height: 1;
-	text-align: center;
+
+	.pochipp-box  & {
+		font-size: 12px;
+		line-height: 1;
+		text-align: center;
+
+		@include mobile {
+			font-size: 11px;
+		}
+	}
+
+	&.-top {
+		margin-bottom: 4px;
+		font-weight: bold;
+	}
 
 	[data-sale-effect="flash"] & {
 		animation: 1.5s linear 0s infinite pchppFlash;
-	}
-
-	@include mobile {
-		font-size: 11px;
 	}
 
 	.pochipp-box__btnwrap.-amazon & {
@@ -292,10 +336,7 @@
 		color: var(--pchpp-color-paypay);
 	}
 
-	&.-top {
-		margin-bottom: 4px;
-		font-weight: bold;
-	}
+
 }
 
 // ボタンスタイル

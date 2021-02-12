@@ -8,6 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class Data {
 
+	// constructor
+	private function __construct() {}
+
 	// 設定データを保持する変数
 	public static $setting_data = [];
 
@@ -32,27 +35,15 @@ class Data {
 	];
 
 	// DB名
-	const DB_NAME = 'pochipp_settings';
+	const DB_NAME          = 'pochipp_settings'; // DB名
+	const NONCE_KEY        = 'pchpp-nonce'; // NONCE名
+	const SETTING_GROUP    = 'pochipp_settings'; // 設定グループ名
+	const MENU_PAGE_PREFIX = 'pochipp_menu'; // 設定ページ名用のプレフィックス
+	const POST_TYPE_SLUG   = 'pochipps'; // 投稿タイプスラッグ
+	const TAXONOMY_SLUG    = 'pochipp_cat'; // タクソノミースラッグ
+	const META_SLUG        = 'pochipp_data'; // metaスラッグ
 
-	// 設定グループ名
-	const SETTING_GROUP = 'pochipp_settings';
-
-	// 設定ページ名用のプレフィックス
-	const MENU_PAGE_PREFIX = 'pochipp_menu';
-
-	// post type slug
-	const POST_TYPE_SLUG = 'pochipps';
-
-	// taxonomy slug
-	const TAXONOMY_SLUG = 'pochipp_cat';
-
-	// metadata slug
-	const META_SLUG = 'pochipp_data';
-
-	// nonce
-	const NONCE_KEY = 'pchpp-nonce';
-
-	// タブ名 -> ajax の アクション名と同じ
+	// タブ名 | memo: ajax の アクション名としても利用
 	const TABKEYS = [
 		'amazon'    => 'pochipp_search_amazon',
 		'rakuten'   => 'pochipp_search_rakuten',
@@ -60,8 +51,12 @@ class Data {
 		'registerd' => 'pochipp_search_registerd',
 	];
 
-	// ライセンス関連で使用するURL
-	// const IS_VALID_LICENSE_URL = 'https://asia-northeast1-pochipp-84843.cloudfunctions.net/isValidLicense';
+	// 各ボタン用のアフィ設定があるかどうか
+	public static $has_affi = [
+		'amazon'  => false,
+		'rakuten' => false,
+		'yahoo'   => false,
+	];
 
 	// Amazonカテゴリー
 	// public static $amazon_indexs = [
@@ -80,6 +75,4 @@ class Data {
 	// 	'-reviewAverage' => 'レビュー平均順（降順）',
 	// ];
 
-	// インスタンス化させない
-	private function __construct() {}
 }

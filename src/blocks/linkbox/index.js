@@ -1,44 +1,21 @@
 /**
  * @WordPress dependencies
  */
-// import { __ } from '@wordpress/i18n';
-// import apiFetch from '@wordpress/api-fetch';
-// import { useEntityProp } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { useState, useCallback } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import ServerSideRender from '@wordpress/server-side-render';
-import {
-	useBlockProps,
-	BlockControls,
-	InspectorControls,
-} from '@wordpress/block-editor';
-import {
-	Button,
-	ToolbarGroup,
-	ToolbarButton,
-	TextControl,
-	CheckboxControl,
-	PanelBody,
-} from '@wordpress/components';
-import { Icon, search, rotateLeft, upload, edit } from '@wordpress/icons';
-
-/**
- * @External dependencies
- */
-// import classnames from 'classnames';
+import { useBlockProps, BlockControls, InspectorControls } from '@wordpress/block-editor';
+import { Button, ToolbarGroup, ToolbarButton, TextControl, CheckboxControl, PanelBody } from '@wordpress/components';
+import { Icon, search, upload, edit } from '@wordpress/icons';
 
 /**
  * @Internal dependencies
  */
 import metadata from './block.json';
 import iconReSearch from './icon_re_search.js';
-import {
-	// getParsedMeta,
-	// setCustomFieldArea,
-	sendUpdateAjax,
-} from '@blocks/helper';
-import BtnSettingTable from '../components/BtnSettingTable';
+import { sendUpdateAjax } from '@blocks/helper';
+import BtnSettingTable from '@blocks/components/BtnSettingTable';
 
 /**
  * metadata
@@ -84,25 +61,6 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 	} else {
 		// pid: undefined,
 		updateBlockAttributes(clientId, itemData);
-
-		// updateBlockAttributes(clientId, {
-		// 	pid: undefined,
-		// 	title: itemData.title || undefined,
-		// 	keywords: itemData.keywords || undefined,
-		// 	searched_at: itemData.searched_at || undefined,
-		// 	asin: itemData.asin || undefined,
-		// 	itemcode: itemData.itemcode || undefined,
-		// 	yahoo_itemcode: itemData.yahoo_itemcode || undefined,
-		// 	seller_id: itemData.seller_id || undefined,
-		// 	info: itemData.info || undefined,
-		// 	image_url: itemData.image_url || undefined,
-		// 	price: itemData.price + '' || undefined,
-		// 	price_at: itemData.price_at || undefined,
-		// 	amazon_affi_url: itemData.amazon_affi_url || undefined,
-		// 	rakuten_detail_url: itemData.rakuten_detail_url || undefined,
-		// 	yahoo_detail_url: itemData.yahoo_detail_url || undefined,
-		// 	is_paypay: itemData.is_paypay || undefined,
-		// });
 	}
 };
 
@@ -116,6 +74,10 @@ registerBlockType(name, {
 	category,
 	keywords,
 	supports,
+	// styles: [
+	// 	{ name: 'default', label: 'デフォルト', isDefault: true },
+	// 	{ name: 'vrtcl', label: 'PCでも縦並び' },
+	// ],
 	attributes: metadata.attributes,
 	edit: ({ attributes, setAttributes, clientId, isSelected }) => {
 		const { pid, title, info } = attributes;
@@ -136,10 +98,7 @@ registerBlockType(name, {
 		// });
 
 		// 投稿IDを取得
-		const postId = useSelect(
-			(select) => select('core/editor').getCurrentPostId(),
-			[]
-		);
+		const postId = useSelect((select) => select('core/editor').getCurrentPostId(), []);
 
 		// 商品セットされているか
 		const hasRegisterdItem = !!pid;
@@ -243,9 +202,7 @@ registerBlockType(name, {
 						isPrimary={true}
 						onClick={() => {
 							const adminUrl = window.pchppVars.adminUrl || '';
-							window.open(
-								`${adminUrl}/post.php?post=${pid}&action=edit`
-							);
+							window.open(`${adminUrl}/post.php?post=${pid}&action=edit`);
 						}}
 					>
 						ポチップ管理画面で編集する
@@ -280,10 +237,7 @@ registerBlockType(name, {
 							});
 						}}
 					/>
-					<div
-						className='__bigBtnWrap'
-						style={{ padding: '0 0 8px' }}
-					>
+					<div className='__bigBtnWrap' style={{ padding: '0 0 8px' }}>
 						<Button
 							icon={<Icon icon={upload} />}
 							className='__bigBtn'
@@ -301,13 +255,13 @@ registerBlockType(name, {
 			);
 		}
 
+		// 現在のクラス
+		const nowClass = attributes.className || '';
 		return (
 			<>
 				{hasItem && (
 					<BlockControls>
-						<ToolbarGroup
-							data-registering={isRegistering ? '1' : null}
-						>
+						<ToolbarGroup data-registering={isRegistering ? '1' : null}>
 							<ToolbarButton
 								className='thickbox'
 								label='商品を再検索'
@@ -321,6 +275,22 @@ registerBlockType(name, {
 				)}
 				{hasItem && (
 					<InspectorControls>
+						<PanelBody title='スタイル'>
+							<CheckboxControl
+								label='全デバイスで縦並び表示にする'
+								checked={-1 !== nowClass.indexOf('is-vrtcl')}
+								onChange={(checked) => {
+									let newClass = '';
+									// if (-1 === nowClass.indexOf('is-vrtcl')) {
+									if (checked) {
+										newClass = nowClass + ' is-vrtcl';
+									} else {
+										newClass = nowClass.replace('is-vrtcl', '');
+									}
+									setAttributes({ className: newClass.trim() });
+								}}
+							/>
+						</PanelBody>
 						{!hasRegisterdItem && (
 							<PanelBody title='検索キーワード'>
 								<TextControl
@@ -333,22 +303,14 @@ registerBlockType(name, {
 						)}
 						<PanelBody title='情報の表示設定'>
 							<TextControl
-								label={
-									hasRegisterdItem
-										? '商品タイトルを上書き'
-										: '商品タイトル'
-								}
+								label={hasRegisterdItem ? '商品タイトルを上書き' : '商品タイトル'}
 								value={title}
 								onChange={(newText) => {
 									setAttributes({ title: newText });
 								}}
 							/>
 							<TextControl
-								label={
-									hasRegisterdItem
-										? 'タイトル下テキストを上書き'
-										: 'タイトル下テキスト'
-								}
+								label={hasRegisterdItem ? 'タイトル下テキストを上書き' : 'タイトル下テキスト'}
 								value={info}
 								onChange={(newText) => {
 									setAttributes({ info: newText });
@@ -452,17 +414,9 @@ registerBlockType(name, {
 						</Button>
 					)}
 					<div className='__preview'>
-						<ServerSideRender
-							block={name}
-							attributes={attributes}
-							className={`components-disabled`}
-						/>
+						<ServerSideRender block={name} attributes={attributes} className={`components-disabled`} />
 					</div>
-					{hasItem && !hasRegisterdItem && (
-						<div className='__note'>
-							※ ポチップ管理には未登録のブロックです。
-						</div>
-					)}
+					{hasItem && !hasRegisterdItem && <div className='__note'>※ ポチップ管理には未登録のブロックです。</div>}
 					{branchContent}
 				</div>
 			</>

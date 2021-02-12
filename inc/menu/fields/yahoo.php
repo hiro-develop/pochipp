@@ -6,13 +6,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <!-- <p>
 	[LinkSwitch]か[アフィリエイトID]どちらかを設定してください。両方設定しても動作します。
 </p> -->
+<div class="pchpp-setting__section_help">
+	<p>
+		※ ご利用前にYahoo!ショッピングの公式ドキュメントをご確認ください。<br>
+		<a href="https://developer.yahoo.co.jp/webapi/shopping/api_contract.html" target="_blank" rel="noopener noreferrer">Yahoo!ショッピング出品API 利用約款</a>
+	</p>
+	<div class="__helpLink">
+		アプリケーションIDやLinkSwitchの設定方法は<a href="https://pochipp.com/189/" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-book-alt">こちらのページ</a>で解説しています。
+	</div>
+</div>
 
-<h3 class="pchpp-setting__h3">アプリIDの設定</h3>
+
+<h3 class="pchpp-setting__h3">アプリケーションIDの設定</h3>
 <div class="pchpp-setting__div">
 	<p class="pchpp-setting__p">
 		Yahoo!ショッピングWeb APIを使って商品検索をするためには、<a href="https://developer.yahoo.co.jp/" target="_blank" rel="noopener noreferrer">Yahoo!デベロッパーネットワーク</a>から発行可能な「アプリケーションID」（アプリケーションの「Client ID」）の設定が必要です。
-		<br>
-		<!-- アプリケーションIDの詳しい取得方法については、<a href="###" target="_blank" rel="noopener noreferrer">こちらのページ</a>で解説しています。 -->
 	</p>
 	<dl class="pchpp-setting__dl">
 		<dt>アプリケーションID<br> ( Client ID )</dt>

@@ -44,6 +44,13 @@ add_action( 'admin_head', function() {
 	$script .= 'window.pchppVars.ajaxUrl = "' . esc_js( admin_url( 'admin-ajax.php' ) ) . '";';
 	$script .= 'window.pchppVars.ajaxNonce = "' . esc_js( wp_create_nonce( \POCHIPP::NONCE_KEY ) ) . '";';
 
+	// ボタン表示するかどうか
+	$script .= 'window.pchppVars.hasAffi = {' .
+		'amazon: "' . esc_js( \POCHIPP::$has_affi['amazon'] ) . '",' .
+		'rakuten: "' . esc_js( \POCHIPP::$has_affi['rakuten'] ) . '",' .
+		'yahoo: "' . esc_js( \POCHIPP::$has_affi['yahoo'] ) . '",' .
+	'};';
+
 	// ボタンテキスト
 	// $script .= 'window.pchppVars.amazonBtnText = "' . esc_js( \POCHIPP::get_setting( 'amazon_btn_text' ) ) . '";';
 	// $script .= 'window.pchppVars.rakutenBtnText = "' . esc_js( \POCHIPP::get_setting( 'rakuten_btn_text' ) ) . '";';

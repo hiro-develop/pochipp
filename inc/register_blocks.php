@@ -24,11 +24,11 @@ add_action( 'init', function() {
 			],
 		],
 		// 'editor_script'   => 'pochipp-setting-block',
-		'render_callback' => '\POCHIPP\cb_pochipp_setting',
+		'render_callback' => '\POCHIPP\cb_pochipp_setting_preview',
 	] );
 } );
 
-function cb_pochipp_setting( $attrs, $content ) {
+function cb_pochipp_setting_preview( $attrs, $content ) {
 
 	$pdata = json_decode( $attrs['meta'], true ) ?: [];
 	if ( ! is_array( $pdata ) ) {
@@ -44,18 +44,23 @@ function cb_pochipp_setting( $attrs, $content ) {
 	$rakuten_url = '';
 	$yahoo_url   = '';
 
+	// もしも用aid
+	$amazon_aid  = \POCHIPP::get_setting( 'moshimo_amazon_aid' );
+	$rakuten_aid = \POCHIPP::get_setting( 'moshimo_rakuten_aid' );
+	$yahoo_aid   = \POCHIPP::get_setting( 'moshimo_yahoo_aid' );
+
 	// AmazonボタンURL
-	if ( \POCHIPP::get_setting( 'amazon_traccking_id' ) ) {
+	if ( \POCHIPP::$has_affi['amazon'] ) {
 		$amazon_url = $asin ? 'https://www.amazon.co.jp/dp/' . $asin : \POCHIPP::get_amazon_searched_url( $keywords );
 	}
 
 	// 楽天ボタンURL
-	if ( \POCHIPP::get_setting( 'rakuten_affiliate_id' ) ) {
+	if ( \POCHIPP::$has_affi['rakuten'] ) {
 		$rakuten_url = $rakuten_detail_url ?: \POCHIPP::get_rakuten_searched_url( $keywords );
 	}
 
 	// YahooボタンURL
-	if ( ! empty( \POCHIPP::get_setting( 'yahoo_linkswitch' ) ) ) {
+	if ( \POCHIPP::$has_affi['yahoo'] ) {
 		$yahoo_url = $yahoo_detail_url ?: \POCHIPP::get_yahoo_searched_url( $keywords );
 	}
 

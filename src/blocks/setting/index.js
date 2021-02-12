@@ -2,33 +2,20 @@
  * @WordPress dependencies
  */
 // import { __ } from '@wordpress/i18n';
-// import { useEntityProp } from '@wordpress/core-data';
-// import ServerSideRender from '@wordpress/server-side-render';
 import { useSelect } from '@wordpress/data';
 import { useCallback, useMemo } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
-// import { Button } from '@wordpress/components';
-// import { Icon, search, rotateLeft, closeSmall } from '@wordpress/icons';
-
-/**
- * External dependencies
- */
-// import classnames from 'classnames';
 
 /**
  * @Internal dependencies
  */
 import metadata from './block.json';
-import ItemPreview from './ItemPreview';
-import ItemSetting from './ItemSetting';
-import BtnSettingTable from '../components/BtnSettingTable';
-import { SearchBtn, UpdateBtn } from './settingBtns';
-import {
-	getParsedMeta,
-	setCustomFieldArea,
-	sendUpdateAjax,
-} from '@blocks/helper';
+import ItemPreview from './components/ItemPreview';
+import ItemSetting from './components/ItemSetting';
+import { SearchBtn, UpdateBtn } from './components/settingBtns';
+import BtnSettingTable from '@blocks/components/BtnSettingTable';
+import { getParsedMeta, setCustomFieldArea, sendUpdateAjax } from '@blocks/helper';
 
 /**
  * metadata
@@ -113,10 +100,7 @@ registerBlockType(name, {
 
 		// 投稿タイトルを取得
 		// memo: getCurrentPostAttribute は編集時のデータは取得できない。 getEditedPostAttribute だとOK。
-		const postTitle = useSelect(
-			(select) => select('core/editor').getEditedPostAttribute('title'),
-			[]
-		);
+		const postTitle = useSelect((select) => select('core/editor').getEditedPostAttribute('title'), []);
 
 		// メタデータを取得
 		// const [meta, setMeta] = useEntityProp('postType', postType, 'meta');
@@ -197,9 +181,7 @@ registerBlockType(name, {
 			params.append('keywords', parsedMeta.keywords);
 			params.append('searched_at', searchedAt);
 
-			const btns = document.querySelector(
-				'.pochipp-block--setting .__btns'
-			);
+			const btns = document.querySelector('.pochipp-block--setting .__btns');
 			btns.classList.add('-updating');
 
 			const doneFunc = (response) => {
@@ -228,22 +210,13 @@ registerBlockType(name, {
 				>
 					<ItemPreview {...{ postTitle, parsedMeta }} />
 					<div className='__btns'>
-						<SearchBtn
-							onClick={openThickbox}
-							text={
-								hasSearchedItem ? '商品を再検索' : '商品を検索'
-							}
-						/>
-						{showUpdateBtn && (
-							<UpdateBtn onClick={updateItemData} />
-						)}
+						<SearchBtn onClick={openThickbox} text={hasSearchedItem ? '商品を再検索' : '商品を検索'} />
+						{showUpdateBtn && <UpdateBtn onClick={updateItemData} />}
 					</div>
 					{hasSearchedItem && (
 						<div className='__setting'>
 							<div className='components-base-control'>
-								<div className='components-base-control__label'>
-									ボタンリンク先
-								</div>
+								<div className='components-base-control__label'>ボタンリンク先</div>
 								<BtnSettingTable
 									attrs={parsedMeta}
 									openThickbox={openThickbox}
@@ -253,10 +226,7 @@ registerBlockType(name, {
 									}}
 									deleteRakuten={() => {
 										updateMetadata('itemcode', '');
-										updateMetadata(
-											'rakuten_detail_url',
-											''
-										);
+										updateMetadata('rakuten_detail_url', '');
 									}}
 									deleteYahoo={() => {
 										updateMetadata('yahoo_itemcode', '');
@@ -266,9 +236,7 @@ registerBlockType(name, {
 									}}
 								/>
 							</div>
-							<ItemSetting
-								{...{ postTitle, parsedMeta, updateMetadata }}
-							/>
+							<ItemSetting {...{ postTitle, parsedMeta, updateMetadata }} />
 						</div>
 					)}
 					{/* <div className='u-mt-20'>【開発用】データ確認</div>

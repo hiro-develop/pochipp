@@ -1,6 +1,6 @@
 #!/bin/bashx
 
-#使い方 : $ bash ./bin/update.sh 0-1-3
+#使い方 : $ bash ./bin/update.sh 1-0-0
 
 #引数 : プラグインのバージョン
 version=$1

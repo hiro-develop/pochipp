@@ -19,8 +19,8 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@wordpress/icons": "^2.9.0",
-        "@wordpress/scripts": "^12.1.1",
+        "@wordpress/icons": "^2.9.1",
+        "@wordpress/scripts": "^13.0.3",
         "classnames": "^2.2.6",
         "glob": "^7.1.6",
         "gulp": "^4.0.2",
@@ -36,7 +36,8 @@
         "npm-run-all": "^4.1.5",
         "po2json": "^1.0.0-beta-2",
         "prettier": "^2.1.1",
-        "stylelint-config-rational-order": "^0.1.2"
+        "stylelint-config-rational-order": "^0.1.2",
+        "stylelint-config-wordpress": "^17.0.0"
     },
     "dependencies": {}
 }

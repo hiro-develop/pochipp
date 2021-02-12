@@ -10,7 +10,14 @@ module.exports = {
 	//     ...defaultConfig.extends,
 	//     "plugin:prettier/recommended"
 	// ],
+
 	rules: {
+		...defaultConfig.rules,
+		// wp-scripts最新版でのバグに対応
+		'import/no-extraneous-dependencies': 'off',
+		'import/no-unresolved': 'off',
+		'@wordpress/no-unsafe-wp-apis': 'off',
+
 		// 'prettier/prettier': 0,
 		// quotes: ['warn', 'single'],
 		// code: 120,

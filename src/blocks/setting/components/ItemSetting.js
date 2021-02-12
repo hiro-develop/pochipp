@@ -13,11 +13,6 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 
 	return (
 		<>
-			{/* <TextControl
-					label='検索元'
-					value={parsedMeta.searched_at}
-					disabled
-				/> */}
 			<TextControl
 				label='検索キーワード'
 				value={parsedMeta.keywords}

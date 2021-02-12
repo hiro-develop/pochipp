@@ -7,6 +7,26 @@
 
 .pchpp-setting {
 
+	.__helpLink {
+		margin-top: 1.5em;
+		padding: 1.5em;
+		background: #fdfdfd;
+		border-radius: 4px;
+		box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+
+		.dashicons-before {
+			margin: 0 4px;
+
+			&::before {
+				width: auto;
+				height: auto;
+				font-size: inherit;
+				line-height: inherit;
+				text-decoration: none;
+			}
+		}
+	}
+
 	.pchpp-setting__preview {
 		display: flex;
 
@@ -60,7 +80,12 @@
 		border-bottom: 2px solid #333;
 	}
 
-	// .pchpp-setting__section_help{}
+	.pchpp-setting__section_help {
+
+		& > :first-child {
+			margin-top: 0 !important;
+		}
+	}
 
 	.pchpp-setting__h3 {
 		margin: 2em 0 1em;

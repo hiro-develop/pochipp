@@ -23,9 +23,7 @@ const getItemList = (itemDatas, type) => {
 		const searchedAt = item.searched_at;
 
 		// 商品詳細ページ取得
-		const amazonLink = item.asin
-			? 'https://www.amazon.co.jp/dp/' + item.asin
-			: '';
+		const amazonLink = item.asin ? 'https://www.amazon.co.jp/dp/' + item.asin : '';
 		const rakutenLink = item.rakuten_detail_url || '';
 
 		const yahooLink = item.yahoo_detail_url || '';
@@ -42,9 +40,7 @@ const getItemList = (itemDatas, type) => {
 
 		let yahooBtn = '';
 		if (yahooLink) {
-			const yahooBtnText = item.is_paypay
-				? 'PayPayモール商品ページを確認'
-				: 'Yahooショッピング商品ページを確認';
+			const yahooBtnText = item.is_paypay ? 'PayPayモール商品ページを確認' : 'Yahooショッピング商品ページを確認';
 			yahooBtn = `<a href="${yahooLink}" class="button" rel="nofollow noopener noreferrer" target="_blank">${yahooBtnText}</a>`;
 			// yahooBtn += `/ ${item.seller_id} / ${item.yahoo_itemcode}`;
 		}
@@ -161,9 +157,7 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 				// console.log('doSearchAjax: datas', datas);
 
 				if (datas.error) {
-					$('#result_area').html(
-						`<p>${datas.error.code}: ${datas.error.message}</p>`
-					);
+					$('#result_area').html(`<p>${datas.error.code}: ${datas.error.message}</p>`);
 					return;
 				}
 
@@ -174,11 +168,7 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 				const registerdItems = datas.registerd_items;
 
 				// 結果のHTML
-				const resultHtml = getResultHtml(
-					searchedItems,
-					registerdItems,
-					calledAt
-				);
+				const resultHtml = getResultHtml(searchedItems, registerdItems, calledAt);
 
 				// HTMLを描画
 				$('#result_area').html(resultHtml);
@@ -188,36 +178,26 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 					const $thisItem = $(this).parents('.pochipp-item');
 					const itemIndex = $thisItem.attr('data-index');
 					const itemtype = $thisItem.attr('data-type');
-					const itemData =
-						'registerd' === itemtype
-							? registerdItems[itemIndex]
-							: searchedItems[itemIndex];
+					const itemData = 'registerd' === itemtype ? registerdItems[itemIndex] : searchedItems[itemIndex];
 
 					// 商品データ更新
 					if (only) {
 						const onlyData = {};
 						if ('amazon' === only) {
 							onlyData.asin = itemData.asin || '';
-							onlyData.amazon_affi_url =
-								itemData.amazon_affi_url || '';
+							onlyData.amazon_affi_url = itemData.amazon_affi_url || '';
 						} else if ('rakuten' === only) {
 							onlyData.itemcode = itemData.itemcode || '';
-							onlyData.rakuten_detail_url =
-								itemData.rakuten_detail_url || '';
+							onlyData.rakuten_detail_url = itemData.rakuten_detail_url || '';
 						} else if ('yahoo' === only) {
-							onlyData.yahoo_itemcode =
-								itemData.yahoo_itemcode || '';
-							onlyData.yahoo_detail_url =
-								itemData.yahoo_detail_url || '';
+							onlyData.yahoo_itemcode = itemData.yahoo_itemcode || '';
+							onlyData.yahoo_detail_url = itemData.yahoo_detail_url || '';
 							onlyData.seller_id = itemData.seller_id || '';
 							onlyData.is_paypay = itemData.is_paypay || '';
 						}
 
 						if ('editor' === calledAt) {
-							window.top.set_block_data_at_editor(
-								onlyData,
-								blockId
-							);
+							window.top.set_block_data_at_editor(onlyData, blockId);
 						} else {
 							window.top.setItemMetaData(onlyData, true);
 						}
@@ -266,9 +246,7 @@ const getResultHtml = (searchedItems, registerdItems, calledAt) => {
 			// ajaxアクション名 : タブキーがそのままアクション名となる
 			const action = tabKey || '';
 			if (!action) {
-				$('#result_area').html(
-					'<p>エラー : アクション名が不明です。</p>'
-				);
+				$('#result_area').html('<p>エラー : アクション名が不明です。</p>');
 				return;
 			}
 

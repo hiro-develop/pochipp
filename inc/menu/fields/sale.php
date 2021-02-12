@@ -38,6 +38,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 */
 ?>
 
+<div class="pchpp-setting__section_help">
+	<div class="__helpLink">
+		セール情報の設定方法は<a href="https://pochipp.com/302/" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-book-alt">こちらのページ</a>で解説しています。
+	</div>
+</div>
+
 <h3 class="pchpp-setting__h3">Amazonセール情報</h3>
 <!-- <p class="pchpp-setting__p"></p> -->
 <div class="pchpp-setting__div">
