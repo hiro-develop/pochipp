@@ -345,7 +345,7 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 
 				$add_class                          = $is_paypay ? '-paypay' : '-yahoo';
 				if ( 14 < $length )  $add_class    .= ' -long-text';
-				if ( $yahoo_sale_text ) $add_class .= ' -on-salse';
+				if ( $yahoo_sale_text ) $add_class .= ' -on-sale';
 			?>
 			<div class="pochipp-box__btnwrap <?=$add_class?>">
 				<?php if ( $yahoo_sale_text ) : ?>

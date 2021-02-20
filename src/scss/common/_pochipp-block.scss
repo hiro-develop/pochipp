@@ -52,10 +52,11 @@
 			max-width: 400px;
 
 			.pochipp-box__btns {
-				display: block;
+				// display: block;
 
 				.pochipp-box__btnwrap {
-					width: 100%;
+					flex-basis: 100%;
+					min-width: 100%;
 					max-width: 100%;
 				}
 			}
@@ -129,7 +130,8 @@
 		display: block;
 		width: 100%;
 		height: auto;
-		// border: 1px solid #f0f0f0;
+		max-height: 160px;
+		object-fit: contain;
 	}
 }
 
