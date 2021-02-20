@@ -14,7 +14,8 @@
         "watch:blocks": "nodemon --watch src/blocks -e js -x \"npm run build:blocks\"",
         "watch:lang": "nodemon --watch languages -e po -x \"npm run po2json\"",
         "watch": "npx npm-run-all --parallel watchs:css watch:js watch:blocks",
-        "po2json": "po2json languages/pochipp-ja.po languages/pochipp-ja-pochipp-script.json -f jed"
+        "po2json": "po2json languages/pochipp-ja.po languages/pochipp-ja-pochipp-script.json -f jed",
+        "update": "bash ./bin/update.sh"
     },
     "author": "",
     "license": "ISC",
