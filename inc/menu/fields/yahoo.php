@@ -38,20 +38,35 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <div class="pchpp-setting__div">
 	<p class="pchpp-setting__p">
 		バリューコマースの「LinkSwitch」を使用したい場合は、
-		<a href="https://aff.valuecommerce.ne.jp/ad/AutoMyLink/getTag" target="_blank" rel="noopener noreferrer">LinkSwitch設定</a>ページの「LinkSwitchタグ」に記載されているコードを設定してください。
+		<a href="https://aff.valuecommerce.ne.jp/ad/AutoMyLink/getTag" target="_blank" rel="noopener noreferrer">LinkSwitch設定</a>ページの「LinkSwitchタグ」に記載されている<code>vc_pid</code>を設定してください。
 	</p>
+	<p>※「LinkSwitchタグ」を丸ごとペーストすると自動で<code>vc_pid</code>が抽出されます</p>
 	<dl class="pchpp-setting__dl">
-		<dt>LinkSwitchタグ</dt>
+		<dt>LinkSwitch vc_pid</dt>
 		<dd>
 			<?php
 				\POCHIPP::output_textarea([
 					'key'  => 'yahoo_linkswitch',
-					'rows' => '5',
+					'rows' => '3',
 				]);
 			?>
 		</dd>
 	</dl>
 </div>
+
+<script>
+	(function() {
+		function trimTags() {
+			document.querySelector('#yahoo_linkswitch').addEventListener('input', function(e) {
+				var inputVal = e.target.value;
+				this.value = inputVal.replace(/[^0-9]/g, '');
+			});
+		}
+
+		trimTags();
+	})();
+</script>
+
 
 <?php
 /*
