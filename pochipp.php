@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '1.0.1' );
 
+
 /**
  * Define path, url
  */
