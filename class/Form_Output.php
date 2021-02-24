@@ -11,7 +11,7 @@ trait Form_Output {
 	 */
 	public static function output_text_field( $args ) {
 		$key         = $args['key'] ?? '';
-		$size        = $args['size'] ?? '';
+		$size        = $args['size'] ?? '40';
 		$description = $args['description'] ?? '';
 
 		$name = \POCHIPP::DB_NAME . '[' . $key . ']';
@@ -19,7 +19,7 @@ trait Form_Output {
 		?>
 			<div class="pchpp-setting__field -text">
 				<div class="pchpp-setting__item">
-					<input type="text" id="<?=esc_attr( $key )?>" name="<?=esc_attr( $name )?>" value="<?=esc_attr( $val )?>" size="40" />
+					<input type="text" id="<?=esc_attr( $key )?>" name="<?=esc_attr( $name )?>" value="<?=esc_attr( $val )?>" size="<?=esc_attr( $size )?>" />
 				</div>
 			</div>
 			<?php if ( $description ) : ?>

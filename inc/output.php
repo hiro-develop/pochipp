@@ -18,14 +18,22 @@ function get_custom_style() {
  */
 add_action( 'wp_head', function() {
 
-	// ボタン用style
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo '<style id="pchpp_custom_style">' . \POCHIPP\get_custom_style() . '</style>' . PHP_EOL;
+	echo '<!-- Pochipp -->' . PHP_EOL;
 
-	if ( \POCHIPP::get_setting( 'yahoo_linkswitch' ) ) {
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo PHP_EOL . \POCHIPP::get_setting( 'yahoo_linkswitch' ) . PHP_EOL;
+	// ボタン用style
+	echo '<style id="pchpp_custom_style">' . \POCHIPP\get_custom_style() . '</style>' . PHP_EOL; // phpcs:ignore
+
+	$linkswitch_code = \POCHIPP::get_setting( 'yahoo_linkswitch' );
+	if ( is_numeric( $linkswitch_code ) ) {
+		echo '<script type="text/javascript" language="javascript">' .
+			'var vc_pid = "' . esc_html( $linkswitch_code ) . '";' .
+		'</script>' . PHP_EOL .
+		'<script type="text/javascript" src="//aml.valuecommerce.com/vcdal.js" async></script>' . PHP_EOL; // phpcs:ignore
+	} else {
+		echo $linkswitch_code . PHP_EOL; // phpcs:ignore
 	};
+
+	echo '<!-- / Pochipp -->' . PHP_EOL;
 } );
 
 
@@ -35,8 +43,7 @@ add_action( 'wp_head', function() {
 add_action( 'admin_head', function() {
 
 	// ボタン用style
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo '<style id="pchpp_custom_style">' . \POCHIPP\get_custom_style() . '</style>' . PHP_EOL;
+	echo '<style id="pchpp_custom_style">' . \POCHIPP\get_custom_style() . '</style>' . PHP_EOL; // phpcs:ignore
 
 	// ajax用のグローバル変数
 	$script  = 'window.pchppVars = {};';
@@ -64,8 +71,7 @@ add_action( 'admin_head', function() {
 	$script .= 'window.pchppVars.boxLayoutPC = "' . esc_js( \POCHIPP::get_setting( 'box_layout_pc' ) ) . '";';
 	$script .= 'window.pchppVars.boxLayoutMB = "' . esc_js( \POCHIPP::get_setting( 'box_layout_mb' ) ) . '";';
 
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo '<script id="pchpp_admin_vars">' . $script . '</script>' . PHP_EOL;
+	echo '<script id="pchpp_admin_vars">' . $script . '</script>' . PHP_EOL; // phpcs:ignore
 
 } );
 
