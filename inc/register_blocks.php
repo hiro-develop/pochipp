@@ -196,8 +196,15 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 
 	// 商品画像
 	if ( $image_url ) {
-		if ( 'rakuten' === $searched_at ) $image_url .= '?_ex=400x400';
-		if ( 'amazon' === $searched_at ) $image_url   = str_replace( '.jpg', '._SL400_.jpg', $image_url );
+
+		// amazon かつ ?_exがない場合 かつ thumbnail.image.rakuten.co.jpの画像 の場合
+		if ( 'rakuten' === $searched_at && false === strpos( $img_url, '?_ex' ) && false !== strpos( $img_url, 'thumbnail.image.rakuten.co.jp' ) ) {
+			$image_url .= '?_ex=400x400';
+		}
+		// amazon かつ _SLがない場合 かつ media-amazon.comの画像 の場合
+		if ( 'amazon' === $searched_at && false === strpos( $img_url, '_SL' ) && false !== strpos( $img_url, 'media-amazon.com' ) ) {
+			$image_url = str_replace( '.jpg', '._SL400_.jpg', $image_url );
+		}
 	}
 
 	$is_blank = \POCHIPP::get_setting( 'show_amazon_normal_link' );
