@@ -71,6 +71,8 @@ function cb_pochipp_setting_preview( $attrs, $content ) {
 		'is_paypay'         => $pdata['is_paypay'] ?? '',
 		'custom_btn_url'    => $pdata['custom_btn_url'] ?? '',
 		'custom_btn_text'   => $pdata['custom_btn_text'] ?? '',
+		'custom_btn_url_2'  => $pdata['custom_btn_url_2'] ?? '',
+		'custom_btn_text_2' => $pdata['custom_btn_text_2'] ?? '',
 		'rel_target'        => 'rel="nofollow noopener" target="_blank"',
 	]);
 
@@ -134,22 +136,27 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		'image_url'          => '',
 		'custom_btn_url'     => '',
 		'custom_btn_text'    => '',
+		'custom_btn_url_2'   => '',
+		'custom_btn_text_2'  => '',
 		'hideInfo'           => false,
 		'hidePrice'          => false,
 		'hideAmazon'         => false,
 		'hideRakuten'        => false,
 		'hideYahoo'          => false,
 		'hideCustom'         => false,
+		'hideCustom2'        => false,
 	], $pdata );
 
-	$pid             = $pdata['pid'];
-	$box_class       = $pdata['className'];
-	$keywords        = $pdata['keywords'];
-	$searched_at     = $pdata['searched_at'];
-	$asin            = $pdata['asin'];
-	$image_url       = $pdata['image_url'];
-	$custom_btn_url  = $pdata['custom_btn_url'];
-	$custom_btn_text = $pdata['custom_btn_text'];
+	$pid               = $pdata['pid'];
+	$box_class         = $pdata['className'];
+	$keywords          = $pdata['keywords'];
+	$searched_at       = $pdata['searched_at'];
+	$asin              = $pdata['asin'];
+	$image_url         = $pdata['image_url'];
+	$custom_btn_url    = $pdata['custom_btn_url'];
+	$custom_btn_text   = $pdata['custom_btn_text'];
+	$custom_btn_url_2  = $pdata['custom_btn_url_2'];
+	$custom_btn_text_2 = $pdata['custom_btn_text_2'];
 
 	$main_url    = '';
 	$amazon_url  = '';
@@ -185,6 +192,12 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	if ( ! apply_filters( 'pochipp_show_custom_btn', ! $pdata['hideCustom'], $pid ) ) {
 		$custom_btn_url  = '';
 		$custom_btn_text = '';
+	}
+
+	// カスタムボタン2
+	if ( ! apply_filters( 'pochipp_show_custom_btn_2', ! $pdata['hideCustom2'], $pid ) ) {
+		$custom_btn_url_2  = '';
+		$custom_btn_text_2 = '';
 	}
 
 	// 画像とかタイトル部分のリンク先
@@ -279,6 +292,8 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 					'is_paypay'         => $pdata['is_paypay'],
 					'custom_btn_url'    => $custom_btn_url,
 					'custom_btn_text'   => $custom_btn_text,
+					'custom_btn_url_2'  => $custom_btn_url_2,
+					'custom_btn_text_2' => $custom_btn_text_2,
 					'rel_target'        => $rel_target,
 				]);
 			?>
@@ -296,16 +311,18 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 
 function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 
-	$amazon_url      = $btn_data['amazon_url'] ?? '';
-	$rakuten_url     = $btn_data['rakuten_url'] ?? '';
-	$yahoo_url       = $btn_data['yahoo_url'] ?? '';
-	$rel_target      = $btn_data['rel_target'] ?? '';
-	$amazon_aid      = $btn_data['amazon_aid'] ?? '';
-	$rakuten_aid     = $btn_data['rakuten_aid'] ?? '';
-	$yahoo_aid       = $btn_data['yahoo_aid'] ?? '';
-	$is_paypay       = $btn_data['is_paypay'] ?? '';
-	$custom_btn_url  = $btn_data['custom_btn_url'] ?? '';
-	$custom_btn_text = $btn_data['custom_btn_text'] ?? '';
+	$amazon_url        = $btn_data['amazon_url'] ?? '';
+	$rakuten_url       = $btn_data['rakuten_url'] ?? '';
+	$yahoo_url         = $btn_data['yahoo_url'] ?? '';
+	$rel_target        = $btn_data['rel_target'] ?? '';
+	$amazon_aid        = $btn_data['amazon_aid'] ?? '';
+	$rakuten_aid       = $btn_data['rakuten_aid'] ?? '';
+	$yahoo_aid         = $btn_data['yahoo_aid'] ?? '';
+	$is_paypay         = $btn_data['is_paypay'] ?? '';
+	$custom_btn_url    = $btn_data['custom_btn_url'] ?? '';
+	$custom_btn_text   = $btn_data['custom_btn_text'] ?? '';
+	$custom_btn_url_2  = $btn_data['custom_btn_url_2'] ?? '';
+	$custom_btn_text_2 = $btn_data['custom_btn_text_2'] ?? '';
 
 	// セール通知テキスト
 	$amazon_sale_text  = $btn_data['amazon_sale_text'] ?? '';
@@ -375,6 +392,19 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 				<a href="<?=esc_url( $custom_btn_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
 					<span>
 						<?php echo esc_html( $custom_btn_text ); ?>
+					</span>
+				</a>
+			</div>
+		<?php endif; ?>
+		<?php if ( $custom_btn_url_2 && $custom_btn_text_2 ) : ?>
+			<?php
+				// カスタムボタンも文字列の長さに注意する
+				$length = mb_strwidth( $custom_btn_text_2, 'UTF-8' );
+			?>
+			<div class="pochipp-box__btnwrap -custom_2<?php if (14 < $length) echo ' -long-text'; ?>">
+				<a href="<?=esc_url( $custom_btn_url_2 )?>" class="pochipp-box__btn" <?=$rel_target?>>
+					<span>
+						<?php echo esc_html( $custom_btn_text_2 ); ?>
 					</span>
 				</a>
 			</div>

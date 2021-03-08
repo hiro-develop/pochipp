@@ -6,8 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // カスタムスタイル
 function get_custom_style() {
 	$custom_btn_color = \POCHIPP::get_setting( 'custom_btn_color' );
+	$custom_btn_color_2 = \POCHIPP::get_setting( 'custom_btn_color_2' );
 
-	$style = ':root{--pchpp-color-custom:' . $custom_btn_color . '};';
+	$style = ":root{
+	              --pchpp-color-custom: {$custom_btn_color};
+	              --pchpp-color-custom-2: {$custom_btn_color_2};
+	          };";
 
 	return $style;
 }
@@ -102,6 +106,7 @@ function set_sale_text() {
 		}
 		if ( \POCHIPP::get_setting( 'hide_custom_at_amazon_sale' ) ) {
 			add_filter( 'pochipp_show_custom_btn', '__return_false' );
+			add_filter( 'pochipp_show_custom_btn_2', '__return_false' );
 		}
 	}
 
@@ -122,6 +127,7 @@ function set_sale_text() {
 		}
 		if ( \POCHIPP::get_setting( 'hide_custom_at_rakuten_sale' ) ) {
 			add_filter( 'pochipp_show_custom_btn', '__return_false' );
+			add_filter( 'pochipp_show_custom_btn_2', '__return_false' );
 		}
 	}
 
@@ -143,6 +149,7 @@ function set_sale_text() {
 		}
 		if ( \POCHIPP::get_setting( 'hide_custom_at_yahoo_sale' ) ) {
 			add_filter( 'pochipp_show_custom_btn', '__return_false' );
+			add_filter( 'pochipp_show_custom_btn_2', '__return_false' );
 		}
 	}
 

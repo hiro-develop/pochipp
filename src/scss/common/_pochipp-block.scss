@@ -411,6 +411,9 @@
 	.-custom > .pochipp-box__btn {
 		background: var(--pchpp-color-custom);
 	}
+	.-custom_2 > .pochipp-box__btn {
+		background: var(--pchpp-color-custom-2);
+	}
 }
 
 .pochipp-box[data-btn-style="outline"] {
@@ -434,6 +437,10 @@
 
 	.-custom > .pochipp-box__btn {
 		color: var(--pchpp-color-custom);
+	}
+
+	.-custom_2 > .pochipp-box__btn {
+		color: var(--pchpp-color-custom-2);
 	}
 }
 

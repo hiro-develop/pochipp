@@ -26,12 +26,13 @@ class Data {
 		'max_column_mb'    => '1',
 		// 'sale_position_pc' => 'top',
 		// 'sale_position_mb' => 'inner',
-		'amazon_btn_text'  => 'Amazon',
-		'rakuten_btn_text' => '楽天市場',
-		'yahoo_btn_text'   => 'Yahooショッピング',
-		'paypay_btn_text'  => 'PayPayモール',
-		'custom_btn_color' => '#5ca250',
-		'sale_text_effect' => 'flash',
+		'amazon_btn_text'    => 'Amazon',
+		'rakuten_btn_text'   => '楽天市場',
+		'yahoo_btn_text'     => 'Yahooショッピング',
+		'paypay_btn_text'    => 'PayPayモール',
+		'custom_btn_color'   => '#5ca250',
+		'custom_btn_color_2' => '#ba55d3',
+		'sale_text_effect'   => 'flash',
 	];
 
 	// DB名

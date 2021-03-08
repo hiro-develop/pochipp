@@ -218,13 +218,26 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 <!-- <p class="pchpp-setting__p"></p> -->
 <div class="pchpp-setting__div">
 	<dl class="pchpp-setting__dl">
-		<dt>カラーコード</dt>
+		<dt>カスタムボタン</dt>
 		<dd>
 			<?php
 				\POCHIPP::output_text_field([
 					'key' => 'custom_btn_color',
 				]);
 			?>
+		</dd>
+	</dl>
+	<dl class="pchpp-setting__dl">
+		<dt>カスタムボタン2</dt>
+		<dd>
+			<?php
+				\POCHIPP::output_text_field([
+					'key' => 'custom_btn_color_2',
+				]);
+			?>
+			<p class="pchpp-setting__desc">
+				各項目にカラーコードを入力してください。
+			</p>
 		</dd>
 	</dl>
 </div>

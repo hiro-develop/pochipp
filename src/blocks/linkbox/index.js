@@ -57,6 +57,8 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 			is_paypay: undefined,
 			custom_btn_text: undefined,
 			custom_btn_url: undefined,
+			custom_btn_text_2: undefined,
+			custom_btn_url_2: undefined,
 		});
 	} else {
 		// pid: undefined,
@@ -172,6 +174,8 @@ registerBlockType(name, {
 						is_paypay: undefined,
 						custom_btn_text: undefined,
 						custom_btn_url: undefined,
+						custom_btn_text_2: undefined,
+						custom_btn_url_2: undefined,
 					});
 					alert('登録が完了しました！');
 				} else {
@@ -386,6 +390,24 @@ registerBlockType(name, {
 									});
 								}}
 							/>
+							<TextControl
+								label='カスタムボタン2のURL'
+								value={attributes.custom_btn_url_2}
+								onChange={(newText) => {
+									setAttributes({
+										custom_btn_url_2: newText,
+									});
+								}}
+							/>
+							<TextControl
+								label='カスタムボタン2のテキスト'
+								value={attributes.custom_btn_text_2}
+								onChange={(newText) => {
+									setAttributes({
+										custom_btn_text_2: newText,
+									});
+								}}
+							/>
 							<CheckboxControl
 								label='カスタムボタンを非表示'
 								className='pchpp-hideCheck'
@@ -393,6 +415,16 @@ registerBlockType(name, {
 								onChange={(checked) => {
 									setAttributes({
 										hideCustom: checked,
+									});
+								}}
+							/>
+							<CheckboxControl
+								label='カスタムボタン2を非表示'
+								className='pchpp-hideCheck'
+								checked={attributes.hideCustom2}
+								onChange={(checked) => {
+									setAttributes({
+										hideCustom2: checked,
 									});
 								}}
 							/>

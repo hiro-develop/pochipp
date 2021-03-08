@@ -50,6 +50,21 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					updateMetadata('custom_btn_text', val);
 				}}
 			/>
+			<TextControl
+				label='カスタムボタン2用URL'
+				value={parsedMeta.custom_btn_url_2}
+				onChange={(val) => {
+					updateMetadata('custom_btn_url_2', val);
+				}}
+			/>
+			<TextControl
+				label='カスタムボタン2用テキスト'
+				value={parsedMeta.custom_btn_text_2}
+				onChange={(val) => {
+					updateMetadata('custom_btn_text_2', val);
+				}}
+			/>
+
 			{/* <CheckboxControl
 				label='価格情報を表示しない'
 				checked={parsedMeta.hidePrice}

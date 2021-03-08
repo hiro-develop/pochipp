@@ -68,6 +68,12 @@
         "custom_btn_text": {
             "type": "string"
         },
+        "custom_btn_url_2": {
+            "type": "string"
+        },
+        "custom_btn_text_2": {
+            "type": "string"
+        },
         "hideInfo": {
             "type": "boolean",
             "default": false
@@ -89,6 +95,10 @@
             "default": false
         },
         "hideCustom": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideCustom2": {
             "type": "boolean",
             "default": false
         }
