@@ -60,7 +60,7 @@ function output_custom_post_columns( $column_name, $post_id ) {
 		} else {
 			'-';
 		}
-} elseif ( 'used_at' === $column_name ) {
+	} elseif ( 'used_at' === $column_name ) {
 		$post_id;
 		$args = [
 			'post_type'      => ['post', 'page' ],

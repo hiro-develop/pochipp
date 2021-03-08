@@ -2,7 +2,7 @@
  * @WordPress dependencies
  */
 import { memo } from '@wordpress/element';
-import { TextControl } from '@wordpress/components';
+import { TextControl, CheckboxControl } from '@wordpress/components';
 
 /**
  * ItemPreview
@@ -50,6 +50,13 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					updateMetadata('custom_btn_text', val);
 				}}
 			/>
+			{/* <CheckboxControl
+				label='価格情報を表示しない'
+				checked={parsedMeta.hidePrice}
+				onChange={(checked) => {
+					updateMetadata('hidePrice', checked);
+				}}
+			/> */}
 		</>
 	);
 });
