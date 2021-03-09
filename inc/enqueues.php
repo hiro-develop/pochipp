@@ -50,21 +50,7 @@ function admin_scripts( $hook_suffix ) {
 		// カラーピッカー
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
-
-		// メディアアップローダー
-
-		// CSS
-		// wp_enqueue_style( 'pochipp-menu', POCHIPP_URL . 'dist/css/my_menu.css', [], POCHIPP_VERSION );
-
-		// JS
-		// wp_enqueue_script(
-		// 	'pochipp-menu',
-		// 	POCHIPP_URL . 'dist/js/my_menu.js',
-		// 	['jquery', 'wp-color-picker', 'wp-i18n'],
-		// 	POCHIPP_VERSION,
-		// 	true
-		// );
-
+		wp_enqueue_script( 'pochipp-color-picker', POCHIPP_URL . 'dist/js/colorpicker.js', [ 'jquery', 'wp-color-picker' ], POCHIPP_VERSION, true );
 	}
 }
 

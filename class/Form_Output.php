@@ -99,4 +99,34 @@ trait Form_Output {
 		</div>
 		<?php
 	}
+
+
+	/**
+	 * カラーピッカーを出力する
+	 */
+	public static function output_colorpicker( $args ) {
+		$key         = $args['key'] ?? '';
+		$default     = $args['default'] ?? '';
+		$description = $args['description'] ?? '';
+
+		$name = \POCHIPP::DB_NAME . '[' . $key . ']';
+		$val  = \POCHIPP::get_setting( $key );
+		?>
+			<div class="pchpp-setting__field -color">
+				<div class="pchpp-setting__item">
+					<input type="text" class="pochipp-colorpicker __icon_color"
+						id="<?=esc_attr( $key )?>"
+						name="<?=esc_attr( $name )?>"
+						value="<?=esc_attr( $val )?>"
+						data-default-color="<?=esc_attr( $default )?>"
+					/>
+				</div>
+			</div>
+			<?php if ( $description ) : ?>
+				<p class="pchpp-setting__desc"><?=wp_kses_post( $description )?></p>
+			<?php endif; ?>
+		<?php
+	}
+
+
 }

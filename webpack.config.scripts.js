@@ -7,6 +7,7 @@ module.exports = {
 	entry: {
 		search: path.resolve(__dirname, 'src/js/search.js'),
 		setting: path.resolve(__dirname, 'src/js/setting.js'),
+		colorpicker: path.resolve(__dirname, 'src/js/colorpicker.js'),
 		// 'media': path.resolve( __dirname, 'src/js/media.js' ),
 	},
 

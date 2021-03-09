@@ -99,6 +99,20 @@ registerBlockType(name, {
 		// 	console.log('pochipp', posts);
 		// });
 
+		// apiFetchしなくても getEntityRecord でメタ情報取れる
+		// let pMetaJson = '{}';
+		// if (pid) {
+		// 	pMetaJson = useSelect((select) => {
+		// 		const data = select('core').getEntityRecord('postType', 'pochipps', pid);
+		// 		if (!data) return '{}';
+		// 		return data.meta?.pochipp_data || '{}';
+		// 	}, [pid]);
+		// }
+		// const pMetaObj = useMemo(() => {
+		// 	return getParsedMeta(pMetaJson);
+		// }, [pMetaJson]);
+		// const pAttrs = { ...pMetaObj, ...attributes };
+
 		// 投稿IDを取得
 		const postId = useSelect((select) => select('core/editor').getCurrentPostId(), []);
 

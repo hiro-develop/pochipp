@@ -64,7 +64,6 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					updateMetadata('custom_btn_text_2', val);
 				}}
 			/>
-
 			{/* <CheckboxControl
 				label='価格情報を表示しない'
 				checked={parsedMeta.hidePrice}
