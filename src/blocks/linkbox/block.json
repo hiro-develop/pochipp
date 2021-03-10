@@ -74,6 +74,14 @@
         "custom_btn_text_2": {
             "type": "string"
         },
+        "btnLayoutPC": {
+            "type": "string",
+            "default": ""
+        },
+        "btnLayoutSP": {
+            "type": "string",
+            "default": ""
+        },
         "hideInfo": {
             "type": "boolean",
             "default": false

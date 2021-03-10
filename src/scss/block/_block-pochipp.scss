@@ -21,6 +21,11 @@
 
 	.__preview {
 
+		.pochipp-box__image,
+		.pochipp-box__title {
+			pointer-events: none;
+		}
+
 		.pochipp-box {
 			margin: 0 auto !important;
 		}

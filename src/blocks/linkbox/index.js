@@ -6,7 +6,7 @@ import { useState, useCallback } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useBlockProps, BlockControls, InspectorControls } from '@wordpress/block-editor';
-import { Button, ToolbarGroup, ToolbarButton, TextControl, CheckboxControl, PanelBody } from '@wordpress/components';
+import { Button, ToolbarGroup, ToolbarButton, TextControl, CheckboxControl, SelectControl, PanelBody } from '@wordpress/components';
 import { Icon, search, upload, edit } from '@wordpress/icons';
 
 /**
@@ -65,6 +65,22 @@ window.set_block_data_at_editor = (itemData, clientId) => {
 		updateBlockAttributes(clientId, itemData);
 	}
 };
+
+/**
+ * 設定項目
+ */
+const btnLayoutsPC = [
+	{ value: '', label: '----' },
+	{ value: 'fit', label: '自動フィット' },
+	{ value: 'text', label: 'テキストに応じる' },
+	{ value: '3', label: '3列幅' },
+	{ value: '2', label: '2列幅' },
+];
+const btnLayoutsSP = [
+	{ value: '', label: '----' },
+	{ value: '1', label: '1列幅' },
+	{ value: '2', label: '2列幅' },
+];
 
 /**
  * ポチップ登録用のブロック
@@ -209,8 +225,12 @@ registerBlockType(name, {
 
 		// memo: <RichText allowedFormats={[]} />
 
+		// pochipp編集ページ
+		const adminUrl = window.pchppVars.adminUrl || '';
+		const itemEditUrl = pid ? `${adminUrl}/post.php?post=${pid}&action=edit` : '';
+
 		let branchContent = null;
-		if (isSelected && hasItem && hasRegisterdItem) {
+		if (isSelected && hasRegisterdItem) {
 			// ポチップ登録済みのブロックにのみ表示
 			branchContent = (
 				<div className='__bigBtnWrap' style={{ padding: '16px 0 8px' }}>
@@ -219,8 +239,7 @@ registerBlockType(name, {
 						className='__bigBtn'
 						isPrimary={true}
 						onClick={() => {
-							const adminUrl = window.pchppVars.adminUrl || '';
-							window.open(`${adminUrl}/post.php?post=${pid}&action=edit`);
+							window.open(itemEditUrl);
 						}}
 					>
 						ポチップ管理画面で編集する
@@ -308,6 +327,30 @@ registerBlockType(name, {
 									setAttributes({ className: newClass.trim() });
 								}}
 							/>
+							{hasRegisterdItem ? (
+								<p>
+									ボタンレイアウトを<a href={itemEditUrl}>ポチップ管理ページ</a>で商品ごとに設定できます。
+								</p>
+							) : (
+								<>
+									<SelectControl
+										label='ボタン幅（PC）'
+										value={attributes.btnLayoutPC}
+										options={btnLayoutsPC}
+										onChange={(val) => {
+											setAttributes({ btnLayoutPC: val });
+										}}
+									/>
+									<SelectControl
+										label='ボタン幅（SP）'
+										value={attributes.btnLayoutSP}
+										options={btnLayoutsSP}
+										onChange={(val) => {
+											setAttributes({ btnLayoutSP: val });
+										}}
+									/>
+								</>
+							)}
 						</PanelBody>
 						{!hasRegisterdItem && (
 							<PanelBody title='検索キーワード'>
@@ -386,62 +429,72 @@ registerBlockType(name, {
 							/>
 						</PanelBody>
 						<PanelBody title='カスタムボタン設定'>
-							<TextControl
-								label='カスタムボタンのURL'
-								value={attributes.custom_btn_url}
-								onChange={(newText) => {
-									setAttributes({
-										custom_btn_url: newText,
-									});
-								}}
-							/>
-							<TextControl
-								label='カスタムボタンのテキスト'
-								value={attributes.custom_btn_text}
-								onChange={(newText) => {
-									setAttributes({
-										custom_btn_text: newText,
-									});
-								}}
-							/>
-							<TextControl
-								label='カスタムボタン2のURL'
-								value={attributes.custom_btn_url_2}
-								onChange={(newText) => {
-									setAttributes({
-										custom_btn_url_2: newText,
-									});
-								}}
-							/>
-							<TextControl
-								label='カスタムボタン2のテキスト'
-								value={attributes.custom_btn_text_2}
-								onChange={(newText) => {
-									setAttributes({
-										custom_btn_text_2: newText,
-									});
-								}}
-							/>
-							<CheckboxControl
-								label='カスタムボタンを非表示'
-								className='pchpp-hideCheck'
-								checked={attributes.hideCustom}
-								onChange={(checked) => {
-									setAttributes({
-										hideCustom: checked,
-									});
-								}}
-							/>
-							<CheckboxControl
-								label='カスタムボタン2を非表示'
-								className='pchpp-hideCheck'
-								checked={attributes.hideCustom2}
-								onChange={(checked) => {
-									setAttributes({
-										hideCustom2: checked,
-									});
-								}}
-							/>
+							{hasRegisterdItem ? (
+								<>
+									<CheckboxControl
+										label='カスタムボタンを非表示'
+										className='pchpp-hideCheck'
+										checked={attributes.hideCustom}
+										onChange={(checked) => {
+											setAttributes({
+												hideCustom: checked,
+											});
+										}}
+									/>
+									<CheckboxControl
+										label='カスタムボタン2を非表示'
+										className='pchpp-hideCheck'
+										checked={attributes.hideCustom2}
+										onChange={(checked) => {
+											setAttributes({
+												hideCustom2: checked,
+											});
+										}}
+									/>
+									<p>
+										ボタンの内容は<a href={itemEditUrl}>ポチップ管理ページ</a>で編集できます。
+									</p>
+								</>
+							) : (
+								<>
+									<TextControl
+										label='カスタムボタンのURL'
+										value={attributes.custom_btn_url}
+										onChange={(newText) => {
+											setAttributes({
+												custom_btn_url: newText,
+											});
+										}}
+									/>
+									<TextControl
+										label='カスタムボタンのテキスト'
+										value={attributes.custom_btn_text}
+										onChange={(newText) => {
+											setAttributes({
+												custom_btn_text: newText,
+											});
+										}}
+									/>
+									<TextControl
+										label='カスタムボタン2のURL'
+										value={attributes.custom_btn_url_2}
+										onChange={(newText) => {
+											setAttributes({
+												custom_btn_url_2: newText,
+											});
+										}}
+									/>
+									<TextControl
+										label='カスタムボタン2のテキスト'
+										value={attributes.custom_btn_text_2}
+										onChange={(newText) => {
+											setAttributes({
+												custom_btn_text_2: newText,
+											});
+										}}
+									/>
+								</>
+							)}
 						</PanelBody>
 					</InspectorControls>
 				)}

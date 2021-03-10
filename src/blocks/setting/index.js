@@ -3,9 +3,10 @@
  */
 // import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
-import { useCallback, useMemo } from '@wordpress/element';
+import { useCallback, useMemo, useState } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, CheckboxControl } from '@wordpress/components';
 
 /**
  * @Internal dependencies
@@ -89,6 +90,8 @@ registerBlockType(name, {
 	attributes: metadata.attributes,
 	edit: ({ attributes, setAttributes, clientId }) => {
 		const { meta } = attributes;
+
+		const [isStickey, setIsStickey] = useState(false);
 
 		// 投稿ID・投稿タイプを取得
 		const { postId } = useSelect((select) => {
@@ -206,40 +209,42 @@ registerBlockType(name, {
 				<div
 					{...useBlockProps({
 						className: `${blockName}--setting`,
+						'data-sticky': isStickey ? '1' : null,
 					})}
 				>
 					<ItemPreview {...{ postTitle, parsedMeta }} />
-					<div className='__btns'>
-						<SearchBtn onClick={openThickbox} text={hasSearchedItem ? '商品を再検索' : '商品を検索'} />
-						{showUpdateBtn && <UpdateBtn onClick={updateItemData} />}
-					</div>
-					{hasSearchedItem && (
-						<div className='__setting'>
-							<div className='components-base-control'>
-								<div className='components-base-control__label'>ボタンリンク先</div>
-								<BtnSettingTable
-									attrs={parsedMeta}
-									openThickbox={openThickbox}
-									deleteAmazon={() => {
-										updateMetadata('asin', '');
-										updateMetadata('amazon_affi_url', '');
-									}}
-									deleteRakuten={() => {
-										updateMetadata('itemcode', '');
-										updateMetadata('rakuten_detail_url', '');
-									}}
-									deleteYahoo={() => {
-										updateMetadata('yahoo_itemcode', '');
-										updateMetadata('seller_id', '');
-										updateMetadata('is_paypay', '');
-										updateMetadata('yahoo_detail_url', '');
-									}}
-								/>
-							</div>
-							<ItemSetting {...{ postTitle, parsedMeta, updateMetadata }} />
+					<div className='__settings'>
+						<div className='__btns'>
+							<SearchBtn onClick={openThickbox} text={hasSearchedItem ? '商品を再検索' : '商品を検索'} />
+							{showUpdateBtn && <UpdateBtn onClick={updateItemData} />}
 						</div>
-					)}
-					{/* <div className='u-mt-20'>【開発用】データ確認</div>
+						{hasSearchedItem && (
+							<div className='__fields'>
+								<div className='components-base-control'>
+									<div className='components-base-control__label'>ボタンリンク先</div>
+									<BtnSettingTable
+										attrs={parsedMeta}
+										openThickbox={openThickbox}
+										deleteAmazon={() => {
+											updateMetadata('asin', '');
+											updateMetadata('amazon_affi_url', '');
+										}}
+										deleteRakuten={() => {
+											updateMetadata('itemcode', '');
+											updateMetadata('rakuten_detail_url', '');
+										}}
+										deleteYahoo={() => {
+											updateMetadata('yahoo_itemcode', '');
+											updateMetadata('seller_id', '');
+											updateMetadata('is_paypay', '');
+											updateMetadata('yahoo_detail_url', '');
+										}}
+									/>
+								</div>
+								<ItemSetting {...{ postTitle, parsedMeta, updateMetadata }} />
+							</div>
+						)}
+						{/* <div className='u-mt-20'>【開発用】データ確認</div>
 					<div className='pochipp-block-dump'>
 						{Object.keys(parsedMeta).map((metakey) => {
 							return (
@@ -250,7 +255,19 @@ registerBlockType(name, {
 							);
 						})}
 					</div> */}
+					</div>
 				</div>
+				<InspectorControls>
+					<PanelBody>
+						<CheckboxControl
+							label='プレビューを画面上部に固定表示'
+							checked={isStickey}
+							onChange={(checked) => {
+								setIsStickey(checked);
+							}}
+						/>
+					</PanelBody>
+				</InspectorControls>
 			</>
 		);
 	},

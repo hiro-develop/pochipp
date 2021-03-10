@@ -20,14 +20,19 @@
 // 設定ページエディター
 .post-type-pochipps {
 
-	.interface-interface-skeleton__content > .edit-post-visual-editor {
+	.interface-interface-skeleton__content > .edit-post-visual-editor > .editor-styles-wrapper {
 		background: #e8e8e8;
 	}
 
 	.edit-post-visual-editor__post-title-wrapper {
+		display: block;
 		height: 1px;
 		visibility: hidden;
 		pointer-events: none;
+
+		div {
+			margin: 0 !important;
+		}
 	}
 }
 

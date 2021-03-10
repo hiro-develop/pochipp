@@ -1,13 +1,22 @@
+.post-type-pochipps .block-editor-block-contextual-toolbar-wrapper {
+	display: none;
+}
 
 // 設定用ブロック
 .pochipp-block--setting {
-	max-width: 900px !important;
-	padding: 24px;
+	max-width: 820px !important;
+	padding: 16px 24px 24px;
 	background-color: #fdfdfd;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 
+	// &::after {
+	// 	content: none !important;
+	// }
+
+
 	.__preview {
 		margin: 0;
+		padding: 8px 0;
 
 		.pochipp-box {
 			margin: 0 !important;
@@ -31,10 +40,25 @@
 		}
 	}
 
+	&[data-sticky="1"] .__preview {
+		position: sticky;
+		top: 0;
+		z-index: 99;
+		background-color: rgba(#fff, 0.8);
+
+		.__helpText {
+			display: none;
+		}
+	}
+
+	.__settings {
+		margin-top: 24px;
+	}
+
 	.__btns {
 		display: flex;
 		justify-content: space-between;
-		margin: 24px 0 40px;
+		margin: 0 0 40px;
 
 		&.-updating {
 			pointer-events: none;
@@ -71,13 +95,31 @@
 	}
 
 
-	.__setting {
+	.__fields {
 
 		margin-top: 24px;
 		border-top: dashed 1px #dedede;
 
 		.components-base-control {
 			margin: 24px 0 0;
+			padding-right: 2px;
+
+			&.-radio {
+
+				.components-base-control__field {
+					display: flex;
+					flex-wrap: wrap;
+				}
+
+				.components-base-control__label {
+					flex-basis: 100%;
+				}
+
+				.components-radio-control__option {
+					margin-right: 16px;
+					margin-bottom: 8px;
+				}
+			}
 		}
 
 		.components-base-control__label {
@@ -86,7 +128,13 @@
 			font-size: 14px;
 			line-height: 1.5;
 			border-left: 2px solid;
+
+			& + .components-base-control {
+				margin-top: 8px;
+			}
 		}
+
+
 	}
 
 	.__note {

@@ -2,7 +2,23 @@
  * @WordPress dependencies
  */
 import { memo } from '@wordpress/element';
-import { TextControl, CheckboxControl } from '@wordpress/components';
+import { TextControl, CheckboxControl, RadioControl, BaseControl } from '@wordpress/components';
+
+/**
+ * 設定項目
+ */
+const btnLayoutsPC = [
+	{ value: '', label: 'ポチップ設定のまま' },
+	{ value: 'fit', label: '自動フィット' },
+	{ value: 'text', label: 'テキストに応じる' },
+	{ value: '3', label: '3列幅' },
+	{ value: '2', label: '2列幅' },
+];
+const btnLayoutsSP = [
+	{ value: '', label: 'ポチップ設定のまま' },
+	{ value: '1', label: '1列幅' },
+	{ value: '2', label: '2列幅' },
+];
 
 /**
  * ItemPreview
@@ -35,7 +51,6 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					updateMetadata('info', val);
 				}}
 			/>
-
 			<TextControl
 				label='カスタムボタン用URL'
 				value={parsedMeta.custom_btn_url}
@@ -64,13 +79,34 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					updateMetadata('custom_btn_text_2', val);
 				}}
 			/>
-			{/* <CheckboxControl
-				label='価格情報を表示しない'
-				checked={parsedMeta.hidePrice}
-				onChange={(checked) => {
-					updateMetadata('hidePrice', checked);
+			<RadioControl
+				className='-radio'
+				label='ボタン幅（PC）'
+				selected={parsedMeta.btnLayoutPC || ''}
+				options={btnLayoutsPC}
+				onChange={(val) => {
+					updateMetadata('btnLayoutPC', val);
 				}}
-			/> */}
+			/>
+			<RadioControl
+				className='-radio'
+				label='ボタン幅（SP）'
+				selected={parsedMeta.btnLayoutSP || ''}
+				options={btnLayoutsSP}
+				onChange={(val) => {
+					updateMetadata('btnLayoutSP', val);
+				}}
+			/>
+			<BaseControl>
+				<BaseControl.VisualLabel>情報の非表示</BaseControl.VisualLabel>
+				<CheckboxControl
+					label='価格情報を表示しない'
+					checked={parsedMeta.hidePrice}
+					onChange={(checked) => {
+						updateMetadata('hidePrice', checked);
+					}}
+				/>
+			</BaseControl>
 		</>
 	);
 });

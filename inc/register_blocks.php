@@ -73,6 +73,8 @@ function cb_pochipp_setting_preview( $attrs, $content ) {
 		'custom_btn_text'   => $pdata['custom_btn_text'] ?? '',
 		'custom_btn_url_2'  => $pdata['custom_btn_url_2'] ?? '',
 		'custom_btn_text_2' => $pdata['custom_btn_text_2'] ?? '',
+		'btn_layout_pc'     => $pdata['btnLayoutPC'] ?? '',
+		'btn_layout_sp'     => $pdata['btnLayoutSP'] ?? '',
 		'rel_target'        => 'rel="nofollow noopener" target="_blank"',
 	]);
 
@@ -145,6 +147,8 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		'hideYahoo'          => false,
 		'hideCustom'         => false,
 		'hideCustom2'        => false,
+		'btnLayoutPC'        => '',
+		'btnLayoutSP'        => '',
 	], $pdata );
 
 	$pid               = $pdata['pid'];
@@ -295,6 +299,8 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 					'custom_btn_url_2'  => $custom_btn_url_2,
 					'custom_btn_text_2' => $custom_btn_text_2,
 					'rel_target'        => $rel_target,
+					'btn_layout_pc'     => $pdata['btnLayoutPC'],
+					'btn_layout_sp'     => $pdata['btnLayoutSP'],
 				]);
 			?>
 			<?php if ( apply_filters( 'pochipp_show_box_logo', 1 ) ) : ?>
@@ -329,11 +335,14 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 	$rakuten_sale_text = $btn_data['rakuten_sale_text'] ?? '';
 	$yahoo_sale_text   = $btn_data['yahoo_sale_text'] ?? '';
 
+	$btn_layout_pc = $btn_data['btn_layout_pc'] ?: \POCHIPP::get_setting( 'max_column_pc' );
+	$btn_layout_sp = $btn_data['btn_layout_sp'] ?: \POCHIPP::get_setting( 'max_column_mb' );
+
 	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
 	<div class="pochipp-box__btns"
-		data-maxclmn-pc="<?=esc_attr( \POCHIPP::get_setting( 'max_column_pc' ) )?>"
-		data-maxclmn-mb="<?=esc_attr( \POCHIPP::get_setting( 'max_column_mb' ) )?>"
+		data-maxclmn-pc="<?=esc_attr( $btn_layout_pc )?>"
+		data-maxclmn-mb="<?=esc_attr( $btn_layout_sp )?>"
 	>
 		<?php if ( $amazon_url ) : ?>
 			<div class="pochipp-box__btnwrap -amazon<?php if ($amazon_sale_text) echo ' -on-sale'; ?>">

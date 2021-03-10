@@ -25,6 +25,8 @@ export default memo(({ postTitle, parsedMeta }) => {
 	let dataBtnStyle = pchppVars.btnStyle || 'dflt';
 	if ('default' === dataBtnStyle) dataBtnStyle = 'dflt';
 
+	const hidePrice = parsedMeta.hidePrice || false;
+
 	return (
 		<div className='__preview'>
 			<div
@@ -41,7 +43,7 @@ export default memo(({ postTitle, parsedMeta }) => {
 				<div className='pochipp-box__body'>
 					<div className='pochipp-box__title'>{postTitle}</div>
 					{info && <div className='pochipp-box__info'>{info}</div>}
-					{price && (
+					{price && !hidePrice && (
 						<div className='pochipp-box__price'>
 							¥{price.toLocaleString()}
 							<span>
