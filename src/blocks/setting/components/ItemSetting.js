@@ -51,34 +51,52 @@ export default memo(({ postTitle, parsedMeta, updateMetadata }) => {
 					updateMetadata('info', val);
 				}}
 			/>
-			<TextControl
-				label='カスタムボタン用URL'
-				value={parsedMeta.custom_btn_url}
-				onChange={(val) => {
-					updateMetadata('custom_btn_url', val);
-				}}
-			/>
-			<TextControl
-				label='カスタムボタン用テキスト'
-				value={parsedMeta.custom_btn_text}
-				onChange={(val) => {
-					updateMetadata('custom_btn_text', val);
-				}}
-			/>
-			<TextControl
-				label='カスタムボタン2用URL'
-				value={parsedMeta.custom_btn_url_2}
-				onChange={(val) => {
-					updateMetadata('custom_btn_url_2', val);
-				}}
-			/>
-			<TextControl
-				label='カスタムボタン2用テキスト'
-				value={parsedMeta.custom_btn_text_2}
-				onChange={(val) => {
-					updateMetadata('custom_btn_text_2', val);
-				}}
-			/>
+			<BaseControl>
+				<BaseControl.VisualLabel>カスタムボタン1</BaseControl.VisualLabel>
+				<div className='__customBtn'>
+					<span>テキスト</span>
+					<input
+						type='text'
+						value={parsedMeta.custom_btn_text}
+						onChange={(e) => {
+							updateMetadata('custom_btn_text', e.target.value);
+						}}
+					/>
+				</div>
+				<div className='__customBtn -url'>
+					<span>リンク先</span>
+					<input
+						type='text'
+						value={parsedMeta.custom_btn_url}
+						onChange={(e) => {
+							updateMetadata('custom_btn_url', e.target.value);
+						}}
+					/>
+				</div>
+			</BaseControl>
+			<BaseControl>
+				<BaseControl.VisualLabel>カスタムボタン2</BaseControl.VisualLabel>
+				<div className='__customBtn'>
+					<span>テキスト</span>
+					<input
+						type='text'
+						value={parsedMeta.custom_btn_text_2}
+						onChange={(e) => {
+							updateMetadata('custom_btn_text_2', e.target.value);
+						}}
+					/>
+				</div>
+				<div className='__customBtn -url'>
+					<span>リンク先</span>
+					<input
+						type='text'
+						value={parsedMeta.custom_btn_url_2}
+						onChange={(e) => {
+							updateMetadata('custom_btn_url_2', e.target.value);
+						}}
+					/>
+				</div>
+			</BaseControl>
 			<RadioControl
 				className='-radio'
 				label='ボタン幅（PC）'

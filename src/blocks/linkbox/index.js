@@ -318,7 +318,6 @@ registerBlockType(name, {
 								checked={-1 !== nowClass.indexOf('is-vrtcl')}
 								onChange={(checked) => {
 									let newClass = '';
-									// if (-1 === nowClass.indexOf('is-vrtcl')) {
 									if (checked) {
 										newClass = nowClass + ' is-vrtcl';
 									} else {
