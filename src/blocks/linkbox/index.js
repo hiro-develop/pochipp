@@ -70,14 +70,14 @@ window.set_block_data_at_editor = (itemData, clientId) => {
  * 設定項目
  */
 const btnLayoutsPC = [
-	{ value: '', label: '----' },
+	{ value: '', label: 'ポチップ設定のまま' },
 	{ value: 'fit', label: '自動フィット' },
 	{ value: 'text', label: 'テキストに応じる' },
 	{ value: '3', label: '3列幅' },
 	{ value: '2', label: '2列幅' },
 ];
 const btnLayoutsSP = [
-	{ value: '', label: '----' },
+	{ value: '', label: 'ポチップ設定のまま' },
 	{ value: '1', label: '1列幅' },
 	{ value: '2', label: '2列幅' },
 ];
