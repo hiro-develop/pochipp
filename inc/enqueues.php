@@ -51,6 +51,12 @@ function admin_scripts( $hook_suffix ) {
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
 		wp_enqueue_script( 'pochipp-color-picker', POCHIPP_URL . 'dist/js/colorpicker.js', [ 'jquery', 'wp-color-picker' ], POCHIPP_VERSION, true );
+
+		// デートピッカー
+		wp_enqueue_style( 'datetimepicker', POCHIPP_URL . 'assets/datetimepicker/jquery.datetimepicker.min.css', [], POCHIPP_VERSION );
+		wp_enqueue_script( 'datetimepicker', POCHIPP_URL . 'assets/datetimepicker/jquery.datetimepicker.full.min.js', [ 'jquery' ], POCHIPP_VERSION, true );
+		wp_enqueue_script( 'pochipp-datetimepicker', POCHIPP_URL . 'dist/js/datepicker.js', [], POCHIPP_VERSION, true );
+
 	}
 }
 

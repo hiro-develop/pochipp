@@ -95,7 +95,7 @@ trait Form_Output {
 		<div class="pchpp-setting__field -checkbox">
 			<input type="hidden" name="<?=esc_attr( $name )?>" value="">
 			<input type="checkbox" id="<?=esc_attr( $key )?>" name="<?=esc_attr( $name )?>" value="1" <?=$checked?> />
-			<label for="<?=esc_attr( $key )?>"><?=esc_html( $label )?></label>
+			<label for="<?=esc_attr( $key )?>"><?=wp_kses_post( $label )?></label>
 		</div>
 		<?php
 	}
@@ -125,6 +125,31 @@ trait Form_Output {
 			<?php if ( $description ) : ?>
 				<p class="pchpp-setting__desc"><?=wp_kses_post( $description )?></p>
 			<?php endif; ?>
+		<?php
+	}
+
+
+	/**
+	 * デートピッカーフィールドを出力する
+	 */
+	public static function output_datepicker( $args ) {
+		$key  = $args['key'] ?? '';
+		$size = $args['size'] ?? '20';
+
+		$key_start  = $key . '_startline';
+		$key_end    = $key . '_deadline';
+		$name_start = \POCHIPP::DB_NAME . '[' . $key_start . ']';
+		$name_end   = \POCHIPP::DB_NAME . '[' . $key_end . ']';
+		$val_start  = \POCHIPP::get_setting( $key_start );
+		$val_end    = \POCHIPP::get_setting( $key_end );
+		?>
+			<div class="pchpp-setting__field -date">
+				<div class="pchpp-setting__item">
+					<input type="text" id="<?=esc_attr( $key_start )?>" class="pochipp-datepicker--start" name="<?=esc_attr( $name_start )?>" value="<?=esc_attr( $val_start )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
+					<span style="padding:4px 8px;display: inline-block;">~</span>
+					<input type="text" id="<?=esc_attr( $key_end )?>" class="pochipp-datepicker--end" name="<?=esc_attr( $name_end )?>" value="<?=esc_attr( $val_end )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
+				</div>
+			</div>
 		<?php
 	}
 

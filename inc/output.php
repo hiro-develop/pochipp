@@ -5,13 +5,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 // カスタムスタイル
 function get_custom_style() {
-	$custom_btn_color = \POCHIPP::get_setting( 'custom_btn_color' );
+	$custom_btn_color   = \POCHIPP::get_setting( 'custom_btn_color' );
 	$custom_btn_color_2 = \POCHIPP::get_setting( 'custom_btn_color_2' );
 
-	$style = ":root{
-	              --pchpp-color-custom: {$custom_btn_color};
-	              --pchpp-color-custom-2: {$custom_btn_color_2};
-	          };";
+	$style = ':root{' .
+		"--pchpp-color-custom: {$custom_btn_color};" .
+		"--pchpp-color-custom-2: {$custom_btn_color_2};" .
+	'};';
 
 	return $style;
 }
@@ -63,12 +63,6 @@ add_action( 'admin_head', function() {
 	'};';
 
 	// ボタンテキスト
-	// $script .= 'window.pchppVars.amazonBtnText = "' . esc_js( \POCHIPP::get_setting( 'amazon_btn_text' ) ) . '";';
-	// $script .= 'window.pchppVars.rakutenBtnText = "' . esc_js( \POCHIPP::get_setting( 'rakuten_btn_text' ) ) . '";';
-	// $script .= 'window.pchppVars.yahooBtnText = "' . esc_js( \POCHIPP::get_setting( 'yahoo_btn_text' ) ) . '";';
-	// $script .= 'window.pchppVars.paypayBtnText = "' . esc_js( \POCHIPP::get_setting( 'paypay_btn_text' ) ) . '";';
-	// $script .= 'window.pchppVars.maxClmnPC = "' . esc_js( \POCHIPP::get_setting( 'max_column_pc' ) ) . '";';
-	// $script .= 'window.pchppVars.maxClmnMB = "' . esc_js( \POCHIPP::get_setting( 'max_column_mb' ) ) . '";';
 	$script .= 'window.pchppVars.btnStyle = "' . esc_js( \POCHIPP::get_setting( 'btn_style' ) ) . '";';
 	$script .= 'window.pchppVars.btnRadius = "' . esc_js( \POCHIPP::get_setting( 'btn_radius' ) ) . '";';
 	$script .= 'window.pchppVars.imgPosition = "' . esc_js( \POCHIPP::get_setting( 'img_position' ) ) . '";';
@@ -86,15 +80,14 @@ add_action( 'admin_head', function() {
 add_action( 'wp', '\POCHIPP\set_sale_text' );
 function set_sale_text() {
 
-	// 現在時刻
-	$date = (int) wp_date( 'YmdGi' );
+	// セール情報をセット
+	set_sale_data();
+	set_campaign_data();
 
 	// Amazon
-	$startline_amazon = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'amazon_sale_startline' ) );
-	$deadline_amazon  = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'amazon_sale_deadline' ) );
-	if ( $startline_amazon <= $date && $date <= $deadline_amazon ) {
+	if ( \POCHIPP::$sale_text['amazon'] ) {
 		add_filter( 'pochipp_amazon_sale_text', function() {
-			return \POCHIPP::get_setting( 'amazon_sale_text' );
+			return \POCHIPP::$sale_text['amazon'];
 		});
 
 		// セール中に他のボタンを隠すかどうか
@@ -111,11 +104,9 @@ function set_sale_text() {
 	}
 
 	// 楽天
-	$startline_rakuten = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'rakuten_sale_startline' ) );
-	$deadline_rakuten  = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'rakuten_sale_deadline' ) );
-	if ( $startline_rakuten <= $date && $date <= $deadline_rakuten ) {
+	if ( \POCHIPP::$sale_text['rakuten'] ) {
 		add_filter( 'pochipp_rakuten_sale_text', function() {
-			return \POCHIPP::get_setting( 'rakuten_sale_text' );
+			return \POCHIPP::$sale_text['rakuten'];
 		});
 
 		// セール中に他のボタンを隠すかどうか
@@ -132,12 +123,9 @@ function set_sale_text() {
 	}
 
 	// Yahoo
-	$startline_yahoo = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'yahoo_sale_startline' ) );
-	$deadline_yahoo  = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'yahoo_sale_deadline' ) );
-
-	if ( $startline_yahoo <= $date && $date <= $deadline_yahoo ) {
+	if ( \POCHIPP::$sale_text['yahoo'] ) {
 		add_filter( 'pochipp_yahoo_sale_text', function() {
-			return \POCHIPP::get_setting( 'yahoo_sale_text' );
+			return \POCHIPP::$sale_text['yahoo'];
 		});
 
 		// セール中に他のボタンを隠すかどうか

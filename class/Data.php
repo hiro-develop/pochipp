@@ -17,20 +17,24 @@ class Data {
 	// 設定のデフォルト値
 	public static $default_data = [
 		// 'box_style'        => 'default',
-		'img_position'       => 'l',
-		'box_layout_pc'      => 'dflt',
-		'box_layout_mb'      => 'vrtcl',
-		'btn_style'          => 'dflt',
-		'btn_radius'         => 'off',
-		'max_column_pc'      => 'fit',
-		'max_column_mb'      => '1',
-		'amazon_btn_text'    => 'Amazon',
-		'rakuten_btn_text'   => '楽天市場',
-		'yahoo_btn_text'     => 'Yahooショッピング',
-		'paypay_btn_text'    => 'PayPayモール',
-		'custom_btn_color'   => '#5ca250',
-		'custom_btn_color_2' => '#8e59e4',
-		'sale_text_effect'   => 'flash',
+		'img_position'           => 'l',
+		'box_layout_pc'          => 'dflt',
+		'box_layout_mb'          => 'vrtcl',
+		'btn_style'              => 'dflt',
+		'btn_radius'             => 'off',
+		'max_column_pc'          => 'fit',
+		'max_column_mb'          => '1',
+		'amazon_btn_text'        => 'Amazon',
+		'rakuten_btn_text'       => '楽天市場',
+		'yahoo_btn_text'         => 'Yahooショッピング',
+		'paypay_btn_text'        => 'PayPayモール',
+		'custom_btn_color'       => '#5ca250',
+		'custom_btn_color_2'     => '#8e59e4',
+		'show_rakuten_5campaign' => '1',
+		'rakuten_5campaign_text' => '楽天ポイント5倍セール！',
+		'show_yahoo_5campaign'   => '1',
+		'yahoo_5campaign_text'   => 'ポイント5%還元！',
+		'sale_text_effect'       => 'flash',
 		// 'sale_position_pc' => 'top',
 		// 'sale_position_mb' => 'inner',
 	];
@@ -57,6 +61,13 @@ class Data {
 		'amazon'  => false,
 		'rakuten' => false,
 		'yahoo'   => false,
+	];
+
+	// セール中かどうか
+	public static $sale_text = [
+		'amazon'  => '',
+		'rakuten' => '',
+		'yahoo'   => '',
 	];
 
 	// Amazonカテゴリー

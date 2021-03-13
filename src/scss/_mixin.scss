@@ -29,3 +29,32 @@
 		@content;
 	}
 }
+
+@mixin small {
+
+	@media screen and (max-width: 360px) {
+		@content;
+	}
+}
+
+
+@mixin pc_admin {
+
+	@media screen and (min-width: 783px) {
+		@content;
+	}
+}
+
+@mixin sp_admin {
+
+	@media screen and (max-width: 782px) {
+		@content;
+	}
+}
+
+@mixin mb_admin {
+
+	@media screen and (max-width: 600px) {
+		@content;
+	}
+}

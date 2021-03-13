@@ -61,6 +61,9 @@ class POCHIPP extends \POCHIPP\Data {
 
 		add_action( 'init', [ $this, 'set_setting_data' ], 1 );
 
+		// プラガブル関数の読み込み（子テーマなどからも上書きできるようなタイミングで）
+		add_action( 'after_setup_theme', [ $this, 'load_pluggable' ], 99 );
+
 		require_once POCHIPP_PATH . 'inc/enqueues.php';
 		require_once POCHIPP_PATH . 'inc/output.php';
 		require_once POCHIPP_PATH . 'inc/register_pt.php';
@@ -75,7 +78,14 @@ class POCHIPP extends \POCHIPP\Data {
 			require_once POCHIPP_PATH . 'inc/menu.php';
 			require_once POCHIPP_PATH . 'inc/manage_columns.php';
 		}
+	}
 
+
+	/**
+	 * load_pluggable
+	 */
+	public function load_pluggable() {
+		require_once POCHIPP_PATH . 'inc/pluggable.php';
 	}
 
 
