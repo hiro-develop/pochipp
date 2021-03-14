@@ -13,9 +13,11 @@ trait Form_Output {
 		$key         = $args['key'] ?? '';
 		$size        = $args['size'] ?? '40';
 		$description = $args['description'] ?? '';
+		$val         = $args['val'] ?? '';
+		$name        = $args['name'] ?? \POCHIPP::DB_NAME;
 
-		$name = \POCHIPP::DB_NAME . '[' . $key . ']';
-		$val  = \POCHIPP::get_setting( $key );
+		$name = $name . '[' . $key . ']';
+		$val  = $val ?: \POCHIPP::get_setting( $key );
 		?>
 			<div class="pchpp-setting__field -text">
 				<div class="pchpp-setting__item">
@@ -133,21 +135,24 @@ trait Form_Output {
 	 * デートピッカーフィールドを出力する
 	 */
 	public static function output_datepicker( $args ) {
-		$key  = $args['key'] ?? '';
-		$size = $args['size'] ?? '20';
+		$key           = $args['key'] ?? '';
+		$size          = $args['size'] ?? '20';
+		$name          = $args['name'] ?? \POCHIPP::DB_NAME;
+		$val_startline = $args['val_startline'] ?? '';
+		$val_deadline  = $args['val_deadline'] ?? '';
 
-		$key_start  = $key . '_startline';
-		$key_end    = $key . '_deadline';
-		$name_start = \POCHIPP::DB_NAME . '[' . $key_start . ']';
-		$name_end   = \POCHIPP::DB_NAME . '[' . $key_end . ']';
-		$val_start  = \POCHIPP::get_setting( $key_start );
-		$val_end    = \POCHIPP::get_setting( $key_end );
+		$key_start     = $key . 'startline';
+		$key_end       = $key . 'deadline';
+		$name_start    = $name . '[' . $key_start . ']';
+		$name_end      = $name . '[' . $key_end . ']';
+		$val_startline = $val_startline ?: \POCHIPP::get_setting( $key_start );
+		$val_deadline  = $val_deadline ?: \POCHIPP::get_setting( $key_end );
 		?>
 			<div class="pchpp-setting__field -date">
 				<div class="pchpp-setting__item">
-					<input type="text" id="<?=esc_attr( $key_start )?>" class="pochipp-datepicker--start" name="<?=esc_attr( $name_start )?>" value="<?=esc_attr( $val_start )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
-					<span style="padding:4px 8px;display: inline-block;">~</span>
-					<input type="text" id="<?=esc_attr( $key_end )?>" class="pochipp-datepicker--end" name="<?=esc_attr( $name_end )?>" value="<?=esc_attr( $val_end )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
+					<input type="text" id="<?=esc_attr( $key_start )?>" class="pochipp-datepicker--start" name="<?=esc_attr( $name_start )?>" value="<?=esc_attr( $val_startline )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
+					<span class="__nami">~</span>
+					<input type="text" id="<?=esc_attr( $key_end )?>" class="pochipp-datepicker--end" name="<?=esc_attr( $name_end )?>" value="<?=esc_attr( $val_deadline )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
 				</div>
 			</div>
 		<?php

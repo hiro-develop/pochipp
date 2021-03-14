@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 					<span class="__row_label">期間 :</span>
 					<?php
 						\POCHIPP::output_datepicker([
-							'key'  => 'amazon_sale',
+							'key'  => 'amazon_sale_',
 						]);
 					?>
 				</div>
@@ -117,7 +117,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 					<span class="__row_label">期間 :</span>
 					<?php
 						\POCHIPP::output_datepicker([
-							'key'  => 'rakuten_sale',
+							'key'  => 'rakuten_sale_',
 						]);
 					?>
 				</div>
@@ -190,7 +190,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 					<span class="__row_label">期間 :</span>
 					<?php
 						\POCHIPP::output_datepicker([
-							'key'  => 'yahoo_sale',
+							'key'  => 'yahoo_sale_',
 						]);
 					?>
 				</div>

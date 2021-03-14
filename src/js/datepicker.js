@@ -2,8 +2,7 @@
  * https://xdsoft.net/jqplugins/datetimepicker/
  */
 (function ($) {
-	// console.log('datepicker');
-	$(function () {
+	window.setDatetimepicker = () => {
 		$.datetimepicker.setLocale('ja');
 		$('.pochipp-datepicker--start').datetimepicker({
 			defaultTime: '00:00',
@@ -47,5 +46,9 @@
 			],
 			// minDate
 		});
+	};
+
+	$(function () {
+		window.setDatetimepicker();
 	});
 })(jQuery);

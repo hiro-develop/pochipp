@@ -269,6 +269,11 @@ p.pchpp-setting__desc {
 
 	&.-time {
 
+		.__nami {
+			display: inline-block;
+			padding: 4px 8px;
+		}
+
 		@include sp_admin {
 			// display: block;
 
