@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <h3 class="pchpp-setting__h3">Amazonセール情報</h3>
 <!-- <p class="pchpp-setting__p"></p> -->
 <div class="pchpp-setting__div">
-	<?php if ( 0 && class_exists( 'POCHIPP_PRO' ) ) : ?>
+	<?php if ( class_exists( 'POCHIPP_PRO' ) ) : ?>
 		<?php do_action( 'pochipp_setting_amazon_sale' ); ?>
 	<?php else : ?>
 		<dl class="pchpp-setting__dl">
@@ -99,30 +99,34 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <h3 class="pchpp-setting__h3">楽天セール情報</h3>
 <div class="pchpp-setting__div">
-	<dl class="pchpp-setting__dl">
-		<dt>セール情報</dt>
-		<dd>
-			<div class="pchpp-setting__row -time">
-				<span class="__row_label">表示 :</span>
-				<?php
-					\POCHIPP::output_text_field([
-						'key' => 'rakuten_sale_text',
-					]);
-				?>
-			</div>
-			<div class="pchpp-setting__row -time">
-				<span class="__row_label">期間 :</span>
-				<?php
-					\POCHIPP::output_datepicker([
-						'key'  => 'rakuten_sale',
-					]);
-				?>
-			</div>
-			<!-- <p class="pchpp-setting__desc">
-				<code>Y/m/d G:i</code>の形式で入力してください。 例 : <code>2020/01/05 10:00</code>, <code>2020/11/25 20:00</code>
-			</p> -->
-		</dd>
-	</dl>
+	<?php if ( class_exists( 'POCHIPP_PRO' ) ) : ?>
+		<?php do_action( 'pochipp_setting_rakuten_sale' ); ?>
+	<?php else : ?>
+		<dl class="pchpp-setting__dl">
+			<dt>セール情報</dt>
+			<dd>
+				<div class="pchpp-setting__row -time">
+					<span class="__row_label">表示 :</span>
+					<?php
+						\POCHIPP::output_text_field([
+							'key' => 'rakuten_sale_text',
+						]);
+					?>
+				</div>
+				<div class="pchpp-setting__row -time">
+					<span class="__row_label">期間 :</span>
+					<?php
+						\POCHIPP::output_datepicker([
+							'key'  => 'rakuten_sale',
+						]);
+					?>
+				</div>
+				<!-- <p class="pchpp-setting__desc">
+					<code>Y/m/d G:i</code>の形式で入力してください。 例 : <code>2020/01/05 10:00</code>, <code>2020/11/25 20:00</code>
+				</p> -->
+			</dd>
+		</dl>
+	<?php endif; ?>
 	<dl class="pchpp-setting__dl">
 		<dt>定期的なキャンペーン</dt>
 		<dd>
@@ -130,7 +134,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				<?php
 					\POCHIPP::output_checkbox([
 						'key'   => 'show_rakuten_5campaign',
-						'label' => '「<b>5と0のつく日キャンペーン</b>」の情報を表示する',
+						'label' => '「<b>5と0のつく日キャンペーン</b>」を表示する',
 					]);
 				?>
 			</div>
@@ -168,30 +172,34 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <h3 class="pchpp-setting__h3">Yahooセール情報</h3>
 <div class="pchpp-setting__div">
-	<dl class="pchpp-setting__dl">
-		<dt>セール情報</dt>
-		<dd>
-			<div class="pchpp-setting__row -time">
-				<span class="__row_label">表示 :</span>
-				<?php
-					\POCHIPP::output_text_field([
-						'key' => 'yahoo_sale_text',
-					]);
-				?>
-			</div>
-			<div class="pchpp-setting__row -time">
-				<span class="__row_label">期間 :</span>
-				<?php
-					\POCHIPP::output_datepicker([
-						'key'  => 'yahoo_sale',
-					]);
-				?>
-			</div>
-			<!-- <p class="pchpp-setting__desc">
-				<code>Y/m/d G:i</code>の形式で入力してください。 例 : <code>2020/01/05 10:00</code>, <code>2020/11/25 20:00</code>
-			</p> -->
-		</dd>
-	</dl>
+	<?php if ( class_exists( 'POCHIPP_PRO' ) ) : ?>
+		<?php do_action( 'pochipp_setting_yahoo_sale' ); ?>
+	<?php else : ?>
+		<dl class="pchpp-setting__dl">
+			<dt>セール情報</dt>
+			<dd>
+				<div class="pchpp-setting__row -time">
+					<span class="__row_label">表示 :</span>
+					<?php
+						\POCHIPP::output_text_field([
+							'key' => 'yahoo_sale_text',
+						]);
+					?>
+				</div>
+				<div class="pchpp-setting__row -time">
+					<span class="__row_label">期間 :</span>
+					<?php
+						\POCHIPP::output_datepicker([
+							'key'  => 'yahoo_sale',
+						]);
+					?>
+				</div>
+				<!-- <p class="pchpp-setting__desc">
+					<code>Y/m/d G:i</code>の形式で入力してください。 例 : <code>2020/01/05 10:00</code>, <code>2020/11/25 20:00</code>
+				</p> -->
+			</dd>
+		</dl>
+	<?php endif; ?>
 	<dl class="pchpp-setting__dl">
 		<dt>定期的なキャンペーン</dt>
 		<dd>
@@ -199,7 +207,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				<?php
 					\POCHIPP::output_checkbox([
 						'key'   => 'show_yahoo_5campaign',
-						'label' => '「<b>5のつく日キャンペーン</b>」の情報を表示する',
+						'label' => '「<b>5のつく日キャンペーン</b>」を表示する',
 					]);
 				?>
 			</div>

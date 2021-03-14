@@ -8,199 +8,219 @@ body:not(#__) .xdsoft_datetimepicker {
 	// position: absolute;
 	// top: 481px;
 	// left: 654px;
+	// top: 40px;
+	// left: 0;
 	// display: block !important;
 	padding: 12px;
 	border: none;
 	border-radius: 3px;
 	box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.25), 0 2px 8px -2px rgba(0, 0, 0, 0.1);
-}
 
+	.xdsoft_datepicker {
 
-body:not(#__) .xdsoft_datetimepicker {
-
-	@include pc {
-
-		.xdsoft_datepicker {
+		@include pc_admin {
 			width: 280px;
 			margin-left: 0;
 		}
+	}
 
-		.xdsoft_monthpicker {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			justify-content: center;
-			margin-bottom: 4px;
+	.xdsoft_monthpicker {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 4px;
 
-			.xdsoft_today_button {
+		.xdsoft_today_button {
+			display: none;
+		}
+
+		.xdsoft_prev,
+		.xdsoft_next {
+			width: 24px;
+			height: 24px;
+			padding: 4px;
+			background: none;
+
+			&::before {
+				position: relative;
+				display: block;
+				width: 0;
+				height: 0;
+				border: solid 8px transparent;
+				transform: scale(0.9);
+				content: "";
+			}
+		}
+
+		.xdsoft_prev {
+			order: 1;
+			margin-right: auto;
+
+			&::before {
+				left: -4px;
+				border-right-color: #000;
+			}
+		}
+
+		.xdsoft_next {
+			order: 5;
+			margin-left: auto;
+
+			&::before {
+				left: 4px;
+				border-left-color: #000;
+			}
+		}
+
+		.xdsoft_year {
+			order: 2;
+			width: 48px;
+			margin-left: 5px;
+		}
+
+		.xdsoft_month {
+			order: 3;
+			width: auto;
+			text-align: right;
+		}
+
+
+		.xdsoft_label {
+			pointer-events: none;
+
+			@include pc_admin {
+				font-size: 15px;
+			}
+
+			i {
 				display: none;
 			}
-
-			.xdsoft_prev,
-			.xdsoft_next {
-				width: 24px;
-				height: 24px;
-				padding: 4px;
-				background: none;
-
-				&::before {
-					position: relative;
-					display: block;
-					width: 0;
-					height: 0;
-					border: solid 8px transparent;
-					transform: scale(0.9);
-					content: "";
-				}
-			}
-
-			.xdsoft_prev {
-				order: 1;
-				margin-right: auto;
-
-				&::before {
-					left: -4px;
-					border-right-color: #000;
-				}
-			}
-
-			.xdsoft_next {
-				order: 5;
-				margin-left: auto;
-
-				&::before {
-					left: 4px;
-					border-left-color: #000;
-				}
-			}
-
-			.xdsoft_year {
-				order: 2;
-				width: 48px;
-				margin-left: 5px;
-			}
-
-			.xdsoft_month {
-				order: 3;
-				width: auto;
-				text-align: right;
-			}
-
-
-			.xdsoft_label {
-				font-size: 15px;
-				pointer-events: none;
-
-				i {
-					display: none;
-				}
-			}
-		}
-
-		.xdsoft_timepicker {
-			width: 64px;
-
-			.xdsoft_prev,
-			.xdsoft_next {
-				width: 24px;
-				height: 24px;
-				margin-left: 20px;
-				padding: 4px;
-				background: none;
-
-				&::before {
-					position: relative;
-					display: block;
-					width: 0;
-					height: 0;
-					border: solid 8px transparent;
-					transform: scale(0.9);
-					content: "";
-				}
-			}
-
-			.xdsoft_prev {
-				margin-bottom: 2px;
-
-				&::before {
-					bottom: 6px;
-					border-bottom-color: #000;
-				}
-			}
-
-			.xdsoft_next {
-				margin-top: 2px;
-
-				&::before {
-					top: 6px;
-					border-top-color: #000;
-				}
-			}
-
-			.xdsoft_time_box {
-				height: 170px;
-				border: solid 1px #dcdcdc;
-
-				.xdsoft_time {
-					height: $height;
-					color: $color;
-					font-size: 13px;
-					line-height: $height;
-					background: $bg;
-					border-top: 1px solid #dcdcdc;
-					border-bottom-width: 0;
-					box-shadow: rgba(255, 255, 255, 0.75) 0 1px 4px 0 inset;
-
-					&:first-child {
-						border-top: none;
-					}
-				}
-			}
-		}
-
-		.xdsoft_calendar td,
-		.xdsoft_calendar th {
-			height: $height;
-			color: $color;
-			font-size: 13px;
-			text-align: center;
-			border: 1px solid #dcdcdc;
-			box-shadow: rgba(255, 255, 255, 0.75) 0 1px 4px 0 inset;
-
-			& > div {
-				padding-right: 0;
-			}
-		}
-
-		.xdsoft_calendar td {
-			background: $bg;
-		}
-
-		.xdsoft_calendar th {
-			background: #f0f0f1;
-		}
-
-
-		.xdsoft_calendar td.xdsoft_current,
-		.xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_current {
-			color: #fff;
-			background: #32a3ee;
-			box-shadow: #158ce0 0 1px 4px 0 inset;
-		}
-
-		td.xdsoft_other_month,
-		td.xdsoft_disabled,
-		div.xdsoft_disabled {
-			opacity: 0.4;
-		}
-
-		.xdsoft_scrollbar {
-			width: 5px;
-		}
-
-		.xdsoft_scrollbar > .xdsoft_scroller {
-			width: 5px;
-			background: rgba(0, 0, 0, 0.4) !important;
 		}
 	}
+
+
+	.xdsoft_timepicker {
+
+		@include pc_admin {
+			width: 64px;
+		}
+
+		.xdsoft_prev,
+		.xdsoft_next {
+			width: 24px;
+			height: 24px;
+			margin-left: 16px;
+			padding: 4px;
+			background: none;
+
+			@include pc_admin {
+				margin-left: 20px;
+			}
+
+			&::before {
+				position: relative;
+				display: block;
+				width: 0;
+				height: 0;
+				border: solid 8px transparent;
+				transform: scale(0.9);
+				content: "";
+			}
+		}
+
+		.xdsoft_prev {
+			margin-bottom: 2px;
+
+			&::before {
+				bottom: 6px;
+				border-bottom-color: #000;
+			}
+		}
+
+		.xdsoft_next {
+			margin-top: 2px;
+
+			&::before {
+				top: 6px;
+				border-top-color: #000;
+			}
+		}
+
+		.xdsoft_time_box {
+			border: solid 1px #dcdcdc;
+
+			@include pc_admin {
+				height: 170px;
+			}
+
+			.xdsoft_time {
+				height: $height;
+				color: $color;
+				line-height: $height;
+				background: $bg;
+				border-top: 1px solid #dcdcdc;
+				border-bottom-width: 0;
+				box-shadow: rgba(255, 255, 255, 0.75) 0 1px 4px 0 inset;
+
+				@include pc_admin {
+					font-size: 13px;
+				}
+
+				&:first-child {
+					border-top: none;
+				}
+			}
+		}
+	}
+
+
+	.xdsoft_calendar td,
+	.xdsoft_calendar th {
+		color: $color;
+		text-align: center;
+		border: 1px solid #dcdcdc;
+		box-shadow: rgba(255, 255, 255, 0.75) 0 1px 4px 0 inset;
+
+		@include pc_admin {
+			height: $height;
+			font-size: 13px;
+		}
+
+		& > div {
+			padding-right: 0;
+		}
+	}
+
+	.xdsoft_calendar td {
+		background: $bg;
+	}
+
+	.xdsoft_calendar th {
+		background: #f0f0f1;
+	}
+
+
+	.xdsoft_calendar td.xdsoft_current,
+	.xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_current {
+		color: #fff;
+		background: #32a3ee;
+		box-shadow: #158ce0 0 1px 4px 0 inset;
+	}
+
+	td.xdsoft_other_month,
+	td.xdsoft_disabled,
+	div.xdsoft_disabled {
+		opacity: 0.3;
+	}
+
+	.xdsoft_scrollbar {
+		width: 5px;
+	}
+
+	.xdsoft_scrollbar > .xdsoft_scroller {
+		width: 5px;
+		background: rgba(0, 0, 0, 0.4) !important;
+	}
+
 }
