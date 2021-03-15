@@ -68,7 +68,7 @@ function add_menu_init() {
 		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_rakuten',
 	] );
 	\POCHIPP\add_settings( [
-		'section_title' => 'Yahoo（バリューコマース）設定',
+		'section_title' => 'Yahoo(バリューコマース)設定',
 		'section_key'   => 'yahoo',
 		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_yahoo',
 	] );

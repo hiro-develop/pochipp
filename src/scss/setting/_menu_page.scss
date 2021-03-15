@@ -14,6 +14,7 @@
 }
 
 .pchpp-setting {
+	margin-top: 1em;
 	font-size: 14px;
 
 	@include small {
@@ -33,7 +34,7 @@
 		padding: 1.5em;
 		background: #fdfdfd;
 		border-radius: 4px;
-		box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 
 		.dashicons-before {
 			margin: 0 4px;
@@ -78,29 +79,131 @@
 		}
 	}
 
-	.pchpp-setting__tabs {
+	.pchpp-setting__header {
+		display: flex;
+		align-items: center;
+		margin-bottom: 2em;
+		padding: 0 16px;
+		background: #fff;
+		border-radius: 4px;
+		box-shadow: 0 2px 16px -4px rgba(0, 0, 0, 0.1);
 
-		.nav-tab {
-			border-radius: 2px 2px 0 0;
+		@include sp {
+			flex-wrap: wrap;
+			padding: 0 12px;
+		}
+	}
+
+	.pchpp-setting__menubtn {
+		position: relative;
+		display: block;
+		width: 40px;
+		height: 40px;
+		margin-left: auto;
+		padding: 0 12px;
+		background: none;
+		border: none;
+		box-shadow: none;
+		cursor: pointer;
+
+		&::before {
+			position: relative;
+			top: 4px;
+			display: block;
+			width: 0;
+			height: 0;
+			border: solid 8px transparent;
+			border-top-color: currentColor;
+			content: "";
+
 		}
 
-		@include sp_admin {
-			padding-bottom: 8px;
-			overflow-y: auto;
+		@include pc_admin {
+			display: none;
+		}
+	}
 
-			.nav-tab-wrapper {
-				display: flex;
+	h1.pchpp-setting__title {
+		padding-right: 16px;
+		font-size: 1.75em;
+
+		img {
+			display: block;
+			width: 120px;
+			height: auto;
+		}
+	}
+
+	.pchpp-setting__menubtn.is-open + .pchpp-setting__tabs {
+		display: block;
+	}
+
+	.pchpp-setting__tabs {
+		// overflow-y: auto;
+		@include sp_admin {
+			display: none;
+			border-top: solid 1px rgba(50, 50, 50, 0.1);
+		}
+
+
+		.__tabs__wrap {
+			display: flex;
+			padding: 2px;
+
+			@include sp_admin {
+				flex-wrap: wrap;
 			}
 		}
+
+		a.__tab {
+			position: relative;
+			display: block;
+			box-sizing: border-box;
+			padding: 16px 16px;
+			// border-radius: 2px 2px 0 0;
+			letter-spacing: 1px;
+			white-space: nowrap;
+			text-decoration: none;
+
+
+			@include pc_admin {
+				border-left: solid 1px rgba(50, 50, 50, 0.1);
+
+				&:last-child {
+					border-right: solid 1px rgba(50, 50, 50, 0.1);
+				}
+			}
+
+			@include sp_admin {
+				width: 50%;
+				text-align: center;
+
+				&[data-key="yahoo"] {
+					font-size: 0.9em;
+				}
+			}
+
+
+			&.is-active {
+				// border-bottom: solid 2px;
+
+				&::before {
+					position: absolute;
+					bottom: -2px;
+					left: 0;
+					display: block;
+					width: 100%;
+					height: 4px;
+					background-color: currentColor;
+					content: "";
+				}
+			}
+		}
+
 	}
 
 	.pchpp-setting__body {
 		padding: 0 8px;
-	}
-
-	h1.pchpp-setting__title {
-		padding-top: 8px;
-		font-size: 1.75em;
 	}
 
 	h2 {

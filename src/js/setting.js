@@ -3,7 +3,11 @@
  */
 (function ($) {
 	$(function () {
-		// ボックスデザイン
+		const menuBtn = $('.pchpp-setting__menubtn');
+		menuBtn.click(function () {
+			menuBtn.toggleClass('is-open');
+		});
+
 		(function () {
 			const $boxPreview = $('.pchpp-setting__preview');
 			const $box = $boxPreview.find('.pochipp-box');
