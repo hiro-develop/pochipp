@@ -15,10 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 <h3 class="pchpp-setting__h3">アプリケーションIDの設定</h3>
+<p class="pchpp-setting__p">
+	Yahoo!ショッピングWeb APIを使って商品検索をするためには、<a href="https://developer.yahoo.co.jp/" target="_blank" rel="noopener noreferrer">Yahoo!デベロッパーネットワーク</a>から発行可能な「アプリケーションID」（アプリケーションの「Client ID」）の設定が必要です。
+</p>
 <div class="pchpp-setting__div">
-	<p class="pchpp-setting__p">
-		Yahoo!ショッピングWeb APIを使って商品検索をするためには、<a href="https://developer.yahoo.co.jp/" target="_blank" rel="noopener noreferrer">Yahoo!デベロッパーネットワーク</a>から発行可能な「アプリケーションID」（アプリケーションの「Client ID」）の設定が必要です。
-	</p>
 	<dl class="pchpp-setting__dl">
 		<dt>アプリケーションID<br> ( Client ID )</dt>
 		<dd>
@@ -33,11 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 </div>
 
 <h3 class="pchpp-setting__h3">LinkSwitchの設定</h3>
+<p class="pchpp-setting__p">
+	バリューコマースの「LinkSwitch」を使用したい場合は、
+	<a href="https://aff.valuecommerce.ne.jp/ad/AutoMyLink/getTag" target="_blank" rel="noopener noreferrer">LinkSwitch設定</a>ページの「LinkSwitchタグ」に記載されている<code>vc_pid</code>を設定してください。
+</p>
 <div class="pchpp-setting__div">
-	<p class="pchpp-setting__p">
-		バリューコマースの「LinkSwitch」を使用したい場合は、
-		<a href="https://aff.valuecommerce.ne.jp/ad/AutoMyLink/getTag" target="_blank" rel="noopener noreferrer">LinkSwitch設定</a>ページの「LinkSwitchタグ」に記載されている<code>vc_pid</code>を設定してください。
-	</p>
 	<dl class="pchpp-setting__dl">
 		<dt>LinkSwitch の vc_pid</dt>
 		<dd>

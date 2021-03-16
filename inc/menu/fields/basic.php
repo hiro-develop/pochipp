@@ -10,51 +10,50 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 ?>
 
 <h3 class="pchpp-setting__h3">ボックスのデザイン設定</h3>
-<div class="pchpp-setting__preview">
-	<div class="__wrap">
-		<div class="__label">プレビュー</div>
-		<div class="__inner">
-			<div class="pochipp-box"
-				data-img="<?=esc_attr( \POCHIPP::get_setting( 'img_position' ) )?>"
-				data-lyt-pc="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) )?>"
-				data-lyt-mb="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_mb' ) )?>"
-				data-btn-style="<?=esc_attr( $btn_style )?>"
-				data-btn-radius="<?=esc_attr( \POCHIPP::get_setting( 'btn_radius' ) )?>"
-				data-sale-effect="<?=esc_attr( \POCHIPP::get_setting( 'sale_text_effect' ) )?>"
-			>
-				<div class="pochipp-box__image">
-					<a href="###" rel="nofollow">
-						<img src="<?=esc_url( POCHIPP_URL )?>assets/img/box_preview_img.png" alt="">
-					</a>
-				</div>
-				<div class="pochipp-box__body">
-					<div class="pochipp-box__title">
-						<a href="###" rel="nofollow">
-						Lorem Ipsum Watch 商品タイトル 腕時計 ABC-Z3 最新 防水 ソーラー</a>
-					</div>
-					<div class="pochipp-box__info">Lorem Ipsum</div>
-					<div class="pochipp-box__price">¥10,000 <span>（2021/01/01 11:11時点 | 〇〇調べ）</span></div>
-				</div>
-				<div class="pochipp-box__btns"
-					data-maxclmn-pc="<?=esc_attr( \POCHIPP::get_setting( 'max_column_pc' ) )?>"
-					data-maxclmn-mb="<?=esc_attr( \POCHIPP::get_setting( 'max_column_mb' ) )?>"
+<div class="pchpp-setting__div">
+	<div class="pchpp-setting__preview">
+		<div class="__wrap">
+			<!-- <div class="__label">プレビュー</div> -->
+			<div class="__inner">
+				<div class="pochipp-box"
+					data-img="<?=esc_attr( \POCHIPP::get_setting( 'img_position' ) )?>"
+					data-lyt-pc="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) )?>"
+					data-lyt-mb="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_mb' ) )?>"
+					data-btn-style="<?=esc_attr( $btn_style )?>"
+					data-btn-radius="<?=esc_attr( \POCHIPP::get_setting( 'btn_radius' ) )?>"
+					data-sale-effect="<?=esc_attr( \POCHIPP::get_setting( 'sale_text_effect' ) )?>"
 				>
-					<div class="pochipp-box__btnwrap -amazon">
-						<a href="###" class="pochipp-box__btn" rel="nofollow">Amazon</a>
+					<div class="pochipp-box__image">
+						<a href="###" rel="nofollow">
+							<img src="<?=esc_url( POCHIPP_URL )?>assets/img/box_preview_img.png" alt="">
+						</a>
 					</div>
-					<div class="pochipp-box__btnwrap -rakuten">
-						<a href="###" class="pochipp-box__btn" rel="nofollow">楽天市場</a>
+					<div class="pochipp-box__body">
+						<div class="pochipp-box__title">
+							<a href="###" rel="nofollow">
+							Lorem Ipsum Watch 商品タイトル 腕時計 ABC-Z3 最新 防水 ソーラー</a>
+						</div>
+						<div class="pochipp-box__info">Lorem Ipsum</div>
+						<div class="pochipp-box__price">¥10,000 <span>（2021/01/01 11:11時点 | 〇〇調べ）</span></div>
 					</div>
-					<div class="pochipp-box__btnwrap -yahoo">
-						<a href="###" class="pochipp-box__btn" rel="nofollow">Yahooショッピング</a>
+					<div class="pochipp-box__btns"
+						data-maxclmn-pc="<?=esc_attr( \POCHIPP::get_setting( 'max_column_pc' ) )?>"
+						data-maxclmn-mb="<?=esc_attr( \POCHIPP::get_setting( 'max_column_mb' ) )?>"
+					>
+						<div class="pochipp-box__btnwrap -amazon">
+							<a href="###" class="pochipp-box__btn" rel="nofollow">Amazon</a>
+						</div>
+						<div class="pochipp-box__btnwrap -rakuten">
+							<a href="###" class="pochipp-box__btn" rel="nofollow">楽天市場</a>
+						</div>
+						<div class="pochipp-box__btnwrap -yahoo">
+							<a href="###" class="pochipp-box__btn" rel="nofollow">Yahooショッピング</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-
-<div class="pchpp-setting__div">
 	<dl class="pchpp-setting__dl">
 		<dt>レイアウト（PC）</dt>
 		<dd>

@@ -22,7 +22,9 @@ $now_tab = $_GET['tab'] ?? 'basic';
 		<h1 class="pchpp-setting__title">
 			<img src="https://pochipp.com/wp-content/uploads/2021/01/Pochipp-1.png" alt="ポチップ設定" width="200" height="50">
 		</h1>
-		<button class="pchpp-setting__menubtn"></button>
+		<button class="pchpp-setting__menubtn">
+			<span class="dashicons dashicons-menu-alt"></span>
+		</button>
 		<div class="pchpp-setting__tabs">
 			<div class="__tabs__wrap">
 				<?php

@@ -18,12 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	</div>
 </div>
 <h3 class="pchpp-setting__h3">PA-APIの設定</h3>
+<p class="pchpp-setting__p">
+	AmazonのAPIを使って商品検索をするためには、「<a href="https://affiliate.amazon.co.jp/assoc_credentials/home" target="_blank" rel="noopener noreferrer">Amazon Product Advertising API</a>」の「認証キー」が必要です。
+	<br>
+	認証キーを取得後、「アクセスキー」と「シークレットキー」を設定してください。
+</p>
 <div class="pchpp-setting__div">
-	<p class="pchpp-setting__p">
-		AmazonのAPIを使って商品検索をするためには、「<a href="https://affiliate.amazon.co.jp/assoc_credentials/home" target="_blank" rel="noopener noreferrer">Amazon Product Advertising API</a>」の「認証キー」が必要です。
-		<br>
-		認証キーを取得後、「アクセスキー」と「シークレットキー」を設定してください。
-	</p>
 	<dl class="pchpp-setting__dl">
 		<dt>アクセスキー</dt>
 		<dd>
@@ -48,12 +48,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 <h3 class="pchpp-setting__h3">トラッキングIDの設定</h3>
+<p class="pchpp-setting__p">
+	Amazonアソシエイトの「トラッキングID」を設定することで、商品リンクがアフィリエイトリンクに自動変換されます。
+	<br>
+	利用できるIDは<a href="https://affiliate.amazon.co.jp/home/account/tag/manage" target="_blank" rel="noopener noreferrer">トラッキングIDの管理</a>から確認できます。
+</p>
 <div class="pchpp-setting__div">
-	<p class="pchpp-setting__p">
-		Amazonアソシエイトの「トラッキングID」を設定することで、商品リンクがアフィリエイトリンクに自動変換されます。
-		<br>
-		利用できるIDは<a href="https://affiliate.amazon.co.jp/home/account/tag/manage" target="_blank" rel="noopener noreferrer">トラッキングIDの管理</a>から確認できます。
-	</p>
 	<dl class="pchpp-setting__dl">
 		<dt>トラッキングID</dt>
 		<dd>
