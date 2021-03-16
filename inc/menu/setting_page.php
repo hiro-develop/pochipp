@@ -20,7 +20,7 @@ $now_tab = $_GET['tab'] ?? 'basic';
 <hr class="wp-header-end">
 	<header class="pchpp-setting__header">
 		<h1 class="pchpp-setting__title">
-			<img src="https://pochipp.com/wp-content/uploads/2021/01/Pochipp-1.png" alt="ポチップ設定" width="200" height="50">
+			<img src="<?=esc_url( POCHIPP_URL )?>assets/img/pochipp-logo.png" alt="ポチップ設定" width="200" height="50">
 		</h1>
 		<button class="pchpp-setting__menubtn">
 			<span class="dashicons dashicons-menu-alt"></span>
