@@ -8,7 +8,6 @@ version_num=${version//-/.}
 
 # バージョン書き換え
 sed -i '' -e "s/Version: .*/Version: ${version_num}/g" pochipp.php;
-sed -i '' -e "s/date( 'mdGis' ) : .*/date( 'mdGis' ) : '${version_num}' );/g" pochipp.php
 
 #上の階層へ
 cd ..
@@ -20,4 +19,4 @@ zip -r pochipp.zip pochipp -x "*._*" "*__MACOSX*" "*.DS_Store" "*.git*" "*.vscod
 zip --delete pochipp.zip  "pochipp/.*"
 
 #zipファイルを移動
-mv pochipp.zip ./\POCHIPP::$versions/zip/pochipp-${version}.zip
+mv pochipp.zip ./pochipp-${version}.zip
