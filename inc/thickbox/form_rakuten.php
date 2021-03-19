@@ -8,14 +8,4 @@ if ( ! \POCHIPP::get_setting( 'rakuten_app_id' ) ) {
 	return;
 }
 
-/*
-<div class="pchpp-tb__selectbox">
-	<select id="sort_select" name="sort">
-		<?php foreach ( \POCHIPP::$rakuten_sorts as $sort_key => $label ) : ?>
-			<option value="<?=esc_attr( $sort_key )?>"><?=esc_html( $label )?></option>
-		<?php endforeach; ?>
-	</select>
-</div>
-*/
-
 echo $common_parts; // phpcs:ignore

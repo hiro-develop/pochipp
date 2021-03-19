@@ -3,7 +3,6 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-
 /**
  * AJAXのNonceチェック
  */

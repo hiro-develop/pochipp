@@ -3,6 +3,9 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Register shortcode
+ */
 add_shortcode( 'pochipp', '\POCHIPP\sc_pochipp' );
 function sc_pochipp( $atts ) {
 

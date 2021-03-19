@@ -20,4 +20,4 @@ zip -r pochipp.zip pochipp -x "*._*" "*__MACOSX*" "*.DS_Store" "*.git*" "*.vscod
 zip --delete pochipp.zip  "pochipp/.*"
 
 #zipファイルを移動
-mv pochipp.zip ./pochipp_versions/zip/pochipp-${version}.zip
+mv pochipp.zip ./\POCHIPP::$versions/zip/pochipp-${version}.zip

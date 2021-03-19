@@ -3,12 +3,10 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-add_filter( 'manage_posts_columns', '\POCHIPP\add_custom_post_columns' );
-add_action( 'manage_posts_custom_column', '\POCHIPP\output_custom_post_columns', 10, 2 );
-
 /**
- * 投稿一覧テーブルに アイキャッチ画像などの列を追加。
+ * manage_posts_columns
  */
+add_filter( 'manage_posts_columns', '\POCHIPP\add_custom_post_columns' );
 function add_custom_post_columns( $columns ) {
 	global $post_type;
 
@@ -25,8 +23,9 @@ function add_custom_post_columns( $columns ) {
 }
 
 /**
- * 表示内容
+ * manage_posts_custom_column
  */
+add_action( 'manage_posts_custom_column', '\POCHIPP\output_custom_post_columns', 10, 2 );
 function output_custom_post_columns( $column_name, $post_id ) {
 	global $post_type;
 
@@ -96,7 +95,6 @@ function output_custom_post_columns( $column_name, $post_id ) {
 		wp_reset_postdata();
 
 		update_post_meta( $post_id, 'used_count', $count );
-		// echo get_post_meta( $post_id, 'used_count', true );
 
 	}
 

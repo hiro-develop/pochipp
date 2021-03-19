@@ -4,14 +4,9 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Amazon APIから検索
+ * 登録済み商品の検索
  */
 add_action( 'wp_ajax_pochipp_search_registerd', '\POCHIPP\search_registerd_items' );
-
-
-/**
- * AmazonAPIから商品データを取得する
- */
 function search_registerd_items() {
 
 	if ( ! \POCHIPP\check_ajax_nonce() ) {

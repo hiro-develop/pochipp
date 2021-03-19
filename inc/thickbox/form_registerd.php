@@ -3,7 +3,6 @@
  * 登録済み商品検索フォーム
  */
 
-// 商品カテゴリー取得
 $item_terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 ?>
 <div class="pchpp-tb__selectbox">

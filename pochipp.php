@@ -6,6 +6,7 @@
  * Author: ひろ
  * Version: 1.2.0
  * Author URI: https://pochipp.com/
+ * Text Domain: pochipp
  * License: GPL2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -14,13 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /**
- * Ver.
- */
-define( 'POCHIPP_VERSION', ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? date( 'mdGis' ) : '1.2.0' );
-
-
-/**
- * Define path, url
+ * Define
  */
 define( 'POCHIPP_URL', plugins_url( '/', __FILE__ ) );
 define( 'POCHIPP_PATH', plugin_dir_path( __FILE__ ) );
@@ -28,40 +23,38 @@ define( 'POCHIPP_BASENAME', plugin_basename( __FILE__ ) );
 
 
 /**
- * class autoload
+ * Autoload
  */
-spl_autoload_register(
-	function( $classname ) {
+spl_autoload_register( function( $classname ) {
 
-		if ( false === strpos( $classname, 'POCHIPP' ) ) return;
+	if ( false === strpos( $classname, 'POCHIPP' ) ) return;
 
-		$file_name = str_replace( 'POCHIPP\\', '', $classname );
-		$file_name = str_replace( '\\', '/', $file_name );
-		$file      = POCHIPP_PATH . 'class/' . $file_name . '.php';
+	$file_name = str_replace( 'POCHIPP\\', '', $classname );
+	$file_name = str_replace( '\\', '/', $file_name );
+	$file      = POCHIPP_PATH . 'class/' . $file_name . '.php';
 
-		if ( file_exists( $file ) ) {
-			require $file;
-		}
-	}
-);
+	if ( file_exists( $file ) ) require $file;
+});
 
 
 /**
- * POCHIPP main
+ * POCHIPP
  */
 class POCHIPP extends \POCHIPP\Data {
-	use \POCHIPP\Form_Output, \POCHIPP\Utility;
+	use \POCHIPP\Setting, \POCHIPP\Helper;
 
 	public function __construct() {
 
-		// Amazon API v5
+		self::$version = get_file_data( __FILE__, [ 'Version' ] );
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			self::$version = date( 'mdGis' );
+		}
+
 		if ( ! class_exists( '\AwsV4' ) ) {
 			require_once POCHIPP_PATH . 'inc/api/paapiv5.php';
 		}
 
 		add_action( 'init', [ $this, 'set_setting_data' ], 1 );
-
-		// プラガブル関数の読み込み（子テーマなどからも上書きできるようなタイミングで）
 		add_action( 'after_setup_theme', [ $this, 'load_pluggable' ], 99 );
 
 		require_once POCHIPP_PATH . 'inc/enqueues.php';
@@ -93,19 +86,13 @@ class POCHIPP extends \POCHIPP\Data {
 	 * set_setting_data
 	 */
 	public function set_setting_data() {
-
-		// 設定されたデータを取得
-		$setting_data = get_option( self::DB_NAME ) ?: [];
-
-		// デフォルト値があるものはそれとマージしてセット
+		$setting_data       = get_option( self::DB_NAME ) ?: [];
 		self::$setting_data = array_merge( self::$default_data, $setting_data );
-
-		self::$has_affi = [
+		self::$has_affi     = [
 			'amazon'  => (bool) self::$setting_data['amazon_traccking_id'] || self::$setting_data['moshimo_amazon_aid'],
 			'rakuten' => (bool) self::$setting_data['rakuten_affiliate_id'] || self::$setting_data['moshimo_rakuten_aid'],
 			'yahoo'   => (bool) self::$setting_data['yahoo_linkswitch'] || self::$setting_data['moshimo_yahoo_aid'],
 		];
-
 	}
 
 
@@ -113,22 +100,11 @@ class POCHIPP extends \POCHIPP\Data {
 	 * get_setting
 	 */
 	public static function get_setting( $key = null ) {
-
 		if ( null !== $key ) {
-			// if ( ! isset( self::$setting_data[ $key ] ) ) return '';
 			return self::$setting_data[ $key ] ?? '';
 		}
 		return self::$setting_data;
 	}
-
-	/**
-	 * set_setting
-	 */
-	// public static function set_setting( $key = null, $value ) {
-	// 	if ( null !== $key ) {
-	// 		self::$setting_data[ $key ] = $value;
-	// 	}
-	// }
 }
 
 
@@ -136,15 +112,5 @@ class POCHIPP extends \POCHIPP\Data {
  * Start
  */
 add_action( 'plugins_loaded', function() {
-
 	new POCHIPP();
-
-	if ( ! class_exists( 'Puc_v4_Factory' ) ) {
-		require POCHIPP_PATH . 'inc/updater/plugin-update-checker.php';
-	}
-	Puc_v4_Factory::buildUpdateChecker(
-		'https://pochipp.com/plugin_versions/version.json',
-		POCHIPP_PATH . 'pochipp.php',
-		'pochipp'
-	);
 }, 11 );

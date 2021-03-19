@@ -4,14 +4,9 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * APIから検索
- */
-add_action( 'wp_ajax_pochipp_search_amazon', '\POCHIPP\search_from_amazon_api' );
-
-
-/**
  * AmazonAPIから商品データを取得する
  */
+add_action( 'wp_ajax_pochipp_search_amazon', '\POCHIPP\search_from_amazon_api' );
 function search_from_amazon_api() {
 
 	if ( ! \POCHIPP\check_ajax_nonce() ) {
@@ -180,7 +175,6 @@ function get_json_from_amazon_api( $operation, $request, $keywords ) {
 }
 
 
-
 /**
  * 商品データを整形
  */
@@ -188,16 +182,6 @@ function set_item_data_by_amazon_api( $result_data, $keywords ) {
 
 	$items = [];
 	foreach ( $result_data->Items as $item ) {
-
-		// if ( $only ) {
-		// 	$items[] = [
-		// 		'title'           => $item->ItemInfo->Title->DisplayValue ?? '',
-		// 		'asin'            => $item->ASIN ?? '',
-		// 		'amazon_affi_url' => $item->DetailPageURL ?? '',
-		// 		// 'add_searched_at' => 'amazon',
-		// 	];
-		// 	continue;
-		// }
 
 		$data = [
 			'keywords'    => $keywords,

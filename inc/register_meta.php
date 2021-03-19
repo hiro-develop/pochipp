@@ -4,7 +4,7 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * カスタムフィールドの登録
+ * Register meta
  */
 add_action( 'init', '\POCHIPP\register_metas' );
 function register_metas() {
@@ -20,7 +20,10 @@ function register_metas() {
 	);
 }
 
-// 保存処理
+
+/**
+ * Save
+ */
 add_action( 'save_post', function ( $the_id ) {
 
 	// $_POST なければ return

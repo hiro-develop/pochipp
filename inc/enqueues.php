@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 add_action( 'wp_enqueue_scripts', 'POCHIPP\front_scripts', 12 );
 function front_scripts() {
-	wp_enqueue_style( 'pochipp-front', POCHIPP_URL . 'dist/css/style.css', [], POCHIPP_VERSION );
+	wp_enqueue_style( 'pochipp-front', POCHIPP_URL . 'dist/css/style.css', [], \POCHIPP::$version );
 }
 
 
@@ -32,16 +32,14 @@ function admin_scripts( $hook_suffix ) {
 		wp_enqueue_script( 'media-upload' );
 		wp_enqueue_media();
 
-		// wp_enqueue_script( 'pochipp-media', POCHIPP_URL . '/dist/js/media.js', ['jquery'], POCHIPP_VERSION, true );
-
 		// TthickBox
 		add_thickbox();
 	}
 
 	// 管理画面用CSS
 	if ( $is_pochipp_menu || $is_columns_page ) {
-		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
-		wp_enqueue_script( 'pochipp-setting', POCHIPP_URL . 'dist/js/setting.js', [ 'jquery' ], POCHIPP_VERSION, true );
+		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], \POCHIPP::$version );
+		wp_enqueue_script( 'pochipp-setting', POCHIPP_URL . 'dist/js/setting.js', [ 'jquery' ], \POCHIPP::$version, true );
 	}
 
 	// 設定ページにだけ読み込むファイル
@@ -50,12 +48,12 @@ function admin_scripts( $hook_suffix ) {
 		// カラーピッカー
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
-		wp_enqueue_script( 'pochipp-color-picker', POCHIPP_URL . 'dist/js/colorpicker.js', [ 'jquery', 'wp-color-picker' ], POCHIPP_VERSION, true );
+		wp_enqueue_script( 'pochipp-color-picker', POCHIPP_URL . 'dist/js/colorpicker.js', [ 'jquery', 'wp-color-picker' ], \POCHIPP::$version, true );
 
 		// デートピッカー
-		wp_enqueue_style( 'datetimepicker', POCHIPP_URL . 'assets/datetimepicker/jquery.datetimepicker.min.css', [], POCHIPP_VERSION );
-		wp_enqueue_script( 'datetimepicker', POCHIPP_URL . 'assets/datetimepicker/jquery.datetimepicker.full.min.js', [ 'jquery' ], POCHIPP_VERSION, true );
-		wp_enqueue_script( 'pochipp-datetimepicker', POCHIPP_URL . 'dist/js/datepicker.js', [], POCHIPP_VERSION, true );
+		wp_enqueue_style( 'datetimepicker', POCHIPP_URL . 'assets/datetimepicker/jquery.datetimepicker.min.css', [], \POCHIPP::$version );
+		wp_enqueue_script( 'datetimepicker', POCHIPP_URL . 'assets/datetimepicker/jquery.datetimepicker.full.min.js', [ 'jquery' ], \POCHIPP::$version, true );
+		wp_enqueue_script( 'pochipp-datetimepicker', POCHIPP_URL . 'dist/js/datepicker.js', [], \POCHIPP::$version, true );
 
 	}
 }
@@ -66,37 +64,17 @@ function admin_scripts( $hook_suffix ) {
  */
 add_action( 'enqueue_block_editor_assets', 'POCHIPP\block_assets' );
 function block_assets() {
+	global $post_type;
 
 	// ブロック関係のCSS
-	wp_enqueue_style( 'pochipp-blocks', POCHIPP_URL . 'dist/css/blocks.css', [], POCHIPP_VERSION );
+	wp_enqueue_style( 'pochipp-blocks', POCHIPP_URL . 'dist/css/blocks.css', [], \POCHIPP::$version );
 
-	// Pochippブロック
-	// $asset = include POCHIPP_PATH . 'dist/blocks/linkbox/index.asset.php';
-	// wp_enqueue_script( 'pochipp-block', POCHIPP_URL . 'dist/blocks/linkbox/index.js', $asset['dependencies'], $asset['version'], true );
-
-	// Translations for JS
-	// if ( function_exists( 'wp_set_script_translations' ) ) {
-	// 	wp_set_script_translations(
-	// 		'pochipp-block',
-	// 		'pochipp',
-	// 		POCHIPP_PATH . 'languages'
-	// 	);
-	// }
-
-	global $post_type;
-	// 商品登録ページでのみ読み込む
 	if ( \POCHIPP::POST_TYPE_SLUG === $post_type ) {
 
-		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], POCHIPP_VERSION );
+		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], \POCHIPP::$version );
 
 		// ブロック
 		$asset = include POCHIPP_PATH . 'dist/blocks/setting/index.asset.php';
-		wp_enqueue_script(
-			'pochipp-setting-block',
-			POCHIPP_URL . 'dist/blocks/setting/index.js',
-			$asset['dependencies'], // // array_merge( ['jquery' ], $asset['dependencies'] )
-			$asset['version'],
-			true
-		);
+		wp_enqueue_script( 'pochipp-setting-block', POCHIPP_URL . 'dist/blocks/setting/index.js', $asset['dependencies'], $asset['version'], true );
 	}
 }

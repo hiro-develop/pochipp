@@ -4,14 +4,9 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * APIから検索
+ * 楽天APIから商品データを取得する
  */
 add_action( 'wp_ajax_pochipp_search_rakuten', '\POCHIPP\search_from_rakuten_api' );
-
-
-/**
- *  楽天APIから商品データを取得する
- */
 function search_from_rakuten_api() {
 
 	if ( ! \POCHIPP\check_ajax_nonce() ) {

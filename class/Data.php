@@ -8,8 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class Data {
 
-	// constructor
-	private function __construct() {}
+	// ver
+	public static $version = '';
 
 	// 設定データを保持する変数
 	public static $setting_data = [];
@@ -69,22 +69,5 @@ class Data {
 		'rakuten' => '',
 		'yahoo'   => '',
 	];
-
-	// Amazonカテゴリー
-	// public static $amazon_indexs = [
-	// 	'All'            => 'すべて',
-	// 	// ...
-	// ];
-
-	// 楽天APIに指定できるソートパラメータ
-	// public static $rakuten_sorts = [
-	// 	'standard'       => '楽天標準ソート順',
-	// 	'+itemPrice'     => '価格順（昇順）',
-	// 	'-itemPrice'     => '価格順（降順）',
-	// 	'+affiliateRate' => 'アフィリエイト料率順（昇順）',
-	// 	'-affiliateRate' => 'アフィリエイト料率順（降順）',
-	// 	'+reviewAverage' => 'レビュー平均順（昇順）',
-	// 	'-reviewAverage' => 'レビュー平均順（降順）',
-	// ];
 
 }

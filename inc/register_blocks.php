@@ -4,7 +4,7 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Pochippブロック
+ * Register block
  */
 add_action( 'init', function() {
 
@@ -15,7 +15,7 @@ add_action( 'init', function() {
 		]
 	);
 
-	// 設定画面のボタンプレビュー用ブロック
+	// 設定画面のボタンプレビュー用
 	register_block_type( 'pochipp/setting-preview', [
 		'attributes'      => [
 			'meta' => [
@@ -23,7 +23,6 @@ add_action( 'init', function() {
 				'default' => '',
 			],
 		],
-		// 'editor_script'   => 'pochipp-setting-block',
 		'render_callback' => '\POCHIPP\cb_pochipp_setting_preview',
 	] );
 } );
@@ -421,19 +420,4 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 	</div>
 	<?php
 	// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
-
 }
-/**
- * ブロックカテゴリー追加
- */
-// add_filter( 'block_categories', '\POCHIPP\add_block_categories' );
-// function add_block_categories( $categories ) {
-
-// 	$my_category = [
-// 		[
-// 			'slug'  => 'useful - blocks',  // ブロックカテゴリーのスラッグ
-// 			'title' => 'ポチップ',
-// 		],
-// 	];
-// 	return array_merge( $categories, $my_category );
-// }

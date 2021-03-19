@@ -4,7 +4,7 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-trait Form_Output {
+trait Setting {
 
 	/**
 	 * テキストフィールドを出力する
@@ -79,6 +79,7 @@ trait Form_Output {
 		</div>
 		<?php
 	}
+
 
 	/**
 	 * チェックボックスを出力する
@@ -157,6 +158,4 @@ trait Form_Output {
 			</div>
 		<?php
 	}
-
-
 }

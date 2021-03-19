@@ -111,12 +111,10 @@
 		<!-- 変数の snake_case ルールを除外 ( $SETTING などに影響) -->
 		<exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase" />
 		<exclude name="WordPress.NamingConventions.ValidVariableName.InterpolatedVariableNotSnakeCase" />
-		
 
 		<!-- 関数の snake_case ルールを除外 -->
 		<exclude name="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid" />
-		
-		
+
 		<!-- ファイル名を_から始めた時に出るエラーを除外 -->
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
 
@@ -133,8 +131,6 @@
 
 		<!-- date() 使えるように -->
 		<exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
-
-		
 
 		<!-- $post_id などの変数名にエラーをださない -->
 		<!-- <exclude name="WordPress.WP.GlobalVariablesOverride.OverrideProhibited" /> -->

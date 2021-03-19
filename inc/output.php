@@ -3,7 +3,6 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// カスタムスタイル
 function get_custom_style() {
 	$custom_btn_color   = \POCHIPP::get_setting( 'custom_btn_color' );
 	$custom_btn_color_2 = \POCHIPP::get_setting( 'custom_btn_color_2' );
@@ -12,21 +11,21 @@ function get_custom_style() {
 		"--pchpp-color-custom: {$custom_btn_color};" .
 		"--pchpp-color-custom-2: {$custom_btn_color_2};" .
 	'};';
-
 	return $style;
 }
 
 
 /**
- * フロントに出力するコード
+ * Output code
  */
 add_action( 'wp_head', function() {
 
 	echo '<!-- Pochipp -->' . PHP_EOL;
 
-	// ボタン用style
+	// CSS for Custom buttons
 	echo '<style id="pchpp_custom_style">' . \POCHIPP\get_custom_style() . '</style>' . PHP_EOL; // phpcs:ignore
 
+	// LinkSwitch
 	$linkswitch_code = \POCHIPP::get_setting( 'yahoo_linkswitch' );
 	if ( is_numeric( $linkswitch_code ) ) {
 		echo '<script type="text/javascript" language="javascript">' .
@@ -41,33 +40,28 @@ add_action( 'wp_head', function() {
 } );
 
 
-/**
- * 管理画面に出力するコード
- */
 add_action( 'admin_head', function() {
 
-	// ボタン用style
+	// CSS for Custom buttons
 	echo '<style id="pchpp_custom_style">' . \POCHIPP\get_custom_style() . '</style>' . PHP_EOL; // phpcs:ignore
 
-	// ajax用のグローバル変数
+	// for Ajax
 	$script  = 'window.pchppVars = {};';
 	$script .= 'window.pchppVars.adminUrl = "' . esc_js( admin_url() ) . '";';
 	$script .= 'window.pchppVars.ajaxUrl = "' . esc_js( admin_url( 'admin-ajax.php' ) ) . '";';
 	$script .= 'window.pchppVars.ajaxNonce = "' . esc_js( wp_create_nonce( \POCHIPP::NONCE_KEY ) ) . '";';
 
-	// ボタン表示するかどうか
-	$script .= 'window.pchppVars.hasAffi = {' .
-		'amazon: "' . esc_js( \POCHIPP::$has_affi['amazon'] ) . '",' .
-		'rakuten: "' . esc_js( \POCHIPP::$has_affi['rakuten'] ) . '",' .
-		'yahoo: "' . esc_js( \POCHIPP::$has_affi['yahoo'] ) . '",' .
-	'};';
-
-	// ボタンテキスト
+	// for Block
 	$script .= 'window.pchppVars.btnStyle = "' . esc_js( \POCHIPP::get_setting( 'btn_style' ) ) . '";';
 	$script .= 'window.pchppVars.btnRadius = "' . esc_js( \POCHIPP::get_setting( 'btn_radius' ) ) . '";';
 	$script .= 'window.pchppVars.imgPosition = "' . esc_js( \POCHIPP::get_setting( 'img_position' ) ) . '";';
 	$script .= 'window.pchppVars.boxLayoutPC = "' . esc_js( \POCHIPP::get_setting( 'box_layout_pc' ) ) . '";';
 	$script .= 'window.pchppVars.boxLayoutMB = "' . esc_js( \POCHIPP::get_setting( 'box_layout_mb' ) ) . '";';
+	$script .= 'window.pchppVars.hasAffi = {' .
+		'amazon: "' . esc_js( \POCHIPP::$has_affi['amazon'] ) . '",' .
+		'rakuten: "' . esc_js( \POCHIPP::$has_affi['rakuten'] ) . '",' .
+		'yahoo: "' . esc_js( \POCHIPP::$has_affi['yahoo'] ) . '",' .
+	'};';
 
 	echo '<script id="pchpp_admin_vars">' . $script . '</script>' . PHP_EOL; // phpcs:ignore
 
@@ -75,7 +69,7 @@ add_action( 'admin_head', function() {
 
 
 /**
- * セール情報
+ * Sale
  */
 add_action( 'wp', '\POCHIPP\set_sale_text' );
 function set_sale_text() {
@@ -140,5 +134,4 @@ function set_sale_text() {
 			add_filter( 'pochipp_show_custom_btn_2', '__return_false' );
 		}
 	}
-
 }

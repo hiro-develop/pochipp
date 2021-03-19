@@ -2,7 +2,6 @@
 /**
  * 商品検索部分の中身
  */
-
 // phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
 
 // iframeのURLから受け取るパラメータ
@@ -23,7 +22,6 @@ $common_parts = <<<HTML
 </div>
 HTML;
 ?>
-
 <script type="text/javascript">
 	window.pochippIframeVars = {
 		adminUrl: "<?=esc_js( admin_url() )?>", // 管理画面URL

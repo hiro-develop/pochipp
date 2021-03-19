@@ -50,24 +50,3 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</dd>
 	</dl>
 </div>
-
-<?php
-/*
-<h3 class="pchpp-setting__h3">楽天ボタンのリンク先</h3>
-<div class="pchpp-setting__div">
-	<dl class="pchpp-setting__dl">
-		<!-- <dt></dt> -->
-		<dd>
-			<?php
-				\POCHIPP::output_radio([
-					'key'     => 'rakuten_btn_target',
-					'choices' => [
-						'searched' => '検索結果ページ',
-						'detail'   => '商品の詳細ページ',
-					],
-				]);
-			?>
-		</dd>
-	</dl>
-</div>
-*/

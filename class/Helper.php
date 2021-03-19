@@ -4,7 +4,7 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-trait Utility {
+trait Helper {
 
 	/**
 	 * Amazon 検索結果ページを取得

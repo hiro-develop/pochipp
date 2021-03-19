@@ -6,15 +6,9 @@ namespace POCHIPP;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * APIから検索
- */
-add_action( 'wp_ajax_pochipp_search_yahoo', '\POCHIPP\search_from_yahoo_api' );
-// add_action( 'wp_footer', '\POCHIPP\search_from_yahoo_api' );
-
-
-/**
  * YahooAPIから商品データを取得する
  */
+add_action( 'wp_ajax_pochipp_search_yahoo', '\POCHIPP\search_from_yahoo_api' );
 function search_from_yahoo_api() {
 
 	if ( ! \POCHIPP\check_ajax_nonce() ) {

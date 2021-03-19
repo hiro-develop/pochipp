@@ -5,24 +5,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /**
- * media_upload_{$action} フックで iframe 読み込み
+ * media_upload_{$action} : iframeを読み込む
  */
 add_action( 'media_upload_pochipp', function() {
-	wp_enqueue_style( 'pochipp-iframe', POCHIPP_URL . 'dist/css/iframe.css', [], POCHIPP_VERSION );
-	wp_enqueue_script( 'pochipp-iframe', POCHIPP_URL . 'dist/js/search.js', [ 'jquery' ], POCHIPP_VERSION, true );
-	wp_iframe( '\POCHIPP\load_search_fom_iframe' );
+	wp_enqueue_style( 'pochipp-iframe', POCHIPP_URL . 'dist/css/iframe.css', [], \POCHIPP::$version );
+	wp_enqueue_script( 'pochipp-iframe', POCHIPP_URL . 'dist/js/search.js', [ 'jquery' ], \POCHIPP::$version, true );
+	wp_iframe( '\POCHIPP\load_search_iframe' );
 } );
 
 
 /**
- * 商品選択iframe
+ * 商品選択 iframe
  */
-function load_search_fom_iframe() {
+function load_search_iframe() {
 
-	// タブはフックで定義
-	add_filter( 'media_upload_tabs', '\POCHIPP\media_upload_tabs', 999 );
+	// タブ
+	add_filter( 'media_upload_tabs', '\POCHIPP\register_search_tab', 999 );
 
-	// body
+	// コンテンツ
 	include POCHIPP_PATH . 'inc/thickbox/serach_items.php';
 }
 
@@ -30,7 +30,7 @@ function load_search_fom_iframe() {
 /**
  * 商品リンク追加画面のタブ設定
  */
-function media_upload_tabs() {
+function register_search_tab() {
 
 	$at   = \POCHIPP::array_get( $_GET, 'at', '' );
 	$only = \POCHIPP::array_get( $_GET, 'only', '' );
@@ -46,7 +46,7 @@ function media_upload_tabs() {
 		$tabs[ \POCHIPP::TABKEYS[ $only ] ] = $tab_labels[ $only ];
 	} else {
 		if ( 'editor' === $at ) {
-			// 投稿のエディターからモーダルが開かれた時だけ追加する
+			// 投稿エディターからモーダルが開かれた時だけ追加
 			$tabs[ \POCHIPP::TABKEYS['registerd'] ] = '登録済み商品を検索';
 		}
 		$tabs[ \POCHIPP::TABKEYS['amazon'] ]  = $tab_labels['amazon'];

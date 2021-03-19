@@ -13,14 +13,4 @@ if ( ! $can_use_amazon_search ) {
 	return;
 }
 
-/*
-<div class="pchpp-tb__selectbox">
-	<select id="search_index" name="search_index">
-		<?php foreach ( \POCHIPP::$amazon_indexs as $key => $val ) : ?>
-			<option value="<?=esc_attr( $key )?>"><?=esc_html( $val )?></option>
-		<?php endforeach; ?>
-	</select>
-</div>
-*/
-
 echo $common_parts; // phpcs:ignore

@@ -2,42 +2,7 @@
 namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-
-/*
-<h3 class="pchpp-setting__h3">セール情報の表示位置</h3>
-<div class="pchpp-setting__div">
-	<dl class="pchpp-setting__dl">
-		<dt>タブレット・PCサイズ</dt>
-		<dd>
-			<?php
-				\POCHIPP::output_radio([
-					'key'     => 'sale_position_pc',
-					'choices' => [
-						'top'   => 'ボタン上部',
-						'inner' => 'ボタン内部',
-					],
-				]);
-			?>
-		</dd>
-	</dl>
-	<dl class="pchpp-setting__dl">
-		<dt>モバイルサイズ</dt>
-		<dd>
-			<?php
-				\POCHIPP::output_radio([
-					'key'     => 'sale_position_mb',
-					'choices' => [
-						'top'   => 'ボタン上部',
-						'inner' => 'ボタン内部',
-					],
-				]);
-			?>
-		</dd>
-	</dl>
-</div>
-*/
 ?>
-
 <div class="pchpp-setting__section_help">
 	<div class="__helpLink">
 		セール情報の設定方法は<a href="https://pochipp.com/302/" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-book-alt">こちらのページ</a>で解説しています。
