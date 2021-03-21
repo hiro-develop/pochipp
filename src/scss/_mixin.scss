@@ -1,0 +1,60 @@
+
+// mobileのみ
+@mixin mobile {
+
+	@media screen and (max-width: 599px) {
+		@content;
+	}
+}
+
+//tab以上
+@mixin tab {
+
+	@media screen and (min-width: 600px) {
+		@content;
+	}
+}
+
+//pc以上
+@mixin pc {
+
+	@media screen and (min-width: 1000px) {
+		@content;
+	}
+}
+
+@mixin sp {
+
+	@media screen and (max-width: 999px) {
+		@content;
+	}
+}
+
+@mixin small {
+
+	@media screen and (max-width: 360px) {
+		@content;
+	}
+}
+
+
+@mixin pc_admin {
+
+	@media screen and (min-width: 783px) {
+		@content;
+	}
+}
+
+@mixin sp_admin {
+
+	@media screen and (max-width: 782px) {
+		@content;
+	}
+}
+
+@mixin mb_admin {
+
+	@media screen and (max-width: 600px) {
+		@content;
+	}
+}

@@ -1,0 +1,171 @@
+
+.pchpp-btnTable {
+
+	// フロントブロックだけ
+	.pochipp-block & {
+		max-width: 960px;
+		margin: 0 auto;
+		padding: 24px 0;
+
+		table.__table {
+			font-size: 13px;
+		}
+
+		.__table {
+
+			th,
+			td {
+				padding: 6px 10px;
+			}
+		}
+	}
+
+	.components-button.-icon-right {
+		flex-direction: row-reverse;
+
+		svg {
+			margin-right: 0;
+			margin-left: 4px;
+		}
+	}
+
+
+	table.__table {
+		width: 100%;
+		max-width: 100%;
+		color: #333 !important;
+		font-size: 14px;
+		text-align: left;
+		background: #fff !important;
+		border: none;
+		border-top: 1px solid #ededed !important;
+		border-right: 1px solid #ededed !important;
+		border-bottom: none !important;
+		border-left: none !important;
+		border-spacing: 0 !important;
+
+		@media screen and (max-width: 782px) {
+			display: block;
+		}
+	}
+
+	.__table {
+
+		tr {
+			background: none !important;
+		}
+
+		th,
+		td {
+			padding: 8px 12px;
+			color: inherit;
+			font-size: inherit;
+			line-height: inherit;
+			vertical-align: middle;
+			background: none;
+			border-top: none !important;
+			border-right: none !important;
+			border-bottom: 1px solid #ededed !important;
+			border-left: 1px solid #ededed !important;
+		}
+
+		th {
+			background-color: #f9f9f9 !important;
+		}
+
+		td {
+			background: none !important;
+		}
+
+		.wp-block-column & {
+
+			tbody,
+			th,
+			td {
+				display: block;
+			}
+
+			tr {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			th,
+			td {
+				width: 100%;
+			}
+		}
+
+		@media screen and (max-width: 782px) {
+
+			tbody,
+			th,
+			td {
+				display: block;
+			}
+
+			tr {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			th,
+			td {
+				width: 100%;
+			}
+		}
+
+		.components-button {
+			height: auto;
+			margin: 0;
+			padding: 4px 8px 4px 4px;
+			font-size: inherit;
+			line-height: 1;
+
+			&.-hide {
+				visibility: hidden;
+				opacity: 0;
+				pointer-events: none !important;
+			}
+
+			svg {
+				margin-right: 4px;
+			}
+
+			& + .components-button {
+				margin-left: 8px;
+			}
+		}
+
+		.__urlConfBtn {
+			display: inline-flex;
+			align-items: center;
+
+			span {
+				margin-right: 4px;
+				font-size: 12px;
+				line-height: 1;
+			}
+
+			a {
+				display: inline-flex;
+				align-items: center;
+				line-height: 1;
+				text-decoration: none;
+			}
+
+			svg {
+				width: 14px;
+				height: 14px;
+				margin-left: 2px;
+				fill: currentColor;
+
+				path {
+					fill: inherit;
+				}
+			}
+		}
+
+	}
+
+}

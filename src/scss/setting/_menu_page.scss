@@ -1,0 +1,412 @@
+.pochipps_page_pochipp_settings {
+
+	#wpcontent {
+		padding: 0 20px;
+
+		@include sp {
+			padding: 0 16px;
+		}
+
+		@include small {
+			padding: 0 8px;
+		}
+	}
+}
+
+.pchpp-setting {
+	margin-top: 1em;
+	font-size: 14px;
+
+	@include sp_admin {
+		margin-right: 0 !important;
+	}
+
+	@include small {
+		font-size: 13px;
+	}
+
+	.form-table,
+	.form-table th,
+	.form-table td,
+	.form-table p,
+	input {
+		font-size: inherit !important;
+	}
+
+	.__helpLink {
+		margin-top: 1.5em;
+		padding: 1.5em;
+		background: #fcfcfc;
+		border-radius: 4px;
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+
+		.dashicons-before {
+			margin: 0 4px;
+
+			&::before {
+				width: auto;
+				height: auto;
+				font-size: inherit;
+				line-height: inherit;
+				text-decoration: none;
+			}
+		}
+	}
+
+	.pchpp-setting__preview {
+		display: flex;
+		margin-bottom: 2em;
+
+		.__wrap {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.__label {
+			margin-bottom: 8px;
+			font-size: 0.9em;
+		}
+
+		// .__inner {
+		// 	padding: 8px;
+		// 	border: dashed 1px #dcdcdc;
+		// }
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.pochipp-box {
+			margin: 0 0 !important;
+			// transform: scale(0.8);
+			// transform-origin: 0 0;
+		}
+	}
+
+	.pchpp-setting__header {
+		display: flex;
+		align-items: center;
+		margin-bottom: 2em;
+		padding: 0 16px;
+		background: #fff;
+		border-radius: 4px;
+		box-shadow: 0 2px 16px -4px rgba(0, 0, 0, 0.1);
+
+		@include sp {
+			flex-wrap: wrap;
+			padding: 0 12px;
+		}
+	}
+
+	.pchpp-setting__menubtn {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		margin-left: auto;
+		padding: 0;
+		text-align: center;
+		background: none;
+		border: none;
+		box-shadow: none;
+		cursor: pointer;
+
+		span {
+			display: block;
+			font-size: 20px;
+		}
+
+		@include pc_admin {
+			display: none;
+		}
+	}
+
+	h1.pchpp-setting__title {
+		padding-right: 16px;
+		font-size: 1.75em;
+
+		img {
+			display: block;
+			width: 120px;
+			height: auto;
+		}
+	}
+
+	.pchpp-setting__menubtn.is-open + .pchpp-setting__tabs {
+		display: block;
+	}
+
+	.pchpp-setting__tabs {
+		// overflow-y: auto;
+		@include sp_admin {
+			display: none;
+			border-top: solid 1px rgba(50, 50, 50, 0.1);
+		}
+
+		.__tabs__wrap {
+			display: flex;
+			padding: 2px;
+
+			@include sp_admin {
+				flex-wrap: wrap;
+			}
+		}
+
+		a.__tab {
+			position: relative;
+			display: block;
+			box-sizing: border-box;
+			padding: 16px 16px;
+			color: inherit;
+			letter-spacing: 1px;
+			white-space: nowrap;
+			text-decoration: none;
+
+			@include pc_admin {
+				border-left: solid 1px rgba(50, 50, 50, 0.1);
+
+				&:last-child {
+					border-right: solid 1px rgba(50, 50, 50, 0.1);
+				}
+			}
+
+			@include sp_admin {
+				width: 50%;
+				text-align: center;
+
+				&[data-key="yahoo"] {
+					font-size: 0.9em;
+				}
+			}
+
+
+			&:hover,
+			&.is-active {
+				color: #2271b1;
+
+				&::before {
+					position: absolute;
+					bottom: -2px;
+					left: 0;
+					display: block;
+					width: 100%;
+					height: 4px;
+					background-color: currentColor;
+					content: "";
+				}
+			}
+		}
+
+	}
+
+	.pchpp-setting__body {
+		padding: 0 8px;
+	}
+
+	h2 {
+		margin: 2em 0 1em;
+		padding: 8px 4px;
+		font-size: 1.5em;
+		border-bottom: 2px solid #333;
+	}
+
+	.pchpp-setting__section_help {
+
+		& > :first-child {
+			margin-top: 0 !important;
+		}
+	}
+
+	.pchpp-setting__h3 {
+		margin: 2em 0 1em;
+		padding: 8px 16px;
+		font-size: 1.25em;
+		border-left: 3px solid #333;
+	}
+
+	td > :first-child {
+		margin-top: 0 !important;
+	}
+
+	.form-table {
+		display: block;
+
+		th {
+			display: none;
+		}
+
+		tbody,
+		tr,
+		td {
+			display: block;
+		}
+	}
+
+	.tab-contents:not(.is-active) {
+		display: none;
+	}
+
+	.nav-tab.is-active {
+		background: #fff;
+	}
+
+	.pchpp-setting__p {
+		margin-bottom: 1em;
+		padding-left: 2px;
+		line-height: 1.6;
+	}
+
+}
+
+.pchpp-setting__div {
+	padding: 16px;
+	background: #fcfcfc;
+	border-radius: 4px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+
+	@include pc_admin {
+		padding-left: 16px;
+	}
+}
+
+
+.pchpp-setting__dl {
+
+	&:not(:first-child) {
+		margin-top: 24px;
+	}
+
+	dt {
+		margin: 0;
+		font-weight: 700;
+
+		@include sp_admin {
+			margin-bottom: 1em;
+		}
+	}
+
+	dd {
+		margin: 0;
+		padding-left: 8px;
+
+		&.-flex {
+			display: flex;
+			flex-wrap: wrap;
+
+			.pchpp-setting__field {
+				margin-right: 16px;
+			}
+		}
+	}
+
+
+	@include pc_admin {
+		display: flex;
+
+		dt {
+			flex-basis: 13em;
+			flex-shrink: 0;
+			padding-top: 4px;
+		}
+
+		dd {
+			flex: 1 1 auto;
+			padding-left: 1em;
+		}
+	}
+
+}
+
+.pchpp-setting__field {
+
+	textarea {
+		width: 100%;
+		max-width: 600px;
+	}
+
+	&.-radio {
+
+		label {
+			display: block;
+			padding: 4px 0;
+		}
+
+		&.-flex {
+			display: flex;
+			flex-wrap: wrap;
+
+			label {
+				margin-right: 16px;
+			}
+		}
+	}
+
+	&.-checkbox {
+
+		padding: 4px 0;
+
+		[type="checkbox"] {
+			margin: 0 !important;
+		}
+
+		label {
+			margin-left: 4px;
+		}
+	}
+}
+
+p.pchpp-setting__desc {
+	margin-top: 0.5em !important;
+	font-size: 0.9em !important;
+}
+
+
+.pchpp-setting__row {
+	display: flex;
+	align-items: center;
+
+
+	& + .pchpp-setting__row {
+		margin-top: 8px;
+	}
+
+	.__row_label {
+		min-width: 2.75em;
+		margin-right: 8px;
+
+	}
+
+	&.-time {
+
+		.__nami {
+			display: inline-block;
+			padding: 4px 8px;
+		}
+
+		@include sp_admin {
+			// display: block;
+
+			// .pchpp-setting__item {
+			// 	display: flex;
+			// 	align-items: center;
+			// }
+
+			.pchpp-setting__field {
+				width: 100%;
+			}
+		}
+
+		.__row_label {
+
+			@include sp_admin {
+				// display: block;
+				// margin-bottom: 4px;
+				align-self: flex-start;
+				margin-top: 8px;
+			}
+		}
+	}
+}

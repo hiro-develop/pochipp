@@ -1,0 +1,115 @@
+{
+    "apiVersion": 2,
+    "name": "pochipp/linkbox",
+    "title": "Pochipp",
+    "category": "design",
+    "keywords": [
+        "linkbox"
+    ],
+    "supports": {
+        "className": false,
+        "html": false
+    },
+    "attributes": {
+        "className": {
+            "type": "string"
+        },
+        "pid": {
+            "type": "number"
+        },
+        "title": {
+            "type": "string"
+        },
+        "keywords": {
+            "type": "string"
+        },
+        "searched_at": {
+            "type": "string"
+        },
+        "asin": {
+            "type": "string"
+        },
+        "itemcode": {
+            "type": "string"
+        },
+        "yahoo_itemcode": {
+            "type": "string"
+        },
+        "seller_id": {
+            "type": "string"
+        },
+        "info": {
+            "type": "string"
+        },
+        "amazon_affi_url": {
+            "type": "string"
+        },
+        "rakuten_detail_url": {
+            "type": "string"
+        },
+        "yahoo_detail_url": {
+            "type": "string"
+        },
+        "image_url": {
+            "type": "string"
+        },
+        "price": {
+            "type": "string"
+        },
+        "price_at": {
+            "type": "string"
+        },
+        "is_paypay": {
+            "type": "string"
+        },
+        "custom_btn_url": {
+            "type": "string"
+        },
+        "custom_btn_text": {
+            "type": "string"
+        },
+        "custom_btn_url_2": {
+            "type": "string"
+        },
+        "custom_btn_text_2": {
+            "type": "string"
+        },
+        "btnLayoutPC": {
+            "type": "string",
+            "default": ""
+        },
+        "btnLayoutSP": {
+            "type": "string",
+            "default": ""
+        },
+        "hideInfo": {
+            "type": "boolean",
+            "default": false
+        },
+        "hidePrice": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideAmazon": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideRakuten": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideYahoo": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideCustom": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideCustom2": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "editorScript": "file:../../../dist/blocks/linkbox/index.js"
+}

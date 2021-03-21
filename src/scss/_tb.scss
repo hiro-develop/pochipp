@@ -1,0 +1,41 @@
+
+#TB_window.by-pochipp {
+	overflow: hidden;
+	border-radius: 8px;
+	// box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+
+
+	#TB_title {
+		display: flex;
+		align-items: center;
+		height: auto;
+		padding: 8px 8px 0;
+		letter-spacing: 1px;
+		background: #efefef;
+		border: none;
+	}
+
+	#TB_ajaxWindowTitle {
+		float: none;
+		width: 100%;
+		padding: 0 0 0 32px;
+		font-weight: 600;
+		line-height: 1.5;
+		text-align: center;
+	}
+
+
+	#TB_closeAjaxWindow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	#TB_closeWindowButton {
+		position: relative;
+		width: 32px;
+		height: 32px;
+	}
+}
+

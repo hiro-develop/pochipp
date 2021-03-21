@@ -1,0 +1,99 @@
+/**
+ * Pochippの設定画面と商品登録ページでしか読み込まれないCSSファイル
+ */
+@import "./mixin";
+@import "./common/**";
+@import "./setting/**";
+
+@keyframes pchppRotation {
+
+	0% {
+		transform: rotate(0);
+	}
+
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+
+// 設定ページエディター
+.post-type-pochipps {
+
+	.interface-interface-skeleton__content > .edit-post-visual-editor > .editor-styles-wrapper {
+		background: #e8e8e8;
+	}
+
+	.edit-post-visual-editor__post-title-wrapper {
+		display: block;
+		height: 1px;
+		visibility: hidden;
+		pointer-events: none;
+
+		div {
+			margin: 0 !important;
+		}
+	}
+}
+
+// 投稿一覧テーブル
+.manage-column#pid {
+	width: 4.5em;
+}
+
+.manage-column#pimg {
+	width: 56px;
+}
+
+.manage-column#searched_at {
+	width: 5em;
+}
+
+.manage-column#used_at {
+	width: 15em;
+}
+
+td.used_at.column-used_at {
+	display: flex;
+
+	.pchpp-usepage {
+
+		position: relative;
+		display: block;
+		margin: 4px;
+		padding: 4px;
+		color: #09648f;
+		font-size: 13px;
+		line-height: 1;
+		border: solid 1px #09648f;
+		border-radius: 2px;
+
+		&::after {
+			position: absolute;
+			right: -24px;
+			bottom: 32px;
+			z-index: 1;
+			display: block;
+			width: max-content;
+			min-height: 1em;
+			padding: 8px;
+			color: #48545f;
+			background-color: #fff;
+			border-radius: 4px;
+			box-shadow: 2px 2px 8px 1px #dcdcdc;
+			opacity: 0;
+			transition: 0.25s;
+			content: attr(data-title);
+			pointer-events: none;
+		}
+
+		&:hover {
+			color: #fff;
+			background-color: #09648f;
+
+			&::after {
+				opacity: 1;
+			}
+		}
+	}
+}

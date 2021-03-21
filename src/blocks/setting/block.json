@@ -1,0 +1,27 @@
+{
+    "apiVersion": 2,
+    "name": "pochipp/setting",
+    "title": "Setting",
+    "category": "design",
+    "keywords": [],
+    "supports": {
+        "className": false,
+        "customClassName": false,
+        "multiple": false,
+        "reusable": false,
+        "html": false
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": ""
+        },
+        "meta": {
+            "type": "string",
+            "source": "meta",
+            "meta": "pochipp_data",
+            "default": ""
+        }
+    },
+    "editorScript": "file:../../../dist/blocks/setting/index.js"
+}
