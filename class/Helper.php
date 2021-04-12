@@ -141,7 +141,7 @@ trait Helper {
 	/**
 	 * もしもリンクを作成する
 	 */
-	public function get_moshimo_url( $shop_type, $url, $a_id = '' ) {
+	public static function get_moshimo_url( $shop_type, $url, $a_id = '' ) {
 
 		if ( ! $url ) return '';
 
@@ -168,7 +168,7 @@ trait Helper {
 	/**
 	 * Amazonボタン用のインプレッション計測タグ
 	 */
-	public function get_amazon_imptag( $amazon_aid = '' ) {
+	public static function get_amazon_imptag( $amazon_aid = '' ) {
 		if ( $amazon_aid ) {
 			return '<img src="https://i.moshimo.com/af/i/impression?a_id=' . $amazon_aid . '&p_id=170&pc_id=185&pl_id=4062" width="1" height="1" style="border:none;">';
 		}
@@ -180,7 +180,7 @@ trait Helper {
 	/**
 	 * 楽天ボタン用のインプレッション計測タグ
 	 */
-	public function get_rakuten_imptag( $rakuten_aid = '' ) {
+	public static function get_rakuten_imptag( $rakuten_aid = '' ) {
 		if ( $rakuten_aid ) {
 			return '<img src="https://i.moshimo.com/af/i/impression?a_id=' . $rakuten_aid . '&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;">';
 		}
@@ -192,7 +192,7 @@ trait Helper {
 	/**
 	 * Yahooボタン用のインプレッション計測タグ
 	 */
-	public function get_yahoo_imptag( $yahoo_aid = '' ) {
+	public static function get_yahoo_imptag( $yahoo_aid = '' ) {
 
 		if ( $yahoo_aid ) {
 			return '<img src="https://i.moshimo.com/af/i/impression?a_id=' . $yahoo_aid . '&p_id=1225&pc_id=1925&pl_id=18502" width="1" height="1" style="border:none;">';
