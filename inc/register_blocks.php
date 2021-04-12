@@ -121,7 +121,7 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	// ※ 定期的に、データの再取得も行う
 	$pdata = array_merge([
 		'pid'                => 0,
-		'box_class'          => '',
+		'className'          => '',
 		'keywords'           => '',
 		'searched_at'        => '',
 		'asin'               => '',
@@ -214,11 +214,11 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	if ( $image_url ) {
 
 		// amazon かつ ?_exがない場合 かつ thumbnail.image.rakuten.co.jpの画像 の場合
-		if ( 'rakuten' === $searched_at && false === strpos( $img_url, '?_ex' ) && false !== strpos( $img_url, 'thumbnail.image.rakuten.co.jp' ) ) {
+		if ( 'rakuten' === $searched_at && false === strpos( $image_url, '?_ex' ) && false !== strpos( $image_url, 'thumbnail.image.rakuten.co.jp' ) ) {
 			$image_url .= '?_ex=400x400';
 		}
 		// amazon かつ _SLがない場合 かつ media-amazon.comの画像 の場合
-		if ( 'amazon' === $searched_at && false === strpos( $img_url, '_SL' ) && false !== strpos( $img_url, 'media-amazon.com' ) ) {
+		if ( 'amazon' === $searched_at && false === strpos( $image_url, '_SL' ) && false !== strpos( $image_url, 'media-amazon.com' ) ) {
 			$image_url = str_replace( '.jpg', '._SL400_.jpg', $image_url );
 		}
 	}
