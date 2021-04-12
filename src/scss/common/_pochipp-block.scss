@@ -34,12 +34,16 @@
 	grid-template-rows: auto auto;
 	grid-template-columns: 100px 1fr;
 	max-width: 960px;
-	margin: 2em auto !important;
 	padding: 24px !important;
 	color: #353535;
 	font-size: 16px;
 	background: #fff;
 	box-shadow: 0 1px 8px -4px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
+
+	// テーマに左右されないように詳細度上げる
+	body:not(#__) & {
+		margin: 2em auto;
+	}
 
 	// @include tab {
 	// }
@@ -411,6 +415,7 @@
 	.-custom > .pochipp-box__btn {
 		background: var(--pchpp-color-custom);
 	}
+
 	.-custom_2 > .pochipp-box__btn {
 		background: var(--pchpp-color-custom-2);
 	}
