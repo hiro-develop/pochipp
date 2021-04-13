@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Register block
  */
 add_action( 'init', function() {
-
+	// 記事で使うポチップブロック
 	register_block_type_from_metadata(
 		POCHIPP_PATH . 'src/blocks/linkbox',
 		[
@@ -27,6 +27,10 @@ add_action( 'init', function() {
 	] );
 } );
 
+
+/**
+ * 設定画面のボタンプレビュー
+ */
 function cb_pochipp_setting_preview( $attrs, $content ) {
 
 	$pdata = json_decode( $attrs['meta'], true ) ?: [];
@@ -80,6 +84,10 @@ function cb_pochipp_setting_preview( $attrs, $content ) {
 	return ob_get_clean();
 }
 
+
+/**
+ * 記事で使うポチップブロック
+ */
 function cb_pochipp_block( $attrs, $content ) {
 
 	$pid      = $attrs['pid'] ?? 0;

@@ -225,7 +225,6 @@ trait Helper {
 
 
 	// 登録済みの商品を取得
-	// function get_search_itemlist( $term_id, $keywords, $numberposts = 20 ) {
 	public static function get_registerd_items( $args = [] ) {
 
 		if ( ! \is_array( $args ) ) $args = [];
@@ -284,6 +283,25 @@ trait Helper {
 
 			$datas[] = $metadata;
 		endwhile;
+
+		return $datas;
+	}
+
+
+	/**
+	 * 個別商品を指定して情報取得
+	 */
+	public static function get_item_data( $searched_at, $itemcode ) {
+		$datas = [];
+
+		if ( 'amazon' === $searched_at ) {
+			$datas = \POCHIPP\get_item_data_from_amazon_api( $itemcode );
+		} elseif ( 'rakuten' === $searched_at ) {
+			$datas = \POCHIPP\get_item_data_from_rakuten_api( $itemcode );
+		}
+		// elseif ( 'yahoo' === $searched_at ) {
+		// 	// do: yahooの情報更新処理
+		// }
 
 		return $datas;
 	}

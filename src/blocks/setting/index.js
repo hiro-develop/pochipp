@@ -181,7 +181,6 @@ registerBlockType(name, {
 			const params = new URLSearchParams();
 			params.append('action', 'pochipp_update_data');
 			params.append('itemcode', itemCode);
-			params.append('keywords', parsedMeta.keywords);
 			params.append('searched_at', searchedAt);
 
 			const btns = document.querySelector('.pochipp-block--setting .__btns');

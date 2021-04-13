@@ -18,9 +18,9 @@ function search_from_amazon_api() {
 		] ) );
 	};
 
-	$keywords     = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$only         = \POCHIPP::array_get( $_GET, 'only', '' );
-	$search_index = 'All'; // \POCHIPP::array_get( $_GET, 'search_index', 'All' );
+	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
+	$only     = \POCHIPP::array_get( $_GET, 'only', '' ); // 追加検索かどうか
+	// $search_index = \POCHIPP::array_get( $_GET, 'search_index', 'All' );
 
 	// 登録済み商品
 	$registerd_items = [];
@@ -32,7 +32,7 @@ function search_from_amazon_api() {
 	}
 
 	// 検索結果
-	$searched_items = \POCHIPP\get_item_data_from_amazon_api( $keywords, $search_index );
+	$searched_items = \POCHIPP\get_searched_data_from_amazon_api( $keywords );
 
 	wp_die( json_encode( [
 		'registerd_items' => $registerd_items ?: [],
@@ -42,9 +42,9 @@ function search_from_amazon_api() {
 
 
 /**
- * AmazonAPI (PA-APIv5) から商品データを取得
+ * AmazonAPI (PA-APIv5) から商品データをキーワード検索
  */
-function get_item_data_from_amazon_api( $keywords = '', $search_index = 'All' ) {
+function get_searched_data_from_amazon_api( $keywords = '', $search_index = 'All' ) {
 
 	// 空白の場合
 	if ( ! trim( $keywords ) ) {
@@ -59,7 +59,18 @@ function get_item_data_from_amazon_api( $keywords = '', $search_index = 'All' ) 
 	$request              = new \SearchItemsRequest();
 	$request->SearchIndex = $search_index;
 	$request->Keywords    = $keywords;
-	return \POCHIPP\get_json_from_amazon_api( 'SearchItems', $request, $keywords );
+	return \POCHIPP\get_data_from_amazon_api( 'SearchItems', $request, $keywords );
+}
+
+
+/**
+ * AmazonAPI (PA-APIv5) から商品データを単体検索
+ */
+function get_item_data_from_amazon_api( $asin ) {
+
+	$request          = new \GetItemsRequest();
+	$request->ItemIds = [ $asin ];
+	return \POCHIPP\get_data_from_amazon_api( 'GetItems', $request );
 }
 
 
@@ -69,7 +80,7 @@ function get_item_data_from_amazon_api( $keywords = '', $search_index = 'All' ) 
  *
  * @param string $operation 'SearchItems' or 'GetItems' を受け取る
  */
-function get_json_from_amazon_api( $operation, $request, $keywords ) {
+function get_data_from_amazon_api( $operation, $request, $keywords = '' ) {
 
 	// 設定取得
 	$access_key   = \POCHIPP::get_setting( 'amazon_access_key' );
@@ -178,36 +189,41 @@ function get_json_from_amazon_api( $operation, $request, $keywords ) {
 /**
  * 商品データを整形
  */
-function set_item_data_by_amazon_api( $result_data, $keywords ) {
+function set_item_data_by_amazon_api( $result_data, $keywords = '' ) {
 
 	$items = [];
 	foreach ( $result_data->Items as $item ) {
 
-		$data = [
-			'keywords'    => $keywords,
-			'searched_at' => 'amazon',
-		];
+		$data = [];
 
-		$data['asin'] = $item->ASIN ?? '';
+		// キーワード検索の時だけ取得するデータ群
+		if ( $keywords ) {
+			$data = [
+				'keywords'    => $keywords,
+				'searched_at' => 'amazon',
+			];
 
-		// 商品名
-		$data['title'] = $item->ItemInfo->Title->DisplayValue ?? '';
+			$data['asin'] = $item->ASIN ?? '';
 
-		// ブランド名
-		$brand        = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
-		$data['info'] = $brand;
+			// 商品名
+			$data['title'] = $item->ItemInfo->Title->DisplayValue ?? '';
 
-		// ブランド名なければ、著者名などの情報
-		if ( ! $brand ) {
-			$contributors      = '';
-			$contributors_data = $item->ItemInfo->ByLineInfo->Contributors ?? [];
-			foreach ( $contributors_data as $obj ) {
-				if ( '' !== $contributors ) {
-					$contributors .= ', ';
+			// ブランド名
+			$brand        = $item->ItemInfo->ByLineInfo->Brand->DisplayValue ?? '';
+			$data['info'] = $brand;
+
+			// ブランド名なければ、著者名などの情報
+			if ( ! $brand ) {
+				$contributors      = '';
+				$contributors_data = $item->ItemInfo->ByLineInfo->Contributors ?? [];
+				foreach ( $contributors_data as $obj ) {
+					if ( '' !== $contributors ) {
+						$contributors .= ', ';
+					}
+					$contributors .= $obj->Role . ':' . $obj->Name;
 				}
-				$contributors .= $obj->Role . ':' . $obj->Name;
+				$data['info'] = $contributors;
 			}
-			$data['info'] = $contributors;
 		}
 
 		// 商品詳細 アフィURL

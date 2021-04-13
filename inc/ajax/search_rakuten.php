@@ -20,7 +20,7 @@ function search_from_rakuten_api() {
 
 	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
 	$sort     = \POCHIPP::array_get( $_GET, 'sort', 'standard' );
-	$only     = \POCHIPP::array_get( $_GET, 'only', '' );
+	$only     = \POCHIPP::array_get( $_GET, 'only', '' ); // 追加検索かどうか
 
 	// ページ
 	// $page     = \POCHIPP::array_get( $_GET, 'page', 1 );
@@ -35,13 +35,8 @@ function search_from_rakuten_api() {
 		] );
 	}
 
-	// 検索API用のurlに付与するクエリ情報を生成
-	$api_query  = '&hits=10'; // 検索数: amazonの数と揃える
-	$api_query .= '&page=1&sort=' . rawurlencode( $sort );
-	$api_query .= '&availability=1&keyword=' . rawurlencode( $keywords );
-
 	// 検索結果を取得
-	$searched_items = \POCHIPP\get_item_data_from_rakuten_api( $api_query, $keywords );
+	$searched_items = \POCHIPP\get_searched_data_from_rakuten_api( $keywords, $sort );
 
 	wp_die( json_encode( [
 		'registerd_items' => $registerd_items,
@@ -49,13 +44,13 @@ function search_from_rakuten_api() {
 	] ) );
 }
 
-/**
- * 楽天APIから商品データを取得
- */
-function get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode = '' ) {
 
-	// 空白の場合
-	if ( ! trim( $keywords ) && ! $itemcode ) {
+/**
+ * キーワード検索
+ */
+function get_searched_data_from_rakuten_api( $keywords, $sort = 'standard' ) {
+
+	if ( ! trim( $keywords ) ) {
 		return [
 			'error' => [
 				'code'    => 'null',
@@ -63,6 +58,31 @@ function get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode = '' )
 			],
 		];
 	}
+
+	// 検索API用のurlに付与するクエリ情報を生成
+	$api_query  = '&hits=10'; // 検索数: amazonの数と揃える
+	$api_query .= '&page=1&sort=' . rawurlencode( $sort );
+	$api_query .= '&availability=1&keyword=' . rawurlencode( $keywords );
+
+	return \POCHIPP\get_data_from_rakuten_api( $api_query, $keywords );
+}
+
+
+/**
+ * 単体検索
+ */
+function get_item_data_from_rakuten_api( $itemcode ) {
+
+	// 検索API用のurlに付与するクエリ情報を生成
+	$api_query = '&availability=0&itemCode=' . rawurlencode( $itemcode );
+	return \POCHIPP\get_data_from_rakuten_api( $api_query );
+}
+
+
+/**
+ * 楽天APIから商品データを取得
+ */
+function get_data_from_rakuten_api( $api_query, $keywords = '' ) {
 
 	// クエリが不正な場合
 	if ( ! $api_query ) {
@@ -130,55 +150,56 @@ function get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode = '' )
 	}
 
 	// OK
-	return \POCHIPP\set_item_data_by_rakuten_api( $response_arr['Items'], $keywords, $itemcode );
+	return \POCHIPP\set_item_data_by_rakuten_api( $response_arr['Items'], $keywords );
 }
 
 
 /**
  * 商品データを整形
  */
-function set_item_data_by_rakuten_api( $items_data, $keywords = '', $itemcode ) {
+function set_item_data_by_rakuten_api( $items_data, $keywords = '' ) {
 
 	$items = [];
 
-	foreach ( $items_data as $data ) {
+	foreach ( $items_data as $item ) {
 
-		$item = [
-			'keywords'    => $keywords,
-			'searched_at' => 'rakuten',
-		];
+		$data = [];
 
-		// itemcode で商品取得するときは必要な部分だけ取得
-		// if ( $itemcode ) {
-		// 	$items[] = $item;
-		// 	break;
-		// }
+		// キーワード検索の時だけ取得するデータ群
+		if ( $keywords ) {
+			$data = [
+				'keywords'    => $keywords,
+				'searched_at' => 'rakuten',
+			];
 
-		$item['title']              = $data['Item']['itemName'] ?? '';
-		$item['itemcode']           = $data['Item']['itemCode'] ?? '';
-		$item['rakuten_detail_url'] = $data['Item']['itemUrl'] ?? '';
-
-		// 商品画像
-		$imageFlag = (string) $data['Item']['imageFlag'];
-		if ( '1' === $imageFlag ) {
-			$image_url_s = $data['Item']['smallImageUrls'][0]['imageUrl'] ?? '';
-			// $image_url_m = $data['Item']['mediumImageUrls'][0]['imageUrl'] ?? '';
-			$image_url         = substr( $image_url_s, 0, strcspn( $image_url_s, '?' ) );
-			$item['image_url'] = $image_url;
-		} else {
-			$item['image_url'] = '';
+			$data['title']    = $item['Item']['itemName'] ?? '';
+			$data['itemcode'] = $item['Item']['itemCode'] ?? '';
+			$data['info']     = $item['Item']['shopName'] ?? '';
 		}
 
-		// 商品情報
-		$item['info']     = $data['Item']['shopName'] ?? '';
-		$item['price']    = $data['Item']['itemPrice'] ?? '';
-		$item['price_at'] = wp_date( 'Y/m/d H:i' );
+		// 詳細URL
+		$data['rakuten_detail_url'] = $item['Item']['itemUrl'] ?? '';
 
-		// 楽天市場のみ memo: とりあえずなしで
-		// $item['affi_rate']    = $data['Item']['affiliateRate'] ?? '';
-		// $item['review_score'] = $data['Item']['reviewAverage'] ?? '';
+		// 商品画像
+		$imageFlag = (string) $item['Item']['imageFlag'];
+		if ( '1' === $imageFlag ) {
+			$image_url_s = $item['Item']['smallImageUrls'][0]['imageUrl'] ?? '';
+			// $image_url_m = $item['Item']['mediumImageUrls'][0]['imageUrl'] ?? '';
+			$image_url         = substr( $image_url_s, 0, strcspn( $image_url_s, '?' ) );
+			$data['image_url'] = $image_url;
+		} else {
+			$data['image_url'] = '';
+		}
 
-		$items[] = $item;
+		// 価格
+		$data['price']    = $item['Item']['itemPrice'] ?? '';
+		$data['price_at'] = wp_date( 'Y/m/d H:i' );
+
+		// memo: とりあえず不要
+		// $data['affi_rate']    = $item['Item']['affiliateRate'] ?? '';
+		// $data['review_score'] = $item['Item']['reviewAverage'] ?? '';
+
+		$items[] = $data;
 	}
 
 	return $items;

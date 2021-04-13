@@ -47,27 +47,11 @@ function update_data() {
 		] ) );
 	};
 
-	$datas       = [];
-	$keywords    = \POCHIPP::array_get( $_POST, 'keywords', '' );
+	// $keywords    = \POCHIPP::array_get( $_POST, 'keywords', '' );
 	$searched_at = \POCHIPP::array_get( $_POST, 'searched_at', '' );
 	$itemcode    = \POCHIPP::array_get( $_POST, 'itemcode', '' );
 
-	if ( 'amazon' === $searched_at ) {
-
-		$request          = new \GetItemsRequest();
-		$request->ItemIds = [ $itemcode ];
-		$datas            = \POCHIPP\get_json_from_amazon_api( 'GetItems', $request, $keywords );
-
-	} elseif ( 'rakuten' === $searched_at ) {
-
-		$api_query = '&availability=0&itemCode=' . rawurlencode( $itemcode );
-		$datas     = \POCHIPP\get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode );
-
-	} elseif ( 'yahoo' === $searched_at ) {
-
-		// do: yahooの情報更新処理
-
-	}
+	$datas = \POCHIPP::get_item_data( $searched_at, $itemcode );
 
 	if ( isset( $datas['error'] ) ) {
 		wp_die( json_encode( [
