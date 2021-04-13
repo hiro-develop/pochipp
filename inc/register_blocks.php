@@ -99,6 +99,9 @@ function cb_pochipp_block( $attrs, $content ) {
 		$title    = $title ?: get_the_title( $pid );
 		$metadata = get_post_meta( $pid, \POCHIPP::META_SLUG, true );
 		$metadata = json_decode( $metadata, true ) ?: [];
+
+		// 定期的な情報更新
+		\POCHIPP::periodic_update_pochipp_data( $pid, $metadata );
 	}
 
 	// 商品未選択時
