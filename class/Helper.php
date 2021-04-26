@@ -319,7 +319,7 @@ trait Helper {
 	public static function periodic_update_pochipp_data( $pid, $metadata ) {
 
 		// 定期更新機能がオフなら即 return
-		// if ( ! \POCHIPP::get_setting( '定期的に更新するかどうか' ) ) return;
+		if ( ! \POCHIPP::get_setting( 'auto_update' ) ) return;
 
 		$price_at = $metadata['price_at'] ?? '';
 		if ( ! $price_at) return;
@@ -346,12 +346,11 @@ trait Helper {
 		// 商品データ取得
 		$datas = \POCHIPP::get_item_data( $searched_at, $itemcode );
 
-		// 何かエラーがあれば
+		// 何かエラーがあれば -> 取り扱いなくなったかどうかの判定を記録する？
 		if ( isset( $datas['error'] ) ) return;
 
 		// 更新
 		$new_metadata = array_merge( $metadata, $datas[0] );
 		update_post_meta( $pid, \POCHIPP::META_SLUG, json_encode( $new_metadata, JSON_UNESCAPED_UNICODE ) );
 	}
-
 }

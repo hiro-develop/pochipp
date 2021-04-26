@@ -259,3 +259,25 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 		</dd>
 	</dl>
 </div>
+
+
+<h3 class="pchpp-setting__h3">商品情報の定期更新</h3>
+<!-- <p class="pchpp-setting__p"></p> -->
+<div class="pchpp-setting__div">
+	<dl class="pchpp-setting__dl">
+		<!-- <dt></dt> -->
+		<dd>
+			<?php
+				\POCHIPP::output_checkbox([
+					'key'   => 'auto_update',
+					'label' => '商品情報を自動更新する',
+				]);
+			?>
+			<p class="pchpp-setting__desc">
+				チェックをオンにすると、定期的（約1週間ごと）に商品情報を更新します。<br>
+				<small>※ 更新される情報は 価格・画像・商品URL のみです。</small><br>
+				<small>※ 更新対象の商品は、ポチップ管理に登録済みで、かつ Amazon API または 楽天 APIで検索された商品のみです。</small>
+			</p>
+		</dd>
+	</dl>
+</div>

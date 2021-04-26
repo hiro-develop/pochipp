@@ -51,6 +51,7 @@ function update_data() {
 	$searched_at = \POCHIPP::array_get( $_POST, 'searched_at', '' );
 	$itemcode    = \POCHIPP::array_get( $_POST, 'itemcode', '' );
 
+	// 商品データ取得
 	$datas = \POCHIPP::get_item_data( $searched_at, $itemcode );
 
 	if ( isset( $datas['error'] ) ) {
