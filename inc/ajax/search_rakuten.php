@@ -23,7 +23,7 @@ function search_from_rakuten_api() {
 	$only     = \POCHIPP::get_sanitized_data( $_GET, 'only', 'text', '' );
 
 	// ページ
-	// $page     = \POCHIPP::array_get( $_GET, 'page', 1 );
+	// $page     = \POCHIPP::get_sanitized_data( $_GET, 'page', 'int', 1 );
 	// $page = intval( $page ) > 1 ? $page : '1';
 
 	// 登録済み商品

@@ -264,36 +264,36 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
 		<div class="pochipp-box<?php if ( $box_class ) echo ' ' . $box_class; ?>"
-			data-id="<?=esc_attr( $pid )?>"
-			data-img="<?=esc_attr( \POCHIPP::get_setting( 'img_position' ) )?>"
-			data-lyt-pc="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) )?>"
-			data-lyt-mb="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_mb' ) )?>"
-			data-btn-style="<?=esc_attr( $btn_style )?>"
-			data-btn-radius="<?=esc_attr( \POCHIPP::get_setting( 'btn_radius' ) )?>"
-			data-sale-effect="<?=esc_attr( \POCHIPP::get_setting( 'sale_text_effect' ) )?>"
+			data-id="<?php echo esc_attr( $pid ); ?>"
+			data-img="<?php echo esc_attr( \POCHIPP::get_setting( 'img_position' ) ); ?>"
+			data-lyt-pc="<?php echo esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) ); ?>"
+			data-lyt-mb="<?php echo esc_attr( \POCHIPP::get_setting( 'box_layout_mb' ) ); ?>"
+			data-btn-style="<?php echo esc_attr( $btn_style ); ?>"
+			data-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'btn_radius' ) ); ?>"
+			data-sale-effect="<?php echo esc_attr( \POCHIPP::get_setting( 'sale_text_effect' ) ); ?>"
 		>
 			<?php if ( $image_url ) : ?>
 				<div class="pochipp-box__image">
-					<a href="<?=esc_url( $main_url )?>" <?=$rel_target?>>
-						<img src="<?=esc_url( $image_url )?>" alt="" />
+					<a href="<?php echo esc_url( $main_url ); ?>" <?php echo $rel_target; ?>>
+						<img src="<?php echo esc_url( $image_url ); ?>" alt="" />
 					</a>
 				</div>
 			<?php endif; ?>
 			<div class="pochipp-box__body">
 				<div class="pochipp-box__title">
-					<a href="<?=esc_url( $main_url )?>" <?=$rel_target?>>
-						<?=esc_html( $title )?>
+					<a href="<?php echo esc_url( $main_url ); ?>" <?php echo $rel_target; ?>>
+						<?php echo esc_html( $title ); ?>
 					</a>
 				</div>
 
 				<?php if ( ! $pdata['hideInfo'] && $pdata['info'] ) : ?>
-					<div class="pochipp-box__info"><?=esc_html( $pdata['info'] )?></div>
+					<div class="pochipp-box__info"><?php echo esc_html( $pdata['info'] ); ?></div>
 				<?php endif; ?>
 
 				<?php if ( ! $pdata['hidePrice'] && $pdata['price'] ) : ?>
 					<div class="pochipp-box__price">
-						¥<?=esc_html( number_format( (int) $pdata['price'] ) )?>
-						<span>（<?=esc_html( $price_memo )?>）</span>
+						¥<?php echo esc_html( number_format( (int) $pdata['price'] ) ); ?>
+						<span>（<?php echo esc_html( $price_memo ); ?>）</span>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -320,7 +320,7 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 			?>
 			<?php if ( apply_filters( 'pochipp_show_box_logo', 1 ) ) : ?>
 				<div class="pochipp-box__logo">
-					<img src="<?=esc_url( POCHIPP_URL )?>assets/img/pochipp-logo-t1.png" alt="" width="32" height="32">
+					<img src="<?php echo esc_url( POCHIPP_URL ); ?>assets/img/pochipp-logo-t1.png" alt="" width="32" height="32">
 					<span>ポチップ</span>
 				</div>
 			<?php endif; ?>
@@ -356,15 +356,15 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
 	<div class="pochipp-box__btns"
-		data-maxclmn-pc="<?=esc_attr( $btn_layout_pc )?>"
-		data-maxclmn-mb="<?=esc_attr( $btn_layout_sp )?>"
+		data-maxclmn-pc="<?php echo esc_attr( $btn_layout_pc ); ?>"
+		data-maxclmn-mb="<?php echo esc_attr( $btn_layout_sp ); ?>"
 	>
 		<?php if ( $amazon_url ) : ?>
 			<div class="pochipp-box__btnwrap -amazon<?php if ($amazon_sale_text) echo ' -on-sale'; ?>">
 				<?php if ( $amazon_sale_text ) : ?>
-					<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $amazon_sale_text )?>／</div>
+					<div class="pochipp-box__saleInfo -top">＼<?php echo esc_html( $amazon_sale_text ); ?>／</div>
 				<?php endif; ?>
-				<a href="<?=esc_url( $amazon_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
+				<a href="<?php echo esc_url( $amazon_url ); ?>" class="pochipp-box__btn" <?php echo $rel_target; ?>>
 					<span>
 						<?php echo esc_html( \POCHIPP::get_setting( 'amazon_btn_text' ) ); ?>
 					</span>
@@ -375,9 +375,9 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 		<?php if ( $rakuten_url ) : ?>
 			<div class="pochipp-box__btnwrap -rakuten<?php if ($rakuten_sale_text) echo ' -on-sale'; ?>">
 				<?php if ( $rakuten_sale_text ) : ?>
-					<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $rakuten_sale_text )?>／</div>
+					<div class="pochipp-box__saleInfo -top">＼<?php echo esc_html( $rakuten_sale_text ); ?>／</div>
 				<?php endif; ?>
-				<a href="<?=esc_url( $rakuten_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
+				<a href="<?php echo esc_url( $rakuten_url ); ?>" class="pochipp-box__btn" <?php echo $rel_target; ?>>
 					<span>
 						<?php echo esc_html( \POCHIPP::get_setting( 'rakuten_btn_text' ) ); ?>
 					</span>
@@ -395,11 +395,11 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 				if ( 14 < $length )  $add_class    .= ' -long-text';
 				if ( $yahoo_sale_text ) $add_class .= ' -on-sale';
 			?>
-			<div class="pochipp-box__btnwrap <?=$add_class?>">
+			<div class="pochipp-box__btnwrap <?php echo $add_class; ?>">
 				<?php if ( $yahoo_sale_text ) : ?>
-					<div class="pochipp-box__saleInfo -top">＼<?=esc_html( $yahoo_sale_text )?>／</div>
+					<div class="pochipp-box__saleInfo -top">＼<?php echo esc_html( $yahoo_sale_text ); ?>／</div>
 				<?php endif; ?>
-				<a href="<?=esc_url( $yahoo_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
+				<a href="<?php echo esc_url( $yahoo_url ); ?>" class="pochipp-box__btn" <?php echo $rel_target; ?>>
 					<span>
 						<?php echo esc_html( $yahoo_text ); ?>
 					</span>
@@ -413,7 +413,7 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 				$length = mb_strwidth( $custom_btn_text, 'UTF-8' );
 			?>
 			<div class="pochipp-box__btnwrap -custom<?php if (14 < $length) echo ' -long-text'; ?>">
-				<a href="<?=esc_url( $custom_btn_url )?>" class="pochipp-box__btn" <?=$rel_target?>>
+				<a href="<?php echo esc_url( $custom_btn_url ); ?>" class="pochipp-box__btn" <?php echo $rel_target; ?>>
 					<span>
 						<?php echo esc_html( $custom_btn_text ); ?>
 					</span>
@@ -426,7 +426,7 @@ function render_pochipp_btns( $btn_data = [], $is_preview = false ) {
 				$length = mb_strwidth( $custom_btn_text_2, 'UTF-8' );
 			?>
 			<div class="pochipp-box__btnwrap -custom_2<?php if (14 < $length) echo ' -long-text'; ?>">
-				<a href="<?=esc_url( $custom_btn_url_2 )?>" class="pochipp-box__btn" <?=$rel_target?>>
+				<a href="<?php echo esc_url( $custom_btn_url_2 ); ?>" class="pochipp-box__btn" <?php echo $rel_target; ?>>
 					<span>
 						<?php echo esc_html( $custom_btn_text_2 ); ?>
 					</span>
