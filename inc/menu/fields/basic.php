@@ -261,11 +261,9 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 </div>
 
 
-<h3 class="pchpp-setting__h3">商品情報の定期更新</h3>
-<!-- <p class="pchpp-setting__p"></p> -->
+<!-- <h3 class="pchpp-setting__h3">商品情報の定期更新</h3>
 <div class="pchpp-setting__div">
 	<dl class="pchpp-setting__dl">
-		<!-- <dt></dt> -->
 		<dd>
 			<?php
 				\POCHIPP::output_checkbox([
@@ -280,4 +278,4 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 			</p>
 		</dd>
 	</dl>
-</div>
+</div> -->

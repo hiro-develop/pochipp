@@ -33,7 +33,7 @@ const { apiVersion, name, category, keywords, supports } = metadata;
  * @param {string} clientId ブロックID
  */
 window.set_block_data_at_editor = (itemData, clientId) => {
-	console.log('itemData:', itemData);
+	// console.log('itemData:', itemData);
 
 	// ブロックのattributesを更新する
 	const { updateBlockAttributes } = wp.data.dispatch('core/block-editor');
@@ -170,10 +170,9 @@ registerBlockType(name, {
 
 		// 商品データを登録する
 		const registerPochippData = useCallback(() => {
-			console.log('registerPochippData');
-
-			console.log(attributes);
-			console.log(JSON.stringify(attributes));
+			// console.log('registerPochippData');
+			// console.log(attributes);
+			// console.log(JSON.stringify(attributes));
 			const params = new URLSearchParams();
 			params.append('action', 'pochipp_registerd_by_block');
 			params.append('attributes', JSON.stringify(attributes));
@@ -182,7 +181,7 @@ registerBlockType(name, {
 			setIsRegistering(true);
 
 			const doneFunc = (response) => {
-				console.log('registerPochippData: response', response);
+				// console.log('registerPochippData: response', response);
 				const newPid = response.pid;
 				if (newPid) {
 					setAttributes({

@@ -35,7 +35,7 @@ const { apiVersion, name, category, keywords, supports } = metadata;
  * @param {boolean} isMerge データをマージして更新するかどうか
  */
 window.setItemMetaData = (itemData, isMerge) => {
-	console.log('setItemMetaData:', itemData);
+	// console.log('setItemMetaData:', itemData);
 
 	// 使用するメソッドの準備
 	const { editPost } = wp.data.dispatch('core/editor');

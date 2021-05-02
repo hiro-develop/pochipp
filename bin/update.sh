@@ -1,6 +1,6 @@
 #!/bin/bashx
 
-#使い方 : $ bash ./bin/update.sh 1-0-0
+#使い方 : $ bash ./bin/update.sh 1-2-0
 
 #引数 : プラグインのバージョン
 version=$1
@@ -8,6 +8,8 @@ version_num=${version//-/.}
 
 # バージョン書き換え
 sed -i '' -e "s/Version: .*/Version: ${version_num}/g" pochipp.php;
+sed -i '' -e "s/Stable tag: .*/Stable tag: ${version_num}/g" readme.txt;
+
 
 #上の階層へ
 cd ..

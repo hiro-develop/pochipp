@@ -30,8 +30,8 @@ add_action( 'wp_head', function() {
 	if ( is_numeric( $linkswitch_code ) ) {
 		echo '<script type="text/javascript" language="javascript">' .
 			'var vc_pid = "' . esc_html( $linkswitch_code ) . '";' .
-		'</script>' . PHP_EOL .
-		'<script type="text/javascript" src="//aml.valuecommerce.com/vcdal.js" async></script>' . PHP_EOL; // phpcs:ignore
+		'</script>' . PHP_EOL;
+		wp_enqueue_script( 'pochipp-vcdal', '//aml.valuecommerce.com/vcdal.js', [], \POCHIPP::$version, true );
 	} else {
 		echo $linkswitch_code . PHP_EOL; // phpcs:ignore
 	};
