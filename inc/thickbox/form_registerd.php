@@ -11,7 +11,7 @@ $item_terms = get_terms( \POCHIPP::TAXONOMY_SLUG, [ 'fields' => 'id=>name' ] );
 		<option value="0">-- 選択してください --</option>
 		<?php if ( ! is_wp_error( $item_terms ) ) : ?>
 			<?php foreach ( $item_terms as $term_id => $term_name ) : ?>
-				<option value="<?=esc_attr( $term_id )?>"><?=esc_html( $term_name )?></option>
+				<option value="<?php echo esc_attr( $term_id ); ?>"><?php echo esc_html( $term_name ); ?></option>
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</select>

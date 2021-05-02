@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "postinstall": "npm run build && composer install && composer set-wpcs",
+        "set:comporser": "comporser install && comporser set-wpcs",
         "build:css": "npx gulp compileScss",
         "build:js": "npx webpack --config webpack.config.scripts.js",
         "build:blocks": "wp-scripts build",

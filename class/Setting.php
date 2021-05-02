@@ -21,11 +21,11 @@ trait Setting {
 		?>
 			<div class="pchpp-setting__field -text">
 				<div class="pchpp-setting__item">
-					<input type="text" id="<?=esc_attr( $key )?>" name="<?=esc_attr( $name )?>" value="<?=esc_attr( $val )?>" size="<?=esc_attr( $size )?>" />
+					<input type="text" id="<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $val ); ?>" size="<?php echo esc_attr( $size ); ?>" />
 				</div>
 			</div>
 			<?php if ( $description ) : ?>
-				<p class="pchpp-setting__desc"><?=wp_kses_post( $description )?></p>
+				<p class="pchpp-setting__desc"><?php echo wp_kses_post( $description ); ?></p>
 			<?php endif; ?>
 		<?php
 	}
@@ -45,7 +45,7 @@ trait Setting {
 			<div class="pchpp-setting__field -textarea">
 				<div class="pchpp-setting__item">
 					<?php //phpcs:ignore ?>
-					<textarea id="<?=esc_attr( $key )?>" name="<?=esc_attr( $name )?>" rows="<?=esc_attr($rows)?>"><?=$val?></textarea>
+					<textarea id="<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( $name ); ?>" rows="<?php echo esc_attr($rows); ?>"><?php echo $val; ?></textarea>
 				</div>
 			</div>
 		<?php
@@ -65,15 +65,15 @@ trait Setting {
 		$val  = \POCHIPP::get_setting( $key );
 
 		?>
-		<div class="pchpp-setting__field -radio <?=esc_attr( $class )?>">
+		<div class="pchpp-setting__field -radio <?php echo esc_attr( $class ); ?>">
 			<?php
 				foreach ( $choices as $value => $label ) :
 				$radio_id = $key . '_' . $value;
 				$checked  = checked( $val, $value, false );
 			?>
-					<label for="<?=esc_attr( $radio_id )?>">
-						<input type="radio" id="<?=esc_attr( $radio_id )?>" name="<?=esc_attr( $name )?>" value="<?=esc_attr( $value )?>" <?=$checked?> >
-						<span><?=wp_kses_post( $label )?></span>
+					<label for="<?php echo esc_attr( $radio_id ); ?>">
+						<input type="radio" id="<?php echo esc_attr( $radio_id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php echo $checked; ?> >
+						<span><?php echo wp_kses_post( $label ); ?></span>
 					</label>
 			<?php endforeach; ?>
 		</div>
@@ -96,9 +96,9 @@ trait Setting {
 
 		?>
 		<div class="pchpp-setting__field -checkbox">
-			<input type="hidden" name="<?=esc_attr( $name )?>" value="">
-			<input type="checkbox" id="<?=esc_attr( $key )?>" name="<?=esc_attr( $name )?>" value="1" <?=$checked?> />
-			<label for="<?=esc_attr( $key )?>"><?=wp_kses_post( $label )?></label>
+			<input type="hidden" name="<?php echo esc_attr( $name ); ?>" value="">
+			<input type="checkbox" id="<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( $name ); ?>" value="1" <?php echo $checked; ?> />
+			<label for="<?php echo esc_attr( $key ); ?>"><?php echo wp_kses_post( $label ); ?></label>
 		</div>
 		<?php
 	}
@@ -118,15 +118,15 @@ trait Setting {
 			<div class="pchpp-setting__field -color">
 				<div class="pchpp-setting__item">
 					<input type="text" class="pochipp-colorpicker __icon_color"
-						id="<?=esc_attr( $key )?>"
-						name="<?=esc_attr( $name )?>"
-						value="<?=esc_attr( $val )?>"
-						data-default-color="<?=esc_attr( $default )?>"
+						id="<?php echo esc_attr( $key ); ?>"
+						name="<?php echo esc_attr( $name ); ?>"
+						value="<?php echo esc_attr( $val ); ?>"
+						data-default-color="<?php echo esc_attr( $default ); ?>"
 					/>
 				</div>
 			</div>
 			<?php if ( $description ) : ?>
-				<p class="pchpp-setting__desc"><?=wp_kses_post( $description )?></p>
+				<p class="pchpp-setting__desc"><?php echo wp_kses_post( $description ); ?></p>
 			<?php endif; ?>
 		<?php
 	}
@@ -151,9 +151,9 @@ trait Setting {
 		?>
 			<div class="pchpp-setting__field -date">
 				<div class="pchpp-setting__item">
-					<input type="text" id="<?=esc_attr( $key_start )?>" class="pochipp-datepicker--start" name="<?=esc_attr( $name_start )?>" value="<?=esc_attr( $val_startline )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
+					<input type="text" id="<?php echo esc_attr( $key_start ); ?>" class="pochipp-datepicker--start" name="<?php echo esc_attr( $name_start ); ?>" value="<?php echo esc_attr( $val_startline ); ?>" size="<?php echo esc_attr( $size ); ?>" autocomplete="off"/>
 					<span class="__nami">~</span>
-					<input type="text" id="<?=esc_attr( $key_end )?>" class="pochipp-datepicker--end" name="<?=esc_attr( $name_end )?>" value="<?=esc_attr( $val_deadline )?>" size="<?=esc_attr( $size )?>" autocomplete="off"/>
+					<input type="text" id="<?php echo esc_attr( $key_end ); ?>" class="pochipp-datepicker--end" name="<?php echo esc_attr( $name_end ); ?>" value="<?php echo esc_attr( $val_deadline ); ?>" size="<?php echo esc_attr( $size ); ?>" autocomplete="off"/>
 				</div>
 			</div>
 		<?php

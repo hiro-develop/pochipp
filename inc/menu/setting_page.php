@@ -3,7 +3,7 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$now_tab = $_GET['tab'] ?? 'basic';
+$now_tab = \POCHIPP::get_sanitized_data( $_GET, 'tab', 'text', 'basic' );
 
 // メッセージ
 $green_message = '';
@@ -15,11 +15,11 @@ if ( isset( $_REQUEST['settings-updated'] ) && $_REQUEST['settings-updated'] ) {
 <div id="pochipp_setting" class="wrap pchpp-setting">
 	<hr class="wp-header-end">
 	<?php if ( $green_message ) : ?>
-		<div class="notice updated is-dismissible"><p><?=esc_html( $green_message )?></p></div>
+		<div class="notice updated is-dismissible"><p><?php echo esc_html( $green_message ); ?></p></div>
 	<?php endif; ?>
 	<header class="pchpp-setting__header">
 		<h1 class="pchpp-setting__title">
-			<img src="<?=esc_url( POCHIPP_URL )?>assets/img/pochipp-logo.png" alt="ポチップ設定" width="200" height="50">
+			<img src="<?php echo esc_url( POCHIPP_URL ); ?>assets/img/pochipp-logo.png" alt="ポチップ設定" width="200" height="50">
 		</h1>
 		<button class="pchpp-setting__menubtn">
 			<span class="dashicons dashicons-menu-alt"></span>

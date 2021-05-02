@@ -17,6 +17,7 @@ class Data {
 	// 設定のデフォルト値
 	public static $default_data = [
 		// 'box_style'        => 'default',
+		'auto_update'            => '1',
 		'img_position'           => 'l',
 		'box_layout_pc'          => 'dflt',
 		'box_layout_mb'          => 'vrtcl',
