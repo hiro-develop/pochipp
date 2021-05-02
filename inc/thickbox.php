@@ -32,8 +32,8 @@ function load_search_iframe() {
  */
 function register_search_tab() {
 
-	$at   = \POCHIPP::array_get( $_GET, 'at', '' );
-	$only = \POCHIPP::array_get( $_GET, 'only', '' );
+	$at   = \POCHIPP::get_sanitized_data( $_GET, 'at', 'text', '' );
+	$only = \POCHIPP::get_sanitized_data( $_GET, 'only', 'text', '' ); // ショップを限定する場合、そのショップのスラッグ
 
 	$tab_labels = [
 		'amazon'  => 'Amazonで検索',

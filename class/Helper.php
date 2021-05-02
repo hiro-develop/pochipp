@@ -206,21 +206,18 @@ trait Helper {
 
 
 	/**
-	 * GETなどの処理に使う
+	 * POST,GETなどからサニタイズした値を取得
 	 */
-	public static function array_get( $array, $key = null, $default = null ) {
-		if ( null === $key ) return $array;
+	public static function get_sanitized_data( $array, $key, $type, $default = '' ) {
 
-		if ( isset( $array[ $key ] ) ) return $array[ $key ];
-
-		foreach ( explode( '.', $key ) as $segment ) {
-			if ( ! is_array( $array ) || ! array_key_exists( $segment, $array ) ) {
-				return $default;
+		if ( isset( $array[ $key ] ) ) {
+			if ( 'int' === $type ) {
+				return intval( $array[ $key ] );
+			} else {
+				return stripslashes( sanitize_text_field( $array[ $key ] ) );
 			}
-			$array = $array[ $segment ];
 		}
-
-		return $array;
+		return $default;
 	}
 
 

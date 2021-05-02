@@ -18,9 +18,9 @@ function search_from_rakuten_api() {
 		] ) );
 	};
 
-	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$sort     = \POCHIPP::array_get( $_GET, 'sort', 'standard' );
-	$only     = \POCHIPP::array_get( $_GET, 'only', '' ); // 追加検索かどうか
+	$keywords = \POCHIPP::get_sanitized_data( $_GET, 'keywords', 'text', '' );
+	$sort     = \POCHIPP::get_sanitized_data( $_GET, 'sort', 'text', 'standard' );
+	$only     = \POCHIPP::get_sanitized_data( $_GET, 'only', 'text', '' );
 
 	// ページ
 	// $page     = \POCHIPP::array_get( $_GET, 'page', 1 );

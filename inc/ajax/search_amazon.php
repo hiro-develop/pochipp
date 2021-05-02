@@ -18,9 +18,9 @@ function search_from_amazon_api() {
 		] ) );
 	};
 
-	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$only     = \POCHIPP::array_get( $_GET, 'only', '' ); // 追加検索かどうか
-	// $search_index = \POCHIPP::array_get( $_GET, 'search_index', 'All' );
+	$keywords     = \POCHIPP::get_sanitized_data( $_GET, 'keywords', 'text', '' );
+	$only         = \POCHIPP::get_sanitized_data( $_GET, 'only', 'text', '' );
+	$search_index = 'All';
 
 	// 登録済み商品
 	$registerd_items = [];

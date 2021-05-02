@@ -47,9 +47,9 @@ function update_data() {
 		] ) );
 	};
 
-	// $keywords    = \POCHIPP::array_get( $_POST, 'keywords', '' );
-	$searched_at = \POCHIPP::array_get( $_POST, 'searched_at', '' );
-	$itemcode    = \POCHIPP::array_get( $_POST, 'itemcode', '' );
+	// $keywords    = \POCHIPP::get_sanitized_data( $_POST, 'keywords', 'text', '' );
+	$searched_at = \POCHIPP::get_sanitized_data( $_POST, 'searched_at', 'text', '' );
+	$itemcode    = \POCHIPP::get_sanitized_data( $_POST, 'itemcode', 'text', '' );
 
 	// 商品データ取得
 	$datas = \POCHIPP::get_item_data( $searched_at, $itemcode );
@@ -82,8 +82,8 @@ function registerd_by_block() {
 	};
 
 	$datas     = [];
-	$attrs     = \POCHIPP::array_get( $_POST, 'attributes', '' );
-	$client_id = \POCHIPP::array_get( $_POST, 'clientId', '' );
+	$attrs     = \POCHIPP::get_sanitized_data( $_POST, 'attributes', 'text', '' );
+	$client_id = \POCHIPP::get_sanitized_data( $_POST, 'clientId', 'text', '' );
 
 	$attrs = str_replace( '\\"', '"', $attrs );
 	$attrs = json_decode( $attrs, true );

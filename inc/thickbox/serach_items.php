@@ -5,11 +5,11 @@
 // phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
 
 // iframeのURLから受け取るパラメータ
-$tab    = \POCHIPP::array_get( $_GET, 'tab' ) ?: \POCHIPP::TABKEYS['amazon'];
-$cid    = \POCHIPP::array_get( $_GET, 'blockid' ) ?: 0;
-$postid = \POCHIPP::array_get( $_GET, 'postid' ) ?: 0;
-$at     = \POCHIPP::array_get( $_GET, 'at' ) ?: '';
-$only   = \POCHIPP::array_get( $_GET, 'only' ) ?: '';
+$tab    = \POCHIPP::get_sanitized_data( $_GET, 'tab', 'text', \POCHIPP::TABKEYS['amazon'] );
+$cid    = \POCHIPP::get_sanitized_data( $_GET, 'blockid', 'text', '' );
+$postid = \POCHIPP::get_sanitized_data( $_GET, 'postid', 'int', 0 );
+$at     = \POCHIPP::get_sanitized_data( $_GET, 'at', 'text', '' );
+$only   = \POCHIPP::get_sanitized_data( $_GET, 'only', 'text', '' );
 
 // 各タブにおける共通パーツ
 $pochipp_url  = esc_url( POCHIPP_URL . 'assets/img/search-solid.svg' );

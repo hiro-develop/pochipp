@@ -20,8 +20,8 @@ function search_from_yahoo_api() {
 		] ) );
 	};
 
-	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$only     = \POCHIPP::array_get( $_GET, 'only', '' );
+	$keywords = \POCHIPP::get_sanitized_data( $_GET, 'keywords', 'text', '' );
+	$only     = \POCHIPP::get_sanitized_data( $_GET, 'only', 'text', '' );
 
 	// 登録済み商品
 	$registerd_items = [];

@@ -3,7 +3,7 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$now_tab = $_GET['tab'] ?? 'basic';
+$now_tab = \POCHIPP::get_sanitized_data( $_GET, 'tab', 'text', 'basic' );
 
 // メッセージ
 $green_message = '';
