@@ -16,16 +16,16 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 			<!-- <div class="__label">プレビュー</div> -->
 			<div class="__inner">
 				<div class="pochipp-box"
-					data-img="<?=esc_attr( \POCHIPP::get_setting( 'img_position' ) )?>"
-					data-lyt-pc="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) )?>"
-					data-lyt-mb="<?=esc_attr( \POCHIPP::get_setting( 'box_layout_mb' ) )?>"
-					data-btn-style="<?=esc_attr( $btn_style )?>"
-					data-btn-radius="<?=esc_attr( \POCHIPP::get_setting( 'btn_radius' ) )?>"
-					data-sale-effect="<?=esc_attr( \POCHIPP::get_setting( 'sale_text_effect' ) )?>"
+					data-img="<?php echo esc_attr( \POCHIPP::get_setting( 'img_position' ) ); ?>"
+					data-lyt-pc="<?php echo esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) ); ?>"
+					data-lyt-mb="<?php echo esc_attr( \POCHIPP::get_setting( 'box_layout_mb' ) ); ?>"
+					data-btn-style="<?php echo esc_attr( $btn_style ); ?>"
+					data-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'btn_radius' ) ); ?>"
+					data-sale-effect="<?php echo esc_attr( \POCHIPP::get_setting( 'sale_text_effect' ) ); ?>"
 				>
 					<div class="pochipp-box__image">
 						<a href="###" rel="nofollow">
-							<img src="<?=esc_url( POCHIPP_URL )?>assets/img/box_preview_img.png" alt="">
+							<img src="<?php echo esc_url( POCHIPP_URL ); ?>assets/img/box_preview_img.png" alt="">
 						</a>
 					</div>
 					<div class="pochipp-box__body">
@@ -37,8 +37,8 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 						<div class="pochipp-box__price">¥10,000 <span>（2021/01/01 11:11時点 | 〇〇調べ）</span></div>
 					</div>
 					<div class="pochipp-box__btns"
-						data-maxclmn-pc="<?=esc_attr( \POCHIPP::get_setting( 'max_column_pc' ) )?>"
-						data-maxclmn-mb="<?=esc_attr( \POCHIPP::get_setting( 'max_column_mb' ) )?>"
+						data-maxclmn-pc="<?php echo esc_attr( \POCHIPP::get_setting( 'max_column_pc' ) ); ?>"
+						data-maxclmn-mb="<?php echo esc_attr( \POCHIPP::get_setting( 'max_column_mb' ) ); ?>"
 					>
 						<div class="pochipp-box__btnwrap -amazon">
 							<a href="###" class="pochipp-box__btn" rel="nofollow">Amazon</a>
@@ -255,6 +255,26 @@ $btn_style = \POCHIPP::get_setting( 'btn_style' );
 			?>
 			<p class="pchpp-setting__desc">
 				チェックをオンにすると、各ボタンに<code>target="_blank"</code>がつきます。
+			</p>
+		</dd>
+	</dl>
+</div>
+
+
+<h3 class="pchpp-setting__h3">商品情報の定期更新</h3>
+<div class="pchpp-setting__div">
+	<dl class="pchpp-setting__dl">
+		<dd>
+			<?php
+				\POCHIPP::output_checkbox([
+					'key'   => 'auto_update',
+					'label' => '商品情報を自動更新する',
+				]);
+			?>
+			<p class="pchpp-setting__desc">
+				チェックをオンにすると、定期的（約1週間ごと）に商品情報を更新します。<br>
+				<small>※ 更新される情報は 価格・画像・商品URL のみです。</small><br>
+				<small>※ 更新対象の商品は、ポチップ管理に登録済みで、かつ Amazon API または 楽天 APIで検索された商品のみです。</small>
 			</p>
 		</dd>
 	</dl>

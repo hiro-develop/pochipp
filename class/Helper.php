@@ -204,28 +204,23 @@ trait Helper {
 	}
 
 
-
 	/**
-	 * GETなどの処理に使う
+	 * POST,GETなどからサニタイズした値を取得
 	 */
-	public static function array_get( $array, $key = null, $default = null ) {
-		if ( null === $key ) return $array;
+	public static function get_sanitized_data( $array, $key, $type, $default = '' ) {
 
-		if ( isset( $array[ $key ] ) ) return $array[ $key ];
-
-		foreach ( explode( '.', $key ) as $segment ) {
-			if ( ! is_array( $array ) || ! array_key_exists( $segment, $array ) ) {
-				return $default;
+		if ( isset( $array[ $key ] ) ) {
+			if ( 'int' === $type ) {
+				return intval( $array[ $key ] );
+			} else {
+				return stripslashes( sanitize_text_field( $array[ $key ] ) );
 			}
-			$array = $array[ $segment ];
 		}
-
-		return $array;
+		return $default;
 	}
 
 
 	// 登録済みの商品を取得
-	// function get_search_itemlist( $term_id, $keywords, $numberposts = 20 ) {
 	public static function get_registerd_items( $args = [] ) {
 
 		if ( ! \is_array( $args ) ) $args = [];
@@ -288,4 +283,70 @@ trait Helper {
 		return $datas;
 	}
 
+
+	/**
+	 * 個別商品を指定して情報取得
+	 */
+	public static function get_item_data( $searched_at, $itemcode ) {
+		$datas = [];
+
+		if ( 'amazon' === $searched_at ) {
+			$datas = \POCHIPP\get_item_data_from_amazon_api( $itemcode );
+		} elseif ( 'rakuten' === $searched_at ) {
+			$datas = \POCHIPP\get_item_data_from_rakuten_api( $itemcode );
+		}
+		// elseif ( 'yahoo' === $searched_at ) {
+		// 	// do: yahooの情報更新処理
+		// }
+
+		return $datas;
+	}
+
+
+	/**
+	 *  ポチップ管理商品のデータ更新処理
+	 */
+	// public static function update_pochipp_item_data() {}
+
+
+	/**
+	 * ポチップ管理商品の定期的なデータ更新
+	 */
+	public static function periodic_update_pochipp_data( $pid, $metadata ) {
+
+		// 定期更新機能がオフなら即 return
+		if ( ! \POCHIPP::get_setting( 'auto_update' ) ) return;
+
+		$price_at = $metadata['price_at'] ?? '';
+		if ( ! $price_at) return;
+
+		$now_time = strtotime( wp_date( 'Y/m/d H:i' ) );
+
+		// 1週間経過しているかどうか。 ( 単位: seconds days week )
+		if ( strtotime( $price_at ) > strtotime( '-1 week', $now_time ) ) return;
+
+		$searched_at = $metadata['searched_at'] ?? '';
+		$itemcode    = '';
+		if ( 'amazon' === $searched_at ) {
+			$itemcode = $metadata['asin'];
+		} elseif ( 'rakuten' === $searched_at ) {
+			$itemcode = $metadata['itemcode'];
+		}
+		//  elseif ( 'yahoo' === $searched_at ) {
+		// 	$itemcode = $metadata['yahoo_itemcode'];
+		// }
+
+		// itemcode なければ
+		if ( ! $itemcode) return;
+
+		// 商品データ取得
+		$datas = \POCHIPP::get_item_data( $searched_at, $itemcode );
+
+		// 何かエラーがあれば -> 取り扱いなくなったかどうかの判定を記録する？
+		if ( isset( $datas['error'] ) ) return;
+
+		// 更新
+		$new_metadata = array_merge( $metadata, $datas[0] );
+		update_post_meta( $pid, \POCHIPP::META_SLUG, json_encode( $new_metadata, JSON_UNESCAPED_UNICODE ) );
+	}
 }

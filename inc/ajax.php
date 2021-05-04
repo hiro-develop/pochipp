@@ -47,27 +47,12 @@ function update_data() {
 		] ) );
 	};
 
-	$datas       = [];
-	$keywords    = \POCHIPP::array_get( $_POST, 'keywords', '' );
-	$searched_at = \POCHIPP::array_get( $_POST, 'searched_at', '' );
-	$itemcode    = \POCHIPP::array_get( $_POST, 'itemcode', '' );
+	// $keywords    = \POCHIPP::get_sanitized_data( $_POST, 'keywords', 'text', '' );
+	$searched_at = \POCHIPP::get_sanitized_data( $_POST, 'searched_at', 'text', '' );
+	$itemcode    = \POCHIPP::get_sanitized_data( $_POST, 'itemcode', 'text', '' );
 
-	if ( 'amazon' === $searched_at ) {
-
-		$request          = new \GetItemsRequest();
-		$request->ItemIds = [ $itemcode ];
-		$datas            = \POCHIPP\get_json_from_amazon_api( 'GetItems', $request, $keywords );
-
-	} elseif ( 'rakuten' === $searched_at ) {
-
-		$api_query = '&availability=0&itemCode=' . rawurlencode( $itemcode );
-		$datas     = \POCHIPP\get_item_data_from_rakuten_api( $api_query, $keywords, $itemcode );
-
-	} elseif ( 'yahoo' === $searched_at ) {
-
-		// do: yahooの情報更新処理
-
-	}
+	// 商品データ取得
+	$datas = \POCHIPP::get_item_data( $searched_at, $itemcode );
 
 	if ( isset( $datas['error'] ) ) {
 		wp_die( json_encode( [
@@ -97,8 +82,8 @@ function registerd_by_block() {
 	};
 
 	$datas     = [];
-	$attrs     = \POCHIPP::array_get( $_POST, 'attributes', '' );
-	$client_id = \POCHIPP::array_get( $_POST, 'clientId', '' );
+	$attrs     = \POCHIPP::get_sanitized_data( $_POST, 'attributes', 'text', '' );
+	$client_id = \POCHIPP::get_sanitized_data( $_POST, 'clientId', 'text', '' );
 
 	$attrs = str_replace( '\\"', '"', $attrs );
 	$attrs = json_decode( $attrs, true );

@@ -17,6 +17,7 @@ class Data {
 	// 設定のデフォルト値
 	public static $default_data = [
 		// 'box_style'        => 'default',
+		'auto_update'            => '1',
 		'img_position'           => 'l',
 		'box_layout_pc'          => 'dflt',
 		'box_layout_mb'          => 'vrtcl',
@@ -35,6 +36,13 @@ class Data {
 		'show_yahoo_5campaign'   => '1',
 		'yahoo_5campaign_text'   => 'ポイント5%還元！',
 		'sale_text_effect'       => 'flash',
+
+		'amazon_traccking_id'    => '',
+		'rakuten_affiliate_id'   => '',
+		'yahoo_linkswitch'       => '',
+		'moshimo_amazon_aid'     => '',
+		'moshimo_rakuten_aid'    => '',
+		'moshimo_yahoo_aid'      => '',
 		// 'sale_position_pc' => 'top',
 		// 'sale_position_mb' => 'inner',
 	];

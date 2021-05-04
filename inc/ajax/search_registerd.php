@@ -18,10 +18,10 @@ function search_registerd_items() {
 		] ) );
 	};
 
-	$keywords = \POCHIPP::array_get( $_GET, 'keywords', '' );
-	$term_id  = \POCHIPP::array_get( $_GET, 'term_id', 0 );
-	$count    = \POCHIPP::array_get( $_GET, 'count', 10 );
-	$sort     = \POCHIPP::array_get( $_GET, 'sort', 'new' );
+	$keywords = \POCHIPP::get_sanitized_data( $_GET, 'keywords', 'text', '' );
+	$term_id  = \POCHIPP::get_sanitized_data( $_GET, 'term_id', 'int', 0 );
+	$count    = \POCHIPP::get_sanitized_data( $_GET, 'count', 'int', 10 );
+	$sort     = \POCHIPP::get_sanitized_data( $_GET, 'sort', 'text', 'new' );
 
 	// 登録済み商品
 	$registerd_items = \POCHIPP::get_registerd_items( [

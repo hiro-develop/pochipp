@@ -35,7 +35,7 @@ const { apiVersion, name, category, keywords, supports } = metadata;
  * @param {boolean} isMerge データをマージして更新するかどうか
  */
 window.setItemMetaData = (itemData, isMerge) => {
-	console.log('setItemMetaData:', itemData);
+	// console.log('setItemMetaData:', itemData);
 
 	// 使用するメソッドの準備
 	const { editPost } = wp.data.dispatch('core/editor');
@@ -181,7 +181,6 @@ registerBlockType(name, {
 			const params = new URLSearchParams();
 			params.append('action', 'pochipp_update_data');
 			params.append('itemcode', itemCode);
-			params.append('keywords', parsedMeta.keywords);
 			params.append('searched_at', searchedAt);
 
 			const btns = document.querySelector('.pochipp-block--setting .__btns');
