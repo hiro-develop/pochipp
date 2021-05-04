@@ -112,7 +112,7 @@ function cb_pochipp_block( $attrs, $content ) {
 
 	// 定期的な情報更新
 	if ( $pid ) {
-		// \POCHIPP::periodic_update_pochipp_data( $pid, $metadata );
+		\POCHIPP::periodic_update_pochipp_data( $pid, $metadata );
 	}
 	// else {
 	// 	\POCHIPP::periodic_update_block_cache( $attrs );
