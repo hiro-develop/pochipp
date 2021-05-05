@@ -203,6 +203,25 @@ trait Helper {
 
 	}
 
+    /**
+     * GETなどの処理に使う
+     * Pochipp-Assist使用のため削除不可
+     */
+	public static function array_get( $array, $key = null, $default = null ) {
+        if ( null === $key ) return $array;
+
+        if ( isset( $array[ $key ] ) ) return $array[ $key ];
+
+        foreach ( explode( '.', $key ) as $segment ) {
+            if ( ! is_array( $array ) || ! array_key_exists( $segment, $array ) ) {
+                return $default;
+            }
+            $array = $array[ $segment ];
+        }
+
+        return $array;
+    }
+
 
 	/**
 	 * POST,GETなどからサニタイズした値を取得
