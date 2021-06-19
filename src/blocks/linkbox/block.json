@@ -109,6 +109,14 @@
         "hideCustom2": {
             "type": "boolean",
             "default": false
+        },
+        "isCount": {
+            "type": "boolean",
+            "default": false
+        },
+        "cvKey": {
+            "type": "string",
+            "default": ""
         }
     },
     "editorScript": "file:../../../dist/blocks/linkbox/index.js"

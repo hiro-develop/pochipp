@@ -4,7 +4,7 @@
  * Plugin URI: https://pochipp.com/
  * Description: Amazon・楽天市場・Yahooショッピングなどのアフィリエイトリンクを簡単に作成・管理できる、ブロックエディターに最適化されたプラグインです。
  * Author: ひろ
- * Version: 1.3.1
+ * Version: 1.4.1
  * Author URI: https://twitter.com/hiro_develop127
  * Text Domain: pochipp
  * License: GPL3 or later
@@ -45,7 +45,8 @@ class POCHIPP extends \POCHIPP\Data {
 
 	public function __construct() {
 
-		self::$version = get_file_data( __FILE__, [ 'Version' ] );
+		$file_data     = get_file_data( __FILE__, [ 'version' => 'Version' ] );
+		self::$version = $file_data['version'];
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			self::$version = date( 'mdGis' );
 		}
