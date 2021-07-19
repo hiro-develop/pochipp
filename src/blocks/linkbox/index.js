@@ -2,7 +2,7 @@
  * @WordPress dependencies
  */
 import { useSelect } from '@wordpress/data';
-import { useState, useCallback } from '@wordpress/element';
+import { useState, useCallback, useEffect } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useBlockProps, BlockControls, InspectorControls } from '@wordpress/block-editor';
@@ -111,11 +111,20 @@ registerBlockType(name, {
 		const hasRegisterdItem = !!pid;
 		const hasItem = !!pid || !!title;
 
+		useEffect(() => {
+			const sameKeyBlocks = document.querySelectorAll(`[data-cvkey-id="${cvKey}"]`);
+			if (sameKeyBlocks.length > 1) {
+				const newID = clientId.split('-');
+				setAttributes({ cvKey: newID[0] || '' });
+			}
+		}, [clientId]);
+
 		// ブロックprops
 		const blockProps = useBlockProps({
 			className: blockName,
 			'data-has-item': hasItem ? '1' : null,
 			'data-registering': isRegistering ? '1' : null,
+			'data-cvkey-id': cvKey || null, // note: フロントのdata名と被らないように。
 		});
 
 		// openThickbox

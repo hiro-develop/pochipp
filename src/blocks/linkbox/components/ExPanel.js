@@ -61,7 +61,7 @@ export default memo(({ clientId, isCount, cvKey, setAttributes }) => {
 			/>
 			{isCount && (
 				<>
-					<TextControl
+					{/* <TextControl
 						label='計測用ID'
 						placeholder='計測用ID'
 						help='※ 他のPochippブロックと同じIDにならないようにしてください。'
@@ -72,7 +72,7 @@ export default memo(({ clientId, isCount, cvKey, setAttributes }) => {
 								setAttributes({ isCount: false });
 							}
 						}}
-					/>
+					/> */}
 					<div className='pochipp-cv-data'>
 						<div className='__title'>計測結果</div>
 						<div className='__result'>{applyFilters('pochipp.exPanel', notFounded, cvKey, cvMetaData)}</div>
