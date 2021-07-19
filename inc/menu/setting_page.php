@@ -3,6 +3,15 @@ namespace POCHIPP;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+$SETTING_TABS = apply_filters( 'pochipp_setting_tabs', [
+	'basic'     => '基本設定',
+	'amazon'    => 'Amazon',
+	'rakuten'   => '楽天市場',
+	'yahoo'     => 'Yahooショッピング',
+	'moshimo'   => 'もしも',
+	'sale'      => 'セール情報',
+	// 'licence'   => 'ライセンス',
+] );
 $now_tab = \POCHIPP::get_sanitized_data( $_GET, 'tab', 'text', 'basic' );
 
 // メッセージ

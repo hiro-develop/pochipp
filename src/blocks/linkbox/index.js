@@ -16,6 +16,7 @@ import metadata from './block.json';
 import iconReSearch from './icon_re_search.js';
 import { sendUpdateAjax } from '@blocks/helper';
 import BtnSettingTable from '@blocks/components/BtnSettingTable';
+import ExPanel from './components/ExPanel.js';
 
 /**
  * metadata
@@ -98,39 +99,13 @@ registerBlockType(name, {
 	// ],
 	attributes: metadata.attributes,
 	edit: ({ attributes, setAttributes, clientId, isSelected }) => {
-		const { pid, title, info } = attributes;
-		// console.log('attributes', attributes);
-
-		// ステート
-		const [isRegistering, setIsRegistering] = useState(false);
-
-		// apiFetch で meta取得 -> そんなことしなくていい
-		// apiFetch({
-		// 	path: '/pochipp/data',
-		// 	method: 'POST',
-		// 	data: {
-		// 		pid: 69,
-		// 	},
-		// }).then((posts) => {
-		// 	console.log('pochipp', posts);
-		// });
-
-		// apiFetchしなくても getEntityRecord でメタ情報取れる
-		// let pMetaJson = '{}';
-		// if (pid) {
-		// 	pMetaJson = useSelect((select) => {
-		// 		const data = select('core').getEntityRecord('postType', 'pochipps', pid);
-		// 		if (!data) return '{}';
-		// 		return data.meta?.pochipp_data || '{}';
-		// 	}, [pid]);
-		// }
-		// const pMetaObj = useMemo(() => {
-		// 	return getParsedMeta(pMetaJson);
-		// }, [pMetaJson]);
-		// const pAttrs = { ...pMetaObj, ...attributes };
+		const { pid, title, info, isCount, cvKey } = attributes;
 
 		// 投稿IDを取得
 		const postId = useSelect((select) => select('core/editor').getCurrentPostId(), []);
+
+		// ステート
+		const [isRegistering, setIsRegistering] = useState(false);
 
 		// 商品セットされているか
 		const hasRegisterdItem = !!pid;
@@ -327,7 +302,11 @@ registerBlockType(name, {
 							/>
 							{hasRegisterdItem ? (
 								<p>
-									ボタンレイアウトを<a href={itemEditUrl}>ポチップ管理ページ</a>で商品ごとに設定できます。
+									ボタンレイアウトを
+									<a href={itemEditUrl} target='_blank' rel='noreferrer noopener'>
+										ポチップ管理ページ
+									</a>
+									で商品ごとに設定できます。
 								</p>
 							) : (
 								<>
@@ -450,7 +429,11 @@ registerBlockType(name, {
 										}}
 									/>
 									<p>
-										ボタンの内容は<a href={itemEditUrl}>ポチップ管理ページ</a>で編集できます。
+										ボタンの内容は
+										<a href={itemEditUrl} target='_blank' rel='noreferrer noopener'>
+											ポチップ管理ページ
+										</a>
+										で編集できます。
 									</p>
 								</>
 							) : (
@@ -494,6 +477,7 @@ registerBlockType(name, {
 								</>
 							)}
 						</PanelBody>
+						<ExPanel {...{ clientId, isCount, cvKey, setAttributes }} />
 					</InspectorControls>
 				)}
 

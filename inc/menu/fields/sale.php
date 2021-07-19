@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <h3 class="pchpp-setting__h3">Amazonセール情報</h3>
 <!-- <p class="pchpp-setting__p"></p> -->
 <div class="pchpp-setting__div">
-	<?php if ( class_exists( 'POCHIPP_PRO' ) ) : ?>
+	<?php if ( has_action( 'pochipp_setting_amazon_sale' ) ) : ?>
 		<?php do_action( 'pochipp_setting_amazon_sale' ); ?>
 	<?php else : ?>
 		<dl class="pchpp-setting__dl">

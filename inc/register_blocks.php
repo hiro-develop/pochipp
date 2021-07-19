@@ -164,10 +164,12 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		'hideCustom2'        => false,
 		'btnLayoutPC'        => '',
 		'btnLayoutSP'        => '',
+		'isCount'            => false,
+		'cvKey'              => '',
 	], $pdata );
 
 	$pid               = $pdata['pid'];
-	$box_class         = $pdata['className'];
+	$add_class         = $pdata['className'];
 	$keywords          = $pdata['keywords'];
 	$searched_at       = $pdata['searched_at'];
 	$asin              = $pdata['asin'];
@@ -261,9 +263,21 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 		$btn_style = 'dflt';
 	}
 
+	// class
+	$box_class = 'pochipp-box';
+	if ( $add_class ) {
+		$box_class .= ' ' . $add_class;
+	}
+
+	// 追加属性
+	$ex_props = '';
+	if ( $pdata['isCount'] && $pdata['cvKey'] ) {
+		$ex_props .= ' data-cvkey="' . esc_attr( $pdata['cvKey'] ) . '"';
+	}
+
 	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
-		<div class="pochipp-box<?php if ( $box_class ) echo ' ' . $box_class; ?>"
+		<div class="<?php echo esc_attr( $box_class ); ?>"
 			data-id="<?php echo esc_attr( $pid ); ?>"
 			data-img="<?php echo esc_attr( \POCHIPP::get_setting( 'img_position' ) ); ?>"
 			data-lyt-pc="<?php echo esc_attr( \POCHIPP::get_setting( 'box_layout_pc' ) ); ?>"
@@ -271,6 +285,7 @@ function render_pochipp_block( $title = '', $pdata = [] ) {
 			data-btn-style="<?php echo esc_attr( $btn_style ); ?>"
 			data-btn-radius="<?php echo esc_attr( \POCHIPP::get_setting( 'btn_radius' ) ); ?>"
 			data-sale-effect="<?php echo esc_attr( \POCHIPP::get_setting( 'sale_text_effect' ) ); ?>"
+			<?php echo $ex_props; ?>
 		>
 			<?php if ( $image_url ) : ?>
 				<div class="pochipp-box__image">

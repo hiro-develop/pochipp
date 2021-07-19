@@ -19,17 +19,6 @@ function add_admin_menu() {
 }
 
 function setting_page() {
-
-	$SETTING_TABS = [
-		'basic'     => '基本設定',
-		'amazon'    => 'Amazon',
-		'rakuten'   => '楽天市場',
-		'yahoo'     => 'Yahooショッピング',
-		'moshimo'   => 'もしも',
-		'sale'      => 'セール情報',
-		// 'licence'   => 'ライセンス',
-	];
-
 	include POCHIPP_PATH . 'inc/menu/setting_page.php';
 }
 
@@ -85,17 +74,22 @@ function add_settings( $args ) {
 	$section_key   = $args['section_key'] ?? '';
 	$section_cb    = $args['section_cb'] ?? '';
 	$page_name     = $args['page_name'] ?? '';
-	$section_name  = 'pochipp_' . $section_key . '_section';
+	$callback      = $args['callback'] ?? '\POCHIPP\include_menu_fields';
+
+	$section_name = 'pochipp_' . $section_key . '_section';
 
 	add_settings_section( $section_name, $section_title, $section_cb, $page_name );
 	add_settings_field(
 		$section_name . '_fields',
 		'',
-		function( $args ) {
-			include POCHIPP_PATH . 'inc/menu/fields/' . $args['key'] . '.php';
-		},
+		$callback,
 		$page_name,
 		$section_name,
-		[ 'key' => $section_key ]
+		[ 'key' => $section_key ] // callback に渡す引数
 	);
+}
+
+
+function include_menu_fields( $args ) {
+	include POCHIPP_PATH . 'inc/menu/fields/' . $args['key'] . '.php';
 }
