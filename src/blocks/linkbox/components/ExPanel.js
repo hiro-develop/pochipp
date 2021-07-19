@@ -20,7 +20,10 @@ export default memo(({ clientId, isCount, cvKey, setAttributes }) => {
 		return (
 			<PanelBody title='クリック率計測'>
 				<p>
-					<a href='https://pochipp.com/pochipp-pro/'>Pichipp Pro</a>を導入すると、ブロックごとのクリック率が計測可能になります。
+					<a href='https://pochipp.com/pochipp-pro/' target='_blank' rel='noreferrer'>
+						Pichipp Pro
+					</a>
+					を導入すると、ブロックごとのクリック率が計測可能になります。
 				</p>
 			</PanelBody>
 		);

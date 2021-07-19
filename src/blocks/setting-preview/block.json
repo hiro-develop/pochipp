@@ -1,0 +1,15 @@
+{
+    "apiVersion": 2,
+    "name": "pochipp/setting-preview",
+    "title": "Setting Preview",
+    "supports": {
+        "inserter": false
+    },
+    "attributes": {
+        "meta": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "editorScript": "file:../../../dist/blocks/setting-preview/index.js"
+}

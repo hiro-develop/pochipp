@@ -64,17 +64,12 @@ function admin_scripts( $hook_suffix ) {
  */
 add_action( 'enqueue_block_editor_assets', 'POCHIPP\block_assets' );
 function block_assets() {
-	global $post_type;
 
 	// ブロック関係のCSS
 	wp_enqueue_style( 'pochipp-blocks', POCHIPP_URL . 'dist/css/blocks.css', [], \POCHIPP::$version );
 
+	global $post_type;
 	if ( \POCHIPP::POST_TYPE_SLUG === $post_type ) {
-
 		wp_enqueue_style( 'pochipp-setting', POCHIPP_URL . 'dist/css/setting.css', [], \POCHIPP::$version );
-
-		// ブロック
-		$asset = include POCHIPP_PATH . 'dist/blocks/setting/index.asset.php';
-		wp_enqueue_script( 'pochipp-setting-block', POCHIPP_URL . 'dist/blocks/setting/index.js', $asset['dependencies'], $asset['version'], true );
 	}
 }

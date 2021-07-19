@@ -8,23 +8,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 add_action( 'init', function() {
 	// 記事で使うポチップブロック
-	register_block_type_from_metadata(
-		POCHIPP_PATH . 'src/blocks/linkbox',
-		[
-			'render_callback'  => '\POCHIPP\cb_pochipp_block',
-		]
-	);
+	register_block_type_from_metadata( POCHIPP_PATH . 'src/blocks/linkbox', [
+		'render_callback'  => '\POCHIPP\cb_pochipp_block',
+	] );
 
-	// 設定画面のボタンプレビュー用
-	register_block_type( 'pochipp/setting-preview', [
-		'attributes'      => [
-			'meta' => [
-				'type'    => 'string',
-				'default' => '',
-			],
-		],
+	// 設定用ブロック
+	if ( is_admin() && \POCHIPP::check_post_type_at_init( \POCHIPP::POST_TYPE_SLUG ) ) {
+		register_block_type_from_metadata( POCHIPP_PATH . 'src/blocks/setting' );
+	}
+
+	// ボタン部分のプレビュー: フロントでも登録しないとServerSideRenderできない
+	register_block_type_from_metadata( POCHIPP_PATH . 'src/blocks/setting-preview', [
 		'render_callback' => '\POCHIPP\cb_pochipp_setting_preview',
 	] );
+
 } );
 
 

@@ -10,8 +10,10 @@ $SETTING_TABS = apply_filters( 'pochipp_setting_tabs', [
 	'yahoo'     => 'Yahooショッピング',
 	'moshimo'   => 'もしも',
 	'sale'      => 'セール情報',
-	// 'licence'   => 'ライセンス',
 ] );
+if ( \POCHIPP::$use_licence ) {
+	$SETTING_TABS['licence'] = 'ライセンス';
+}
 $now_tab = \POCHIPP::get_sanitized_data( $_GET, 'tab', 'text', 'basic' );
 
 // メッセージ

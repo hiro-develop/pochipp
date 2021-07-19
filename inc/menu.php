@@ -61,11 +61,18 @@ function add_menu_init() {
 		'section_key'   => 'sale',
 		'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_sale',
 	] );
-	// \POCHIPP\add_settings( [
-	// 	'section_title' => 'ライセンス',
-	// 	'section_key'   => 'licence',
-	// 	'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_licence',
-	// ] );
+
+	if ( \POCHIPP::$use_licence ) {
+		\POCHIPP\add_settings( [
+			'section_title' => 'ライセンス',
+			'section_key'   => 'licence',
+			'page_name'     => \POCHIPP::MENU_PAGE_PREFIX . '_licence',
+			'callback'      => function () {
+				do_action( 'pochipp_setting_field__licence' );
+			},
+		] );
+	}
+
 }
 
 function add_settings( $args ) {

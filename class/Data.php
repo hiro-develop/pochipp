@@ -78,4 +78,8 @@ class Data {
 		'yahoo'   => '',
 	];
 
+
+	// ライセンス設定をオンにするかどうか
+	public static $use_licence = false;
+
 }

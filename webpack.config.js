@@ -7,6 +7,7 @@ module.exports = {
 	entry: {
 		linkbox: path.resolve(__dirname, 'src/blocks/linkbox/index.js'),
 		setting: path.resolve(__dirname, 'src/blocks/setting/index.js'),
+		'setting-preview': path.resolve(__dirname, 'src/blocks/setting-preview/index.js'),
 	},
 
 	output: {

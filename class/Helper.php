@@ -203,24 +203,24 @@ trait Helper {
 
 	}
 
-    /**
-     * GETなどの処理に使う
-     * Pochipp-Assist使用のため削除不可
-     */
+	/**
+	 * GETなどの処理に使う
+	 * Pochipp-Assist使用のため削除不可
+	 */
 	public static function array_get( $array, $key = null, $default = null ) {
-        if ( null === $key ) return $array;
+		if ( null === $key ) return $array;
 
-        if ( isset( $array[ $key ] ) ) return $array[ $key ];
+		if ( isset( $array[ $key ] ) ) return $array[ $key ];
 
-        foreach ( explode( '.', $key ) as $segment ) {
-            if ( ! is_array( $array ) || ! array_key_exists( $segment, $array ) ) {
-                return $default;
-            }
-            $array = $array[ $segment ];
-        }
+		foreach ( explode( '.', $key ) as $segment ) {
+			if ( ! is_array( $array ) || ! array_key_exists( $segment, $array ) ) {
+				return $default;
+			}
+			$array = $array[ $segment ];
+		}
 
-        return $array;
-    }
+		return $array;
+	}
 
 
 	/**
@@ -239,7 +239,9 @@ trait Helper {
 	}
 
 
-	// 登録済みの商品を取得
+	/**
+	 * 登録済みの商品を取得
+	 */
 	public static function get_registerd_items( $args = [] ) {
 
 		if ( ! \is_array( $args ) ) $args = [];
@@ -367,5 +369,30 @@ trait Helper {
 		// 更新
 		$new_metadata = array_merge( $metadata, $datas[0] );
 		update_post_meta( $pid, \POCHIPP::META_SLUG, json_encode( $new_metadata, JSON_UNESCAPED_UNICODE ) );
+	}
+
+
+	/**
+	 * ポストタイプのチェック
+	 */
+	public static function check_post_type_at_init( $post_type ) {
+		global $pagenow;
+		$now_pt = '';
+		if ( 'post-new.php' === $pagenow ) {
+			if ( isset( $_REQUEST['post_type'] ) ) {
+				$now_pt = $_REQUEST['post_type'];
+			};
+		} elseif ( 'post.php' === $pagenow ) {
+			if ( isset( $_GET['post'] ) ) {
+				$post_id = (int) $_GET['post'];
+			} elseif ( isset( $_POST['post_ID'] ) ) {
+				$post_id = (int) $_POST['post_ID'];
+			}
+			if ( $post_id ) {
+				$post   = get_post( $post_id );
+				$now_pt = $post->post_type;
+			}
+		}
+		return ( $now_pt === $post_type );
 	}
 }
