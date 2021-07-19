@@ -64,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <h3 class="pchpp-setting__h3">楽天セール情報</h3>
 <div class="pchpp-setting__div">
-	<?php if ( class_exists( 'POCHIPP_PRO' ) ) : ?>
+	<?php if ( has_action( 'pochipp_setting_rakuten_sale' ) ) : ?>
 		<?php do_action( 'pochipp_setting_rakuten_sale' ); ?>
 	<?php else : ?>
 		<dl class="pchpp-setting__dl">
@@ -137,7 +137,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <h3 class="pchpp-setting__h3">Yahooセール情報</h3>
 <div class="pchpp-setting__div">
-	<?php if ( class_exists( 'POCHIPP_PRO' ) ) : ?>
+	<?php if ( has_action( 'pochipp_setting_yahoo_sale' ) ) : ?>
 		<?php do_action( 'pochipp_setting_yahoo_sale' ); ?>
 	<?php else : ?>
 		<dl class="pchpp-setting__dl">
