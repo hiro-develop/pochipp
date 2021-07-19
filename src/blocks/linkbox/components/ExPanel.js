@@ -8,19 +8,19 @@ import {
 } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { applyFilters, hasFilter } from '@wordpress/hooks';
-import { TextControl, ToggleControl, PanelBody } from '@wordpress/components';
+import { ToggleControl, PanelBody } from '@wordpress/components';
 
 /**
  * ItemPreview
  */
 export default memo(({ clientId, isCount, cvKey, setAttributes }) => {
-	// console.log(window.pchppProVars);
-	const cvMetaKey = window.pchppProVars.cvMetaKey;
+	const cvMetaKey = window.pchppProVars?.cvMetaKey;
+	// console.log(cvMetaKey);
 	if (!hasFilter('pochipp.exPanel', 'pochipp-pro') || !cvMetaKey) {
 		return (
 			<PanelBody title='クリック率計測'>
 				<p>
-					<a href='###'>Pichipp Pro</a>を導入すると、ブロックごとのクリック率が計測可能になります。
+					<a href='https://pochipp.com/pochipp-pro/'>Pichipp Pro</a>を導入すると、ブロックごとのクリック率が計測可能になります。
 				</p>
 			</PanelBody>
 		);
@@ -60,24 +60,10 @@ export default memo(({ clientId, isCount, cvKey, setAttributes }) => {
 				}}
 			/>
 			{isCount && (
-				<>
-					{/* <TextControl
-						label='計測用ID'
-						placeholder='計測用ID'
-						help='※ 他のPochippブロックと同じIDにならないようにしてください。'
-						value={cvKey}
-						onChange={(value) => {
-							setAttributes({ cvKey: value });
-							if (!value) {
-								setAttributes({ isCount: false });
-							}
-						}}
-					/> */}
-					<div className='pochipp-cv-data'>
-						<div className='__title'>計測結果</div>
-						<div className='__result'>{applyFilters('pochipp.exPanel', notFounded, cvKey, cvMetaData)}</div>
-					</div>
-				</>
+				<div className='pochipp-cv-data'>
+					<div className='__title'>計測結果</div>
+					<div className='__result'>{applyFilters('pochipp.exPanel', notFounded, cvKey, cvMetaData)}</div>
+				</div>
 			)}
 		</PanelBody>
 	);

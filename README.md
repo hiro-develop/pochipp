@@ -5,7 +5,7 @@ Contributors: hiro-develop
 Tags: affiliate, block
 Requires at least: 5.6
 Tested up to: 5.7
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
