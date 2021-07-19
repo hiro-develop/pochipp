@@ -15,6 +15,7 @@ if ( ! function_exists( '\POCHIPP\set_sale_data' ) ) {
 		// amazon
 		$startline = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'amazon_sale_startline' ) );
 		$deadline  = (int) preg_replace( '/[^0-9]/', '', \POCHIPP::get_setting( 'amazon_sale_deadline' ) );
+
 		if ( $startline <= $date && $date <= $deadline ) {
 			\POCHIPP::$sale_text['amazon'] = \POCHIPP::get_setting( 'amazon_sale_text' );
 		}
@@ -38,7 +39,7 @@ if ( ! function_exists( '\POCHIPP\set_sale_data' ) ) {
 if ( ! function_exists( '\POCHIPP\set_campaign_data' ) ) {
 	function set_campaign_data() {
 		$jp_timezone = new \DateTimeZone( 'Asia/Tokyo' );
-		$date        = (int) wp_date( 'd', null, $jp_timezone );
+		$day         = (int) wp_date( 'd', null, $jp_timezone );
 
 		if ( ! \POCHIPP::$sale_text['rakuten'] ) {
 			// 0と5のつく日
